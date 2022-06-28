@@ -1,0 +1,19 @@
+{
+  "extends": "./node_modules/@villedemontreal/lint-config/rules/tslint-node.json",
+  "linterOptions": {
+    "exclude": [
+      "src/services/**/*",
+      "src/controllers/**/*",
+      "src/libs/**/*",
+      "src/models/**/*",
+      "src/test/**/*",
+      "src/index.ts"
+    ]
+  },
+  "rules": {
+    "forin": false,
+    "max-classes-per-file": false,
+    "no-console": false,
+    "variable-name": false
+  }
+}

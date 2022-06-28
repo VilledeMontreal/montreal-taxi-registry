@@ -1,0 +1,209 @@
+<div class="map-container">
+  <div id="map"></div>
+
+  <div id="sidebarTaxiDetails">
+    <div>
+      <h1 class="sidebar_taxi_head_title">Détails du taxi</h1>
+    </div>
+    <div class="main-btn-section">
+      <button
+        *ngIf="isHailActif"
+        class="sidebar_taxi_head_btn"
+        md-raised-button
+        (click)="goToHailPage()"
+      >
+        Héler
+      </button>
+      <button style="margin-left: 6px;"
+        md-raised-button
+        class="btn-refresh sidebar_taxi_head_btn"
+        (click)="updateTaxiInfo()"
+      >
+          <md-icon>autorenew</md-icon>Rafraichir
+      </button>
+    </div>
+    <div id="sidebarContent">
+      <hr />
+      <div *ngIf="!selectedTaxi">{{ sidebarMsg }}</div>
+      <div *ngIf="selectedTaxi">
+        <span class="section-title">Opérateur</span>
+        <br />{{ selectedTaxi.nom_operator }}
+        <hr />
+        <span class="section-title">Véhicule</span>
+        <br />Immatriculation : {{ selectedTaxi.licence_plate }}
+        <span *ngIf="selectedTaxi.vdm_vignette">
+          <br />Numéro de vignette : {{ selectedTaxi.vdm_vignette }}
+        </span>
+        <br />Zone : {{ selectedTaxi.insee }}
+        <br />Type : {{ selectedTaxi.type_ }}
+        <br />Couleur : {{ selectedTaxi.color }}
+        <br />Model/Année : {{ selectedTaxi.model_year }}
+        <br />Moteur : {{ selectedTaxi.engine }}
+        <br />Nombre de places : {{ selectedTaxi.nb_seats }}
+        <br />No. du taximètre : {{ selectedTaxi.taximetre }}
+        <br />Début du ban : {{ selectedTaxi.ban_begin }}
+        <br />Fin du ban : {{ selectedTaxi.ban_end }}
+        <hr />
+        <span class="section-title">Chauffeur</span>
+        <br />Nom : {{ selectedTaxi.first_name }} {{ selectedTaxi.last_name }}
+        <br />No. permis chauffeur : {{ selectedTaxi.professional_licence }}
+        <br />Privé : {{ selectedTaxi.private }}
+        <br />Status du taxi : {{ selectedTaxi.status }}
+        <br />Status du dernier hail : {{ selectedTaxi.status_hail }}
+        <hr />
+        <span class="section-title">Propriétaire</span>
+        <br />Identification : {{ selectedTaxi.numero }}
+        <br />Nom : {{ selectedTaxi.first_name }} {{ selectedTaxi.owner_name }}
+        <hr />
+        <span class="section-title">Options</span><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.air_con"
+          disabled
+          >Air conditionné</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.amex_accepted"
+          disabled
+          >Amex accepté</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.baby_seat"
+          disabled
+          >Siège enfant</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.bank_check_accepted"
+          disabled
+          >Chèques acceptés</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.bike_accepted"
+          disabled
+          >Vélo accepté</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.credit_card_accepted"
+          disabled
+          >Carte crédit accepté</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.electronic_toll"
+          disabled
+          >Facture électronique</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.every_destination"
+          disabled
+          >Toutes destinations</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.nfc_cc_accepted"
+          disabled
+          >Paiement NFC</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.pet_accepted"
+          disabled
+          >Animaux acceptés</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.special_need_vehicle"
+          disabled
+          >Véhicule adapté</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="selectedTaxi.wifi"
+          disabled
+          >Wi-Fi</md-checkbox
+        ><br />
+      </div>
+    </div>
+  </div>
+
+  <div id="sidebarTaxiArea" class="sidebar">
+    <h1 class="sidebar_title">Détails poste d'attente taxi</h1>
+    <hr />
+    <div *ngIf="selectedTaxiArea">
+      <div class="sidebar_row">
+        <span class="sidebar_row_title">Nom:</span>
+        <p class="sidebar_row_text">{{ selectedTaxiArea.Nom }}</p>
+      </div>
+      <div class="sidebar_row">
+        <span class="sidebar_row_title">Localisation:</span>
+        <p class="sidebar_row_text">{{ selectedTaxiArea.Localisation }}</p>
+      </div>
+      <div class="sidebar_row">
+        <span class="sidebar_row_title">Type:</span>
+        <p class="sidebar_row_text">{{ selectedTaxiArea.Type }}</p>
+      </div>
+      <div class="sidebar_row">
+        <span class="sidebar_row_title">Nombre de place:</span>
+        <p class="sidebar_row_text">{{ selectedTaxiArea.Nb_place }}</p>
+      </div>
+      <div class="sidebar_row">
+        <span class="sidebar_row_title">Status:</span>
+        <p class="sidebar_row_text">{{ selectedTaxiArea.Etat_poste }}</p>
+      </div>
+      <div class="sidebar_row">
+        <span class="sidebar_row_title">Heure d'ouverture:</span>
+        <p class="sidebar_row_text">{{ selectedTaxiArea.Heure_operation }}</p>
+      </div>
+    </div>
+    <div *ngIf="!selectedTaxiArea">Aucune Données</div>
+  </div>
+
+  <div id="sideMenuFilters" class="sideMenu">
+    <span class="sideMenuTitle">Filtres</span>
+    <div class="findOperateur">
+      <md-select placeholder="Opérateurs" [(ngModel)]="defaultOperator" (change)="onOperatorChanged($event.value)">
+        <md-option value="all" selected>Tous les Opérateurs</md-option>
+        <md-option *ngFor="let operator of operators$ | async as operators" [value]="operator.id">
+          {{ operator.name }}
+        </md-option>
+      </md-select>
+    </div>
+    <span class="findTaxiTitle">Taxi</span>
+    <div class="findTaxiGroup">
+      <md-radio-group [value]="searchModeAction$ | async" (change)="onSearchModeChanged($event.value)">
+        <md-radio-button value="byLicencePlate">Immatriculation</md-radio-button>
+        <md-radio-button value="byProfessionalLicence">Permis chauffeur</md-radio-button>
+      </md-radio-group>
+      <div class="findTaxiOptions">
+        <md-input-container>
+          <input
+            mdInput
+            placeholder="Recherche..."
+            type="text"
+            [value]="searchTermAction$ | async"
+            (input)="onSearchTermChanged($event.target.value)"
+          />
+        </md-input-container>
+        <button md-button (click)="onSearchTermChanged()">
+          X
+        </button>
+        <div class="filtre-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+      </div>
+    </div>
+    <span class="taxi_areas_title">Poste d'attente des taxis</span>
+    <div class="taxi_areas_box">
+      <md-checkbox
+        (change)="onTaxiAreasVisibleChanged($event.checked)"
+        class="taxi_areas_box_checkbox"
+      >
+        Afficher les postes d'attente
+      </md-checkbox>
+    </div>
+  </div>
+</div>

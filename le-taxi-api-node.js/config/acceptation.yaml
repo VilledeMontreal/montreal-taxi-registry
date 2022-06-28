@@ -1,0 +1,28 @@
+#==========================================
+# This is the ACCEPT environment-specific
+# config file, used when NODE_ENV = "acception".
+#
+# The configurations specified here will override
+# the default ones provided by "default.yaml".
+#
+# More info about this file and the order config files
+# are loaded : https://github.com/lorenwest/node-config/wiki/Configuration-Files
+#==========================================
+api:
+  host: taximtl.accept.ville.montreal.qc.ca
+
+environment:
+  isLocal: false
+
+dataSources:
+  postgres:
+    host: acclgt02-vip.ile.montreal.qc.ca
+  mongo:
+    host1: acclgt01a.ile.montreal.qc.ca
+    host2: acclgt01b.ile.montreal.qc.ca
+
+#==========================================
+# Routing Service OSRM
+#==========================================
+taxiRegistryOsrmApi:
+  base: https://api.accept.interne.montreal.ca

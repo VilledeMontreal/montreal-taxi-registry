@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "arjun.swagger-viewer",
+    "editorconfig.editorconfig",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "rbbit.typescript-hero",
+    "streetsidesoftware.code-spell-checker",
+    "visualstudioexptteam.vscodeintellicode"
+  ]
+}

@@ -1,0 +1,18 @@
+config:
+  target: 'https://taximtldev.accept.ville.montreal.qc.ca'
+  processor: './test-taxi-grid.js'
+  http:
+    pool: 30
+  phases:
+    - name: '300 GET taxis/grid - used by UI'
+      arrivalRate: 1
+      duration: 300
+scenarios:
+  - name: 'taxi grid'
+    flow:
+      - function: 'beforeFlow'
+      - get:
+          url: '/api/legacy-web/taxis/grid?page=0&pagesize=10'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{apikey}}'

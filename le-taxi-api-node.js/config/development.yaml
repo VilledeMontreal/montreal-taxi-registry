@@ -1,0 +1,45 @@
+#==========================================
+# This is the DEVELOPMENT environment-specific
+# config file, used when NODE_ENV = "development".
+#
+# The configurations specified here will override
+# the default ones provided by "default.yaml".
+#
+# More info about this file and the order config files
+# are loaded : https://github.com/lorenwest/node-config/wiki/Configuration-Files
+#==========================================
+api:
+  host: taximtldev.accept.ville.montreal.qc.ca
+
+dataSources:
+  postgres:
+    host: dvllgt02-vip.ile.montreal.qc.ca
+  mongo:
+    host1: dvllgt01a.ile.montreal.qc.ca
+    host2: dvllgt01b.ile.montreal.qc.ca
+
+hails:
+  statuses:
+    emitted:
+      timeoutInSec: 20
+    received:
+      timeoutInSec: 20
+    sent_to_operator:
+      timeoutInSec: 20
+    received_by_operator:
+      timeoutInSec: 20
+    received_by_taxi:
+      timeoutInSec: 20
+    accepted_by_taxi:
+      timeoutInSec: 20
+    accepted_by_customer:
+      timeoutInSec: 20
+    customer_on_board:
+      timeoutInSec: 20
+  dataDump:
+    dumpPeriodInMinutes: 1
+caching:
+  taxisMaxAgeInSec: 10
+  usersMaxAgeInSec: 10
+inquiries:
+  promotionDelayInSec: 10

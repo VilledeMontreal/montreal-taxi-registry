@@ -1,0 +1,179 @@
+<md-card class="profile-card mat-elevation-z8">
+  <md-card-actions> </md-card-actions>
+  <md-card-content id="content">
+    <div class="profile-title">
+      Profil <span *ngIf="userinfo">de {{ userinfo.email }}</span>
+    </div>
+    <form class="details-form" [formGroup]="detailsForm">
+      <h3>Informations</h3>
+      <div>
+        <div class="information-header">Votre clé pour l'API</div>
+        <div class="information-text" *ngIf="userinfo">
+          {{ userinfo.apikey }}
+        </div>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="commercial_name"
+            placeholder="Nom commercial"
+          />
+          <!--<md-error *ngIf="loginForm.password.errors.required">Ce champs est requis</md-error-->
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="phone_number_technical"
+            placeholder="Tel. service technique"
+          />
+          <md-error
+            *ngIf="
+              detailsForm.controls.phone_number_technical.hasError('pattern')
+            "
+          >
+            No. de téléphone n'est pas valide
+          </md-error>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="email_customer"
+            placeholder="Courriel service client"
+          />
+          <md-error
+            *ngIf="detailsForm.controls.email_customer.hasError('pattern')"
+          >
+            Courriel n'est pas valide
+          </md-error>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="email_technical"
+            placeholder="Courriel service technique"
+          />
+          <md-error
+            *ngIf="detailsForm.controls.email_customer.hasError('pattern')"
+          >
+            Courriel n'est pas valide
+          </md-error>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="hail_endpoint_production"
+            placeholder="Adresse du service de Hail"
+          />
+          <!--<md-error *ngIf="loginForm.password.errors.required">Ce champs est requis</md-error-->
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="operator_header_name"
+            placeholder="Identifiant de clé du service de l'opérateur"
+          />
+          <!--<md-error *ngIf="loginForm.password.errors.required">Ce champs est requis</md-error-->
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="operator_api_key"
+            placeholder="Clé du service de l'opérateur"
+          />
+          <!--<md-error *ngIf="loginForm.password.errors.required">Ce champs est requis</md-error-->
+        </md-input-container>
+      </div>
+      <button
+        [disabled]="!detailsForm.valid"
+        type="submit"
+        md-raised-button
+        (click)="SaveProfile()"
+      >
+        Enregistrer
+      </button>
+      <span *ngIf="errorProfile" class="error">{{ errorProfile }}</span>
+      <span *ngIf="successProfile" class="success">Enregistrement réussi</span>
+    </form>
+    <form class="password-form" [formGroup]="passwordForm">
+      <div>
+        <h3>Changement de mot de passe</h3>
+      </div>
+
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="password"
+            formControlName="password"
+            placeholder="Nouveau mot de passe"
+          />
+          <md-error
+            *ngIf="
+              passwordForm.controls.password.hasError('required') &&
+              passwordForm.controls.password.touched
+            "
+          >
+            Ce champs est requis
+          </md-error>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="password"
+            formControlName="password_confirm"
+            placeholder="Confirmer mot de passe"
+          />
+          <md-error
+            *ngIf="
+              passwordForm.controls.password_confirm.hasError('required') &&
+              passwordForm.controls.password_confirm.touched
+            "
+          >
+            Ce champs est requis
+          </md-error>
+          <md-error
+            *ngIf="
+              passwordForm.controls.password_confirm.hasError('nomatch') &&
+              passwordForm.controls.password_confirm.touched
+            "
+          >
+            Mot de passe non identique
+          </md-error>
+        </md-input-container>
+      </div>
+      <button
+        [disabled]="!passwordForm.valid"
+        type="reset"
+        md-raised-button
+        (click)="ChangePassword()"
+      >
+        Changer le mot de passe
+      </button>
+      <span *ngIf="errorPassword" class="error">{{ errorPassword }}</span>
+      <span *ngIf="successPassword" class="success">Enregistrement réussi</span>
+    </form>
+  </md-card-content>
+  <md-card-actions> </md-card-actions>
+</md-card>

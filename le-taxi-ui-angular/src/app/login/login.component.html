@@ -1,0 +1,26 @@
+<div class="login-main">
+  <form class="login-form" [formGroup]="loginForm">
+    <div class="login-title">
+      <span>Connexion</span>
+    </div>
+    <md-input-container class="input-full-width">
+      <input mdInput formControlName="user" required placeholder="Nom d'utilisateur">
+      <!--<md-error *ngIf="login.user.errors.required">Ce champs est requis</md-error-->
+    </md-input-container>
+    <md-input-container class="input-full-width">
+      <input mdInput type="password" formControlName="password" required placeholder="Mot de passe">
+      <!--<md-error *ngIf="loginForm.password.errors.required">Ce champs est requis</md-error-->
+    </md-input-container>
+    <div *ngIf="connectionError" class="error-section">
+      <span>{{connectionError}}</span>
+    </div>
+    <!--<md-checkbox>Se souvenir de moi</md-checkbox>-->
+    <div class="login-button-section">
+      <button type="submit" md-raised-button (click)="doConnect()">Se connecter</button>
+      <div class="login-spinner-container">
+        <md-spinner *ngIf="connecting" class="login-spinner"></md-spinner>
+      </div>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,1 @@
+db.latestTaxiPositions.createIndex( { "receivedAt": 1 }, { expireAfterSeconds: 60 * 2 } );

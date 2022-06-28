@@ -1,0 +1,13 @@
+{
+    "git.ignoreLimitWarning": true,
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true
+    },
+
+    "terminal.integrated.scrollback": 50000,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.tslint": true,
+        "source.organizeImports": true
+    }
+}

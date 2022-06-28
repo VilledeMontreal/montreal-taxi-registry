@@ -1,0 +1,57 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug all tests - localhost (Launch npm run watch before)",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "${workspaceRoot}/src/all.apiTestSuite.js",
+        "--require",
+        "source-map-support/register",
+        "--reporter",
+        "\"src/shared/specWithCompleteErrorsReporter/specWithCompleteErrors.js\"",
+        "--no-timeouts",
+        "--exit"
+      ],
+      "env": {
+        "ide": "true",
+        "NODE_APP_INSTANCE": "tests",
+        "fast-start": "true"
+      },
+      "sourceMaps": true,
+      "timeout": 10000,
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal",
+      "outputCapture": "std",
+      "protocol": "inspector"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug all tests - development (Launch npm run watch before)",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "${workspaceRoot}/src/all.apiTestSuite.js",
+        "--require",
+        "source-map-support/register",
+        "--reporter",
+        "\"src/shared/specWithCompleteErrorsReporter/specWithCompleteErrors.js\"",
+        "--no-timeouts",
+        "--exit"
+      ],
+      "env": {
+        "ide": "true",
+        "NODE_APP_INSTANCE": "tests",
+        "fast-start": "true"
+      },
+      "sourceMaps": true,
+      "timeout": 10000,
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal",
+      "outputCapture": "std",
+      "protocol": "inspector"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "extends": "./node_modules/@villemontreal/lint-config-villemontreal/rules/tsconfig-base.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es2017",
+    "moduleResolution": "node",
+    "pretty": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": false
+  },
+  "exclude": ["node_modules", "src/test", "src/controllers", "src/libs", "src/models", "src/services", "src/index.ts"]
+}

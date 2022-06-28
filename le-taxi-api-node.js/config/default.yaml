@@ -1,0 +1,139 @@
+#==========================================
+# This config file lists all the default
+# configurations. It is the very first file loaded
+# to build configurations and is always loaded,
+# wathever the NODE_ENV is. The other environment-specific
+# config files will simply override the configurations
+# they need.
+#
+# More info about this file and the order config files
+# are loaded : https://github.com/lorenwest/node-config/wiki/Configuration-Files
+#==========================================
+
+#==========================================
+# API configs
+#==========================================
+api:
+  scheme: https
+  host: development
+  port: 8099
+  domainPath: /taxi/taxi-registry
+
+environment:
+  isLocal: false
+
+project:
+  repositoryUrl: https://bitbucket.org/villemontreal/le-taxi-api-node.js
+
+  maintainers:
+    - name: Stephane LEBLANC
+      email: stephane.leblanc@montreal.ca
+    - name: Daniel BRODEUR
+      email: daniel.brodeur@montreal.ca
+    - name: Matthieu PERRIN
+      email: matthieu.perrin@montreal.ca
+    - name: Sebastien BLAIS-FERNANDEZ
+      email: sebastien.blais-fernandez@montreal.ca
+
+apikeys:
+  admin: secret
+  gestion: secret
+  moteur: secret
+  operateur: secret
+  inspecteur: secret
+  stats: secret
+
+security:
+  jwt: secret
+  secret: secret
+  adminUser: secret
+
+#==========================================
+# Logging configs
+#==========================================
+logging:
+  # If the path starts with a ".", it is considered to be relative
+  # to the root of the project.
+  dir: ./log
+  level: info
+
+  # Should be let to false on all environments except
+  # on local (local.yaml and local-test.yaml) for GrayLog
+  # to work properly!
+  humanReadableInConsole: false
+  addStackTraceToErrorMessagesInDev: false
+  logSource: false
+  logToFile: false
+  logRotateFilesNbr: 30
+  logRotateThresholdMB: 100
+  logRotateMaxTotalSizeMB: 1000
+
+#==========================================
+# Data Sources configs
+#==========================================
+dataSources:
+  postgres:
+    host: dvllgt02-vip.ile.montreal.qc.ca
+    port: 5432
+    database: vdm_txp
+    user: secret
+    password: secret
+    maxClient: 30
+    idleTimeoutMs: 3000
+  mongo:
+    host1: dvllgt01a.ile.montreal.qc.ca
+    host2: dvllgt01b.ile.montreal.qc.ca
+    port: 27001
+    defaultauthdb: vdm_txp
+    username:
+    password:
+    options: replicaSet=rsgeotaxi
+  taxiEstimate:
+    host: development
+    apikey: secret
+    postgres:
+      host: dvllgt02-vip.ile.montreal.qc.ca
+      port: 5432
+      database: taxiestimate
+      user: secret
+      password: secret
+
+#==========================================
+# Hails
+#==========================================
+hails:
+  statuses:
+    emitted:
+      timeoutInSec: 10
+    received:
+      timeoutInSec: 15
+    sent_to_operator:
+      timeoutInSec: 10
+    received_by_operator:
+      timeoutInSec: 10
+    received_by_taxi:
+      timeoutInSec: 30
+    accepted_by_taxi:
+      timeoutInSec: 600
+    accepted_by_customer:
+      timeoutInSec: 3600
+    customer_on_board:
+      timeoutInSec: 86400
+  dataDump:
+    dumpPeriodInMinutes: 10
+taxiAreas:
+  openDataUrl: https://data.montreal.ca/dataset/a305bf87-97af-4f9c-9142-39e7b39f496c/resource/2d8bd708-b6a5-4e6b-88c7-0baef38c18f4/download/postestaxi.geojson
+caching:
+  taxisMaxAgeInSec: 86400
+  usersMaxAgeInSec: 86400
+inquiries:
+  promotionDelayInSec: 86400
+
+#==========================================
+# Routing Service OSRM
+#==========================================
+taxiRegistryOsrmApi:
+  base: https://api.dev.interne.montreal.ca
+  domainPath: /api/taxi/taxi-registry-osrm
+  route: route
+  version: v1

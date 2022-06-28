@@ -1,0 +1,153 @@
+#!groovy
+// Documentation disponible ici:
+// https://sticonfluence.interne.montreal.ca/display/IEP/2+-+Configuration
+
+@Library('cicd-lib')
+import vdmtl.cicd.*
+import jenkins.model.*
+
+pipeline = new Pipeline()
+
+// For more information on the configuration options,
+// see https://bitbucket.org/villemontreal/cicd-lib/src/master/docs/Config.md
+ctx = pipeline.createContext([
+    namespace: ["sn","le-taxi"],
+    application: [
+        name: "le-taxi-ui-angular",
+        tier: "frontend",
+        runtime: "nodejs",
+        framework: "angular",
+        type: "service",
+        description: "Frontend for le-taxi",
+        icon: "https://svgsilh.com/svg/602136.svg",
+        keywords: ["taxi", "registre", "web"],
+    ],
+    build: [
+        branchOverrides: [
+            "feature/upgrade-node14": "develop",
+        ],
+    ],
+    packaging: [
+        dockerfilePath: "./le-taxi-ui-angular/Dockerfile",
+        dockerContextPath: "./le-taxi-ui-angular/",
+    ],
+    execution: [
+        service: [
+            port: 8070,
+        ],
+        resources: [
+            minCpu: "100m",
+            minMemory: "100Mi",
+            maxCpu: "200m",
+            maxMemory: "256Mi",
+        ],
+        autoScaling: [
+            minReplicas: 2,
+            maxReplicas: 2,
+            cpuUsagePercentage: 70,
+        ],
+        probes: [
+            liveness: [
+                enabled: true,
+                path: '/diagnostics/v1/ping',
+            ],
+            readiness: [
+                enabled: true,
+                path: '/diagnostics/v1/ping',
+            ],
+        ],
+        monitoring: [
+            enabled: true,
+            path: "/diagnostics/v1/metrics"
+        ],
+    ],
+    ingress: [
+        overrides: [
+            "dev": [
+                hosts: [
+                    [
+                        uri: "taximtldev.kube.dev.ile.montreal.qc.ca",
+                        paths: ['/'],
+                    ],
+                    [
+                        uri: "taximtldev.accept.ville.montreal.qc.ca",
+                        paths: ['/'],
+                    ],
+                ],
+            ],
+            "accept": [
+                hosts: [
+                    [
+                        uri: "taximtl.accept.ville.montreal.qc.ca",
+                        paths: ['/'],
+                    ],
+                ],
+            ],
+            "prod": [
+                hosts: [
+                    [
+                        uri: "taximtl.ville.montreal.qc.ca",
+                        paths: ['/'],
+                    ],
+                ],
+            ],
+        ],
+    ],
+    approval: [
+        enable: true,
+        overrides: [
+            "accept": [
+                approvers: [
+                    "uperr3a",
+                    "ubrodda",
+                    "ulebl5h",
+                ],
+            ],
+            "prod": [
+                approvers: [
+                    "uperr3a",
+                    "ubrodda",
+                    "ulebl5h",
+                ],
+            ],
+        ]
+    ],
+    notifications: [
+        mail: [
+            to: [
+                "matthieu.perrin",
+                "daniel.brodeur",
+                "stephane.leblanc",
+            ],
+        ],
+        chat: [
+            room: "taximtl-cicd",
+            notify: true,
+        ],
+    ],
+    debug: true,
+])
+pipeline.start(ctx) {
+
+    pipeline.withSourceCode(ctx) {
+
+        pipeline.buildStage(ctx) {
+            pipeline.buildDockerImage(ctx)
+        }
+
+        pipeline.prePublishStage(ctx) {
+            pipeline.publishDraftDockerImage(ctx)
+        }
+    }
+
+    pipeline.withDraftDockerImage(ctx) {
+
+        pipeline.publishStage(ctx) {
+            pipeline.publishDockerImage(ctx)
+        }
+
+        pipeline.deployStage(ctx) {
+            pipeline.deployApp(ctx)
+        }
+    }
+}

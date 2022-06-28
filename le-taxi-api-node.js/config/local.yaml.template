@@ -1,0 +1,49 @@
+#==========================================
+# This config file lists all the default
+# configurations. It is the very first file loaded
+# to build configurations and is always loaded,
+# wathever the NODE_ENV is. The other environment-specific
+# config files will simply override the configurations
+# they need.
+#
+# More info about this file and the order config files
+# are loaded : https://github.com/lorenwest/node-config/wiki/Configuration-Files
+#==========================================
+environment:
+  isLocal: true
+
+# Apikeys are used to run unit tests. You can create new apikeys easily through the UI,
+# simply navigate to the Users page and create a new user with the specified role.
+# Once a user is created, a new apikey will be generated
+apikeys:
+  admin: <admin-apikey>
+  gestion: <gestion-apikey>
+  moteur: <moteur-apikey>
+  operateur: <operaeteur-apikey>
+  inspecteur: <inspecteur-apikey>
+  stats: <stats-apikey>
+
+security:
+  # jwt must be a highly random signing key for signing tokens
+  jwt: <random-jwt>
+  # secret must be a random 32 character long alphanumeric string.
+  secret: <random-32-alphanumeric>
+  # the name you want to use as the default administrative user
+  adminUser: <admin-user>
+
+dataSources:
+  # Self explicit PostgeSQL configuration
+  postgres:
+    host: <postgres-host>
+    port: <postgres-port>
+    database: <postgres-database>
+    user: <postgres-username>
+    password: <postgres-password>
+  # Self explicit MongoDB configuration. Requires two hosts.
+  mongo:
+    host1: <mongo-host1>
+    host2: <mongo-host2>
+    port: <mongo-port>
+    defaultauthdb: <mongo-database>
+    username: <mongo-username>
+    password: <mongo-password>

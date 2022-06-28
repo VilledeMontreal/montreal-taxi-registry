@@ -1,0 +1,218 @@
+/* General Class */
+.btn-refresh:focus md-icon {
+  animation: rotate 1s ease-in-out 0s;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.client-btn {
+  background-color: lightblue;
+}
+
+.danger {
+  background-color: #ff0000;
+}
+
+.flex {
+  align-items: center;
+  display: flex;
+}
+
+.input-container {
+  height: 84px;
+}
+
+.hail {
+  align-content: center;
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+}
+.m-12px {
+  margin: 0 12px;
+}
+
+.title {
+  margin: 5px;
+  padding-right: 10px;
+}
+.pdr-10 {
+  padding-right: 10px;
+}
+
+.value {
+  margin: 0px;
+  padding-right: 20px;
+}
+
+.warning {
+  background-color: #ffcc00;
+}
+
+/* Specific Class */
+.hail_title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.hail_body {
+  background-color: white;
+  padding: 12px;
+}
+
+.hail_body_info {
+  display: flex;
+}
+
+.hail_body_info_left_search_engine_title {
+  margin: 10px 0px;
+}
+
+.hail_body_info_left_api_key_title {
+  margin: 5px;
+}
+
+.hail_body_info_left {
+  flex-grow: 1;
+}
+.hail_body_info_left_title {
+  margin: 8px 0;
+}
+
+.hail_body_info_left_search_engine_input {
+  width: 325px;
+}
+.hail_body_info_left_search_title {
+  margin: 4px;
+}
+
+.hail_body_info_left_search_select {
+  max-height: 20px;
+  margin-left: 20px;
+  width: 150px;
+  border-radius: 5px;
+}
+
+.hail_body_info_left_client_finder {
+  padding-left: 58px;
+}
+
+.hail_body_info_left_client_title {
+  margin: 10px 0px;
+}
+
+.hail_body_info_left_client_address_input {
+  width: 325px;
+}
+
+.hail_body_info_left_taxi_title {
+  margin: 10px 0px;
+}
+
+.hail_body_info_right {
+  flex-grow: 1;
+}
+
+.hail_body_info_right_title {
+  margin: 8px 0;
+}
+
+.hail_body_info_right_status {
+  justify-content: flex-start;
+}
+
+.hail_body_info_right_status_value {
+  min-width: 150px;
+}
+
+.hail_body_info_right_position {
+  justify-content: flex-start;
+}
+
+.hail_body_actions_gr {
+  justify-content: space-between;
+  max-width: 640px;
+}
+
+.hail_body_actions_error {
+  color: red;
+}
+
+.hail_body_devtool_gr {
+  justify-content: flex-start;
+}
+
+/* Pure CSS collabsible */
+.wrap-collabsible {
+  margin-bottom: 1.2rem 0;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+.lbl-toggle {
+  display: block;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 20px;
+  padding: 1rem;
+  color: white;
+  background: black;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: all 0.25s ease-out;
+}
+
+.lbl-toggle:hover {
+  color: #FDBA23;
+}
+
+.lbl-toggle::before {
+  content: " ";
+  display: inline-block;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid currentColor;
+  vertical-align: middle;
+  margin-right: 0.7rem;
+  transform: translateY(-2px);
+  transition: transform 0.2s ease-out;
+}
+
+.toggle:checked + .lbl-toggle::before {
+  transform: rotate(90deg) translateX(-3px);
+}
+
+.collapsible-content {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.toggle:checked + .lbl-toggle + .collapsible-content {
+  max-height: 350px;
+}
+
+.toggle:checked + .lbl-toggle {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.collapsible-content .content-inner {
+  background: rgba(250, 224, 66, 0.2);
+  border: 2px solid rgba(250, 224, 66, 0.85);
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding: 0.5rem 1rem;
+}

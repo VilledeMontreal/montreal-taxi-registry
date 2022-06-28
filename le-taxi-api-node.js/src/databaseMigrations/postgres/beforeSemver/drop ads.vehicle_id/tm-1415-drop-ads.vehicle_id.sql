@@ -1,0 +1,2 @@
+ALTER TABLE public."ADS"
+  DROP COLUMN IF EXISTS vehicle_id;

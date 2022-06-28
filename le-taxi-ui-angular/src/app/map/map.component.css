@@ -1,0 +1,145 @@
+.section-title {
+  font-size:18px;
+  font-weight:700;
+}
+
+.main-btn-section {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.btn-refresh:focus md-icon {
+  animation: rotate 1s ease-in-out 0s;
+}
+
+.map-container {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.sidebar_taxi_head {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.sidebar_taxi_head_btn {
+  height: 36px;
+  background: #FDBA23;
+  border: solid 1px;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+.sidebar_title {
+  padding-top: 5px;
+}
+
+.sidebar_row {
+  padding: 5px 0;
+}
+
+.sidebar_row_title {
+  font-weight: bold;
+}
+
+.sidebar_row_text {
+  display: inline;
+}
+
+.sideMenu {
+  padding: 8px;
+}
+
+.sideMenuTitle {
+  height: 30px;
+  padding: 8px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.leaflet-menu {
+  border-radius: 8px;
+  border: 2px gray solid;
+  padding: 15px;
+}
+
+.findOperateur {
+  height: 80px;
+  width: 100%;
+}
+
+.findOperateur md-select {
+  margin-top: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 95%;
+}
+
+.findTaxiTitle {
+  margin: 5px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.findTaxiGroup {
+  margin: 5px;
+  padding: 20px;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  height: auto;
+}
+
+.findTaxiGroup md-radio-button {
+  margin-right: 30px;
+}
+
+.findTaxiOptions {
+  margin-top: 15px;
+}
+
+.findTaxiGroup button {
+  margin-top: 15px;
+}
+
+.taxi_areas_title {
+  margin: 5px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.taxi_areas_box {
+  margin: 5px;
+  padding: 20px;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  height: auto;
+}
+
+.options-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.options-radio-button {
+  margin: 5px;
+  color: black;
+}
+
+.filtre-error {
+  height: 20px;
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #d76969;
+  text-align: center;
+  vertical-align: middle;
+  color: white !important;
+}

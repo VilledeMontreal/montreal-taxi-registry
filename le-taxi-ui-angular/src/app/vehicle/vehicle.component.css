@@ -1,0 +1,89 @@
+.grid-section {
+    align-content: center;
+    width: 90%;
+    margin: auto; 
+    margin-top: 40px;
+}
+
+.grid {
+    background-color: #FFFFFF;
+}
+
+.grid-tilte {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.grid-controls {
+    margin-top:25px;
+    margin-left: 20px;
+    padding-top: 10px;
+}
+
+.grid-controls span {
+    font-weight: 600;
+    margin-right: 12px;
+}
+
+.row-button {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+}
+
+.row-button:hover {
+    color:blue;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.vehicle_details {
+    margin: 20px;
+    font-size: 18px;
+}
+
+.details_section {
+    width:100%;
+    height: 100%;
+}
+
+.details_controls {
+
+}
+
+.vehicle-card {
+    width:600px;
+    height: auto;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.options-table{
+    margin-top:20px;
+}
+
+.options-table td {
+    padding: 2px 8px;
+}
+
+.details-table {
+    margin-top: 20px;
+}
+
+.details-table td {
+    padding: 2px 8px;
+}
+
+.go-to-btn {
+    border: solid 1px;
+    border-radius: 5px;
+    height: 28px;
+    font-weight: bold;
+    width: 72px;
+  }
+
+.btn-location {
+    background: #fdba23;
+}

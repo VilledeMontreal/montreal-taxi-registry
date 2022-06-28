@@ -1,0 +1,28 @@
+#==========================================
+# This is the PRODUCTION environment-specific
+# config file, used when NODE_ENV = "production".
+#
+# The configurations specified here will override
+# the default ones provided by "default.yaml".
+#
+# More info about this file and the order config files
+# are loaded : https://github.com/lorenwest/node-config/wiki/Configuration-Files
+#==========================================
+environment:
+  isLocal: false
+
+api:
+  host: taximtl.ville.montreal.qc.ca
+
+dataSources:
+  postgres:
+    host: prdlgt02-vip.ile.montreal.qc.ca
+  mongo:
+    host1: prdlgt01a.ile.montreal.qc.ca
+    host2: prdlgt01b.ile.montreal.qc.ca
+
+#==========================================
+# Routing Service OSRM
+#==========================================
+taxiRegistryOsrmApi:
+  base: https://api.interne.montreal.ca

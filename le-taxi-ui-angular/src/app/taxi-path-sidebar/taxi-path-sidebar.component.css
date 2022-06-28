@@ -1,0 +1,56 @@
+.date_picker_gr {
+  margin: 5px;
+  padding: 20px;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  height: auto;
+}
+
+.date-picker_h2 {
+  padding-left: 5px;
+}
+
+.date_picker_gr_form_input {
+  width: 100px;
+}
+
+.path-error {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #d76969;
+  text-align: center;
+  vertical-align: middle;
+  color: white !important;
+}
+
+input:disabled {
+  color: #000000;
+}
+
+md-select {
+  width: 110px;
+  margin-left: 12px;
+}
+
+.date-picker_snapshot {
+  border: 1px solid #000000;
+  border-radius: 6px;
+  height: auto;
+  margin: 5px;
+  padding: 8px 20px;
+}
+
+.date-picker_snapshot_btn-gr {
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn {
+  height: 36px;
+  border: solid 1px;
+  border-radius: 4px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}

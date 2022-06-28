@@ -1,0 +1,15 @@
+db.createRole({
+	role: "taxiPositionRole",
+	privileges: [
+		{ resource: { db: "vdm_txp", collection: "taxiPositionSnapshots"}, actions: ["insert"]}
+	],
+	roles: [ { role: "read", db: "vdm_txp" } ]
+})
+
+db.createUser({
+	user: "{ENTER USER}",
+	pwd: "{ENTER PASSWORD}",
+	roles: [
+		{ role: "taxiPositionRole", db: "vdm_txp"}
+	]
+})

@@ -1,0 +1,518 @@
+<md-card class="account-details-card mat-elevation-z8">
+  <md-card-actions>
+    <button
+      md-button
+      type="button"
+      [routerLink]="['/account']"
+      mdTooltip="Retour à l'écran précédent"
+    >
+      <md-icon>keyboard_backspace</md-icon>
+    </button>
+  </md-card-actions>
+  <md-card-content id="content">
+    <div class="account-title">
+      <span *ngIf="user && !user.email">Nouvel </span>Utilisateur
+      <span *ngIf="user && user.email">: {{ user.email }}</span>
+    </div>
+    <form class="details-form spacer" [formGroup]="detailsForm">
+      <div *ngIf="user && !user.email">
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="email"
+            placeholder="Adresse courriel"
+            [required]="user && !user.email"
+          />
+          <md-error *ngIf="detailsForm.controls.email.hasError('pattern')">
+            Courriel n'est pas valide
+          </md-error>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="commercial_name"
+            placeholder="Nom commercial"
+            required
+          />
+          <!--<md-error *ngIf="loginForm.password.errors.required">Ce champs est requis</md-error-->
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="phone_number_technical"
+            placeholder="Tel. service technique"
+          />
+          <md-error
+            *ngIf="
+              detailsForm.controls.phone_number_technical.hasError('pattern')
+            "
+          >
+            No. de téléphone n'est pas valide
+          </md-error>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="email_customer"
+            placeholder="Courriel service client"
+          />
+          <md-error
+            *ngIf="detailsForm.controls.email_customer.hasError('pattern')"
+          >
+            Courriel n'est pas valide
+          </md-error>
+        </md-input-container>
+      </div>
+      <div>
+        <md-input-container class="input-full-width">
+          <input
+            mdInput
+            type="text"
+            formControlName="email_technical"
+            placeholder="Courriel service technique"
+          />
+          <md-error
+            *ngIf="detailsForm.controls.email_technical.hasError('pattern')"
+          >
+            Courriel n'est pas valide
+          </md-error>
+        </md-input-container>
+      </div>
+      <div class="select-space">
+        <md-select
+          formControlName="role"
+          placeholder="Rôle"
+          class="input-full-width"
+          required
+        >
+          <md-option *ngFor="let role of roles" [value]="role.id">
+            {{ role.name }}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="select-space">
+        <md-checkbox formControlName="is_hail_enabled"
+          >Peut être hélé</md-checkbox
+        >
+      </div>
+      <div *ngIf="detailsForm.controls['role'].value == 2">
+        <div class="select-space">
+          <md-input-container class="input-full-width">
+            <input
+              mdInput
+              type="text"
+              formControlName="public_id"
+              placeholder="Public Id"
+            />
+            <md-error
+              *ngIf="detailsForm.controls.public_id.hasError('pattern')"
+            >
+              Public Id n'est pas valide
+            </md-error>
+          </md-input-container>
+          <md-input-container class="input-full-width">
+            <input
+              mdInput
+              type="text"
+              formControlName="website_url"
+              placeholder="Site Web"
+            />
+            <md-error
+              *ngIf="detailsForm.controls.website_url.hasError('pattern')"
+            >
+              URL n'est pas valide
+            </md-error>
+          </md-input-container>
+        </div>
+        <div class="expansion-panel">
+          <md-expansion-panel>
+            <md-expansion-panel-header>
+              <mat-panel-title>Pour demander un taxi régulier</mat-panel-title>
+            </md-expansion-panel-header>
+            <div>
+              <md-input-container class="input-full-width">
+                <input
+                  mdInput
+                  type="text"
+                  formControlName="standard_booking_phone_number"
+                  placeholder="Téléphone"
+                />
+                <md-error
+                  *ngIf="
+                    detailsForm.controls.standard_booking_phone_number.hasError(
+                      'pattern'
+                    )
+                  "
+                >
+                  No. de téléphone n'est pas valide
+                </md-error>
+              </md-input-container>
+            </div>
+            <div>
+              <md-input-container class="input-full-width">
+                <input
+                  mdInput
+                  type="text"
+                  formControlName="standard_booking_website_url"
+                  placeholder="Lien réservation Web"
+                />
+                <md-error
+                  *ngIf="
+                    detailsForm.controls.standard_booking_website_url.hasError(
+                      'pattern'
+                    )
+                  "
+                >
+                  URL n'est pas valide
+                </md-error>
+              </md-input-container>
+            </div>
+            <div class="section-details">
+              <div>
+                <div class="section-title">Pour Android</div>
+              </div>
+              <div>
+                <md-input-container class="input-full-width">
+                  <input
+                    mdInput
+                    type="text"
+                    formControlName="standard_booking_android_deeplink_uri"
+                    placeholder="Android App Link"
+                  />
+                  <md-error
+                    *ngIf="
+                      detailsForm.controls.standard_booking_android_deeplink_uri.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    URL n'est pas valide
+                  </md-error>
+                </md-input-container>
+              </div>
+              <div>
+                <md-input-container class="input-full-width">
+                  <input
+                    mdInput
+                    type="text"
+                    formControlName="standard_booking_android_store_uri"
+                    placeholder="Lien pour télécharger l'application"
+                  />
+                  <md-error
+                    *ngIf="
+                      detailsForm.controls.standard_booking_android_store_uri.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    URL n'est pas valide
+                  </md-error>
+                </md-input-container>
+              </div>
+              <div>
+                <div class="section-title">Pour iOS</div>
+              </div>
+              <div>
+                <md-input-container class="input-full-width">
+                  <input
+                    mdInput
+                    type="text"
+                    formControlName="standard_booking_ios_deeplink_uri"
+                    placeholder="iOS Universal Link"
+                  />
+                  <md-error
+                    *ngIf="
+                      detailsForm.controls.standard_booking_ios_deeplink_uri.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    URL n'est pas valide
+                  </md-error>
+                </md-input-container>
+              </div>
+              <div>
+                <md-input-container class="input-full-width">
+                  <input
+                    mdInput
+                    type="text"
+                    formControlName="standard_booking_ios_store_uri"
+                    placeholder="Lien pour télécharger l'application"
+                  />
+                  <md-error
+                    *ngIf="
+                      detailsForm.controls.standard_booking_ios_store_uri.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    URL n'est pas valide
+                  </md-error>
+                </md-input-container>
+              </div>
+              <div>
+                <md-checkbox
+                  formControlName="standard_booking_is_promoted_to_public"
+                  >Promouvoir publiquement</md-checkbox
+                >
+              </div>
+            </div>
+          </md-expansion-panel>
+
+          <md-expansion-panel>
+            <md-expansion-panel-header>
+              <mat-panel-title
+                >Pour demander une fourgonnette régulière</mat-panel-title
+              >
+            </md-expansion-panel-header>
+            <div>
+              <md-checkbox
+                formControlName="minivan_booking_is_available_from_web_url"
+                >Via Web</md-checkbox
+              >
+            </div>
+            <div>
+              <md-checkbox
+                formControlName="minivan_booking_is_available_from_android_uri"
+                >Via Android</md-checkbox
+              >
+            </div>
+            <div>
+              <md-checkbox
+                formControlName="minivan_booking_is_available_from_ios_uri"
+                >Via iOS</md-checkbox
+              >
+            </div>
+            <div>
+              <md-checkbox
+                formControlName="minivan_booking_is_promoted_to_public"
+                >Promouvoir publiquement</md-checkbox
+              >
+            </div>
+          </md-expansion-panel>
+
+          <md-expansion-panel>
+            <md-expansion-panel-header>
+              <mat-panel-title>Pour demander un taxi adapté</mat-panel-title>
+            </md-expansion-panel-header>
+            <div>
+              <md-input-container class="input-full-width">
+                <input
+                  mdInput
+                  type="text"
+                  formControlName="special_need_booking_phone_number"
+                  placeholder="Téléphone"
+                />
+                <md-error
+                  *ngIf="
+                    detailsForm.controls.special_need_booking_phone_number.hasError(
+                      'pattern'
+                    )
+                  "
+                >
+                  No. de téléphone n'est pas valide
+                </md-error>
+              </md-input-container>
+            </div>
+            <div>
+              <md-input-container class="input-full-width">
+                <input
+                  mdInput
+                  type="text"
+                  formControlName="special_need_booking_website_url"
+                  placeholder="Lien réservation Web"
+                />
+                <md-error
+                  *ngIf="
+                    detailsForm.controls.special_need_booking_website_url.hasError(
+                      'pattern'
+                    )
+                  "
+                >
+                  URL n'est pas valide
+                </md-error>
+              </md-input-container>
+            </div>
+            <div class="section-details">
+              <div>
+                <div class="section-title">Pour Android</div>
+              </div>
+              <div>
+                <md-input-container class="input-full-width">
+                  <input
+                    mdInput
+                    type="text"
+                    formControlName="special_need_booking_android_deeplink_uri"
+                    placeholder="Android App Link"
+                  />
+                  <md-error
+                    *ngIf="
+                      detailsForm.controls.special_need_booking_android_deeplink_uri.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    URL n'est pas valide
+                  </md-error>
+                </md-input-container>
+              </div>
+              <div>
+                <md-input-container class="input-full-width">
+                  <input
+                    mdInput
+                    type="text"
+                    formControlName="special_need_booking_android_store_uri"
+                    placeholder="Lien pour télécharger l'application"
+                  />
+                  <md-error
+                    *ngIf="
+                      detailsForm.controls.special_need_booking_android_store_uri.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    URL n'est pas valide
+                  </md-error>
+                </md-input-container>
+              </div>
+              <div>
+                <div class="section-title">Pour iOS</div>
+              </div>
+              <div>
+                <md-input-container class="input-full-width">
+                  <input
+                    mdInput
+                    type="text"
+                    formControlName="special_need_booking_ios_deeplink_uri"
+                    placeholder="iOS Universal Link"
+                  />
+                  <md-error
+                    *ngIf="
+                      detailsForm.controls.special_need_booking_ios_deeplink_uri.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    URL n'est pas valide
+                  </md-error>
+                </md-input-container>
+              </div>
+              <div>
+                <md-input-container class="input-full-width">
+                  <input
+                    mdInput
+                    type="text"
+                    formControlName="special_need_booking_ios_store_uri"
+                    placeholder="Lien pour télécharger l'application"
+                  />
+                  <md-error
+                    *ngIf="
+                      detailsForm.controls.special_need_booking_ios_store_uri.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    URL n'est pas valide
+                  </md-error>
+                </md-input-container>
+              </div>
+              <div>
+                <md-checkbox
+                  formControlName="special_need_booking_is_promoted_to_public"
+                  >Promouvoir publiquement</md-checkbox
+                >
+              </div>
+            </div>
+          </md-expansion-panel>
+        </div>
+        <div>
+          <div class="section-title">
+            Pour héler un taxi via le serveur de l'opérateur
+          </div>
+        </div>
+        <div>
+          <md-input-container class="input-full-width">
+            <input
+              mdInput
+              type="text"
+              formControlName="hail_endpoint_production"
+              placeholder="URL:"
+            />
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="input-full-width">
+            <input
+              mdInput
+              type="text"
+              formControlName="operator_header_name"
+              placeholder="Entête clé API:"
+            />
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="input-full-width">
+            <input
+              mdInput
+              type="text"
+              formControlName="operator_api_key"
+              placeholder="Clé API:"
+            />
+          </md-input-container>
+        </div>
+      </div>
+
+      <table class="two-inline">
+        <tr>
+          <td></td>
+          <td>
+            <button
+              *ngIf="user && user.email"
+              type="submit"
+              md-raised-button
+              (click)="ChangeAPI()"
+            >
+              Changer la clé de l'API
+            </button>
+          </td>
+          <td>
+            <button
+              *ngIf="user && user.email"
+              type="submit"
+              md-raised-button
+              (click)="ChangePassword()"
+            >
+              Changer le mot de passe
+            </button>
+          </td>
+          <td>
+            <button
+              [disabled]="!detailsForm.valid"
+              type="submit"
+              md-raised-button
+              (click)="Save()"
+            >
+              Enregistrer
+            </button>
+          </td>
+        </tr>
+      </table>
+
+      <div class="message">
+        <span *ngIf="error" class="error">{{ error }}</span>
+        <span *ngIf="success" class="success">{{ success }}</span>
+      </div>
+    </form>
+  </md-card-content>
+  <md-card-actions> </md-card-actions>
+</md-card>

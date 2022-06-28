@@ -1,0 +1,132 @@
+<div class="date-picker">
+  <h2 class="date-picker_h2">Trajet de taxi</h2>
+  <div class="date_picker_gr">
+    <form [formGroup]="pathForm">
+      <span>Du</span>
+      <div>
+        <md-input-container>
+          <input
+            mdInput
+            class="date_picker_gr_form_input"
+            [mdDatepicker]="fromDatepicker"
+            formControlName="fromDate"
+            placeholder="(jj-mm-aaaa)"
+          />
+          <button mdSuffix [mdDatepickerToggle]="fromDatepicker"></button>
+        </md-input-container>
+        <md-datepicker #fromDatepicker></md-datepicker>
+        <md-select placeholder="Heure" formControlName="fromHour">
+          <md-option *ngFor="let hour of hours" value="{{ hour }}">{{
+            hour
+          }}</md-option>
+        </md-select>
+        <md-select placeholder="Minute" formControlName="fromMinute">
+          <md-option *ngFor="let minute of minutes" value="{{ minute }}">{{
+            minute
+          }}</md-option>
+        </md-select>
+      </div>
+      <span>Au</span>
+      <div>
+        <md-input-container>
+          <input
+            mdInput
+            class="date_picker_gr_form_input"
+            [mdDatepicker]="toDatepicker"
+            formControlName="toDate"
+            placeholder="(jj-mm-aaaa)"
+          />
+          <button mdSuffix [mdDatepickerToggle]="toDatepicker"></button>
+        </md-input-container>
+        <md-datepicker #toDatepicker></md-datepicker>
+        <md-select placeholder="Heure" formControlName="toHour">
+          <md-option *ngFor="let hour of hours" value="{{ hour }}">{{
+            hour
+          }}</md-option>
+        </md-select>
+        <md-select placeholder="Minute" formControlName="toMinute">
+          <md-option *ngFor="let minute of minutes" value="{{ minute }}">{{
+            minute
+          }}</md-option>
+        </md-select>
+      </div>
+      <div class="path-error" *ngIf="pathError">{{ pathError }}</div>
+
+      <div>
+        <button
+          md-button
+          type="submit"
+          id="btnExport"
+          name="btnExport"
+          (click)="exportSelectedPath()"
+          [disabled]="!pathForm.valid"
+        >
+          Exporter
+        </button>
+        <button
+          md-button
+          id="btnVisualize"
+          name="btnVisualize"
+          [disabled]="!pathForm.valid"
+          (click)="visualizeSelectedPath()"
+        >
+          Visualiser
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="date-picker_snapshot">
+    <div class="date-picker_snapshot_info">
+      <div>
+        <p>Date et heure: {{ taxiSnapshot.timestampUTC | date:'dd-MMM-yyyy HH:mm:ss':'New York':'frCA' }}</p>
+      </div>  
+      <div>
+        <p>
+          Statut: {{ taxiSnapshot.status }}
+        </p>
+      </div>
+  
+      <div>
+        <p>
+          Azimuth: {{ taxiSnapshot.azimuth }}
+        </p>
+      </div>
+  
+      <div>
+        <p>
+          Vitesse: {{ taxiSnapshot.speed }} km/h
+        </p>
+      </div>
+  
+      <div>
+        <p>
+          Latitude: {{ taxiSnapshot.latitude }}
+        </p>
+      </div>
+  
+      <div>
+        <p>
+          Longitude: {{ taxiSnapshot.longitude }}
+        </p>
+      </div>
+    </div>
+
+    <div class="date-picker_snapshot_btn-gr">
+      <button
+        class="date-picker_snapshot_btn-gr_back btn"
+        (click)="changeTaxiSnapshot(-1)"
+      >
+        précédent
+        <md-icon>reply</md-icon>
+      </button>
+      <button
+        class="date-picker_snapshot_btn-gr_forward btn"
+        (click)="changeTaxiSnapshot(1)"
+      >
+        prochain
+        <md-icon>forward</md-icon>
+      </button>
+    </div>
+  </div>
+</div>

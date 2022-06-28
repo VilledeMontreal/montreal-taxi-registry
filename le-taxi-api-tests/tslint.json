@@ -1,0 +1,8 @@
+{
+  "extends": "@villemontreal/lint-config-villemontreal/rules/tslint-node",
+  "rules": {
+    "variable-name": {
+      "options": ["allow-trailing-underscore"]
+    }
+  }
+}

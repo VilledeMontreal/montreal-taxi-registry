@@ -1,0 +1,60 @@
+.details-form {
+    width: 100%;
+}
+
+.profile-card {
+    width:600px;
+    height: auto;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.profile-title {
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+.input-full-width {
+    width: 100%;
+}
+
+.success {
+    margin-left: 10px;
+    padding: 10px;
+    border: 2px solid #0f7005;
+    background-color: #a3d29e;
+    border-radius: 8px;
+    color: #0f7005;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.error {
+    margin-left: 10px;
+    padding: 10px;
+    border: 2px solid #8c0000;
+    background-color: #d77e7e;
+    border-radius: 8px;
+    color: #8c0000;
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.errorText {
+    color: #8c0000;
+    font-weight: 500;
+    font-size: 0.8em;
+}
+
+.information-header {
+    font-weight: 600;
+    font-size: 1.0em;
+    margin-bottom: 6px;
+}
+
+.information-text {
+    font-weight: 500;
+    font-size: 1.0em;
+    font-style: italic;
+    margin-bottom: 6px;
+}

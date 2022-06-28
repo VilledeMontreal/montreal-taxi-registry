@@ -1,0 +1,142 @@
+.flex {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.go-to-btn {
+  border: solid 1px;
+  border-radius: 5px;
+  height: 28px;
+  font-weight: bold;
+  width: 60px;
+}
+
+.btn-hail {
+  background: #fdba23;
+}
+
+.grid {
+  background-color: #ffffff;
+}
+
+.grid-section {
+  align-content: center;
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.grid-tilte {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.grid-controls {
+  margin-top: 25px;
+  margin-left: 20px;
+  padding-top: 10px;
+}
+
+.grid-controls span {
+  font-weight: 600;
+  margin-right: 12px;
+}
+
+.legend {
+  margin: 20px 10px;
+}
+
+.legend-actif {
+  display: inline-block;
+  height: 13px;
+  width: 13px;
+  border: 1px solid black;
+  background-color: #f6f592;
+  margin-right: 2px;
+}
+
+.legend-actif-desc {
+  display: inline-block;
+  font-size: 16px;
+}
+
+.row-button {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+}
+
+.row-button:hover {
+  color: blue;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vehicle_details {
+  margin: 20px;
+  font-size: 18px;
+}
+
+.details_section {
+  width: 100%;
+  height: 100%;
+}
+
+.taxi-card {
+  width: 700px;
+  height: auto;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.options-table {
+  margin-top: 20px;
+  margin-left: 0px;
+  width: 80%;
+}
+
+.options-table td {
+  padding: 2px 8px;
+}
+
+.details-table {
+  margin-top: 20px;
+}
+
+.details-table td {
+  padding: 2px 8px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin: 20px;
+}
+
+.details-vehicle {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.details-driver {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.details-vignette {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.wait {
+  display: flex;
+  height: 50%;
+  align-items: center;
+  justify-content: center;
+}
+
+.taxi-actif {
+  background-color: #f6f592 !important;
+}

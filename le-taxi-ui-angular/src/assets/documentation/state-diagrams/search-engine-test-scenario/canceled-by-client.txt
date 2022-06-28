@@ -1,0 +1,25 @@
+//Use https://dreampuf.github.io/GraphvizOnline/ to generate png from specification
+
+//taxiId=happy-path
+
+digraph G {
+  node [style=filled];
+
+emitted[fillcolor = lightblue]
+received[fillcolor = white]
+sent_to_operator[fillcolor = white]
+received_by_operator[fillcolor = gray]
+received_by_taxi[fillcolor = gray]
+accepted_by_taxi[fillcolor = gray]
+accepted_by_customer[fillcolor = lightblue]
+incident_customer[fillcolor = lightblue]
+
+emitted->received
+received->sent_to_operator
+sent_to_operator->received_by_operator
+received_by_operator->received_by_taxi
+received_by_taxi->accepted_by_taxi
+accepted_by_taxi->accepted_by_customer
+accepted_by_customer->incident_customer
+
+}

@@ -1,0 +1,58 @@
+
+<md-card class="account-card mat-elevation-z8">
+  <md-card-actions>
+  </md-card-actions>
+  <md-card-content id="content">
+    <div>
+      <div class="account-title">
+        Utilisateurs 
+        <div class="add-user-button">
+          <button md-icon-button routerLink="/account/details" mdTooltip="Ajouter un utilisateur."><md-icon class="add_icon">add_circle</md-icon></button>
+        </div>
+      </div>
+      <md-table #table [dataSource]="dataSource" mdSort (mdSortChange)="SortData($event)">
+          <ng-container cdkColumnDef="id">
+            <md-header-cell *cdkHeaderCellDef></md-header-cell>
+            <md-cell *cdkCellDef="let row">
+              <button md-icon-button (click)="Delete(row.id)" *ngIf="CheckAccessLevel(row.role)"><md-icon class="md-24">delete</md-icon></button>
+              <button md-icon-button [routerLink]="['/account/details', row.id]" *ngIf="CheckAccessLevel(row.role)"><md-icon class="md-24">edit</md-icon></button>
+            </md-cell>
+          </ng-container>
+
+          <ng-container cdkColumnDef="email">
+            <md-header-cell *cdkHeaderCellDef md-sort-header='email'> Compte utilisateur </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.email}} </md-cell>
+          </ng-container>
+
+          <ng-container cdkColumnDef="role">
+            <md-header-cell *cdkHeaderCellDef md-sort-header='role.name'> Rôle </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.role_name}} </md-cell>
+          </ng-container>
+
+          <ng-container cdkColumnDef="commercial_name">
+            <md-header-cell *cdkHeaderCellDef md-sort-header='commercial_name'> Nom d'entreprise </md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.commercial_name}} </md-cell>
+          </ng-container>
+
+          <ng-container cdkColumnDef="hailAllowed">
+            <md-header-cell *cdkHeaderCellDef> Hails Enabled</md-header-cell>
+            <md-cell *cdkCellDef="let row"><md-icon *ngIf="row.is_hail_enabled">close</md-icon></md-cell>
+          </ng-container>
+
+          <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+          <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+
+      </md-table>
+      
+      <md-paginator #paginator
+                    [length]="count"
+                    [pageSize]="10"
+                    [pageSizeOptions]="[10, 50, 100]"
+                    (page)="RefreshTable()">
+      </md-paginator>
+    </div>
+  </md-card-content>
+  <md-card-actions>
+    
+  </md-card-actions>
+</md-card>

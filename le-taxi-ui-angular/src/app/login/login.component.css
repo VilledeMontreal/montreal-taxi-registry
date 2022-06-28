@@ -1,0 +1,45 @@
+.login-main {
+  display: flex;
+  height: 100%;
+  align-items: top;
+  justify-content: center;
+  background-color: white;
+}
+
+.login-form {
+  margin-top: 10%;
+  width: 500px;
+}
+
+.login-title {
+  margin-bottom: 15px;
+  font-size: 1.8em;
+  font-weight: 600;
+}
+
+.input-full-width {
+  width: 100%;
+}
+
+.login-button-section {
+  margin-top:10px
+}
+
+.error-section {
+  height: 20px;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #d76969;
+  text-align: center;
+  vertical-align: middle;
+  color:white !important;
+}
+
+.login-spinner-container {
+  display: inline-block;
+}
+
+.login-spinner {
+  height: 20px;
+}

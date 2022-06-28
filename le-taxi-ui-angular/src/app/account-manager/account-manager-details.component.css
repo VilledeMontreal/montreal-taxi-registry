@@ -1,0 +1,118 @@
+.account-details-card {
+  width: 600px;
+  height: auto;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.account-title {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.details-form {
+  width: 100%;
+}
+
+.input-full-width {
+  width: 90%;
+}
+
+.mat-column-id {
+  flex: 0 1 auto !important;
+  width: 120px;
+}
+
+.mat-column-role {
+  flex: 0 1 auto !important;
+  width: 80px;
+}
+
+.hailDone {
+  color: green;
+}
+
+.hailNotDone {
+  color: red;
+}
+
+.hail-checkbox {
+  padding-top: 5px;
+}
+
+.spacer {
+  margin-top: 10px;
+}
+
+.section-title {
+  margin-top: 14px;
+  font-weight: 600;
+  font-size: 1em;
+  margin-bottom: 4px;
+}
+
+.section-details {
+  margin-left: 20px;
+}
+
+.two-inline {
+  width: 90%;
+}
+.two-inline tr {
+  text-align: right;
+}
+
+.select-space {
+  margin-top: 16px;
+}
+
+.success {
+  margin-top: 25px;
+  margin-left: 10px;
+  padding: 10px;
+  border: 2px solid #0f7005;
+  background-color: #a3d29e;
+  border-radius: 8px;
+  color: #0f7005;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.error {
+  margin-top: 25px;
+  margin-left: 10px;
+  padding: 10px;
+  border: 2px solid #8c0000;
+  background-color: #d77e7e;
+  border-radius: 8px;
+  color: #8c0000;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.errorText {
+  color: #8c0000;
+  font-weight: 500;
+  font-size: 0.8em;
+}
+
+.message {
+  margin-top: 50px;
+}
+
+.information-header {
+  font-weight: 600;
+  font-size: 1em;
+  margin-bottom: 6px;
+}
+
+.information-text {
+  font-weight: 500;
+  font-size: 1em;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+
+.expansion-panel {
+  margin: 10px;
+}

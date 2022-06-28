@@ -1,0 +1,16 @@
+// Décompte du nombre de snapshots ayant au moins une position "off"
+// db.taxiPositionSnapshots.find({ "items.status": { $exists: true, $in: [ "off" ] } }).count();
+
+db.taxiPositionSnapshots.update(
+	{},
+	{
+		$pull: {
+			"items": {
+				"status": "off"
+			}
+		}
+	},
+	{
+		multi: true
+	}
+);

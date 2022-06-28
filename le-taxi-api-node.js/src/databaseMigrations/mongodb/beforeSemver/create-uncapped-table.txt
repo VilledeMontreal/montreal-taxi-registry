@@ -1,0 +1,7 @@
+db.createCollection( "taxiPositionSnapshotsExpiration", { storageEngine: { wiredTiger: { configString: "block_compressor=zlib" } } } )
+
+db.taxiPositionSnapshotsExpiration.createIndex( { "receivedAt": 1 }, { expireAfterSeconds: 31536000 } )
+
+db.taxiPositionSnapshots.renameCollection("taxiPositionSnapshotsCapped")
+
+db.taxiPositionSnapshotsExpiration.renameCollection("taxiPositionSnapshots")

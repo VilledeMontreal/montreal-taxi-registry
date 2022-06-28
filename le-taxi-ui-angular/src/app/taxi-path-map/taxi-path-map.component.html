@@ -1,0 +1,128 @@
+<div class="map-container">
+  <div id="map"></div>
+
+  <div class="sidebar-recall left">
+    <button (click)="recallLeftPane()" class="sidebar-recall-button left"
+    md-raised-button><img src="../../assets/arrow_r.png" height="30"></button>
+  </div>
+  <div class="sidebar-recall right">
+    <button (click)="recallRightPane()" class="sidebar-recall-button right"
+    md-raised-button><img src="../../assets/arrow_l.png" height="30"></button>
+  </div>
+
+  <div id="sidebar-date-picker" class="sidebar">
+    <app-taxi-path-sidebar
+      [taxiId]="selectedTaxiId"
+      [taxiSnapshot]="taxiSnapshot"
+      (taxiSnapshotDirection)="updateTaxiSnapshotWidget($event)"
+      (selectedPath)="displayPath($event)">
+    </app-taxi-path-sidebar>
+  </div>
+
+  <div id="sidebar-taxi-details" class="sidebar">
+    <div class="sidebar_taxi_head">
+      <h1 class="sidebar_taxi_head_title">Détails du taxi</h1>
+    </div>
+    <div id="sidebarContent">
+      <hr />
+      <div *ngIf="!currentTaxi">{{ sidebarMsg }}</div>
+      <div *ngIf="currentTaxi">
+        <span class="section-title">Opérateur</span>
+        <br />{{ currentTaxi.nom_operator }}
+        <hr />
+        <span class="section-title">Véhicule</span>
+        <br />Numéro de vignette : {{ currentTaxi.vdm_vignette }}
+        <br />Immatriculation : {{ currentTaxi.licence_plate }} <br />Zone :
+        {{ currentTaxi.insee }}
+        <br />Type : {{ currentTaxi.type_ }} <br />Couleur :
+        {{ currentTaxi.color }} <br />Model/Année :
+        {{ currentTaxi.model_year }} <br />Moteur : {{ currentTaxi.engine }}
+        <br />Nombre de places : {{ currentTaxi.nb_seats }} <br />No. du
+        taximètre : {{ currentTaxi.taximetre }} <br />Nom du propriétaire :
+        {{ currentTaxi.owner_name }} <br />Début du ban :
+        {{ currentTaxi.ban_begin }} <br />Fin du ban : {{ currentTaxi.ban_end }}
+        <hr />
+        <span class="section-title">Chauffeur</span>
+        <br />Nom : {{ currentTaxi.first_name }} {{ currentTaxi.last_name }}
+        <br />No. permis chauffeur : {{ currentTaxi.professional_licence }}
+        <br />Privé : {{ currentTaxi.private }} <br />Status du taxi :
+        {{ currentTaxi.status }} <br />Status du dernier hail :
+        {{ currentTaxi.status_hail }}
+        <hr />
+        <span class="section-title">Options</span><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.air_con"
+          disabled
+          >Air conditionné</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.amex_accepted"
+          disabled
+          >Amex accepté</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.baby_seat"
+          disabled
+          >Siège enfant</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.bank_check_accepted"
+          disabled
+          >Chèques acceptés</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.bike_accepted"
+          disabled
+          >Vélo accepté</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.credit_card_accepted"
+          disabled
+          >Carte crédit accepté</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.electronic_toll"
+          disabled
+          >Facture électronique</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.every_destination"
+          disabled
+          >Toutes destinations</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.nfc_cc_accepted"
+          disabled
+          >Paiement NFC</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.pet_accepted"
+          disabled
+          >Animaux acceptés</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.special_need_vehicle"
+          disabled
+          >Véhicule adapté</md-checkbox
+        ><br />
+        <md-checkbox
+          class="options-radio-button"
+          [(ngModel)]="currentTaxi.wifi"
+          disabled
+          >Wi-Fi</md-checkbox
+        ><br />
+      </div>
+    </div>
+  </div>
+</div>

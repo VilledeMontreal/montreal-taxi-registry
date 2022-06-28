@@ -1,0 +1,444 @@
+<div class="grid-section" [hidden]="detail != null">
+  <div class="grid-tilte">
+    Taxis
+  </div>
+  <div class="legend">
+    <div class="legend-actif"></div>
+    <div class="legend-actif-desc">Taxis actifs</div>
+  </div>
+  <div class="grid  mat-elevation-z8">
+    <div class="grid-controls">
+      <span>Filtres</span>
+      <md-input-container>
+        <input
+          mdInput
+          #filter
+          placeholder="Immatriculation"
+          [(ngModel)]="licenceFilter"
+          (change)="FilterData()"
+        />
+      </md-input-container>
+      <md-input-container>
+        <input
+          mdInput
+          #filter
+          placeholder="Permis chauffeur"
+          [(ngModel)]="pocketFilter"
+          (change)="FilterData()"
+        />
+      </md-input-container>
+      <md-input-container>
+        <input
+          mdInput
+          #filter
+          placeholder="Vignette"
+          [(ngModel)]="vignetteFilter"
+          (change)="FilterData()"
+        />
+      </md-input-container>
+      <md-input-container>
+        <input
+          mdInput
+          #filter
+          placeholder="Opérateur"
+          [(ngModel)]="operatorFilter"
+          (change)="FilterData()"
+        />
+      </md-input-container>
+      <button
+        md-button
+        type="button"
+        mdTooltip="Exporter en ficher CSV"
+        (click)="FilterData(); Export()"
+      >
+        <md-icon>file_download</md-icon>
+      </button>
+    </div>
+
+    <md-table
+      #table
+      [dataSource]="dataSource"
+      mdSort
+      (mdSortChange)="SortData($event)"
+    >
+      <ng-container cdkColumnDef="licence_plate">
+        <md-header-cell *cdkHeaderCellDef md-sort-header="vehicle.licence_plate">
+          Immatriculation
+        </md-header-cell>
+        <md-cell *cdkCellDef="let row">
+          <button type="button" class="row-button" (click)="detail = row; getDetails()">
+            {{ row.licence_plate }}
+          </button>
+        </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="professional_licence">
+        <md-header-cell *cdkHeaderCellDef md-sort-header="driver.professional_licence">
+          Permis chauffeur
+        </md-header-cell>
+        <md-cell *cdkCellDef="let row">{{ row.professional_licence }}</md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="first_name">
+        <md-header-cell *cdkHeaderCellDef md-sort-header="driver.first_name">
+          Prénom
+        </md-header-cell>
+        <md-cell *cdkCellDef="let row">{{ row.first_name }}</md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="last_name">
+        <md-header-cell *cdkHeaderCellDef md-sort-header="driver.last_name">
+          Nom
+        </md-header-cell>
+        <md-cell *cdkCellDef="let row">{{ row.last_name }}</md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="vdm_vignette">
+        <md-header-cell *cdkHeaderCellDef md-sort-header='"ADS".vdm_vignette'>
+          Vignette
+        </md-header-cell>
+        <md-cell *cdkCellDef="let row">{{ row.vdm_vignette }}</md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="added_by_name">
+        <md-header-cell *cdkHeaderCellDef md-sort-header='"user".email'>
+          Opérateur
+        </md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{ row.added_by_name }} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="hail">
+        <md-header-cell *cdkHeaderCellDef></md-header-cell>
+        <md-cell *cdkCellDef="let row" class="flex">
+          <button class="path go-to-btn" (click)="goToTaxiPathPage(row)">Trajet</button>
+          <button *ngIf="isHailActif" class="btn-hail go-to-btn" (click)="goToHailPage(row)">Héler</button>
+        </md-cell>
+      </ng-container>
+
+      <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+      <md-row
+        [ngClass]="{ 'taxi-actif': isTaxiActif(row.id) }"
+        *cdkRowDef="let row; columns: displayedColumns"
+      ></md-row>
+    </md-table>
+
+    <md-paginator
+      #paginator
+      [length]="count"
+      [pageSize]="10"
+      [pageSizeOptions]="[10, 50, 100]"
+      (page)="RefreshTable()"
+    >
+    </md-paginator>
+  </div>
+</div>
+<div *ngIf="searching" class="wait">
+  <div class="login-spinner-container">
+    <md-spinner class="login-spinner"></md-spinner>
+  </div>
+</div>
+<div class="details_section" *ngIf="detail != null && !searching">
+  <md-card class="taxi-card mat-elevation-z8">
+    <md-card-actions>
+      <button
+        md-button
+        type="button"
+        (click)="detail = null; vehicleDetails = null; driverDetails = null"
+        mdTooltip="Retour à l'écran précédent"
+      >
+        <md-icon>keyboard_backspace</md-icon>
+      </button>
+      <button
+        md-button
+        type="button"
+        mdTooltip="Imprimer les détails"
+        (click)="print()"
+      >
+        <md-icon>print</md-icon>
+      </button>
+    </md-card-actions>
+    <md-card-content id="content">
+      <span style="font-size:28px; font-weight:700;">Détails du taxi</span
+      ><br />
+      <div class="details-grid">
+        <div class="details-vehicle">
+          <div>
+            <span style="font-size:22px; font-weight:700;">Véhicule</span>
+          </div>
+          <div>
+            <table class="details-table">
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Immatriculation </span>
+                </td>
+                <td>
+                  {{ vehicleDetails.licence_plate }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Type </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.type_">
+                    {{ vehicleDetails.type_ }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.type_">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Couleur </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.color">
+                    {{ vehicleDetails.color }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.color">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Fabriquant </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.constructorname">
+                    {{ vehicleDetails.constructorname }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.constructorname">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Model </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.modelname">
+                    {{ vehicleDetails.modelname }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.modelname">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Année </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.model_year">
+                    {{ vehicleDetails.model_year }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.model_year">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Catégorie </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.type_">
+                    {{ vehicleDetails.type_ }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.type_">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Moteur </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.engine">
+                    {{ vehicleDetails.engine }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.engine">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Nombre de places </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.nb_seats">
+                    {{ vehicleDetails.nb_seats }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.nb_seats">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">No. du taximètre </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.taximetre">
+                    {{ vehicleDetails.taximetre }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.taximetre">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Opérateur </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.added_by_name">
+                    {{ vehicleDetails.added_by_name }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.added_by_name">n.d.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-weight:700;">Dern. mise à jour </span>
+                </td>
+                <td>
+                  <span *ngIf="vehicleDetails.last_update_at || vehicleDetails.added_at">
+                    {{ vehicleDetails.last_update_at || vehicleDetails.added_at }}
+                  </span>
+                  <span *ngIf="!vehicleDetails.last_update_at && !vehicleDetails.added_at">n.d.</span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="details-driver">
+          <span style="font-size:22px; font-weight:700;">Chauffeur</span><br />
+          <table class="details-table">
+            <tr>
+              <td>
+                <span style="font-weight:700;">Permis chauffeur </span>
+              </td>
+              <td>
+                {{ detail.professional_licence }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span style="font-weight:700;">Prénom </span>
+              </td>
+              <td>
+                <span *ngIf="driverDetails.first_name">
+                  {{ driverDetails.first_name }}
+                </span>
+                <span *ngIf="!driverDetails.first_name">n.d.</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span style="font-weight:700;">Nom </span>
+              </td>
+              <td>
+                <span *ngIf="driverDetails.last_name">
+                  {{ driverDetails.last_name }}
+                </span>
+                <span *ngIf="!driverDetails.last_name">n.d.</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span style="font-weight:700;">Dern. mise à jour </span>
+              </td>
+              <td>
+                <span *ngIf="driverDetails.last_update_at || driverDetails.added_at">
+                  {{ driverDetails.last_update_at || driverDetails.added_at }}
+                </span>
+                <span *ngIf="!driverDetails.last_update_at && !driverDetails.added_at">n.d.</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="details-proprietaire">
+          <span style="font-size:22px; font-weight:700;">Propriétaire</span><br />
+          <table class="details-table">
+            <tr>
+              <td>
+                <span style="font-weight:700;">Identification </span>
+              </td>
+              <td>
+                {{ detail.numero }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span style="font-weight:700;">Nom </span>
+              </td>
+              <td>
+                {{ detail.owner_name }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span style="font-weight:700;">Dern. mise à jour </span>
+              </td>
+              <td>
+                <span *ngIf="detail.ads_last_update_at || detail.ads_added_at">
+                  {{ detail.ads_last_update_at || detail.ads_added_at }}
+                </span>
+                <span *ngIf="!detail.ads_last_update_at && !detail.ads_added_at">n.d.</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <hr />
+      <div>
+        <span style="font-size:24px; font-weight:700;">Options</span><br />
+        <table class="options-table">
+          <tr>
+            <td style="vertical-align:top">
+              <ul>
+                <li *ngIf="vehicleDetails.special_need_vehicle">
+                  Véhicule adapté
+                </li>
+                <li *ngIf="vehicleDetails.pet_accepted">Animaux acceptés</li>
+                <li *ngIf="vehicleDetails.air_con">Air conditionné</li>
+                <li *ngIf="vehicleDetails.relais">Relais</li>
+                <li *ngIf="vehicleDetails.doublage">Doublage</li>
+                <li *ngIf="vehicleDetails.baby_seat">Siège enfant</li>
+                <li *ngIf="vehicleDetails.bike_accepted">Vélo accepté</li>
+                <li *ngIf="vehicleDetails.dvd_player">Lecteur DVD</li>
+                <li *ngIf="vehicleDetails.every_destination">
+                  Toutes destinations
+                </li>
+                <li *ngIf="vehicleDetails.fresh_drink">Boisson froide</li>
+              </ul>
+            </td>
+            <td style="vertical-align:top">
+              <ul>
+                <li *ngIf="vehicleDetails.luxury">Luxe</li>
+                <li *ngIf="vehicleDetails.amex_accepted">Amex accepté</li>
+                <li *ngIf="vehicleDetails.bank_check_accepted">
+                  Chèques acceptés
+                </li>
+                <li *ngIf="vehicleDetails.credit_card_accepted">
+                  Carte crédit accepté
+                </li>
+                <li *ngIf="vehicleDetails.electronic_toll">
+                  Facture électronique
+                </li>
+                <li *ngIf="vehicleDetails.nfc_cc_accepted">Paiement NFC</li>
+                <li *ngIf="vehicleDetails.tablet">Tablette</li>
+                <li *ngIf="vehicleDetails.wifi">Wi-Fi</li>
+                <li *ngIf="vehicleDetails.gps">GPS</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </md-card-content>
+    <md-card-actions>
+      <button
+        md-button
+        type="button"
+        (click)="detail = null; vehicleDetails = null; driverDetails = null"
+        mdTooltip="Retour à l'écran précédent">
+        <md-icon>keyboard_backspace</md-icon>
+      </button>
+      <button
+        md-button
+        type="button"
+        mdTooltip="Imprimer les détails"
+        (click)="print()">
+        <md-icon>print</md-icon>
+      </button>
+    </md-card-actions>
+  </md-card>
+</div>

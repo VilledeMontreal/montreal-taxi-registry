@@ -1,0 +1,71 @@
+<div class="grid-section">
+  <div class="grid-tilte">
+    Chauffeurs
+  </div>
+  <div class="grid  mat-elevation-z8">
+    <div class="grid-controls">
+      <span>Filtres</span>
+      <md-input-container>
+          <input mdInput #filter placeholder="Permis chauffeur" [(ngModel)]="licenceFilter" (change)="FilterData()">
+      </md-input-container>
+
+      <md-input-container>
+          <input mdInput #filter placeholder="Prénom" [(ngModel)]="firstNameFilter" (change)="FilterData()">
+      </md-input-container>
+
+      <md-input-container>
+          <input mdInput #filter placeholder="Nom" [(ngModel)]="lastNameFilter" (change)="FilterData()">
+      </md-input-container>
+
+      <md-input-container>
+          <input mdInput #filter placeholder="Opérateur" [(ngModel)]="operatorFilter" (change)="FilterData()">
+      </md-input-container>
+
+      <button md-button type="button" mdTooltip="Exporter en ficher CSV" (click)="FilterData(); Export()"><md-icon>file_download</md-icon></button>
+    </div>
+
+    <md-table #table [dataSource]="dataSource" mdSort (mdSortChange)="SortData($event)">
+
+      <ng-container cdkColumnDef="professional_licence">
+        <md-header-cell *cdkHeaderCellDef md-sort-header="driver.professional_licence"> Permis chauffeur </md-header-cell>
+        <md-cell *cdkCellDef="let row">{{row.professional_licence}}</md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="first_name">
+        <md-header-cell *cdkHeaderCellDef md-sort-header="driver.first_name"> Prénom </md-header-cell>
+        <md-cell *cdkCellDef="let row">{{row.first_name}}</md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="last_name">
+        <md-header-cell *cdkHeaderCellDef md-sort-header="driver.last_name"> Nom </md-header-cell>
+        <md-cell *cdkCellDef="let row">{{row.last_name}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="last_update_at">
+        <md-header-cell *cdkHeaderCellDef md-sort-header="driver.last_update_at"> Dernière mise à jour </md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.last_update_at}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="added_by_name">
+        <md-header-cell *cdkHeaderCellDef md-sort-header='"user".email'> Opérateur </md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.added_by_name}} </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="location">
+        <md-header-cell *cdkHeaderCellDef></md-header-cell>
+        <md-cell *cdkCellDef="let row" class="flex">
+          <button class="btn-location go-to-btn" (click)="goToMapPage(row)">Localiser</button>
+        </md-cell>
+      </ng-container>
+
+      <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+      <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+    </md-table>
+  
+    <md-paginator #paginator
+                  [length]="count"
+                  [pageSize]="10"
+                  [pageSizeOptions]="[10, 50, 100]"
+                  (page)="RefreshTable()">
+    </md-paginator>
+  </div>

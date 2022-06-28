@@ -1,0 +1,20 @@
+config:
+  target: 'https://taximtldev.accept.ville.montreal.qc.ca'
+  processor: './generatePayload.js'
+  http:
+    pool: 20
+    timeout: 35
+  phases:
+    - name: '1 200 inquiries'
+      arrivalRate: 20
+      duration: 300
+scenarios:
+  - name: 'inquiries'
+    flow:
+      - function: 'generateStandardPayloadInquiry'
+      - post:
+          url: '/api/inquiry'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{apikey}}'
+          json: '{{body}}'

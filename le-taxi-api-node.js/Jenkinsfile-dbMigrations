@@ -1,0 +1,161 @@
+#!groovy
+
+@Library("cicd-lib@develop")
+//@Library(branch)
+import vdmtl.cicd.*
+import jenkins.model.*
+import vdmtl.cicd.http.HttpUtils
+import vdmtl.cicd.Utils
+import vdmtl.cicd.exceptions.ApprovalDeniedException
+
+WORKER_NAME = 'taxi-pipeline'
+CONTAINER_NAME = 'taxi'
+ENV_DEV = "development"
+ENV_ACC = "acceptation"
+ENV_PRD = "production"
+BD_TYPE_MONGO = "mongodb"
+BD_TYPE_POSTGRES = "postgresql"
+
+int timeoutDelay = 60
+String timeoutUnit = "MINUTES"
+def allowedApprovers = ["uperr3a","ubrodda","ulebl5h"]
+
+// Définition des paramètres
+properties([
+    parameters([
+        choice(
+            name: 'environment',
+            choices: [ENV_DEV, ENV_ACC, ENV_PRD],
+            description: "Spécifie l'environnement contre lequel exécuter le script"),
+        choice(
+            name: 'bd_type',
+            choices: [BD_TYPE_MONGO, BD_TYPE_POSTGRES],
+            description: "Type de la BD cible"),
+        string(
+            name: 'version',
+            defaultValue: '',
+            description: "Version de la BD cible"),
+        string(
+            name: 'options',
+            defaultValue: '',
+            description: "Options supplémentaires.")
+    ]),
+])
+
+// On utilise la cicd-lib pour bâtir et pousser l'image
+pipeline = new Pipeline()
+ctx = pipeline.createContext([
+    namespace: ["sn", "le-taxi"],  // Not used but cannot be removed just yet
+    application: [
+        name: "taxi-db-migrate",
+        type: "containerImage",
+        framework: "Kubernetes",
+        description: "DB migrations for le-taxi",
+        icon: "https://svgsilh.com/svg/602136.svg",
+        keywords: ["taxi", "registre", "migration"],
+    ],
+    packaging: [
+        dockerfilePath: "./le-taxi-api-node.js/Dockerfile",
+        dockerContextPath: "./le-taxi-api-node.js/",
+    ]
+])
+
+pipeline.withSourceCode(ctx) {
+    pipeline.buildStage(ctx) {
+        pipeline.buildDockerImage(ctx)
+    }
+
+    pipeline.prePublishStage(ctx) {
+        pipeline.publishDraftDockerImage(ctx)
+    }
+}
+
+// On lance le container de l'image en overridant le entrypoint
+// ce qui nous permettra de lancer nos propres commandes dans le conteneur
+podTemplate(
+    label: WORKER_NAME,
+    inheritFrom: 'default',
+    containers: [
+        containerTemplate(
+            name: CONTAINER_NAME,
+            image: ctx.draftImage.toString(),
+            command: 'cat',
+            args: '',
+            runAsUser: "0", //ctx.applicationUserID,
+            ttyEnabled: true)
+    ]
+)
+{
+    node(WORKER_NAME) {
+        stage('run db migrations') {
+            container(CONTAINER_NAME) {
+                if (environment in [ENV_ACC, ENV_PRD]){
+                    timeout(time: timeoutDelay, unit: timeoutUnit) {
+                        def parameters = [
+                            [
+                                $class      : 'BooleanParameterDefinition',
+                                defaultValue: false,
+                                description : '\n', // Add an empty line before Proceed button
+                                name        : Strings.inputs.confirmName
+                            ]
+                        ]
+                        def id = "migrate"
+                        def userInput = input(
+                            id: id,
+                            message: "Acceptez vous de continuer?",
+                            parameters: parameters,
+                            submitter: "${allowedApprovers.join(',')}",  // MUST not have a space in between the names, only a comma
+                            submitterParameter: Strings.inputs.submitter
+                        )
+
+                        def approved = userInput[Strings.inputs.confirmName] == true
+                        def submitter = userInput[Strings.inputs.submitter]
+
+                        if (approved) {
+                            echo Strings.inputs.messages.approvalAuthorizedBy(id, submitter)
+                        } else {
+                            throw new ApprovalDeniedException(Strings.inputs.messages.approvalDeclinedBy(id, submitter))
+                        }
+                    }
+                }
+                runMigrations()
+            }
+        }
+    }
+}
+
+def runMigrations() {
+    echo "Running ${bd_type} database migrations on ${environment} for version ${version}"
+
+    def shortEnv = environment == ENV_PRD ? "PROD" : environment == ENV_ACC ? "ACCEPT" : "DEV"
+
+    withEnv(["NODE_ENV=${environment}"]) {
+
+        withCredentials([usernamePassword(credentialsId: "le-taxi-mongo-${shortEnv}",
+                      usernameVariable: 'mongoUser', passwordVariable: 'mongoPass')]) {
+
+        withCredentials([usernamePassword(credentialsId: "le-taxi-postgre-${shortEnv}",
+                      usernameVariable: 'postgresUser', passwordVariable: 'postgresPass')]) {
+
+        withCredentials([string(credentialsId: "le-taxi-jwt-key-${shortEnv}", variable: 'jwt')]) {
+
+        withCredentials([string(credentialsId: "le-taxi-secret-${shortEnv}", variable: 'secret')]) {
+
+        withCredentials([string(credentialsId: "le-taxi-adminUser-${shortEnv}", variable: 'adminUser')]) {
+
+            def secretsYaml = ['security':['jwt': jwt, 'secret': secret, 'adminUser': adminUser],
+            'dataSources': ['mongo': ['username': mongoUser, 'password': mongoPass],
+            'postgres': ['user': postgresUser,'password': postgresPass]
+            ]]
+
+            writeYaml file: "local.yaml", data: secretsYaml
+
+            sh """
+              mv local.yaml ${ctx.dockerfileWorkingDir}/config
+              cd ${ctx.dockerfileWorkingDir}
+            ./run migrate ${bd_type} ${version} ${options}
+            """
+            // Run migration scripts: ./run migrate <databaseType> <databaseVersion> <options>
+        }}}}}
+    }
+}

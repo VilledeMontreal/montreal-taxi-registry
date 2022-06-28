@@ -1,0 +1,83 @@
+config:
+  target: 'https://taximtldev.accept.ville.montreal.qc.ca'
+  processor: './generate240Hails.js'
+  http:
+    pool: 3000
+    timeout: 5
+  phases:
+    - name: '240 active hails'
+      arrivalRate: 2
+      duration: 120
+scenarios:
+  - name: '240 active hails'
+    flow:
+      - post:
+          name: 'Post position Snapshots'
+          url: '/api/taxi-position-snapshots'
+          beforeRequest: 'beforeRequest'
+          json: '{{snapshot}}'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{operatorApikey}}'
+      - post:
+          name: 'Post Hail'
+          url: '/api/hails'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{motorApikey}}'
+          json: '{{hail}}'
+          capture:
+            - json: '$.data[0].id'
+              as: hailId
+      - think: {{emulateDelayCausedOperatorServerHandlingPostHail}}
+      - think: {{emulateDelayCausedOperatorServerCommunicatingWithTaxi}}
+      - put:
+          name: 'Operator Set status to received by taxi '
+          url: '/api/hails/{{hailId}}'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{operatorApikey}}'
+          json: '{{receivedByTaxi}}'
+      - put:
+          name: 'Operator Set status to accepted by taxi '
+          url: '/api/hails/{{hailId}}'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{operatorApikey}}'
+          json: '{{acceptedByTaxi}}'
+      - put:
+          name: 'Motor Set status to accepted by Customer'
+          url: '/api/hails/{{hailId}}'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{motorApikey}}'
+          json: '{{acceptedByCustomer}}'
+      - loop:
+          - get:
+              url: '/api/hails/{{hailId}}'
+              headers:
+                X-VERSION: '2'
+                X-API-KEY: '{{motorApikey}}'
+          - get:
+              url: '/api/hails/{{hailId}}'
+              headers:
+                X-VERSION: '2'
+                X-API-KEY: '{{operatorApikey}}'
+          - think: 30
+        # Estimated rate of pooling during the lifecycle of a real hail = 4 rpm
+        # This loop emulat 4 rpm for 5 minutes for each hail; 10 times 2 request each 30 seconds.
+        count: 10
+      - put:
+          name: 'Operator Set status to customer on board'
+          url: '/api/hails/{{hailId}}'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{operatorApikey}}'
+          json: '{{customerOnBoard}}'
+      - put:
+          name: 'Operator Set status to finished'
+          url: '/api/hails/{{hailId}}'
+          headers:
+            X-VERSION: '2'
+            X-API-KEY: '{{operatorApikey}}'
+          json: '{{finished}}'

@@ -2,7 +2,7 @@
 
 # Contributor Covenant Code of Conduct
 
-Contributors to repositories hosted in $$project-name are expected to follow the Contributor Covenant Code of Conduct, and those working within City of Montreal are also expected to follow the Code of Conduct for the City of Montreal Employees 
+Contributors to repositories hosted in montreal-taxi-registry are expected to follow the Contributor Covenant Code of Conduct, and those working within City of Montreal are also expected to follow the Code of Conduct for the City of Montreal Employees
 
 ## Code of Conduct for the City Employees
 
@@ -16,19 +16,19 @@ In the interest of fostering an open and welcoming environment, we as contributo
 
 Examples of behavior that contributes to creating a positive environment include:
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the department
-* Showing empathy towards other members
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the department
+- Showing empathy towards other members
 
 Examples of unacceptable behavior by participants include:
 
-* The use of sexualized language or imagery and unwelcome sexual attention or advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a professional setting
+- The use of sexualized language or imagery and unwelcome sexual attention or advances
+- Trolling, insulting/derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical or electronic address, without explicit permission
+- Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ## Our Responsibilities
 
@@ -44,7 +44,7 @@ Representation of a project may be further defined and clarified by project main
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at $$project-email.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at support.taxi.exchange.point@montreal.ca.
 All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances.
 The project team is obligated to maintain confidentiality with regard to the reporter of an incident.
 Further details of specific enforcement policies may be posted separately.
@@ -56,26 +56,23 @@ Project maintainers who do not follow or enforce the Code of Conduct in good fai
 This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 1.4,
 available at [https://www.contributor-covenant.org/version/1/4/code-of-conduct.html](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html)
 
-
 &nbsp;  
-&nbsp;  
+&nbsp;
 
 ---
 
 &nbsp;  
-&nbsp;  
-
+&nbsp;
 
 ([English](#contributor-covenant-code-of-conduct))
 
 # Code de conduite
 
-Les contributeurs aux dépôts hébergés dans $$project-name sont tenus de respecter le Code de conduite du Pacte des contributeurs, et ceux qui travaillent au sein de la Ville de Montréal sont également tenus de respecter le Code de conduite des employés de la Ville de Montréal.
+Les contributeurs aux dépôts hébergés dans montreal-taxi-registry sont tenus de respecter le Code de conduite du Pacte des contributeurs, et ceux qui travaillent au sein de la Ville de Montréal sont également tenus de respecter le Code de conduite des employés de la Ville de Montréal.
 
 ## Code de conduite des employés de la Ville de Montréal
 
 Le [Code de conduite des employés de la Ville de Montréal](http://ville.montreal.qc.ca/pls/portal/docs/page/intra_fr/media/documents/code_conduite_employes.pdf)
-
 
 ## Notre engagement
 
@@ -85,19 +82,19 @@ Dans le but de favoriser un environnement ouvert et accueillant, nous nous engag
 
 Exemples de comportements qui contribuent à créer un environnement positif incluent :
 
-* Utiliser un langage accueillant et inclusif
-* Être respectueux des différents points de vue et expériences
-* Accepter gracieusement les critiques constructives
-* Se concentrer sur ce qui est le mieux pour la communauté
-* Faire preuve d'empathie envers les autres membres de la communauté
+- Utiliser un langage accueillant et inclusif
+- Être respectueux des différents points de vue et expériences
+- Accepter gracieusement les critiques constructives
+- Se concentrer sur ce qui est le mieux pour la communauté
+- Faire preuve d'empathie envers les autres membres de la communauté
 
 Voici des exemples de comportements inacceptables de la part des participants :
 
-* L'utilisation d'un langage ou d'images sexualisés et d'une attention sexuelle importunée, ou percées
-* Trollage, commentaires insultants ou méprisants, et attaques personnelles ou politiques
-* Harcèlement public ou privé
-* La publication d'informations privées d'autrui, telles que des informations physiques ou électroniques. adresse, sans autorisation explicite
-* Tout autre comportement qui pourrait raisonnablement être considéré comme inapproprié dans le cadre d'une enquête du contexte professionnel
+- L'utilisation d'un langage ou d'images sexualisés et d'une attention sexuelle importunée, ou percées
+- Trollage, commentaires insultants ou méprisants, et attaques personnelles ou politiques
+- Harcèlement public ou privé
+- La publication d'informations privées d'autrui, telles que des informations physiques ou électroniques. adresse, sans autorisation explicite
+- Tout autre comportement qui pourrait raisonnablement être considéré comme inapproprié dans le cadre d'une enquête du contexte professionnel
 
 ## Nos responsabilités
 
@@ -113,7 +110,7 @@ La représentation d'un projet peut être mieux défini et clarifié par les res
 
 ## Application des règles
 
-Les cas de comportement abusif, de harcèlement ou d'autres comportements inacceptables peuvent être rapportés en communiquant avec l'équipe de projet à l'adresse suivante :$$project-email.
+Les cas de comportement abusif, de harcèlement ou d'autres comportements inacceptables peuvent être rapportés en communiquant avec l'équipe de projet à l'adresse suivante :support.taxi.exchange.point@montreal.ca.
 Toutes les plaintes feront l'objet d'un examen et d'une enquête et donneront lieu à une réponse qui est jugée nécessaire et appropriée dans les circonstances.
 L'équipe de projet est dans l'obligation de respecter la confidentialité à l'égard du déclarant d'un incident.
 De plus amples détails sur les politiques d'application spécifiques peuvent être affichés séparément.

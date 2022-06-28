@@ -1,0 +1,42 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true
+  },
+  // ==========================================
+  // Automatic formatting when a file is saved.
+  // ==========================================
+  "editor.formatOnSave": true,
+  // ==========================================
+  // No search on some files...
+  // ==========================================
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "src/**/*.js": true,
+    "node_modules/**/*.js": true,
+    "open-api/**/*.js": true,
+    "tests/**/*.js": true,
+    "test-data/**/*.js": true,
+    "config/**/*.js": true,
+    "**/*.log*": true
+  },
+  // ==========================================
+  // Enforces usage of single quote.
+  // ==========================================
+  "prettier.singleQuote": true,
+  // ==========================================
+  // Reorganize imports when saving.
+  // ==========================================
+  "typescriptHero.imports.organizeOnSave": true,
+  "typescriptHero.imports.multiLineTrailingComma": false,
+  // ==========================================
+  // Hide the ".js" and ".js.map" files generated
+  // from the ".ts" files.
+  // ==========================================
+  "files.exclude": {
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/*.map": true
+  }
+}

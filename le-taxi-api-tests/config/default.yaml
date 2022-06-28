@@ -1,0 +1,33 @@
+#==========================================
+# Api Tests
+#==========================================
+apiTests:
+  env: localhost
+  rootApiKey:
+  user:
+  password:
+environment:
+  isLocal: false
+#==========================================
+# End to End testing
+#==========================================
+e2eTesting:
+  maxTestConcurrency: 30
+hails:
+  delayToReachStatusReceived_by_operatorInSec: 5
+  delayToComputeTaxiRatingInSec: 5
+  exceedAnyHailStatusTimeoutInSec: 21
+  dataDumpPeriodInSec: 60
+inquiries:
+  delayToExceedPromotion: 11
+caching:
+  delayToExceedUsersCache: 11
+
+#==========================================
+# Routing Service OSRM
+#==========================================
+taxiRegistryOsrmApi:
+  base: https://api.dev.interne.montreal.ca
+  domainPath: /api/taxi/taxi-registry-osrm
+  route: route
+  version: v1

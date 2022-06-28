@@ -1,0 +1,58 @@
+<md-sidenav-container class="app_container">
+  <div class="topnav">
+    <button
+      type="button"
+      class="topnav_btn_menu"
+      [hidden]="!loginService.userLoggedIn"
+      (click)="mainMenu.open(); loadMenu()"
+    >
+      <md-icon>menu</md-icon>
+    </button>
+    <span>
+      <img
+        src="../assets/taxiLogo.png"
+        class="topnav_logo"
+        (click)="loadPage('taxis')"
+      />
+    </span>
+    <button
+      type="button"
+      class="topnav_btn_login"
+      *ngIf="loginService.userLoggedIn"
+      (click)="logout()"
+    >
+      <md-icon>person</md-icon>Déconnexion
+    </button>
+  </div>
+
+  <md-sidenav mode="over" #mainMenu class="sidenav">
+    <div class="sidenav_menu">
+      <div class="sidenav_menu_title">
+        <md-icon class="sidebar_user_icon">account_box</md-icon>
+        <span *ngIf="userInfo">{{ userInfo.email }}</span>
+        <div class="sidenav_user_actions">
+          <button type="button" (click)="mainMenu.close(); loadPage('profile')">
+            Modifier
+          </button>
+          |
+          <button type="button" (click)="mainMenu.close(); logout()">
+            Déconnexion
+          </button>
+        </div>
+        <button type="submit" class="sidenav_close" (click)="mainMenu.close()">
+          <md-icon>close</md-icon>
+        </button>
+      </div>
+      <div class="sidenav_menu_items">
+        <app-nav-item
+          [navItems]="navItems"
+          [mainMenu]="mainMenu"
+          ></app-nav-item>
+      </div>
+    </div>
+  </md-sidenav>
+
+  <div class="router_container">
+    <router-outlet></router-outlet>
+  </div>
+</md-sidenav-container>

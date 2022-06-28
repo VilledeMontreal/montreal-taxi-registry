@@ -1,0 +1,2 @@
+db.createCollection( "taxiPositionSnapshots", { capped: true, size: 1024*1024*1024*1024, storageEngine:{wiredTiger:{configString:'block_compressor=zlib'}} } )
+db.taxiPositionSnapshots.createIndex( { receivedAt: 1 } )

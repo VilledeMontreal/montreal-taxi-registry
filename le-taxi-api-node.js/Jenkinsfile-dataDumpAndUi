@@ -1,0 +1,228 @@
+#!groovy
+// Documentation disponible ici:
+// https://sticonfluence.interne.montreal.ca/display/IEP/2+-+Configuration
+
+@Library('cicd-lib')
+import vdmtl.cicd.*
+import jenkins.model.*
+
+pipeline = new Pipeline()
+
+// For more information on the configuration options,
+// see https://bitbucket.org/villemontreal/cicd-lib/src/master/docs/Config.md
+ctx = pipeline.createContext([
+    namespace: ["sn","le-taxi"],
+    application: [
+        name: "le-taxi-data-dump-and-ui",
+        tier: "backend",
+        runtime: "nodejs",
+        framework: "express",
+        type: "service",
+        description: "Backend for le-taxi used to serve data dump and by UI",
+        icon: "https://svgsilh.com/svg/602136.svg",
+        keywords: ["taxi", "registre", "api", "ui", "data", "dump"],
+    ],
+    build: [
+        branchOverrides: [
+            "feature/TM-1631-graylog-formatting": "develop",
+        ],
+    ],
+    packaging: [
+        dockerfilePath: "./le-taxi-api-node.js/Dockerfile",
+        dockerContextPath: "./le-taxi-api-node.js/",
+    ],
+    execution: [
+        service: [
+            "port": 8099,
+        ],
+        resources: [
+            minCpu: "100m",
+            minMemory: "128Mi",
+            maxCpu: "1000m",
+            maxMemory: "4096Mi",
+        ],
+        autoScaling: [
+            minReplicas: 2,
+            maxReplicas: 2,
+            cpuUsagePercentage: 70,
+        ],
+        probes: [
+            liveness: [
+                enabled: true,
+                path: '/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-ping',
+            ],
+            readiness: [
+                enabled: true,
+                path: '/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-ping',
+            ],
+        ],
+        monitoring: [
+            enabled: true,
+            path: "/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-metrics"
+        ],
+    ],
+    approval: [
+        enable: true,
+        overrides: [
+            "accept": [
+                approvers: [
+                    "uperr3a",
+                    "ubrodda",
+                    "ulebl5h",
+                ],
+            ],
+            "prod": [
+                approvers: [
+                    "uperr3a",
+                    "ubrodda",
+                    "ulebl5h",
+                ],
+            ],
+        ]
+    ],
+    notifications: [
+        mail: [
+            to: [
+                "matthieu.perrin",
+                "daniel.brodeur",
+                "stephane.leblanc",
+            ],
+        ],
+        chat: [
+            room: "taximtl-cicd",
+            notify: true,
+        ],
+    ],
+    secrets: [
+        [
+            type: "file",
+            path: "/le-taxi-api-node/config/local.json",
+            content: [
+                map: [
+                    "security.jwt.whitelist": [
+                        config: "api.security.whitelist"
+                    ],
+                    "security.jwt": [
+                        Jenkins: [
+                            key: "le-taxi-jwt-key",
+                            type: "string",
+                        ]
+                    ],
+                    "security.secret": [
+                        Jenkins: [
+                            key: "le-taxi-secret",
+                            type: "string",
+                        ]
+                    ],
+                    "security.adminUser": [
+                        Jenkins: [
+                            key: "le-taxi-adminUser",
+                            type: "string",
+                        ]
+                    ],
+                    "dataSources.postgres.user": [
+                        Jenkins: [
+                            key: "le-taxi-postgre",
+                            type: "username",
+                        ]
+                    ],
+                    "dataSources.postgres.password": [
+                        Jenkins: [
+                            key: "le-taxi-postgre",
+                            type: "password",
+                        ]
+                    ],
+                    "dataSources.mongo.username": [
+                        Jenkins: [
+                            key: "le-taxi-mongo",
+                            type: "username",
+                        ]
+                    ],
+                    "dataSources.mongo.password": [
+                        Jenkins: [
+                            key: "le-taxi-mongo",
+                            type: "password",
+                        ]
+                    ],
+                ],
+            ],
+        ],
+    ],
+    api: [
+        endpoints: [
+            // Data dumps
+            "/api/taxi/taxi-registry/api/data-dumps",
+            "/api/taxi/taxi-registry/api/fake-data-dump",
+            // Crons
+            "/api/taxi/taxi-registry/api/worker",
+            // UI
+            "/api/taxi/taxi-registry/api/legacy-web",
+            // Integration tools
+            "/api/taxi/taxi-registry/api/operator-integration-tools",
+            "/api/taxi/taxi-registry/api/motor-integration-tools",
+            // Tests
+            "/api/taxi/taxi-registry/api/fakes",
+            "/api/taxi/taxi-registry/api/operator/endpoint",
+            "/api/taxi/taxi-registry/api/ping",
+            "/api/taxi/taxi-registry/api/ping-heavy",
+            "/api/taxi/taxi-registry/api/hailTestingDone",
+            "/api/taxi/taxi-registry/api/hailTestingData",
+            "/api/taxi/taxi-registry/api/testTimeout",
+            // Diagnostics
+            "/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-ping",
+            "/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-metrics",
+        ],
+        networkAccess: [
+            profile: "internal",
+            overrides: [
+                accept: [
+                    profile  : "public"
+                ],
+                prod: [
+                    profile  : "public"
+                ],
+            ],
+        ],
+        security: [
+            enabled: false,
+        ],
+        overrides:[
+            "accept": [
+                rateLimiting: [
+                    perMinute: 1200,
+                    perSecond: 160
+                ],
+            ],
+            "prod": [
+                rateLimiting: [
+                    perMinute: 1200,
+                    perSecond: 160
+                ],
+            ],
+        ],
+    ],
+])
+pipeline.start(ctx) {
+
+    pipeline.withSourceCode(ctx) {
+
+        pipeline.buildStage(ctx) {
+            pipeline.buildDockerImage(ctx)
+        }
+
+        pipeline.prePublishStage(ctx) {
+            pipeline.publishDraftDockerImage(ctx)
+        }
+    }
+
+    pipeline.withDraftDockerImage(ctx) {
+
+        pipeline.publishStage(ctx) {
+            pipeline.publishDockerImage(ctx)
+        }
+
+        pipeline.deployStage(ctx) {
+            pipeline.deployApp(ctx)
+        }
+    }
+}

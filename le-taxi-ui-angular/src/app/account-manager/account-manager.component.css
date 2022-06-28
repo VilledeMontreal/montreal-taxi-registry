@@ -1,0 +1,46 @@
+.account-card {
+    width:90%;
+    height: auto;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.account-title {
+    margin-left: 25px;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.mat-column-id {
+    flex:0 1 auto !important;
+    width: 120px;
+  }
+
+.mat-column-hail {
+    flex:0 1 auto !important;
+    width: 80px;
+  }
+
+.hailDone{
+    color: green;
+}
+
+.hailNotDone {
+    color: red;
+}
+
+.add-user-button {
+    position: absolute;
+    top: 46px;
+    left: 170px;
+}
+
+.add-user-button button {
+    width: 32px;
+    height: 32px;
+}
+
+.add_icon {
+    font-size: 32px;
+    color: #66C578
+}

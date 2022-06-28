@@ -1,0 +1,26 @@
+<div class="nav_item" #navItemContainer *ngFor="let item of navItems">
+  <button
+    *ngIf="!item.sousMenu"
+    type="button"
+    class="nav_item_btn"
+    (click)="loadPage(item.url)"
+  >
+    <md-icon class="nav_item_btn_icon">{{ item.icon }}</md-icon>
+    <span class="nav_item_btn_name">{{ item.nom }}</span>
+  </button>
+
+  <button
+    *ngIf="item.sousMenu"
+    type="button"
+    class="nav_item_btn"
+    (click)="item.menuOpened = !item.menuOpened"
+  >
+    <md-icon>{{ item.icon }}</md-icon>
+    <span class="nav_item_btn_name">{{ item.nom }}</span>
+  </button>
+
+  <div class="nav_item_subnav" *ngIf="item.menuOpened">
+    <app-nav-item [navItems]="item.sousMenu" [mainMenu]="mainMenu">
+    </app-nav-item>
+  </div>
+</div>
