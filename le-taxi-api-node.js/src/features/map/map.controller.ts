@@ -3,12 +3,12 @@
 import { Request, Response } from 'express';
 import * as GeoJSON from 'geojson';
 import { StatusCodes } from 'http-status-codes';
-import * as _ from 'lodash';
 import { latestTaxiPositionRepository } from '../latestTaxiPositions/latestTaxiPosition.repository';
 import { allow } from '../users/securityDecorator';
+import { UserRole } from '../users/userRole';
 
 class MapController {
-  @allow(['admin', 'gestion', 'inspecteur'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Inspector])
   public async getLatestTaxiPositions(request: Request, response: Response) {
     const latestTaxiPositions = await latestTaxiPositionRepository.getLatestTaxiPositions();
 

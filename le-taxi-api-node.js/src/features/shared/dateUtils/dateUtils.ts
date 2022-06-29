@@ -77,6 +77,14 @@ function addToDate(callback: (d: Date, n: number) => void, date: string, value: 
   return newDate.toISOString();
 }
 
+function addYears(date: string, years: number): string {
+  return addToDate((d, n) => d.setUTCFullYear(d.getUTCFullYear() + n), date, years);
+}
+
+function addMonths(date: string, months: number): string {
+  return addToDate((d, n) => d.setUTCMonth(d.getUTCMonth() + n), date, months);
+}
+
 function addDays(date: string, days: number): string {
   return addToDate((d, n) => d.setDate(d.getDate() + n), date, days);
 }
@@ -101,6 +109,24 @@ function addMS(date: string, ms: number): string {
   return addToDate((d, n) => d.setMilliseconds(d.getMilliseconds() + n), date, ms);
 }
 
+function getDate(date: string): string {
+  if (!isUtcIsoString(date)) throw new Error(`Date must be in UtcIsoString format: ${date}`);
+  return date.split('T')[0];
+}
+
+function getDateNoDash(date: string) {
+  return getDate(date).replace(/-/g, '');
+}
+
+function getTime(date: string): string {
+  if (!isUtcIsoString(date)) throw new Error(`Date must be in UtcIsoString format: ${date}`);
+  return date.split('T')[1];
+}
+
+function getTimeNoDash(date: string) {
+  return getTime(date).replace(/-/g, '');
+}
+
 export {
   asUtcIsoString,
   toUtcIsoString,
@@ -109,9 +135,15 @@ export {
   isUtcIsoString,
   isIsoDate,
   durationInSeconds,
+  addYears,
+  addMonths,
   addDays,
   addHours,
   addMinutes,
   addSec,
-  addMS
+  addMS,
+  getDate,
+  getTime,
+  getDateNoDash,
+  getTimeNoDash
 };

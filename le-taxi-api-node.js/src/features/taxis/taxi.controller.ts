@@ -7,18 +7,19 @@ import { latestTaxiPositionRepository } from '../latestTaxiPositions/latestTaxiP
 import { created, ok } from '../shared/actionMethods';
 import { DataOperation } from '../shared/dal/dal-operations.enum';
 import { allow } from '../users/securityDecorator';
+import { UserRole } from '../users/userRole';
 import { taxiDataAccessLayer } from './taxi.dal';
 import { validateDeprecatedUpdateRequest, validateTaxiRequest } from './taxi.validators';
 
 class TaxisController {
-  @allow(['admin', 'operateur'])
+  @allow([UserRole.Admin, UserRole.Operator])
   public async getTaxiById(request: Request, response: Response) {
     const taxiId = request.params.id;
     const taxiResponseDto = await taxiDataAccessLayer.getTaxiById(taxiId, request.userModel);
     ok(response, taxiResponseDto);
   }
 
-  @allow(['admin', 'operateur'])
+  @allow([UserRole.Admin, UserRole.Operator])
   public async upsertTaxis(request: Request, response: Response) {
     const taxiRequestDto = await validateTaxiRequest(request);
     const upsertedTaxi = await taxiDataAccessLayer.upsertTaxi(taxiRequestDto, request.userModel);
@@ -28,7 +29,7 @@ class TaxisController {
       : ok(response, taxiResponseDto);
   }
 
-  @allow(['admin', 'operateur'])
+  @allow([UserRole.Admin, UserRole.Operator])
   public async updateTaxi(request: Request, response: Response) {
     const taxiId = request.params.id;
     const taxiRequestDto = await validateDeprecatedUpdateRequest(request);
@@ -37,7 +38,7 @@ class TaxisController {
     ok(response, taxiResponseDto);
   }
 
-  @allow(['admin', 'gestion', 'inspecteur'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Inspector])
   public async getTaxis(request: Request, response: Response) {
     const taxiId = request.query.id as string;
     if (taxiId) {
@@ -57,7 +58,7 @@ class TaxisController {
     }
   }
 
-  @allow(['admin', 'gestion', 'inspecteur'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Inspector])
   public async getTaxisCount(request: Request, response: Response) {
     const count = await taxiDataAccessLayer.getTaxisCount({
       filter: request.query.filter as string,
@@ -67,7 +68,7 @@ class TaxisController {
     response.json(count);
   }
 
-  @allow(['admin', 'gestion', 'inspecteur'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Inspector])
   public async getTaxisCsv(request: Request, response: Response) {
     const generator = new CSVGenerator(response);
     const taxis = await taxiDataAccessLayer.getTaxisPaginated({
@@ -78,7 +79,7 @@ class TaxisController {
     generator.DownloadCSV(taxis, 'Extraction Taxis');
   }
 
-  @allow(['admin', 'gestion', 'inspecteur'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Inspector])
   public async getTaxisActif(request: Request, response: Response) {
     const taxisActif = await latestTaxiPositionRepository.getLatestTaxiPositions();
     response.status(StatusCodes.OK);

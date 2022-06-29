@@ -7,12 +7,13 @@ import { promisify } from 'util';
 import { validateEncoding, validateEtag } from '../shared/dataDumps/dataDumps.validators';
 import { generateEtag } from '../shared/eTags/eTagUtils';
 import { allow } from '../users/securityDecorator';
+import { UserRole } from '../users/userRole';
 import { taxiDataDumpsAccessLayer } from './taxiDataDumps.dal';
 
 const pipelineAsync = promisify(pipeline);
 
 class TaxiDataDumpsController {
-  @allow(['admin', 'gestion', 'stats'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Stats])
   public async getTaxiDataDumps(request: Request, response: Response) {
     validateEncoding(request);
 
