@@ -4,6 +4,7 @@ import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import * as promClient from 'prom-client';
 import { allow } from '../users/securityDecorator';
+import { UserRole } from '../users/userRole';
 import { taxiPositionSnapshotService } from './taxiPositionSnapshot.service';
 import { validateTaxiOwnership, validateTaxiPositionSnapshot } from './taxiPositionSnapshot.validators';
 
@@ -14,7 +15,7 @@ const counter = new promClient.Counter({
 });
 
 class TaxiPositionSnapshotController {
-  @allow(['operateur'])
+  @allow([UserRole.Operator])
   public async addTaxiPositionSnapshot(req: any, res: Response): Promise<any> {
     const taxiPositionSnapshot: any = req.body;
     validateTaxiPositionSnapshot(taxiPositionSnapshot, req.userModel);

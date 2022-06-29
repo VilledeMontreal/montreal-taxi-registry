@@ -14,6 +14,7 @@ import { allow } from '../users/securityDecorator';
 import { systemUser } from '../users/systemUser';
 import { UserModel } from '../users/user.model';
 import { userRepository } from '../users/user.repository';
+import { UserRole } from '../users/userRole';
 import {
   CreateHailRequestDto,
   HailResponseDto,
@@ -44,7 +45,7 @@ const counter = new promClient.Counter({
 });
 
 class HailController {
-  @allow(['admin', 'moteur'])
+  @allow([UserRole.Admin, UserRole.Motor])
   public async postHail(request: Request, response: Response, next: NextFunction) {
     const requestDto = await validateRequest(request, new CreateHailRequestDto());
 
@@ -64,7 +65,7 @@ class HailController {
     await this.sendHailToOperator(responseDto, receivedHail, operator);
   }
 
-  @allow(['admin', 'moteur', 'operateur', 'gestion'])
+  @allow([UserRole.Admin, UserRole.Motor, UserRole.Operator, UserRole.Manager])
   public async getHail(request: Request, response: Response, next: NextFunction) {
     validateUndefined(request.params.id, 'hailId');
 
@@ -78,7 +79,7 @@ class HailController {
     ok(response, responseDto);
   }
 
-  @allow(['operateur', 'moteur'])
+  @allow([UserRole.Operator, UserRole.Motor])
   public async updateHail(request: Request, response: Response, next: NextFunction) {
     validateUndefined(request.params.id, 'hailId');
 

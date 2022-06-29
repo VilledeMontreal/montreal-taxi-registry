@@ -1,7 +1,9 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { StatusCodes } from 'http-status-codes';
 import { BadRequestError } from '../errorHandling/errors';
 import { allow } from '../users/securityDecorator';
+import { UserRole } from '../users/userRole';
 import {
   combinationFieldsName,
   combinationList,
@@ -13,8 +15,6 @@ import {
   toReturnFileName
 } from './hail-fake-data-dump.constants';
 import { IStatusHistory } from './hail-fake-data-dump.model';
-
-import { StatusCodes } from 'http-status-codes';
 
 const fs = require('fs');
 
@@ -37,7 +37,7 @@ class HailFakeDataDumpController {
   }
 
   // Génére un fichier des données virtuelles
-  @allow(['admin', 'gestion', 'stats'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Stats])
   public buildFakeData(req, res, next) {
     let dateIn: Date;
     try {
@@ -102,7 +102,7 @@ class HailFakeDataDumpController {
   }
 
   // Retoure les données virtuelles
-  @allow(['admin', 'gestion', 'stats'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Stats])
   public dumpFakeData(req, res, next) {
     let dateStart: Date;
     const dateEnd = new Date();
@@ -145,7 +145,7 @@ class HailFakeDataDumpController {
   }
 
   // Retoure un resumé des données virtuelles
-  @allow(['admin', 'gestion', 'stats'])
+  @allow([UserRole.Admin, UserRole.Manager, UserRole.Stats])
   public resumeFakeData(req, res, next) {
     const format = req.params.format ? req.params.format : 'json';
     const rawdata = fs.readFileSync(toReturnFileName);

@@ -7,6 +7,7 @@ import { integrationTool } from '../features/integrationTools/integrationToolDec
 import { buildApiEndpoint } from '../features/shared/utils/apiUtils';
 import { allow } from '../features/users/securityDecorator';
 import { userRepository } from '../features/users/user.repository';
+import { UserRole } from '../features/users/userRole';
 import { ResponseCloner } from '../libs/ResponseCloner';
 import { security } from '../libs/security';
 import { HailValidator } from '../services/hail-validator.service';
@@ -24,7 +25,7 @@ export class controller {
   }
 
   @integrationTool()
-  @allow(['admin', 'gestion'])
+  @allow([UserRole.Admin, UserRole.Manager])
   hailTestingDataById(req, res, next) {
     const hailValidator: HailValidator = new HailValidator();
     hailValidator.getCountStatusUsed(req.params.idOperateur)
@@ -35,7 +36,7 @@ export class controller {
   }
 
   @integrationTool()
-  @allow(['operateur'])
+  @allow([UserRole.Operator])
   hailTestingDone(req, res, next) {
     const hailValidator: HailValidator = new HailValidator();
     hailValidator.getFinalStatus(req.userModel.id)
@@ -46,7 +47,7 @@ export class controller {
   }
 
   @integrationTool()
-  @allow(['operateur'])
+  @allow([UserRole.Operator])
   hailTestingData(req: any, res: any, next: any) {
     const hailValidator: HailValidator = new HailValidator();
     hailValidator
@@ -58,7 +59,7 @@ export class controller {
   }
 
   @integrationTool()
-  @allow(['admin', 'operateur'])
+  @allow([UserRole.Admin, UserRole.Operator])
   async createHail(req, res, next) {
     const user = await userRepository.getUserForAuthentication('motor_tester');
     const apikey = security.decrypt(user.apikey);
@@ -91,7 +92,7 @@ export class controller {
   }
 
   @integrationTool()
-  @allow(['admin', 'operateur'])
+  @allow([UserRole.Admin, UserRole.Operator])
   async updateHail(req, res, next) {
     const user = await userRepository.getUserForAuthentication('motor_tester');
     const apikey = security.decrypt(user.apikey);

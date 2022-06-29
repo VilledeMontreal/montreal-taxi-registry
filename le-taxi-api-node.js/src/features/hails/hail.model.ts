@@ -6,11 +6,11 @@ import * as _ from 'lodash';
 import * as shortId from 'shortid';
 import { TaxiStatus } from '../../libs/taxiStatus';
 import { BadRequestError, UnauthorizedError } from '../errorHandling/errors';
-import { YUL_HAIL_TAXI_RESTRICTED_AREA } from '../inquiry/inquiryRestrictedArea';
 import { LatestTaxiPositionModel } from '../latestTaxiPositions/latestTaxiPosition.model';
 import { ICoordinates } from '../shared/coordinates/coordinates';
 import { nowUtcIsoString } from '../shared/dateUtils/dateUtils';
 import { isInEnum } from '../shared/enumUtil/validateEnum';
+import { yul_airport_restricted_area } from '../shared/locations/locations';
 import { validateUndefined } from '../shared/validations/validators';
 import { UserModel } from '../users/user.model';
 import {
@@ -268,7 +268,7 @@ function validateFieldAnonymous(customerId: string) {
 }
 
 export function validateYulHailTaxiRestrictedArea(coordinate: ICoordinates): void {
-  const yulTaxiRestrictedArea = turf.polygon([YUL_HAIL_TAXI_RESTRICTED_AREA], { name: 'yul-taxi-restricted-area' });
+  const yulTaxiRestrictedArea = turf.polygon([yul_airport_restricted_area], { name: 'yul-taxi-restricted-area' });
   const userPosition = turf.point([coordinate.lon, coordinate.lat]);
   const isPointContain = booleanContains(yulTaxiRestrictedArea, userPosition);
 

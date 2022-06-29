@@ -4,10 +4,12 @@ import * as assert from 'assert';
 import { QueryResult } from 'pg';
 import { security } from '../../libs/security';
 import { BadRequestError, UnauthorizedError } from '../errorHandling/errors';
+import { nowUtcIsoString } from '../shared/dateUtils/dateUtils';
 import { postgrePool } from '../shared/taxiPostgre/taxiPostgre';
 import {
   deleteUserRole,
   disableUser,
+  getPromotedOperators,
   getRoles,
   getUserByApikey,
   getUserById,
@@ -50,6 +52,17 @@ class UserRepository {
       'More than one user was found with the same api key.'
     );
     return queryResult.rows[0];
+  }
+
+  public async getPromotedOperators(): Promise<UserModel[]> {
+    const queryResult = await postgrePool.query<UserModel>(getPromotedOperators, [
+      UserRole.Operator,
+      nowUtcIsoString()
+    ]);
+    if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
+      return null;
+    }
+    return queryResult.rows;
   }
 
   public async getUserForAuthentication(email: string): Promise<UserModel> {

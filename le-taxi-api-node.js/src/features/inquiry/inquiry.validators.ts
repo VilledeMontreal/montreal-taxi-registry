@@ -6,9 +6,9 @@ import { Request } from 'express';
 import { configs } from '../../config/configs';
 import { BadRequestError } from '../errorHandling/errors';
 import { ICoordinates } from '../shared/coordinates/coordinates';
+import { yul_airport_restricted_area } from '../shared/locations/locations';
 import { isNumber, validateCoordinates, validateDtoProperties } from '../shared/validations/validators';
 import { AssetTypes, InquiryRequest } from './inquiry.dto';
-import { YUL_HAIL_TAXI_RESTRICTED_AREA } from './inquiryRestrictedArea';
 
 export async function validateInquiryRequest(request: Request): Promise<any> {
   await validateDtoProperties(new InquiryRequest(), request.body);
@@ -31,7 +31,7 @@ export async function validateInquiryRequest(request: Request): Promise<any> {
 }
 
 function validateYulHailTaxiRestrictedArea(coordinate: ICoordinates): void {
-  const yulTaxiRestrictedArea = turf.polygon([YUL_HAIL_TAXI_RESTRICTED_AREA], { name: 'yul-taxi-restricted-area' });
+  const yulTaxiRestrictedArea = turf.polygon([yul_airport_restricted_area], { name: 'yul-taxi-restricted-area' });
   const userPosition = turf.point([coordinate.lon, coordinate.lat]);
   const isPointContain = booleanContains(yulTaxiRestrictedArea, userPosition);
 
