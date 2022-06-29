@@ -250,6 +250,10 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  OpenGtfsUrlPage() {
+    this.accountService.opentGtfsAcceptanceTestsPage(this.user.id);
+  }
+
   Save(id: number) {
     this.success = null;
     this.error = null;

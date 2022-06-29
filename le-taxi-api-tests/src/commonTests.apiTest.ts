@@ -5,6 +5,8 @@ import { crudAdsTests } from './ads/crudAds.apiTest';
 import { invalidAdsTests } from './ads/invalidAds.apiTest';
 import { crudDriverTests } from './drivers/crudDriver.apiTest';
 import { invalidDriverTests } from './drivers/invalidDriver.apiTest';
+import { crudGtfsDeepLinksTests } from './gtfsDeepLinks/crudGtfsDeepLinks.apiTest';
+import { invalidGtfsDeepLinksTests } from './gtfsDeepLinks/invalidGtfsDeepLinks.apiTest';
 import { crudHailTests } from './hails/crudHail.apiTest';
 import { hailOperatorTests } from './hails/hailOperator.apiTest';
 import { invalidHailTests } from './hails/invalidHail.apiTest';
@@ -32,6 +34,7 @@ export function commonTests() {
   crudAdsTests();
   crudDriverTests();
   crudHailTests();
+  crudGtfsDeepLinksTests();
   crudOsrmTests();
   crudInquiryTests();
   crudLatestTaxiPositionTests();
@@ -45,6 +48,7 @@ export function commonTests() {
   invalidApiKeyTests();
   invalidDriverTests();
   invalidHailTests();
+  invalidGtfsDeepLinksTests();
   invalidInquiryTests();
   invalidJsonTests();
   invalidLatestTaxiPositionTests();
