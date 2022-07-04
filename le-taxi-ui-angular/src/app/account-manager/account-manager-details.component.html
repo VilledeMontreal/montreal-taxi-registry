@@ -435,6 +435,16 @@
             </div>
           </md-expansion-panel>
         </div>
+        <div class="action-button select-space">
+          <button
+          [disabled]="!(user && user.id && user.public_id)"
+          type="submit"
+          md-raised-button
+          (click)="OpenGtfsUrlPage()"
+        >
+          Ouvrir la page GTFS URL Acceptance tests
+        </button>
+        </div>
         <div>
           <div class="section-title">
             Pour héler un taxi via le serveur de l'opérateur

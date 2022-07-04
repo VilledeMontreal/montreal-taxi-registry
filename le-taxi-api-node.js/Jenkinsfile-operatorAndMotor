@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1631-graylog-formatting": "develop",
+            "feature/TM-1697-gtfs-deep-links-list": "develop",
         ],
     ],
     packaging: [
@@ -157,6 +157,8 @@ ctx = pipeline.createContext([
             "/api/taxi/taxi-registry/api/hails",
             "/api/taxi/taxi-registry/api/vehicles",
             "/api/taxi/taxi-registry/api/inquiry",
+            "/api/taxi/taxi-registry/api/users",
+            "/api/taxi/taxi-registry/api/current-user",
 
             // Diagnostics
             "/diagnostics/taxi/taxi-registry/v1/operator-and-motor-ping",

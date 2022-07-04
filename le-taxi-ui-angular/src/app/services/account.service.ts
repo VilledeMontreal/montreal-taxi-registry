@@ -20,6 +20,7 @@ export class AccountService {
   private updatePasswordUrl = '/legacy-web/users/password';
   private updateAPIUrl = '/legacy-web/users/apikey';
   private roleUrl = '/legacy-web/roles';
+  private gtfsAcceptanceTestsUrl = '/users/:id/gtfs-url-scheme-acceptance-test';
 
   constructor(private http: Http, private libService: LibService) {}
 
@@ -180,5 +181,10 @@ export class AccountService {
       .get(this.backEndUrl + this.roleUrl, options)
       .map(this.libService.extractData)
       .catch(this.libService.handleError);
+  }
+
+  opentGtfsAcceptanceTestsPage(userId: string) {
+    const url = this.backEndUrl + this.gtfsAcceptanceTestsUrl.replace(':id', userId);
+    window.open(url, "_blank");
   }
 }
