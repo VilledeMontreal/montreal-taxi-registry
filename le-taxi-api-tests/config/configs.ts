@@ -130,11 +130,11 @@ export class Configs {
 
 export let configs: Configs = Configs.instance;
 
-export function getAbsoluteUrl(path: string): string {
+export function getAbsoluteUrl(relative: string): string {
   if (configs.environment.isDev) {
-    return `https://taximtldev.accept.ville.montreal.qc.ca${path}`;
+    return `https://taximtldev.accept.ville.montreal.qc.ca${relative}`;
   }
 
   // Default value in LOCAL
-  return `http://localhost:8099${path}`;
+  return `http://localhost:8099${relative}`;
 }

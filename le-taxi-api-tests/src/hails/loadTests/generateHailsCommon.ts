@@ -7,21 +7,21 @@ import { copyHailStatusTemplate, copyHailTemplate } from '../hailDto.template';
 import { IHailToLoad } from './iHailToLoad';
 
 const hailsSharedStateJson = require('fs').readFileSync('src/hails/loadTests/hail.sharedState.json');
-const _sharedState: IHailToLoad = JSON.parse(hailsSharedStateJson);
-let _maximumNumberOfTaxis: number = null;
-let _currentTaxiIndex: number = 0;
+const sharedState: IHailToLoad = JSON.parse(hailsSharedStateJson);
+let maximumNumberOfTaxis: number = null;
+let currentTaxiIndex: number = 0;
 
-export function initializeMaximumNumberOfTaxis(maximumNumberOfTaxis: number) {
-  _maximumNumberOfTaxis = maximumNumberOfTaxis;
+export function initializeMaximumNumberOfTaxis(max: number) {
+  maximumNumberOfTaxis = max;
 }
 
 export function beforeRequest(requestParams: any, context: any, ee: any, next: any) {
-  if (_currentTaxiIndex % _maximumNumberOfTaxis === 0) {
-    _currentTaxiIndex = 0;
+  if (currentTaxiIndex % maximumNumberOfTaxis === 0) {
+    currentTaxiIndex = 0;
   }
 
-  context.vars.motorApikey = _sharedState.motor.apiKey;
-  context.vars.operatorApikey = _sharedState.operator.apiKey;
+  context.vars.motorApikey = sharedState.motor.apiKey;
+  context.vars.operatorApikey = sharedState.operator.apiKey;
   context.vars.emulateDelayCausedOperatorServerHandlingPostHail = 1;
   // This is a weakness in the hail process,
   // because this delay could be < 1 sec in a real scenario.
@@ -34,13 +34,13 @@ export function beforeRequest(requestParams: any, context: any, ee: any, next: a
   context.vars.hail = copyHailTemplate(x => {
     x.data[0].customer_lat = generateNorthShoreLat();
     x.data[0].customer_lon = generateNorthShoreLon();
-    x.data[0].operateur = _sharedState.operator.email;
-    x.data[0].taxi_id = _sharedState.taxis[_currentTaxiIndex].id;
+    x.data[0].operateur = sharedState.operator.email;
+    x.data[0].taxi_id = sharedState.taxis[currentTaxiIndex].id;
   });
 
   context.vars.snapshot = copyTaxiPositionTemplate(x => {
-    x.items[0].taxi = _sharedState.taxis[_currentTaxiIndex].id;
-    x.items[0].operator = _sharedState.operator.email;
+    x.items[0].taxi = sharedState.taxis[currentTaxiIndex].id;
+    x.items[0].operator = sharedState.operator.email;
     x.items[0].status = 'free';
     x.items[0].lat = generateNorthShoreLat();
     x.items[0].lon = generateNorthShoreLon();
@@ -67,7 +67,7 @@ export function beforeRequest(requestParams: any, context: any, ee: any, next: a
     x.data[0].status = 'finished';
   });
 
-  _currentTaxiIndex++;
+  currentTaxiIndex++;
 
   return next();
 }

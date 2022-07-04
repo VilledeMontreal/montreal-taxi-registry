@@ -28,8 +28,8 @@
     "lint-fix": "npm run prettier-fix && npm run tslint-fix",
     "tslint": "tslint -c tslint.json --project .",
     "tslint-fix": "tslint -c tslint.json --fix --project . ",
-    "prettier": "node_modules/.bin/villemontreal-lint . check node prettier",
-    "prettier-fix": "node_modules/.bin/villemontreal-lint . fix node prettier",
+    "prettier": "villemontreal-lint . check node prettier",
+    "prettier-fix": "villemontreal-lint . fix node prettier",
     "tsc": "tsc",
     "osrm-random-montreal-car-route-5rps": "tsc && node node_modules/artillery/bin/artillery run -o osrm-random-montreal-car-route-5rps.report.json src/osrm/osrm-random-montreal-car-route-5rps.yaml && node node_modules/artillery/bin/artillery report -o osrm-random-montreal-car-route-5rps.report.html osrm-random-montreal-car-route-5rps.report.json",
     "osrm-random-montreal-car-route-20rps": "tsc && node node_modules/artillery/bin/artillery run -o osrm-random-montreal-car-route-20rps.report.json src/osrm/osrm-random-montreal-car-route-20rps.yaml && node node_modules/artillery/bin/artillery report -o osrm-random-montreal-car-route-20rps.report.html osrm-random-montreal-car-route-20rps.report.json",
@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@types/uuid": "8.3.3",
-    "@villemontreal/lint-config-villemontreal": "1.7.0",
+    "@villedemontreal/lint-config": "1.7.6",
     "rimraf": "3.0.2"
   },
   "engines": {

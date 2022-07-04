@@ -5,8 +5,8 @@ import { generateSouthShoreCoordinates } from '../shared/commonLoadTests/special
 import { aFewSeconds } from '../shared/commonTests/testUtil';
 import {
   AssetTypes,
-  CoordinateDTO,
-  InquiryRequestDTO,
+  ICoordinateDTO,
+  IInquiryRequestDTO,
   ITaxiResponseDto,
   IUser
 } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
@@ -27,11 +27,11 @@ export interface ITaxiOptions extends ITaxiPositions {
 }
 
 export function buildInquiryRequest(
-  fromCoordinate: CoordinateDTO,
-  toCoordinate: CoordinateDTO,
+  fromCoordinate: ICoordinateDTO,
+  toCoordinate: ICoordinateDTO,
   assetType: AssetTypes,
   operators?: IUser[]
-): InquiryRequestDTO {
+): IInquiryRequestDTO {
   return {
     from: { coordinates: fromCoordinate },
     to: { coordinates: toCoordinate },
@@ -99,8 +99,8 @@ export async function demoteOperatorTaxis(operator: IUser, taxi: ITaxiResponseDt
     {
       taxi: taxi.id,
       operator: taxi.operator,
-      lat: lat,
-      lon: lon,
+      lat,
+      lon,
       status: 'free'
     },
     operatorApikey

@@ -53,7 +53,7 @@ export function validateUndefined(dto: any, message: string) {
   }
 }
 
-export async function validateDtoProperties<T extends Object>(dto: T, data: any) {
+export async function validateDtoProperties<T extends object>(dto: T, data: any) {
   const instance = plainToClassFromExist(dto, data);
   await handleErrors(() => validateOrReject(instance, { skipMissingProperties: true }));
 }
@@ -91,6 +91,6 @@ function extractErrors(errors: ValidationError[], issues: string[], depth: numbe
   return extractErrors(
     errors.flatMap(error => error.children),
     issues.concat(...errToIssues),
-    ++depth
+    depth + 1
   );
 }

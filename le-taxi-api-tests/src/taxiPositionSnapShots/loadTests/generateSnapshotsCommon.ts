@@ -7,26 +7,26 @@ import { copyTaxiPositionSnapShotItemTemplate } from '../taxiPositionSnapShotsDt
 
 const taxiSharedStateJson = require('fs').readFileSync('src/taxiPositionSnapShots/loadTests/taxi.sharedState.json');
 
-export let _sharedStateForInitialization: any[] = null;
-export let _sharedStateForTests: any[] = null;
-let _currentOperatorIndex: number = 0;
+export let sharedStateForInitialization: any[] = null;
+export let sharedStateForTests: any[] = null;
+let currentOperatorIndex: number = 0;
 
 export function beforeRequestForInitialization(requestParams: any, context: any, ee: any, next: any) {
-  return beforeRequest(_sharedStateForInitialization, requestParams, context, ee, next);
+  return beforeRequest(sharedStateForInitialization, requestParams, context, ee, next);
 }
 
 export function beforeRequestForTests(requestParams: any, context: any, ee: any, next: any) {
-  return beforeRequest(_sharedStateForTests, requestParams, context, ee, next);
+  return beforeRequest(sharedStateForTests, requestParams, context, ee, next);
 }
 
 function beforeRequest(sharedState: any[], requestParams: any, context: any, ee: any, next: any) {
-  if (_currentOperatorIndex % sharedState.length === 0) {
-    _currentOperatorIndex = 0;
+  if (currentOperatorIndex % sharedState.length === 0) {
+    currentOperatorIndex = 0;
   }
-  const currentOperatorShareState = sharedState[_currentOperatorIndex];
+  const currentOperatorShareState = sharedState[currentOperatorIndex];
   context.vars.operatorApikey = currentOperatorShareState.operator.apikey;
   requestParams.json = generateTaxiPositionSnapshotsPayload(currentOperatorShareState);
-  _currentOperatorIndex++;
+  currentOperatorIndex++;
   return next();
 }
 
@@ -50,8 +50,8 @@ function generateTaxiPositionSnapshotsPayload(currentOperatorShareState: any): a
 export function initializeSnapshotsAndOperatorsApiKeys(maxOperatorCount: number) {
   const sharedState = JSON.parse(taxiSharedStateJson);
   const halfOperatorCount = maxOperatorCount / 2;
-  _sharedStateForInitialization = sharedState.items.filter((element: any, index: any) => index < halfOperatorCount);
-  _sharedStateForTests = sharedState.items.filter(
+  sharedStateForInitialization = sharedState.items.filter((element: any, index: any) => index < halfOperatorCount);
+  sharedStateForTests = sharedState.items.filter(
     (element: any, index: any) => index >= halfOperatorCount && index < maxOperatorCount
   );
 }

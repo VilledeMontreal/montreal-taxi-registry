@@ -5,7 +5,7 @@ import { IInquirySharedState } from './IInquirySharedState';
 
 const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/inquiry.sharedState.json');
 
-export const _sharedState: IInquirySharedState = JSON.parse(sharedStateJson);
+export const sharedState: IInquirySharedState = JSON.parse(sharedStateJson);
 
 export function generateStandardPayloadInquiry(context: any, ee: any, next: any) {
   return generatePayloadInquiry(context, ee, next, 'taxi-registry-standard-route');
@@ -16,7 +16,7 @@ export function generateSpecialNeedPayloadInquiry(context: any, ee: any, next: a
 }
 
 function generatePayloadInquiry(context: any, ee: any, next: any, assetType: string) {
-  context.vars.apikey = _sharedState.searchMotor.apiKey;
+  context.vars.apikey = sharedState.searchMotor.apiKey;
   context.vars.body = {
     from: {
       coordinates: {

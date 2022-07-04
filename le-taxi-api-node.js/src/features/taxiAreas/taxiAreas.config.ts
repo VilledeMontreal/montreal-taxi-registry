@@ -4,8 +4,8 @@ import { configs } from '../../config/configs';
 import { getAbsoluteUrl } from '../../utils/configs/system';
 
 function getTaxiAreasUrl() {
-  const taxiAreasUrl = configs.taxiAreas.openDataUrl;
-  return taxiAreasUrl.startsWith('/') ? getAbsoluteUrl('') + taxiAreasUrl : taxiAreasUrl;
+  const openDataUrl = configs.taxiAreas.openDataUrl;
+  return openDataUrl.startsWith('/') ? getAbsoluteUrl('') + openDataUrl : openDataUrl;
 }
 
 export const taxiAreasUrl = getTaxiAreasUrl();

@@ -22,19 +22,6 @@ api:
 environment:
   isLocal: false
 
-project:
-  repositoryUrl: https://bitbucket.org/villemontreal/le-taxi-api-node.js
-
-  maintainers:
-    - name: Stephane LEBLANC
-      email: stephane.leblanc@montreal.ca
-    - name: Daniel BRODEUR
-      email: daniel.brodeur@montreal.ca
-    - name: Matthieu PERRIN
-      email: matthieu.perrin@montreal.ca
-    - name: Sebastien BLAIS-FERNANDEZ
-      email: sebastien.blais-fernandez@montreal.ca
-
 apikeys:
   admin: secret
   gestion: secret

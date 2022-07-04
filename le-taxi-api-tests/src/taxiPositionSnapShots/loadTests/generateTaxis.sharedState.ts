@@ -8,13 +8,13 @@ import { createNonImmutableUser } from '../../users/user.sharedFixture';
 import { ITaxiToLoad } from './iTaxiToLoad';
 import lodash = require('lodash');
 
+// tslint:disable:no-console
 async function generateTaxisSharedState() {
   console.log('Generating the shared state may take around 20 minutes..');
   try {
     const taxis = await createTaxisToLoad();
     fs.writeFileSync('src/taxiPositionSnapShots/loadTests/taxi.sharedState.json', JSON.stringify(taxis));
   } catch (ex) {
-    // tslint:disable-next-line: no-console
     console.log(ex);
   }
 }

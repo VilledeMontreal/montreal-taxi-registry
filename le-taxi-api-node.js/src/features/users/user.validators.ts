@@ -121,8 +121,9 @@ function parsePhoneNumber(phoneNumber: string): string {
 }
 
 function ensureOperatorHasPublicId(user: UserRequestDto): void {
-  if (user.role === UserRoleId.Operator && !user.public_id)
+  if (user.role === UserRoleId.Operator && !user.public_id) {
     throw new BadRequestError('Operators must be provided with a public_id');
+  }
 }
 
 function ensureMinimalInformationForPublicPromotion(user: UserRequestDto): void {
@@ -150,23 +151,27 @@ function ensureStandandBookingMinimalInformation(user: UserRequestDto) {
 }
 
 function ensureMinivanBookingMinimalInformation(user: UserRequestDto) {
-  if (user.minivan_booking_is_promoted_to_public && !user.standard_booking_is_promoted_to_public)
+  if (user.minivan_booking_is_promoted_to_public && !user.standard_booking_is_promoted_to_public) {
     throw new BadRequestError('In order to promote publicly minivans, standard booking must be available');
+  }
 
-  if (user.minivan_booking_is_available_from_web_url && !user.standard_booking_website_url)
+  if (user.minivan_booking_is_available_from_web_url && !user.standard_booking_website_url) {
     throw new BadRequestError(
       'In order to promote publicly minivans from web, standard booking from web must be available'
     );
+  }
 
-  if (user.minivan_booking_is_available_from_android_uri && !user.standard_booking_android_deeplink_uri)
+  if (user.minivan_booking_is_available_from_android_uri && !user.standard_booking_android_deeplink_uri) {
     throw new BadRequestError(
       'In order to promote publicly minivans from android, standard booking from android must be available'
     );
+  }
 
-  if (user.minivan_booking_is_available_from_ios_uri && !user.standard_booking_ios_deeplink_uri)
+  if (user.minivan_booking_is_available_from_ios_uri && !user.standard_booking_ios_deeplink_uri) {
     throw new BadRequestError(
       'In order to promote publicly minivans from iOS, standard booking from iOS must be available'
     );
+  }
 
   if (
     user.minivan_booking_is_promoted_to_public &&

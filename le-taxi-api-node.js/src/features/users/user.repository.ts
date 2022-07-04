@@ -188,9 +188,9 @@ async function executeQueryAndHandleDuplicate(query: () => Promise<QueryResult>)
   try {
     return await query();
   } catch (err) {
-    if (err.message.includes(`duplicate key value violates unique constraint`))
+    if (err.message.includes(`duplicate key value violates unique constraint`)) {
       throw new BadRequestError('Operator public_id must be unique');
-    else throw err;
+    } else throw err;
   }
 }
 
