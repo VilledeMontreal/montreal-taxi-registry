@@ -13,7 +13,7 @@ export async function connectToMongoDb() {
     keepAlive: true,
     maxPoolSize: 10
   });
-  db = client.db('vdm_txp');
+  db = client.db('vdm_txp_prd202106');
   return db;
 }
 

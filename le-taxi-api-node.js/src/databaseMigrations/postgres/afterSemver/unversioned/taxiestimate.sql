@@ -82,3 +82,13 @@ CREATE TABLE "taxiestimate"."test_execution_reports" (
 	"shorter_than_real_trip_count" int4 NOT NULL,
 	CONSTRAINT "test_execution_reports_pkey" PRIMARY KEY (id)
 );
+
+CREATE TABLE "taxiestimate"."matches" (
+	"id" serial NOT NULL,
+	"sample_id" int4 NOT NULL,
+	"real_trip_id" int4 NOT NULL,
+	"taxi_trip_id" int4 NOT NULL,
+  "taxi_path" geometry NOT NULL,
+  "confidence" varchar(256) NOT NULL,
+	CONSTRAINT "matches_pkey" PRIMARY KEY (id)
+);

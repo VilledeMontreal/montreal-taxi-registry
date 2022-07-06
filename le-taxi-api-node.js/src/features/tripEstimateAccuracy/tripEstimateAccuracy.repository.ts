@@ -93,9 +93,34 @@ class TaxiEstimateAccuracyRepository {
 
   public async getRealTripsBatch(sampleId: number, offset: number, limit: number): Promise<RealTrip[]> {
     try {
-      const selectRealTrips = `SELECT * FROM taxiestimate.real_trips rt where sample_id = $1::int ORDER BY id OFFSET $2::int LIMIT $3::int;`;
+      const selectRealTrips = `SELECT * FROM taxiestimate.real_trips rt WHERE sample_id = $1::int ORDER BY id OFFSET $2::int LIMIT $3::int;`;
 
       const response = await taxiEstimatePostgrePool.query(selectRealTrips, [sampleId, offset, limit]);
+      handleEmptyResponse(response);
+
+      return response.rows;
+    } catch (error) {
+      throw new Error(`Error getting real trips batch from database taxiestimate, error: ${error}`);
+    }
+  }
+
+  public async getRealTripsBatchForMatching(
+    sampleId: number,
+    startDate: string,
+    endDate: string,
+    offset: number,
+    limit: number
+  ): Promise<RealTrip[]> {
+    try {
+      const selectRealTrips = `SELECT * FROM taxiestimate.real_trips rt WHERE sample_id = $1::int AND rt.departure_time > $2 and rt.departure_time < $3 ORDER BY rt.departure_time OFFSET $4::int LIMIT $5::int;`;
+
+      const response = await taxiEstimatePostgrePool.query(selectRealTrips, [
+        sampleId,
+        startDate,
+        endDate,
+        offset,
+        limit
+      ]);
       handleEmptyResponse(response);
 
       return response.rows;
@@ -138,6 +163,20 @@ class TaxiEstimateAccuracyRepository {
   public async getRealTripsCount(sampleId: number): Promise<number> {
     try {
       const response = await taxiEstimatePostgrePool.query(countRealTrips, [sampleId]);
+      handleEmptyResponse(response);
+
+      return +response.rows[0].count;
+    } catch (error) {
+      throw new Error(`Error getting real trips count from database taxiestimate, error: ${error}`);
+    }
+  }
+
+  public async getRealTripsCountForMatching(sampleId: number, startDate: string, endDate: string): Promise<number> {
+    try {
+      const response = await taxiEstimatePostgrePool.query(
+        'SELECT count(*) FROM taxiestimate.real_trips rt where sample_id = $1::int AND rt.departure_time > $2 and rt.departure_time < $3',
+        [sampleId, startDate, endDate]
+      );
       handleEmptyResponse(response);
 
       return +response.rows[0].count;

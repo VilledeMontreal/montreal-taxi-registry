@@ -3,3 +3,4 @@
 export { MigrateScript } from './databaseMigration/databaseMigration.script';
 export { EstimateTaxiTripsScript } from './estimateTaxiTrips/estimateTaxiTrips.script';
 export { ImportTripSampleScript } from './importTripSample/importTripSample.script';
+export { MatchTripSampleScript } from './matchTripSample/matchTripSample.script';
