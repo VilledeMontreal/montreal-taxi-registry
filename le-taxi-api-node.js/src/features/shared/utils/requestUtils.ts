@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { UserRole } from '../../users/userRole';
 
 export function getOperator(request: Request) {
-  return request.userModel.role_name == UserRole.Operator
+  return request.userModel.role_name === UserRole.Operator
     ? request.userModel.email
     : (request.query.operator as string);
 }

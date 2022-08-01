@@ -9,6 +9,7 @@ import { createUser, login, updateApikey, updatePassword, updateUser } from './u
 import { getImmutableUserApiKey } from './user.sharedFixture';
 import { copyUserTemplate } from './userDto.template';
 
+// tslint:disable:max-func-body-length
 export async function invalidUserTests(): Promise<void> {
   testCreateAccountUserAccessInvalid(UserRole.Operator);
   testCreateAccountUserAccessInvalid(UserRole.Prefecture);

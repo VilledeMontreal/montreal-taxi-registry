@@ -34,7 +34,7 @@ class VehiclesController {
       const vehicles = await vehicleDataAccessLayer.getVehiclesPaginated({
         order: request.query.order as string,
         filter: request.query.filter as string,
-        operator: operator,
+        operator,
         page: request.query.page as string,
         pageSize: request.query.pagesize as string
       });
@@ -48,7 +48,7 @@ class VehiclesController {
     const operator = getOperator(request);
     const count = await vehicleDataAccessLayer.getVehiclesCount({
       filter: request.query.filter as string,
-      operator: operator
+      operator
     });
     response.status(StatusCodes.OK);
     response.json(count);

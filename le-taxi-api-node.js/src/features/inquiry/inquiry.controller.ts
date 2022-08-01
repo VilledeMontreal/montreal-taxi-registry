@@ -47,10 +47,10 @@ class InquiryController {
         {
           mainAssetType: { id: toMainAssetType(assetType, closestTaxi.taxi.operatorPublicId) },
           optimisticDepartureTime: addSec(departureTime, -departureDelta),
-          departureTime: departureTime,
+          departureTime,
           pessimisticDepartureTime: addSec(departureTime, departureDelta),
           optimisticArrivalTime: addSec(arrivalTime, -arrivalDelta),
-          arrivalTime: arrivalTime,
+          arrivalTime,
           pessimisticArrivalTime: addSec(arrivalTime, arrivalDelta),
           from,
           to,

@@ -7,7 +7,7 @@ import { getImmutableUserApiKey } from '../users/user.sharedFixture';
 
 export async function taxiSearchIntegrationTool(apiKey?: string) {
   const { lat, lon } = getIntegrationToolCoordinates();
-  let url = `/api/motor-integration-tools/taxis?lat=${lat}&lon=${lon}`;
+  const url = `/api/motor-integration-tools/taxis?lat=${lat}&lon=${lon}`;
 
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
   return await getTaxiRegistry(url, apiKey, defaultApiKey);

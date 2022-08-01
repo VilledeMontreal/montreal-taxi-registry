@@ -8,7 +8,7 @@ const caporal = require('@caporal/core').program;
 // the Caporal instance, if required.
 
 // Then it is run:
-require(`${__dirname}/node_modules/@villemontreal/core-utils-scripting-core-nodejs-lib/dist/src/run`).run({
+require(`${__dirname}/node_modules/@villedemontreal/scripting/dist/src/run`).run({
   caporal,
   projectRoot: __dirname,
   scriptsIndexModule: `./scripts/index`,

@@ -35,7 +35,7 @@ class DriversController {
       const drivers = await driverDataAccessLayer.getDriversPaginated({
         order: request.query.order as string,
         filter: request.query.filter as string,
-        operator: operator,
+        operator,
         page: request.query.page as string,
         pageSize: request.query.pagesize as string
       });
@@ -49,7 +49,7 @@ class DriversController {
     const operator = getOperator(request);
     const count = await driverDataAccessLayer.getDriversCount({
       filter: request.query.filter as string,
-      operator: operator
+      operator
     });
     response.status(StatusCodes.OK);
     response.json(count);

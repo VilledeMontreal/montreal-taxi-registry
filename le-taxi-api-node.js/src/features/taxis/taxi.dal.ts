@@ -155,10 +155,11 @@ class TaxiDataAccessLayer {
         WHERE TRUE ${filterBy}`;
 
     const queryResult = await postgrePool.query(query, values);
-    if (!queryResult || !queryResult.rows || !queryResult.rows[0])
+    if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       throw new BadRequestError('Unable to retrieve taxi count');
+    }
 
-    return queryResult.rows[0]['count'];
+    return queryResult.rows[0].count;
   }
 
   private async findTaxi(taxiId: string): Promise<QueryResult> {
@@ -445,7 +446,7 @@ function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
   let filterBy = '';
   let orderBy = '';
   let limitBy = '';
-  let values = [];
+  const values = [];
 
   if (filters?.length >= 1) {
     filterBy += ` AND v.licence_plate ILIKE $1::text`;

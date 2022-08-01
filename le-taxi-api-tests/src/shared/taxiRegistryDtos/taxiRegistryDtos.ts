@@ -264,13 +264,13 @@ export interface ITaxiResponseDto {
   status: string;
 }
 
-export class InquiryRequestDTO {
+export interface IInquiryRequestDTO {
   from: {
-    coordinates: CoordinateDTO;
+    coordinates: ICoordinateDTO;
   };
 
   to: {
-    coordinates: CoordinateDTO;
+    coordinates: ICoordinateDTO;
   };
 
   useAssetTypes: AssetTypes[];
@@ -278,18 +278,18 @@ export class InquiryRequestDTO {
   operators?: string[];
 }
 
-export class InquiryResponseDTO {
+export interface IInquiryResponseDTO {
   departureTime: string;
   arrivalTime: string; // Most by IsoString
   from: {
-    coordinates: CoordinateDTO;
+    coordinates: ICoordinateDTO;
   };
   to: {
-    coordinates: CoordinateDTO;
+    coordinates: ICoordinateDTO;
   };
 }
 
-export class CoordinateDTO {
+export interface ICoordinateDTO {
   lat: any;
   lon: any;
 }

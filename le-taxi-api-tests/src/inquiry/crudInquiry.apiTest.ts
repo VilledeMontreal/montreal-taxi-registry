@@ -9,7 +9,7 @@ import { getImmutableUserApiKey } from '../users/user.sharedFixture';
 import { postInquiry } from './inquiry.apiClient';
 import { buildInquiryRequest, createTaxisWithPromotions } from './inquiry.fixture';
 
-// tslint:disable:max-line-length
+// tslint:disable: max-func-body-length
 export async function crudInquiryTests(): Promise<void> {
   testInquiryUserAccessValid(UserRole.Admin);
   testInquiryUserAccessValid(UserRole.Motor);

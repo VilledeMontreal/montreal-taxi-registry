@@ -15,6 +15,7 @@ import {
 import { getImmutableUserApiKey } from './user.sharedFixture';
 import { copyUserTemplate } from './userDto.template';
 
+// tslint:disable:max-func-body-length
 export async function crudUserTests(): Promise<void> {
   testCreateAccountUserAccessValid(UserRole.Admin);
   testCreateAccountUserAccessValid(UserRole.Manager);
@@ -48,9 +49,9 @@ export async function crudUserTests(): Promise<void> {
     const dtoCreate = copyUserTemplate(x => (x.role = UserRole.Stats));
     const user = await createUser(dtoCreate);
     const responseUser = await getUser(user.id);
-    assert.exists(responseUser['id']);
-    assert.notExists(responseUser['password']);
-    assert.notExists(responseUser['apikey']);
+    assert.exists(responseUser.id);
+    assert.notExists(responseUser.password);
+    assert.notExists(responseUser.apikey);
   });
 
   it('Can promote an operator standard service given a standard website', async () => {
@@ -200,7 +201,7 @@ function testCreateAccountUserAccessValid(role: UserRole) {
     const apiKey = await getImmutableUserApiKey(role);
     const dtoCreate = copyUserTemplate(x => (x.role = UserRole.Stats));
     const user = await createUser(dtoCreate, apiKey);
-    assert.exists(user['id']);
+    assert.exists(user.id);
   });
 }
 

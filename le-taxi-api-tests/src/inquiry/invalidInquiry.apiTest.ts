@@ -26,7 +26,7 @@ import {
   setupTaxiFromOptions
 } from './inquiry.fixture';
 
-// tslint:disable:max-line-length
+// tslint:disable: max-func-body-length
 export async function invalidInquiryTests(): Promise<void> {
   testInvalidAccessToInquiryEndpoint(UserRole.Operator);
   testInvalidAccessToInquiryEndpoint(UserRole.Manager);
