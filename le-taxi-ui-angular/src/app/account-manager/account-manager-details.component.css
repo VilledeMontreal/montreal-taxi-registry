@@ -66,6 +66,10 @@
   margin-top: 16px;
 }
 
+.action-button {
+  text-align: center;
+}
+
 .success {
   margin-top: 25px;
   margin-left: 10px;

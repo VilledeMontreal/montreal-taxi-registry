@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1631-graylog-formatting": "develop",
+            "feature/TM-1697-gtfs-deep-links-list": "develop",
         ],
     ],
     packaging: [

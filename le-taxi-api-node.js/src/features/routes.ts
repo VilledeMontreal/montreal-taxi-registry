@@ -7,6 +7,7 @@ import { getAdsDataDumpsRoutes } from './adsDataDumps/adsDataDumps.routes';
 import { getDriverDataDumpsRoutes } from './driverDataDumps/driverDataDumps.routes';
 import { getDriversRoutes } from './drivers/driver.routes';
 import { getTaxiPathRoutes } from './exportTaxiPath/taxiPath.route';
+import { getGtfsDeepLinksRoutes } from './gtfsDeepLinks/gtfsDeepLinks.routes';
 import { getHailAnonymizationRoutes } from './hailAnonymization/hail-anonymization.route';
 import { getHailDataDumpsRoutes } from './hailDataDumps/hailDataDumps.routes';
 import { getHailFakeDataDumpRoutes } from './hailFakeDataDump/hail-fake-data-dump.route';
@@ -34,6 +35,7 @@ export function getFeaturesRoutes(): IHandlerRoute[] {
     getAdsRoutes(),
     getDriverDataDumpsRoutes(),
     getDriversRoutes(),
+    getGtfsDeepLinksRoutes(),
     getHailAnonymizationRoutes(),
     getHailDataDumpsRoutes(),
     getHailFakeDataDumpRoutes(),
