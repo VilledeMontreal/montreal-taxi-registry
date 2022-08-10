@@ -57,7 +57,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator standard service given a standard website', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -71,7 +70,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator standard service given a standard phone number', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -85,7 +83,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator standard service given a standard android/ios deep links', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -102,7 +99,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator minivan service given a standard website', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -118,7 +114,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator minivan service given a standard phone number', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -133,7 +128,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator minivan service given a standard android/ios deep links', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -153,7 +147,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator special need service given a special need website', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -167,7 +160,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator special need service given a special need phone number', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -181,7 +173,6 @@ export async function crudUserTests(): Promise<void> {
   it('Can promote an operator special need service given a special need android/ios deep links', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);

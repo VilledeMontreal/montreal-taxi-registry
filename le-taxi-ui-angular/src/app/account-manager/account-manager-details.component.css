@@ -28,18 +28,6 @@
   width: 80px;
 }
 
-.hailDone {
-  color: green;
-}
-
-.hailNotDone {
-  color: red;
-}
-
-.hail-checkbox {
-  padding-top: 5px;
-}
-
 .spacer {
   margin-top: 10px;
 }

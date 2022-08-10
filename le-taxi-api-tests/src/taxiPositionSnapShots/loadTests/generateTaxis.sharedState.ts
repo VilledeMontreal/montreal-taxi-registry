@@ -49,7 +49,7 @@ async function createTaxisForUser(user: IUser) {
 }
 
 async function createUsersToLoadTests() {
-  return await Promise.all(lodash.times(100, async () => await createNonImmutableUser(UserRole.Operator, true)));
+  return await Promise.all(lodash.times(100, async () => await createNonImmutableUser(UserRole.Operator)));
 }
 
 async function createRegularTaxi(apikey: string) {

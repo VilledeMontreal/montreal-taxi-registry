@@ -30,10 +30,8 @@ export interface IUser {
   active?: string;
   role: number;
   operator_header_name?: string;
-  is_hail_enabled: boolean;
   email_customer?: string;
   email_technical?: string;
-  hail_endpoint_production?: string;
   phone_number_technical?: string;
   operator_api_key?: string;
   website_url?: string;
@@ -164,63 +162,6 @@ export interface ITaxiUpdate {
     {
       status: string;
       private: boolean;
-    }
-  ];
-}
-
-export interface IHailStatus {
-  data: [
-    {
-      status: string;
-      incident_taxi_reason?: string;
-    }
-  ];
-}
-
-export interface IHailRating {
-  data: [
-    {
-      rating_ride: number;
-      rating_ride_reason?: string;
-    }
-  ];
-}
-
-export interface IHailReportingCustomer {
-  data: [
-    {
-      reporting_customer: boolean;
-      reporting_customer_reason: string;
-    }
-  ];
-}
-
-export interface IHailTaxiPhoneNumber {
-  data: [
-    {
-      taxi_phone_number: string;
-    }
-  ];
-}
-
-export interface IHailIncidentTaxiReason {
-  data: [
-    {
-      incident_taxi_reason: string;
-    }
-  ];
-}
-
-export interface IHail {
-  data: [
-    {
-      customer_lat: number;
-      customer_lon: number;
-      customer_address: string;
-      taxi_id: string;
-      customer_phone_number: string;
-      operateur: string;
-      customer_id: string;
     }
   ];
 }

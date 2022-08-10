@@ -4,6 +4,7 @@ import { mdb_1_0_0_test_script } from '../../src/databaseMigrations/mongodb/afte
 import { mdb_1_0_1_test_script } from '../../src/databaseMigrations/mongodb/afterSemver/mdb_1_0_1_test_script';
 import { pg_1_0_0_test_script } from '../../src/databaseMigrations/postgres/afterSemver/pg_1_0_0_test_script';
 import { pg_1_0_10_operator_public_id } from '../../src/databaseMigrations/postgres/afterSemver/pg_1_0_10_operator_public_id';
+import { pg_1_0_11_remove_hailing } from '../../src/databaseMigrations/postgres/afterSemver/pg_1_0_11_remove_hailing';
 import { pg_1_0_1_test_script } from '../../src/databaseMigrations/postgres/afterSemver/pg_1_0_1_test_script';
 import { pg_1_0_2_create_anonymization_table } from '../../src/databaseMigrations/postgres/afterSemver/pg_1_0_2_create_anonymization_table';
 import { pg_1_0_3_create_trips_tables } from '../../src/databaseMigrations/postgres/afterSemver/pg_1_0_3_create_trips_tables';
@@ -21,6 +22,7 @@ export const migrationsByDatabaseTypeAndVersion: { [key: string]: { [key: string
     '1.0.0': mdb_1_0_0_test_script
   },
   postgresql: {
+    '1.0.11': pg_1_0_11_remove_hailing,
     '1.0.10': pg_1_0_10_operator_public_id,
     '1.0.9': pg_1_0_9_remove_hail_endpoint_staging_testing,
     '1.0.8': pg_1_0_8_add_inquiries_columns_for_gtfs,

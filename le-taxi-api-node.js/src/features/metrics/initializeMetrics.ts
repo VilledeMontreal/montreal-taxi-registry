@@ -17,8 +17,6 @@ export function initializeMetrics(app: core.Express) {
     if (!endpoint || endpoint === '/') return '/';
     const matchFirstLevelOnly = /^\/[^\/\?]+/;
     if (!endpoint.startsWith('/api')) return `${endpoint.match(matchFirstLevelOnly)[0]}*`;
-
-    if (endpoint.match(/^\/api\/worker\/hail-anonymization-tasks.*/)) return '/api/worker/hail-anonymization-tasks*';
     const matchApiAndSecondLevelOnly = /^\/api\/[^\/\?]+/;
     return `${endpoint.match(matchApiAndSecondLevelOnly)}*`;
   };

@@ -35,7 +35,7 @@ export async function invalidInquiryTests(): Promise<void> {
   testInvalidAccessToInquiryEndpoint(UserRole.Stats);
 
   it(`Should return Not Found when no taxi found`, async () => {
-    const newOperator = await createNonImmutableUser(UserRole.Operator, true);
+    const newOperator = await createNonImmutableUser(UserRole.Operator);
     const inquiryRequest = {
       from: { coordinates: generateSouthShoreCoordinates() },
       to: { coordinates: generateSouthShoreCoordinates() },
@@ -537,7 +537,7 @@ export async function invalidInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          'Searching or hailing a taxi from the Montreal airport (YUL) zone is prohibited.'
+          'Requesting a taxi from the Montreal airport (YUL) zone is prohibited.'
         );
       }
     );

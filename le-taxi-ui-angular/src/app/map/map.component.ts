@@ -1,35 +1,27 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  OnDestroy
+  Component, ElementRef,
+  OnDestroy, OnInit,
+  ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, tap, switchMap, catchError, debounce } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import { timer } from 'rxjs/observable/timer';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { interval } from 'rxjs/observable/interval';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { of } from 'rxjs/observable/of';
+import { timer } from 'rxjs/observable/timer';
+import { catchError, debounce, map, switchMap, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/Subscription';
-import { MapService } from '../services/map.service';
-import { HailService } from '../hail/hail.service';
 import { Operator } from '../data/operator.d';
 import { TaxiArea } from '../data/taxiArea.d';
+import { MapService } from '../services/map.service';
 import { getStamenTonerLayer } from '../shared/map/layer';
-import { selectedTaxi } from 'app/taxis/selectedTaxi';
-import { createMapSearchTerms } from './mapSearchTerms';
 import {
-  yellowIcon,
-  taxiAreaIcon,
-  mapOptions,
-  leftSideMenuOptions,
-  rightSideMenuOptions
+  leftSideMenuOptions, mapOptions, rightSideMenuOptions, taxiAreaIcon, yellowIcon
 } from './map.component.style';
+import { createMapSearchTerms } from './mapSearchTerms';
 
 declare var L: any;
 
@@ -47,7 +39,6 @@ export class MapComponent implements OnInit, OnDestroy {
   yellowIcon: any;
   taxiAreaIcon: any;
   taxiAreasLayerGroup: any;
-  isHailActif: boolean;
   selectedTaxi: any;
   selectedTaxiArea: TaxiArea;
   sidebarTaxiDetails: any;
@@ -74,15 +65,8 @@ export class MapComponent implements OnInit, OnDestroy {
   constructor(
     private mapService: MapService,
     private route: ActivatedRoute,
-    private router: Router,
-    private hailService: HailService
-  ) {
-    this.hailPermission();
-  }
-
-  private async hailPermission() {
-    this.isHailActif = await this.hailService.isHailPermitted();
-  }
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.initMap();
@@ -345,16 +329,5 @@ export class MapComponent implements OnInit, OnDestroy {
 
   private onTaxiAreasVisibleChanged(visible: boolean): void {
     this.taxiAreaVisibleSubject.next(visible);
-  }
-
-  private goToHailPage(): void {
-    const params = { queryParams: selectedTaxi };
-    if (this.selectedTaxi) {
-      params.queryParams.id = this.selectedTaxi.id;
-      params.queryParams.licence = this.selectedTaxi.licence_plate;
-      params.queryParams.operator = this.selectedTaxi.nom_operator;
-      params.queryParams.vignette = this.selectedTaxi.vdm_vignette;
-      this.router.navigate(['/hail'], params);
-    }
   }
 }

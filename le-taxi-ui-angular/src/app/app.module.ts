@@ -16,14 +16,12 @@ import { CustomMaterialModule } from './material/app.material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HailComponent } from './hail/hail.component';
 import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
 import { NavItemComponent } from './nav-item/nav-item.component';
 
 import { LoginService } from './services/login.service';
 
-import { HailService } from './hail/hail.service';
 import { AccountService } from './services/account.service';
 import { DriverService } from './services/driver.service';
 import { LibService } from './services/lib.service';
@@ -69,7 +67,6 @@ import { GtfsFeedService } from './services/gtfsFeed.service';
   declarations: [
     AppComponent,
     LoginComponent,
-    HailComponent,
     NavItemComponent,
     MapComponent,
     AccountManagerComponent,
@@ -100,7 +97,6 @@ import { GtfsFeedService } from './services/gtfsFeed.service';
     AccountService,
     VehicleService,
     DriverService,
-    HailService,
     TaxisService,
     GtfsFeedService,
     MdDatepickerModule,

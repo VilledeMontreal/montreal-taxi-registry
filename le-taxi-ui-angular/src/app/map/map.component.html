@@ -6,14 +6,6 @@
       <h1 class="sidebar_taxi_head_title">Détails du taxi</h1>
     </div>
     <div class="main-btn-section">
-      <button
-        *ngIf="isHailActif"
-        class="sidebar_taxi_head_btn"
-        md-raised-button
-        (click)="goToHailPage()"
-      >
-        Héler
-      </button>
       <button style="margin-left: 6px;"
         md-raised-button
         class="btn-refresh sidebar_taxi_head_btn"
@@ -49,7 +41,6 @@
         <br />No. permis chauffeur : {{ selectedTaxi.professional_licence }}
         <br />Privé : {{ selectedTaxi.private }}
         <br />Status du taxi : {{ selectedTaxi.status }}
-        <br />Status du dernier hail : {{ selectedTaxi.status_hail }}
         <hr />
         <span class="section-title">Propriétaire</span>
         <br />Identification : {{ selectedTaxi.numero }}

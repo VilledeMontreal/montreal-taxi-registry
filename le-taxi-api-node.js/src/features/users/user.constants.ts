@@ -26,11 +26,9 @@ export const getUserById = `SELECT
     u.commercial_name,
     u.email_customer,
     u.email_technical,
-    u.hail_endpoint_production,
     u.phone_number_technical,
     u.operator_api_key,
     u.operator_header_name,
-    u.is_hail_enabled,
     u.website_url,
     u.standard_booking_phone_number,
     u.standard_booking_website_url,
@@ -69,14 +67,12 @@ export const getUserByApikey = `SELECT
     r.id as role,
     u.operator_api_key,
     u.operator_header_name,
-    u.hail_endpoint_production,
     u.active,
     u.commercial_name,
     u.confirmed_at,
     u.email_customer,
     u.email_technical,
     u.phone_number_technical,
-    u.is_hail_enabled,
     u.website_url,
     u.standard_booking_phone_number,
     u.standard_booking_website_url,
@@ -113,14 +109,12 @@ export const getPromotedOperators = `SELECT
     r.id as role,
     u.operator_api_key,
     u.operator_header_name,
-    u.hail_endpoint_production,
     u.active,
     u.commercial_name,
     u.confirmed_at,
     u.email_customer,
     u.email_technical,
     u.phone_number_technical,
-    u.is_hail_enabled,
     u.website_url,
     u.standard_booking_phone_number,
     u.standard_booking_website_url,
@@ -167,11 +161,9 @@ export const getUserForAuthentication = `SELECT
     u.confirmed_at,
     u.email_customer,
     u.email_technical,
-    u.hail_endpoint_production,
     u.phone_number_technical,
     u.operator_header_name,
     u.operator_api_key,
-    u.is_hail_enabled,
     r.id as role,
     r.name as role_name
   FROM "user" u
@@ -189,37 +181,13 @@ export const getUsersByRole = `SELECT
     u.confirmed_at,
     u.email_customer,
     u.email_technical,
-    u.hail_endpoint_production,
     u.phone_number_technical,
     u.operator_header_name,
-    u.operator_api_key,
-    u.is_hail_enabled
+    u.operator_api_key
   FROM "user" u
   INNER JOIN roles_users ru ON ru.user_id = u.id
   INNER JOIN role r ON ru.role_id = r.id
   WHERE r.name = $1::text
-`;
-
-export const getUsersForIntegrationTools = `SELECT
-    u.id,
-    u.email,
-    u.public_id,
-    u.operator_api_key,
-    u.operator_header_name,
-    u.hail_endpoint_production,
-    u.active,
-    u.commercial_name,
-    u.confirmed_at,
-    u.email_customer,
-    u.email_technical,
-    r.id as role,
-    r.name as role_name,
-    u.phone_number_technical
-  FROM public.user u
-  INNER JOIN public.roles_users ru ON u.id = ru.user_id
-  INNER JOIN public.role r ON r.id = ru.role_id
-  LEFT OUTER JOIN public.taxi t on t.added_by = u.id
-  WHERE t.id = $1::text
 `;
 
 export const getUsersPaginated = `SELECT
@@ -231,11 +199,9 @@ export const getUsersPaginated = `SELECT
     u.commercial_name,
     u.email_customer,
     u.email_technical,
-    u.hail_endpoint_production,
     u.phone_number_technical,
     u.operator_api_key,
     u.operator_header_name,
-    u.is_hail_enabled,
     u.website_url,
     u.standard_booking_phone_number,
     u.standard_booking_website_url,
@@ -278,11 +244,9 @@ export const insertUser = `INSERT INTO public."user"(
   commercial_name,
   email_customer,
   email_technical,
-  hail_endpoint_production,
   phone_number_technical,
   operator_api_key,
   operator_header_name,
-  is_hail_enabled,
   website_url,
   standard_booking_phone_number,
   standard_booking_website_url,
@@ -315,11 +279,9 @@ export const insertUser = `INSERT INTO public."user"(
     commercial_name,
     email_customer,
     email_technical,
-    hail_endpoint_production,
     phone_number_technical,
     operator_api_key,
     operator_header_name,
-    is_hail_enabled,
     website_url,
     standard_booking_phone_number,
     standard_booking_website_url,
@@ -351,11 +313,9 @@ export const updateUser = `UPDATE public."user" SET (
   commercial_name,
   email_customer,
   email_technical,
-  hail_endpoint_production,
   phone_number_technical,
   operator_api_key,
   operator_header_name,
-  is_hail_enabled,
   website_url,
   standard_booking_phone_number,
   standard_booking_website_url,
@@ -383,11 +343,9 @@ export const updateUser = `UPDATE public."user" SET (
     commercial_name,
     email_customer,
     email_technical,
-    hail_endpoint_production,
     phone_number_technical,
     operator_api_key,
     operator_header_name,
-    is_hail_enabled,
     website_url,
     standard_booking_phone_number,
     standard_booking_website_url,

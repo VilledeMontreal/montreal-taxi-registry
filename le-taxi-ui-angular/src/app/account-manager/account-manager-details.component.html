@@ -100,11 +100,6 @@
           </md-option>
         </md-select>
       </div>
-      <div class="select-space">
-        <md-checkbox formControlName="is_hail_enabled"
-          >Peut être hélé</md-checkbox
-        >
-      </div>
       <div *ngIf="detailsForm.controls['role'].value == 2">
         <div class="select-space">
           <md-input-container class="input-full-width">
@@ -449,16 +444,6 @@
           <div class="section-title">
             Pour héler un taxi via le serveur de l'opérateur
           </div>
-        </div>
-        <div>
-          <md-input-container class="input-full-width">
-            <input
-              mdInput
-              type="text"
-              formControlName="hail_endpoint_production"
-              placeholder="URL:"
-            />
-          </md-input-container>
         </div>
         <div>
           <md-input-container class="input-full-width">

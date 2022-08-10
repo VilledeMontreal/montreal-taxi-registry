@@ -12,13 +12,11 @@ export class UserModel {
   confirmed_at: string;
   email_customer: string;
   email_technical: string;
-  hail_endpoint_production: string;
   phone_number_technical: string;
   operator_api_key: string;
   operator_header_name: string;
   role: number;
   role_name: string;
-  is_hail_enabled: boolean;
   website_url: string;
   standard_booking_phone_number: string;
   standard_booking_website_url: string;

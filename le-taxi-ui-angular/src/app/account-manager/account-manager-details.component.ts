@@ -57,11 +57,9 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
       phone_number_technical: ['', Validators.pattern(PHONE_REGEXP)],
       email_customer: ['', Validators.pattern(EMAIL_REGEXP)],
       email_technical: ['', Validators.pattern(EMAIL_REGEXP)],
-      hail_endpoint_production: ['', ''],
       operator_header_name: ['', ''],
       operator_api_key: ['', ''],
       role: ['', Validators.required],
-      is_hail_enabled: [['', '']],
       public_id: ['', [Validators.pattern(GUID_REGEXP)]],
       website_url: ['', Validators.pattern(URL_REGEXP)],
       standard_booking_phone_number: ['', Validators.pattern(PHONE_REGEXP)],
@@ -128,11 +126,9 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
                 phone_number_technical: this.user.phone_number_technical,
                 email_customer: this.user.email_customer,
                 email_technical: this.user.email_technical,
-                hail_endpoint_production: this.user.hail_endpoint_production,
                 operator_header_name: this.user.operator_header_name,
                 operator_api_key: this.user.operator_api_key,
                 role: this.user.role,
-                is_hail_enabled: this.user.is_hail_enabled,
                 public_id: this.user.public_id,
                 website_url: this.user.website_url,
                 standard_booking_phone_number: this.user
@@ -262,11 +258,9 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
     this.user.phone_number_technical = this.detailsForm.value.phone_number_technical || null;
     this.user.email_customer = this.detailsForm.value.email_customer || null;
     this.user.email_technical = this.detailsForm.value.email_technical || null;
-    this.user.hail_endpoint_production = this.detailsForm.value.hail_endpoint_production || null;
     this.user.operator_header_name = this.detailsForm.value.operator_header_name || null;
     this.user.operator_api_key = this.detailsForm.value.operator_api_key || null;
     this.user.role = this.detailsForm.value.role || null;
-    this.user.is_hail_enabled = this.detailsForm.value.is_hail_enabled || null;
     this.user.public_id = this.detailsForm.value.public_id || null;
     this.user.website_url = this.detailsForm.value.website_url || null;
     this.user.standard_booking_phone_number = this.detailsForm.value.standard_booking_phone_number || null;

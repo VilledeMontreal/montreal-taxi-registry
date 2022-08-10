@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1697-gtfs-deep-links-list": "develop",
+            "feature/TM-1740-remove-hailing": "develop",
         ],
     ],
     packaging: [
@@ -152,22 +152,12 @@ ctx = pipeline.createContext([
         endpoints: [
             // Data dumps
             "/api/taxi/taxi-registry/api/data-dumps",
-            "/api/taxi/taxi-registry/api/fake-data-dump",
             // Crons
             "/api/taxi/taxi-registry/api/worker",
             // UI
             "/api/taxi/taxi-registry/api/legacy-web",
-            // Integration tools
-            "/api/taxi/taxi-registry/api/operator-integration-tools",
-            "/api/taxi/taxi-registry/api/motor-integration-tools",
             // Tests
             "/api/taxi/taxi-registry/api/fakes",
-            "/api/taxi/taxi-registry/api/operator/endpoint",
-            "/api/taxi/taxi-registry/api/ping",
-            "/api/taxi/taxi-registry/api/ping-heavy",
-            "/api/taxi/taxi-registry/api/hailTestingDone",
-            "/api/taxi/taxi-registry/api/hailTestingData",
-            "/api/taxi/taxi-registry/api/testTimeout",
             // Diagnostics
             "/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-ping",
             "/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-metrics",

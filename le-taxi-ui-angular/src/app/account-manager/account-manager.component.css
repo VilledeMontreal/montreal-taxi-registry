@@ -14,19 +14,6 @@
 .mat-column-id {
     flex:0 1 auto !important;
     width: 120px;
-  }
-
-.mat-column-hail {
-    flex:0 1 auto !important;
-    width: 80px;
-  }
-
-.hailDone{
-    color: green;
-}
-
-.hailNotDone {
-    color: red;
 }
 
 .add-user-button {

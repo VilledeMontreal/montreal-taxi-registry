@@ -45,7 +45,6 @@ export interface ITaxiDetails {
   relais: boolean;
   special_need_vehicle: boolean;
   status: string;
-  status_hail: string;
   tablet: boolean;
   taximetre: string;
   type_: string;

@@ -45,7 +45,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when creating operator without a public_id', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
       x.public_id = null;
     });
 
@@ -62,14 +61,12 @@ export async function invalidUserTests(): Promise<void> {
     const guid = uuidv4();
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
       x.public_id = guid;
     });
     await createUser(userDto);
 
     const otherUserDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
       x.public_id = guid;
     });
     await shouldThrow(
@@ -84,7 +81,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when updating operator without a public_id', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -103,7 +99,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when creating operator with a public_id that is not a GUID', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
       x.public_id = 'XXXX';
     });
 
@@ -122,7 +117,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when creating operator without a website_url', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
       x.website_url = null;
     });
 
@@ -138,7 +132,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when updating operator without a website_url', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -157,7 +150,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when creating operator with a website_url that is not a valid url', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
       x.website_url = 'XXXX';
     });
 
@@ -176,7 +168,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when promoting standard booking taxi with missing information', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -198,7 +189,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when promoting minivan booking with missing information', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -222,7 +212,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when promoting minivan booking but not standard booking', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);
@@ -245,7 +234,6 @@ export async function invalidUserTests(): Promise<void> {
   it('Should return Bad Request when promoting special need booking with missing information', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.is_hail_enabled = true;
     });
 
     const user = await createUser(userDto);

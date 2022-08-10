@@ -7,9 +7,6 @@ import { crudDriverTests } from './drivers/crudDriver.apiTest';
 import { invalidDriverTests } from './drivers/invalidDriver.apiTest';
 import { crudGtfsDeepLinksTests } from './gtfsDeepLinks/crudGtfsDeepLinks.apiTest';
 import { invalidGtfsDeepLinksTests } from './gtfsDeepLinks/invalidGtfsDeepLinks.apiTest';
-import { crudHailTests } from './hails/crudHail.apiTest';
-import { hailOperatorTests } from './hails/hailOperator.apiTest';
-import { invalidHailTests } from './hails/invalidHail.apiTest';
 import { crudInquiryTests } from './inquiry/crudInquiry.apiTest';
 import { invalidInquiryTests } from './inquiry/invalidInquiry.apiTest';
 import { invalidJsonTests } from './json/invalidJson.apiTest';
@@ -19,7 +16,6 @@ import { crudMapTests } from './map/crudMap.apiTest';
 import { invalidMapTests } from './map/invalidMap.apiTest';
 import { crudOsrmTests } from './osrm/crudOsrm.apiTest';
 import { invalidOsrmTests } from './osrm/invalidOsrm.apiTest';
-import { timeSlotTests } from './shared/dataDumps/timeSlot.apiTest';
 import { crudTaxiPositionSnapShotsTests } from './taxiPositionSnapShots/crudTaxiPositionSnapShots.apiTest';
 import { invalidTaxiPositionSnapShotsTests } from './taxiPositionSnapShots/invalidTaxiPositionSnapShots.apiTest';
 import { crudTaxiTests } from './taxis/crudTaxi.apiTest';
@@ -33,7 +29,6 @@ import { invalidVehicleTests } from './vehicles/invalidVehicle.apiTest';
 export function commonTests() {
   crudAdsTests();
   crudDriverTests();
-  crudHailTests();
   crudGtfsDeepLinksTests();
   crudOsrmTests();
   crudInquiryTests();
@@ -43,11 +38,9 @@ export function commonTests() {
   crudTaxiTests();
   crudUserTests();
   crudVehicleTests();
-  hailOperatorTests();
   invalidAdsTests();
   invalidApiKeyTests();
   invalidDriverTests();
-  invalidHailTests();
   invalidGtfsDeepLinksTests();
   invalidInquiryTests();
   invalidJsonTests();
@@ -58,5 +51,4 @@ export function commonTests() {
   invalidTaxiTests();
   invalidUserTests();
   invalidVehicleTests();
-  timeSlotTests();
 }

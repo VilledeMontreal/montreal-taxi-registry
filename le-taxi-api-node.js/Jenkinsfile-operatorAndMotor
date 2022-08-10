@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1697-gtfs-deep-links-list": "develop",
+            "feature/TM-1740-remove-hailing": "develop",
         ],
     ],
     packaging: [
@@ -154,7 +154,6 @@ ctx = pipeline.createContext([
             "/api/taxi/taxi-registry/api/ads",
             "/api/taxi/taxi-registry/api/taxis",
             "/api/taxi/taxi-registry/api/drivers",
-            "/api/taxi/taxi-registry/api/hails",
             "/api/taxi/taxi-registry/api/vehicles",
             "/api/taxi/taxi-registry/api/inquiry",
             "/api/taxi/taxi-registry/api/users",

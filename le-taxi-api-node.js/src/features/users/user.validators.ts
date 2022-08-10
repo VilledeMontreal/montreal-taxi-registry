@@ -96,7 +96,6 @@ function promotionStateChanged(promoted: boolean, previouslyPromoted: boolean) {
 
 function sanitizeDto(userRequestDto: UserRequestDto): UserRequestDto {
   const user = Object.assign(new UserRequestDto(), userRequestDto);
-  user.is_hail_enabled = user.is_hail_enabled ?? false;
   user.phone_number_technical = parsePhoneNumber(user.phone_number_technical);
   user.standard_booking_phone_number = parsePhoneNumber(user.standard_booking_phone_number);
   user.special_need_booking_phone_number = parsePhoneNumber(user.special_need_booking_phone_number);

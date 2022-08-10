@@ -53,8 +53,7 @@ export class AccountManagerComponent implements OnInit {
     'id',
     'email',
     'role',
-    'commercial_name',
-    'hailAllowed'
+    'commercial_name'
   ];
   dataSource: AccountDataSource;
   count = 0;

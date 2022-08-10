@@ -206,7 +206,7 @@ export async function crudVehicleTests(): Promise<void> {
 
   it('Cannot alter the vehicle of another operator', async () => {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
-    const operatorB = (await createNonImmutableUser(UserRole.Operator, false)).apikey;
+    const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
     const sameDto = copyVehicleTemplate(x => (x.data[0].licence_plate = 'same'));
 
     const canCreateMine = await postVehicle(sameDto, operatorA);

@@ -9,13 +9,8 @@ import { getDriversRoutes } from './drivers/driver.routes';
 import { getTaxiPathRoutes } from './exportTaxiPath/taxiPath.route';
 import { getGtfsDeepLinksRoutes } from './gtfsDeepLinks/gtfsDeepLinks.routes';
 import { getGtfsFeedRoutes } from './gtfsFeed/gtfsFeed.routes';
-import { getHailAnonymizationRoutes } from './hailAnonymization/hail-anonymization.route';
-import { getHailDataDumpsRoutes } from './hailDataDumps/hailDataDumps.routes';
-import { getHailFakeDataDumpRoutes } from './hailFakeDataDump/hail-fake-data-dump.route';
-import { getHailRoutes } from './hails/hail.routes';
 import { getInquiryRoutes } from './inquiry/inquiry.routes';
 import { getMapRoutes } from './map/map.routes';
-import { getPingRoutes } from './ping/ping.routes';
 import { getRolesDataDumpRoutes } from './roleDataDumps/roleDataDumps.routes';
 import { getTaxiAreasRoutes } from './taxiAreas/taxiAreas.routes';
 import { getTaxiDataDumpsRoutes } from './taxiDataDumps/taxiDataDumps.routes';
@@ -38,13 +33,8 @@ export function getFeaturesRoutes(): IHandlerRoute[] {
     getDriversRoutes(),
     getGtfsDeepLinksRoutes(),
     getGtfsFeedRoutes(),
-    getHailAnonymizationRoutes(),
-    getHailDataDumpsRoutes(),
-    getHailFakeDataDumpRoutes(),
-    getHailRoutes(),
     getInquiryRoutes(),
     getMapRoutes(),
-    getPingRoutes(),
     getRolesDataDumpRoutes(),
     getTaxiAreasRoutes(),
     getTaxiDataDumpsRoutes(),

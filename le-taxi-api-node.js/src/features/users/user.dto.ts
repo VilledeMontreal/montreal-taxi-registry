@@ -16,7 +16,6 @@ import {
 } from 'class-validator';
 
 const isUrlOptions = { allow_underscores: true };
-const isUrlHailOptions = { allow_underscores: true, require_tld: false };
 
 export class UserRequestDto {
   @IsOptional()
@@ -53,19 +52,11 @@ export class UserRequestDto {
   email_technical: string;
 
   @IsOptional()
-  @IsUrl(isUrlHailOptions)
-  hail_endpoint_production: string;
-
-  @IsOptional()
   @IsPhoneNumber('US')
   phone_number_technical: string;
 
   operator_api_key: string;
   operator_header_name: string;
-
-  @IsOptional()
-  @IsBoolean()
-  is_hail_enabled: boolean;
 
   @IsOptional()
   @IsUrl(isUrlOptions)

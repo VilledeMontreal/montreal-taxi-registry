@@ -3,8 +3,6 @@
 /* tslint:disable: no-floating-promises */
 import { crudDriversCsvTests } from './driversCsv/crudDriversCsv.apiTest';
 import { invalidDriversCsvTests } from './driversCsv/invalidDriversCsv.apiTest';
-import { crudHailDataDumpsTests } from './hailDataDumps/crudHailDataDumps.apiTest';
-import { invalidHailDataDumpsTests } from './hailDataDumps/invalidHailDataDumps.apiTest';
 import { crudTaxiCsvTests } from './taxiCsv/crudTaxiCsv.apiTest';
 import { invalidTaxiCsvTests } from './taxiCsv/invalidTaxiCsv.apiTest';
 import { crudTaxiDataDumpsTests } from './taxiDataDumps/crudTaxiDataDumps.apiTest';
@@ -27,8 +25,6 @@ export function dataDumpsTests() {
   invalidVehicleDataDumpsTests();
   crudTaxiDataDumpsTests();
   invalidTaxiDataDumpsTests();
-  crudHailDataDumpsTests();
-  invalidHailDataDumpsTests();
   crudTaxiPositionSnapshotDataDumpsTests();
   invalidTaxiPositionSnapshotDataDumpsTests();
 }
