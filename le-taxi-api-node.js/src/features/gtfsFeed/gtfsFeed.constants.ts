@@ -131,6 +131,8 @@ export const bookingRules: Partial<GtfsBookingRulesDto>[] = [
 export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   {
     trip_id: 'taxi-registry-standard-route-artm-to-artm-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '1',
     stop_id: 'artm',
     pickup_type: '4',
@@ -144,6 +146,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-standard-route-artm-to-artm-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '2',
     stop_id: 'artm',
     pickup_type: '1',
@@ -157,6 +161,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-standard-route-artm-to-airport-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '1',
     stop_id: 'artm',
     pickup_type: '4',
@@ -170,6 +176,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-standard-route-artm-to-airport-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '2',
     stop_id: 'airport',
     pickup_type: '1',
@@ -183,6 +191,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-minivan-route-artm-to-artm-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '1',
     stop_id: 'artm',
     pickup_type: '4',
@@ -196,6 +206,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-minivan-route-artm-to-artm-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '2',
     stop_id: 'artm',
     pickup_type: '1',
@@ -209,6 +221,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-minivan-route-artm-to-airport-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '1',
     stop_id: 'artm',
     pickup_type: '4',
@@ -222,6 +236,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-minivan-route-artm-to-airport-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '2',
     stop_id: 'airport',
     pickup_type: '1',
@@ -235,6 +251,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-special-need-route-artm-to-artm-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '1',
     stop_id: 'artm',
     pickup_type: '4',
@@ -248,6 +266,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-special-need-route-artm-to-artm-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '2',
     stop_id: 'artm',
     pickup_type: '1',
@@ -261,6 +281,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-special-need-route-artm-to-airport-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '1',
     stop_id: 'artm',
     pickup_type: '4',
@@ -274,6 +296,8 @@ export const stopTimes: Partial<GtfsStopTimesDto>[] = [
   },
   {
     trip_id: 'taxi-registry-special-need-route-artm-to-airport-trip',
+    arrival_time: '00:00:00',
+    departure_time: '00:00:00',
     stop_sequence: '2',
     stop_id: 'airport',
     pickup_type: '1',
@@ -309,10 +333,19 @@ export const vehicleCategories: Partial<GtfsVehicleCategoriesDto>[] = [
   }
 ];
 
-export const emptyStops: Partial<GtfsStopsDto> = {
-  stop_id: null,
-  stop_lat: null,
-  stop_lon: null,
-  stop_name: null,
-  stop_desc: null
-};
+export const stops: Partial<GtfsStopsDto>[] = [
+  {
+    stop_id: 'artm',
+    stop_lat: null,
+    stop_lon: null,
+    stop_name: 'artm zone',
+    stop_desc: 'See locations.geojson for artm zone definition'
+  },
+  {
+    stop_id: 'airport',
+    stop_lat: null,
+    stop_lon: null,
+    stop_name: 'airport zone',
+    stop_desc: 'See locations.geojson for airport zone definition'
+  }
+];

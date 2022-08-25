@@ -270,6 +270,8 @@ function standardStopTimes(operator: UserModel): GtfsStopTimesDto[] {
   return [
     {
       trip_id: `${operator.public_id}-standard-route-artm-to-artm-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '1',
       stop_id: 'artm',
       pickup_type: '4',
@@ -283,6 +285,8 @@ function standardStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-standard-route-artm-to-artm-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '2',
       stop_id: 'artm',
       pickup_type: '1',
@@ -296,6 +300,8 @@ function standardStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-standard-route-artm-to-airport-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '1',
       stop_id: 'artm',
       pickup_type: '4',
@@ -309,6 +315,8 @@ function standardStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-standard-route-artm-to-airport-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '2',
       stop_id: 'artm',
       pickup_type: '1',
@@ -326,6 +334,8 @@ function minivanStopTimes(operator: UserModel): GtfsStopTimesDto[] {
   return [
     {
       trip_id: `${operator.public_id}-minivan-route-artm-to-artm-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '1',
       stop_id: 'artm',
       pickup_type: '4',
@@ -339,6 +349,8 @@ function minivanStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-minivan-route-artm-to-artm-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '2',
       stop_id: 'artm',
       pickup_type: '1',
@@ -352,6 +364,8 @@ function minivanStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-minivan-route-artm-to-airport-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '1',
       stop_id: 'artm',
       pickup_type: '4',
@@ -365,6 +379,8 @@ function minivanStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-minivan-route-artm-to-airport-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '2',
       stop_id: 'artm',
       pickup_type: '1',
@@ -382,6 +398,8 @@ function specialNeedStopTimes(operator: UserModel): GtfsStopTimesDto[] {
   return [
     {
       trip_id: `${operator.public_id}-special-need-route-artm-to-artm-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '1',
       stop_id: 'artm',
       pickup_type: '4',
@@ -395,6 +413,8 @@ function specialNeedStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-special-need-route-artm-to-artm-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '2',
       stop_id: 'artm',
       pickup_type: '1',
@@ -408,6 +428,8 @@ function specialNeedStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-special-need-route-artm-to-airport-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '1',
       stop_id: 'artm',
       pickup_type: '4',
@@ -421,6 +443,8 @@ function specialNeedStopTimes(operator: UserModel): GtfsStopTimesDto[] {
     },
     {
       trip_id: `${operator.public_id}-special-need-route-artm-to-airport-trip`,
+      arrival_time: '00:00:00',
+      departure_time: '00:00:00',
       stop_sequence: '2',
       stop_id: 'artm',
       pickup_type: '1',

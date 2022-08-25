@@ -73,6 +73,8 @@ export class GtfsStopsDto {
 
 export class GtfsStopTimesDto {
   trip_id: string;
+  arrival_time: string;
+  departure_time: string;
   stop_sequence: string;
   stop_id: string;
   pickup_type: string;

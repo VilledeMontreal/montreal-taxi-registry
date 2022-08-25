@@ -9,10 +9,10 @@ import {
   bookingRules,
   calendar,
   emptyDeepLinks,
-  emptyStops,
   feedInfo,
   riderCategories,
   routes,
+  stops,
   stopTimes,
   trips,
   vehicleCategories
@@ -89,7 +89,7 @@ class GtfsFeedGenerator {
   }
 
   public getStops(context: GtfsFeedGeneratorContext) {
-    return jsonToCsv(emptyStops);
+    return jsonToCsv(stops);
   }
 
   public getStopTimes(context: GtfsFeedGeneratorContext) {
