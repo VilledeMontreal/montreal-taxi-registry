@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import { BadRequestError } from '../features/errorHandling/errors';
 import { buildApiEndpoint } from '../features/shared/utils/apiUtils';
 import { allow } from '../features/users/securityDecorator';
+import { UserRole } from '../features/users/userRole';
 import { FakeOperatorService } from '../services/fake-operator.service';
 
 export class controller {
@@ -16,7 +17,7 @@ export class controller {
     app.post(buildApiEndpoint('/api/operator/endpoint'), this.operatorEndPoint);
   }
 
-  @allow(['admin', 'operateur'])
+  @allow([UserRole.Admin, UserRole.Operator])
   operatorEndPoint(req, res, next) {
     let hail: any = req.body;
 

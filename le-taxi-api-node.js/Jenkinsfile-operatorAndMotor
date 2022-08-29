@@ -159,6 +159,7 @@ ctx = pipeline.createContext([
             "/api/taxi/taxi-registry/api/inquiry",
             "/api/taxi/taxi-registry/api/users",
             "/api/taxi/taxi-registry/api/current-user",
+            "/api/taxi/taxi-registry/api/taxi-registry-gtfs-feed",
 
             // Diagnostics
             "/diagnostics/taxi/taxi-registry/v1/operator-and-motor-ping",

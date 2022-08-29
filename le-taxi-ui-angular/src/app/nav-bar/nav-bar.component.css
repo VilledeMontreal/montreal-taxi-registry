@@ -56,6 +56,21 @@ nav-item {
   cursor: pointer;
 }
 
+.topnav_btn_gtfs_feed {
+  background-color: transparent;
+  border: none;
+  color: white;
+  position: absolute;
+  top: 0px;
+  right: 100px;
+  height: 80px;
+  width: 100px;
+  outline: none;
+  cursor: pointer;
+  margin-top: -12px;
+  padding: 24px;
+}
+
 .topnav_logo {
   height: 80px;
   cursor: pointer;

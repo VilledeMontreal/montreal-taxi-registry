@@ -105,6 +105,57 @@ export const getUserByApikey = `SELECT
   WHERE u.apikey_v2 = $1::text
 `;
 
+export const getPromotedOperators = `SELECT
+    u.id,
+    u.email,
+    u.public_id,
+    r.name as role_name,
+    r.id as role,
+    u.operator_api_key,
+    u.operator_header_name,
+    u.hail_endpoint_production,
+    u.active,
+    u.commercial_name,
+    u.confirmed_at,
+    u.email_customer,
+    u.email_technical,
+    u.phone_number_technical,
+    u.is_hail_enabled,
+    u.website_url,
+    u.standard_booking_phone_number,
+    u.standard_booking_website_url,
+    u.standard_booking_android_deeplink_uri,
+    u.standard_booking_android_store_uri,
+    u.standard_booking_ios_deeplink_uri,
+    u.standard_booking_ios_store_uri,
+    u.standard_booking_is_promoted_to_public,
+    u.standard_booking_inquiries_starts_at,
+    u.minivan_booking_is_available_from_web_url,
+    u.minivan_booking_is_available_from_android_uri,
+    u.minivan_booking_is_available_from_ios_uri,
+    u.minivan_booking_is_promoted_to_public,
+    u.minivan_booking_inquiries_starts_at,
+    u.special_need_booking_phone_number,
+    u.special_need_booking_website_url,
+    u.special_need_booking_android_deeplink_uri,
+    u.special_need_booking_android_store_uri,
+    u.special_need_booking_ios_deeplink_uri,
+    u.special_need_booking_ios_store_uri,
+    u.special_need_booking_is_promoted_to_public,
+    u.special_need_booking_inquiries_starts_at
+  FROM public.user u
+  INNER JOIN public.roles_users ru ON u.id = ru.user_id
+  INNER JOIN public.role r ON r.id = ru.role_id
+  WHERE r.name = $1::text
+  AND u.active = true
+  AND u.public_id is not null
+  AND (
+    u.standard_booking_inquiries_starts_at <= $2
+    OR u.minivan_booking_inquiries_starts_at <= $2
+    OR u.special_need_booking_inquiries_starts_at <= $2
+  )
+`;
+
 export const getUserForAuthentication = `SELECT
     u.id,
     u.email,
