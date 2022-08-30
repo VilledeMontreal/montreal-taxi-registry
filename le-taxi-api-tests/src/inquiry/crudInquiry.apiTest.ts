@@ -2,6 +2,7 @@
 // See LICENSE file in the project root for full license information.
 import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
+import { configs } from '../../config/configs';
 import { generateSouthShoreCoordinates } from '../shared/commonLoadTests/specialRegion';
 import { UserRole } from '../shared/commonTests/UserRole';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
@@ -103,12 +104,8 @@ export async function crudInquiryTests(): Promise<void> {
     assert.isString(inquiryResponse.body.validUntil);
     assert.isArray(inquiryResponse.body.options);
     assert.isString(inquiryResponse.body.options[0].mainAssetType.id);
-    assert.isString(inquiryResponse.body.options[0].optimisticDepartureTime);
     assert.isString(inquiryResponse.body.options[0].departureTime);
-    assert.isString(inquiryResponse.body.options[0].pessimisticDepartureTime);
-    assert.isString(inquiryResponse.body.options[0].optimisticArrivalTime);
     assert.isString(inquiryResponse.body.options[0].arrivalTime);
-    assert.isString(inquiryResponse.body.options[0].pessimisticArrivalTime);
     assert.isNumber(inquiryResponse.body.options[0].from.coordinates.lat);
     assert.isNumber(inquiryResponse.body.options[0].from.coordinates.lon);
     assert.isNumber(inquiryResponse.body.options[0].to.coordinates.lat);
@@ -245,6 +242,33 @@ export async function crudInquiryTests(): Promise<void> {
     const inquiryResponse = await postInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+  });
+
+  it(`Should account for bias and requestAndDispatch times at minimum`, async () => {
+    const coordinates = generateSouthShoreCoordinates();
+    await createTaxisWithPromotions([{ ...coordinates, type: 'sedan' }]);
+
+    const inquiryRequest = buildInquiryRequest(
+      coordinates,
+      coordinates,
+      AssetTypes.Normal
+      );
+      const inquiryResponse = await postInquiry(inquiryRequest);
+
+    const now = new Date();
+    const fiveSecondsInMillis = 5000;
+    const departureTime = now.getTime() + (configs.taxiRegistryOsrmApi.estimation.biasInSec + configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec) * 1000;
+    const departureTimeLow = new Date(departureTime - fiveSecondsInMillis).toISOString();
+    const departureTimeHigh = new Date(departureTime + fiveSecondsInMillis).toISOString();
+    const arrivalTime = departureTime + configs.taxiRegistryOsrmApi.estimation.biasInSec * 1000;
+    const arrivalTimeLow = new Date(arrivalTime - fiveSecondsInMillis).toISOString();
+    const arrivalTimeHigh = new Date(arrivalTime + fiveSecondsInMillis).toISOString();
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isTrue(inquiryResponse.body.options[0].departureTime > departureTimeLow);
+    assert.isTrue(inquiryResponse.body.options[0].departureTime < departureTimeHigh);
+    assert.isTrue(inquiryResponse.body.options[0].arrivalTime > arrivalTimeLow);
+    assert.isTrue(inquiryResponse.body.options[0].arrivalTime < arrivalTimeHigh);
   });
 }
 
