@@ -18,6 +18,7 @@ export async function validateUserRequest(request: Request): Promise<UserRequest
 
   await validateDtoProperties(new UserRequestDto(), data);
   ensureOperatorHasPublicId(data);
+  ensureOperatorHasWebsiteUrl(data);
   ensureMinimalInformationForPublicPromotion(data);
 
   return data;
@@ -123,6 +124,12 @@ function parsePhoneNumber(phoneNumber: string): string {
 function ensureOperatorHasPublicId(user: UserRequestDto): void {
   if (user.role === UserRoleId.Operator && !user.public_id) {
     throw new BadRequestError('Operators must be provided with a public_id');
+  }
+}
+
+function ensureOperatorHasWebsiteUrl(user: UserRequestDto): void {
+  if (user.role === UserRoleId.Operator && !user.website_url) {
+    throw new BadRequestError('Operators must be provided with a website_url');
   }
 }
 

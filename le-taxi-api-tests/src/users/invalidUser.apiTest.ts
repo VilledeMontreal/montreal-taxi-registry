@@ -119,6 +119,60 @@ export async function invalidUserTests(): Promise<void> {
     );
   });
 
+  it('Should return Bad Request when creating operator without a website_url', async () => {
+    const userDto = copyUserTemplate(x => {
+      x.role = UserRole.Operator;
+      x.is_hail_enabled = true;
+      x.website_url = null;
+    });
+
+    await shouldThrow(
+      () => createUser(userDto),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.strictEqual(err.response.body.error.message, 'Operators must be provided with a website_url');
+      }
+    );
+  });
+
+  it('Should return Bad Request when updating operator without a website_url', async () => {
+    const userDto = copyUserTemplate(x => {
+      x.role = UserRole.Operator;
+      x.is_hail_enabled = true;
+    });
+
+    const user = await createUser(userDto);
+    userDto.id = user.id;
+    userDto.website_url = null;
+
+    await shouldThrow(
+      () => updateUser(userDto),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.strictEqual(err.response.body.error.message, 'Operators must be provided with a website_url');
+      }
+    );
+  });
+
+  it('Should return Bad Request when creating operator with a website_url that is not a valid url', async () => {
+    const userDto = copyUserTemplate(x => {
+      x.role = UserRole.Operator;
+      x.is_hail_enabled = true;
+      x.website_url = 'XXXX';
+    });
+
+    await shouldThrow(
+      () => createUser(userDto),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.strictEqual(
+          err.response.body.error.message,
+          'The object failed the validation because website_url must be an URL address'
+        );
+      }
+    );
+  });
+
   it('Should return Bad Request when promoting standard booking taxi with missing information', async () => {
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
