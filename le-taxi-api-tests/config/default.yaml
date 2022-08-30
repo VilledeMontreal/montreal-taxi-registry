@@ -26,3 +26,6 @@ taxiRegistryOsrmApi:
   domainPath: /api/taxi/taxi-registry-osrm
   route: route
   version: v1
+  estimation:
+    biasInSec: 336 # Bias calculated against Polytechnic's data to even the distribution over/under
+    requestAndDispatchInSec: 120 # Arbitrary time to account for the taxi request and dispatch

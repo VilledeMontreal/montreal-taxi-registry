@@ -66,12 +66,8 @@ export class InquiryResponseDTO {
   options: [
     {
       mainAssetType: { id: string };
-      optimisticDepartureTime: string;
       departureTime: string;
-      pessimisticDepartureTime: string;
-      optimisticArrivalTime: string;
       arrivalTime: string;
-      pessimisticArrivalTime: string;
       from: {
         coordinates: CoordinatesHolder;
       };

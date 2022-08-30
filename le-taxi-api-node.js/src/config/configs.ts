@@ -246,7 +246,11 @@ export class Configs {
       base: this.cache.get<string>('taxiRegistryOsrmApi.base'),
       domainPath: this.cache.get<string>('taxiRegistryOsrmApi.domainPath'),
       route: this.cache.get<string>('taxiRegistryOsrmApi.route'),
-      version: this.cache.get<string>('taxiRegistryOsrmApi.version')
+      version: this.cache.get<string>('taxiRegistryOsrmApi.version'),
+      estimation: {
+        biasInSec: this.cache.get<number>('taxiRegistryOsrmApi.estimation.biasInSec'),
+        requestAndDispatchInSec: this.cache.get<number>('taxiRegistryOsrmApi.estimation.requestAndDispatchInSec')
+      }
     };
   }
 
