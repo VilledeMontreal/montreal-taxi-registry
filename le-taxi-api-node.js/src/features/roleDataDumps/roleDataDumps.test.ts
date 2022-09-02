@@ -1,11 +1,11 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import * as chai from 'chai';
-import chaiHttp = require('chai-http');
 import { StatusCodes } from 'http-status-codes';
 import { configs } from '../../config/configs';
 import { app } from '../../tests/init';
 import { buildApiEndpoint } from '../shared/utils/apiUtils';
+import chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
 chai.should();
@@ -16,7 +16,6 @@ describe('Roles data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/roles'))
       .set('X-API-Key', configs.apikeys.stats)
-      .set('X-VERSION', '2')
       .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
@@ -33,7 +32,6 @@ describe('Roles data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/roles'))
       .set('X-API-Key', configs.apikeys.admin)
-      .set('X-VERSION', '2')
       .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
@@ -50,7 +48,6 @@ describe('Roles data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/roles'))
       .set('X-API-Key', configs.apikeys.gestion)
-      .set('X-VERSION', '2')
       .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
@@ -67,7 +64,6 @@ describe('Roles data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/roles'))
       .set('X-API-Key', configs.apikeys.operateur)
-      .set('X-VERSION', '2')
       .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {

@@ -76,7 +76,6 @@ export class TaxisService {
   ): Promise<ITaxiDetails> {
     const requestHeaders = new Headers({
       'Content-Type': 'application/json',
-      'x-version': 2,
       'x-api-key': operatorApiKey
     });
     const requestOptions = new RequestOptions({
