@@ -6,6 +6,5 @@ export const displayedColumns = [
   'first_name',
   'last_name',
   'vdm_vignette',
-  'added_by_name',
-  'hail'
+  'added_by_name'
 ];

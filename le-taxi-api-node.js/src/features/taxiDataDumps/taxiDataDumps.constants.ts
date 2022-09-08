@@ -16,7 +16,6 @@ SELECT public.taxi.added_at,
   public.taxi.driver_id,
   public.taxi.rating,
   public.taxi.private,
-  null as current_hail_id,
   public.taxi.ban_begin,
   public.taxi.ban_end,
   public."user".email as added_by_name

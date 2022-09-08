@@ -1,10 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { BadRequestError } from "../features/errorHandling/errors";
-import { hailRepository } from "../features/hails/hail.repository";
-import { getCurrentStatus } from "../features/hails/statuses/hailStatuses";
 import { latestTaxiPositionRepository } from "../features/latestTaxiPositions/latestTaxiPosition.repository";
-import { nowUtcIsoString } from "../features/shared/dateUtils/dateUtils";
 import { postgrePool } from '../features/shared/taxiPostgre/taxiPostgre';
 import { TaxiStatus } from "../libs/taxiStatus";
 
@@ -32,13 +29,11 @@ export class TaxiService {
     if (!queryResult || !queryResult.rows || !queryResult.rows.length)
       throw new BadRequestError('Unable to find requested taxi');
 
-    const hail = await hailRepository.getHailByTaxiId(idTaxi);
     const taxisActif = await latestTaxiPositionRepository.getLatestTaxiPositions();
     const taxi = taxisActif?.find(actif => actif.taxi.id === queryResult.rows[0].id);
 
     return [{
       ...queryResult.rows[0],
-      status_hail: hail ? getCurrentStatus(hail, nowUtcIsoString()) : null,
       status: taxi && taxi.status || TaxiStatus.Off
     }];
   }

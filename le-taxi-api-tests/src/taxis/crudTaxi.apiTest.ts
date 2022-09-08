@@ -77,7 +77,7 @@ export async function crudTaxiTests(): Promise<void> {
 
   it('Cannot alter the driver of another operator', async () => {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
-    const operatorB = (await createNonImmutableUser(UserRole.Operator, false)).apikey;
+    const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
     const sameDto = copyTaxiTemplate(x => {
       x.data[0].driver.departement = departementWithOwnerSemanticForADS;
       x.data[0].driver.professional_licence = 'sameTaxi';
@@ -414,7 +414,7 @@ export async function crudTaxiTests(): Promise<void> {
 
   it('Should be able to create duplicate taxi (and duplicate triplet) with different operator', async () => {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
-    const operatorB = (await createNonImmutableUser(UserRole.Operator, false)).apikey;
+    const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
     const sameDto = copyTaxiTemplate(x => {
       const item = x.data[0];
       item.driver.departement = departementWithOwnerSemanticForADS;

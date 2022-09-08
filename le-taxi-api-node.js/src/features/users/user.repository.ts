@@ -16,7 +16,6 @@ import {
   getUserForAuthentication,
   getUsersByRole,
   getUsersCount,
-  getUsersForIntegrationTools,
   getUsersPaginated,
   insertUser,
   insertUserRole,
@@ -67,14 +66,6 @@ class UserRepository {
 
   public async getUserForAuthentication(email: string): Promise<UserModel> {
     const queryResult: QueryResult = await postgrePool.query<UserModel>(getUserForAuthentication, [email]);
-    if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
-      return null;
-    }
-    return queryResult.rows[0];
-  }
-
-  public async getUserForIntegrationTools(id: number): Promise<UserModel> {
-    const queryResult: QueryResult = await postgrePool.query<UserModel>(getUsersForIntegrationTools, [id]);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
     }

@@ -16,7 +16,6 @@ export async function getValidTaxiPositionSnapshotDtoAndApikey(
 ): Promise<[ITaxiPositionSnapShots, string]> {
   const userDto = copyUserTemplate(x => {
     x.role = role;
-    x.is_hail_enabled = true;
   });
   const user = await createUser(userDto);
   const apiKey = user.apikey;

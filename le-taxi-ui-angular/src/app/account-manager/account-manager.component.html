@@ -34,11 +34,6 @@
             <md-cell *cdkCellDef="let row"> {{row.commercial_name}} </md-cell>
           </ng-container>
 
-          <ng-container cdkColumnDef="hailAllowed">
-            <md-header-cell *cdkHeaderCellDef> Hails Enabled</md-header-cell>
-            <md-cell *cdkCellDef="let row"><md-icon *ngIf="row.is_hail_enabled">close</md-icon></md-cell>
-          </ng-container>
-
           <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
           <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
 

@@ -41,7 +41,7 @@ export async function crudTaxiCsvTests(): Promise<void> {
   testTaxiCsvAccessValid(UserRole.Inspector);
 
   it('Taxi CSV file conforms to all columns name and position', async () => {
-    const newOperator = await createNonImmutableUser(UserRole.Operator, true);
+    const newOperator = await createNonImmutableUser(UserRole.Operator);
     await setupNewTaxi(copyTaxiTemplate(), newOperator.apikey);
 
     const apiKey = await getImmutableUserApiKey(UserRole.Manager);

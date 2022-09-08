@@ -17,27 +17,6 @@ dataSources:
   mongo:
     host1: dvllgt01a.ile.montreal.qc.ca
     host2: dvllgt01b.ile.montreal.qc.ca
-
-hails:
-  statuses:
-    emitted:
-      timeoutInSec: 20
-    received:
-      timeoutInSec: 20
-    sent_to_operator:
-      timeoutInSec: 20
-    received_by_operator:
-      timeoutInSec: 20
-    received_by_taxi:
-      timeoutInSec: 20
-    accepted_by_taxi:
-      timeoutInSec: 20
-    accepted_by_customer:
-      timeoutInSec: 20
-    customer_on_board:
-      timeoutInSec: 20
-  dataDump:
-    dumpPeriodInMinutes: 1
 caching:
   taxisMaxAgeInSec: 10
   usersMaxAgeInSec: 10

@@ -19,7 +19,6 @@ export interface DetailsTaxi {
   insee: string;
   private: string;
   status: string;
-  status_hail: string;
   rating: string;
 
   air_con: boolean;

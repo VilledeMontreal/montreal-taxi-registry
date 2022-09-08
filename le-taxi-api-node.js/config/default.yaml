@@ -84,30 +84,6 @@ dataSources:
       database: taxiestimate
       user: secret
       password: secret
-
-#==========================================
-# Hails
-#==========================================
-hails:
-  statuses:
-    emitted:
-      timeoutInSec: 10
-    received:
-      timeoutInSec: 15
-    sent_to_operator:
-      timeoutInSec: 10
-    received_by_operator:
-      timeoutInSec: 10
-    received_by_taxi:
-      timeoutInSec: 30
-    accepted_by_taxi:
-      timeoutInSec: 600
-    accepted_by_customer:
-      timeoutInSec: 3600
-    customer_on_board:
-      timeoutInSec: 86400
-  dataDump:
-    dumpPeriodInMinutes: 10
 taxiAreas:
   openDataUrl: https://data.montreal.ca/dataset/a305bf87-97af-4f9c-9142-39e7b39f496c/resource/2d8bd708-b6a5-4e6b-88c7-0baef38c18f4/download/postestaxi.geojson
 caching:

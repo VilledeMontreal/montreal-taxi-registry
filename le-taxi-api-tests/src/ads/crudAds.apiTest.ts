@@ -71,7 +71,7 @@ export async function crudAdsTests(): Promise<void> {
 
   it('Cannot alter the ads of another operator', async () => {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
-    const operatorB = (await createNonImmutableUser(UserRole.Operator, false)).apikey;
+    const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
 
     const sameDto = copyAdsOwnerTemplate(x => {
       x.data[0].insee = inseeWithOwnerSemanticForADS;

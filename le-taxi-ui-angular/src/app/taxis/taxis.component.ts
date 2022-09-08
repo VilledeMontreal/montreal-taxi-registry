@@ -11,12 +11,10 @@ import { environment } from '../../environments/environment';
 import { Driver } from '../data/driver.d';
 import { TaxiGrid } from '../data/taxi-grid.d';
 import { Vehicle } from '../data/vehicle.d';
-import { HailService } from '../hail/hail.service';
 import { DriverService } from '../services/driver.service';
 import { TaxisService } from '../services/taxis.service';
 import { VehicleService } from '../services/vehicle.service';
 import { displayedColumns } from './displayedColumns';
-import { selectedTaxi } from './selectedTaxi';
 
 export class TaxiDataSource extends DataSource<any> {
   constructor(
@@ -64,7 +62,6 @@ export class TaxiDataSource extends DataSource<any> {
   styleUrls: ['./taxis.component.css']
 })
 export class TaxisComponent implements OnInit {
-  isHailActif: boolean;
   count = 0;
   dataSource: TaxiDataSource;
   detail: TaxiGrid;
@@ -88,17 +85,10 @@ export class TaxisComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private driverService: DriverService,
-    private hailService: HailService,
     private taxisService: TaxisService,
     private router: Router,
     private vehicleService: VehicleService
-  ) {
-    this.isHailPermitted();
-  }
-
-  private async isHailPermitted() {
-    this.isHailActif = await this.hailService.isHailPermitted();
-  }
+  ) { }
 
   public ngOnInit() {
     if (!this.detail) {
@@ -198,15 +188,6 @@ export class TaxisComponent implements OnInit {
         }
       );
     }
-  }
-
-  public goToHailPage(row: any) {
-    const params = { queryParams: selectedTaxi };
-    params.queryParams.id = row.id;
-    params.queryParams.licence = row.licence_plate;
-    params.queryParams.operator = row.added_by_name;
-    params.queryParams.vignette = row.vdm_vignette;
-    this.router.navigate(['/hail'], params);
   }
 
   public async goToTaxiPathPage(row: any) {

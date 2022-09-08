@@ -84,20 +84,6 @@ export class Configs {
   }
 
   /**
-   * Hails informations
-   */
-  get hails() {
-    return {
-      delayToReachStatusReceived_by_operatorInSec: this.cache.get<number>(
-        'hails.delayToReachStatusReceived_by_operatorInSec'
-      ),
-      delayToComputeTaxiRatingInSec: this.cache.get<number>('hails.delayToComputeTaxiRatingInSec'),
-      exceedAnyHailStatusTimeoutInSec: this.cache.get<number>('hails.exceedAnyHailStatusTimeoutInSec'),
-      dataDumpPeriodInSec: this.cache.get<number>('hails.dataDumpPeriodInSec')
-    };
-  }
-
-  /**
    * Inquiries informations
    */
   get inquiries() {

@@ -41,7 +41,6 @@ export class ProfileComponent implements OnInit {
       phone_number_technical: ['', Validators.pattern(PHONE_REGEXP)],
       email_customer: ['', Validators.pattern(EMAIL_REGEXP)],
       email_technical: ['', Validators.pattern(EMAIL_REGEXP)],
-      hail_endpoint_production: ['', ''],
       operator_header_name: ['', ''],
       operator_api_key: ['', '']
     });
@@ -60,7 +59,6 @@ export class ProfileComponent implements OnInit {
         phone_number_technical: this.userinfo.phone_number_technical,
         email_customer: this.userinfo.email_customer,
         email_technical: this.userinfo.email_technical,
-        hail_endpoint_production: this.userinfo.hail_endpoint_production,
         operator_header_name: this.userinfo.operator_header_name,
         operator_api_key: this.userinfo.operator_api_key
       });
@@ -101,7 +99,6 @@ export class ProfileComponent implements OnInit {
     this.userinfo.phone_number_technical = this.detailsForm.value.phone_number_technical;
     this.userinfo.email_customer = this.detailsForm.value.email_customer;
     this.userinfo.email_technical = this.detailsForm.value.email_technical;
-    this.userinfo.hail_endpoint_production = this.detailsForm.value.hail_endpoint_production;
     this.userinfo.operator_header_name = this.detailsForm.value.operator_header_name;
     this.userinfo.operator_api_key = this.detailsForm.value.operator_api_key;
 

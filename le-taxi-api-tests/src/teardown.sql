@@ -1,4 +1,4 @@
-truncate table driver, public."ADS", vehicle, vehicle_description, taxi, hail
+truncate table driver, public."ADS", vehicle, vehicle_description, taxi
 
 delete from roles_users
 where user_id in (

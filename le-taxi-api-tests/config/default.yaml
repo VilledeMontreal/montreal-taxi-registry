@@ -13,11 +13,6 @@ environment:
 #==========================================
 e2eTesting:
   maxTestConcurrency: 30
-hails:
-  delayToReachStatusReceived_by_operatorInSec: 5
-  delayToComputeTaxiRatingInSec: 5
-  exceedAnyHailStatusTimeoutInSec: 21
-  dataDumpPeriodInSec: 60
 inquiries:
   delayToExceedPromotion: 11
 caching:

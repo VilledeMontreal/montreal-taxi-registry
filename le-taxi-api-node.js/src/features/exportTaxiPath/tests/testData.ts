@@ -50,7 +50,6 @@ export const taxiInfoSample = {
   first_name: 'JOHN',
   last_name: 'JOHN SMITH',
   professional_licence: '133720',
-  status_hail: null,
   licence_plate: 'TESTLICENSE',
   nom_operator: 'test@mtl.ca',
   model_name: 'SENTRA'

@@ -1,9 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { BadRequestError } from '../errorHandling/errors';
-import { hailRepository } from '../hails/hail.repository';
-import { getCurrentStatus } from '../hails/statuses/hailStatuses';
-import { nowUtcIsoString } from '../shared/dateUtils/dateUtils';
 import { getMongoDb } from '../shared/taxiMongo/taxiMongo';
 import { postgrePool } from '../shared/taxiPostgre/taxiPostgre';
 
@@ -59,9 +56,6 @@ export class TaxiPathRepository {
     );
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) throw new BadRequestError('Unable to find taxi');
-
-    const hail = await hailRepository.getHailByTaxiId(taxiId);
-    if (hail) queryResult.rows[0].status_hail = getCurrentStatus(hail, nowUtcIsoString());
     return queryResult.rows[0];
   }
 }

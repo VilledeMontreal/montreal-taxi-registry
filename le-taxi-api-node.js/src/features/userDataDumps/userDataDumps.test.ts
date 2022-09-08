@@ -1,11 +1,11 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import * as chai from 'chai';
-import chaiHttp = require('chai-http');
 import { StatusCodes } from 'http-status-codes';
 import { configs } from '../../config/configs';
 import { app } from '../../tests/init';
 import { buildApiEndpoint } from '../shared/utils/apiUtils';
+import chaiHttp = require('chai-http');
 
 chai.use(chaiHttp);
 chai.should();
@@ -24,7 +24,6 @@ describe('Users data dump ----------- Roles -----------', () => {
         res.body.should.be.a('array');
         res.body[0].should.have.property('id');
         res.body[0].should.have.property('is_active');
-        res.body[0].should.have.property('is_hail_enabled');
         res.body[0].should.have.property('name');
         res.body[0].should.have.property('role_id');
         done();
@@ -44,7 +43,6 @@ describe('Users data dump ----------- Roles -----------', () => {
         res.body.should.be.a('array');
         res.body[0].should.have.property('id');
         res.body[0].should.have.property('is_active');
-        res.body[0].should.have.property('is_hail_enabled');
         res.body[0].should.have.property('name');
         res.body[0].should.have.property('role_id');
         done();
@@ -64,7 +62,6 @@ describe('Users data dump ----------- Roles -----------', () => {
         res.body.should.be.a('array');
         res.body[0].should.have.property('id');
         res.body[0].should.have.property('is_active');
-        res.body[0].should.have.property('is_hail_enabled');
         res.body[0].should.have.property('name');
         res.body[0].should.have.property('role_id');
         done();

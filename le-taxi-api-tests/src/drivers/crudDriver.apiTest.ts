@@ -53,7 +53,7 @@ export async function crudDriverTests(): Promise<void> {
 
   it('Cannot alter the driver of another operator', async () => {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
-    const operatorB = (await createNonImmutableUser(UserRole.Operator, false)).apikey;
+    const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
     const sameDto = copyDriverTemplate(x => (x.data[0].professional_licence = 'same'));
 
     const canCreateMine = await postDriver(sameDto, operatorA);

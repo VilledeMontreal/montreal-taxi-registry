@@ -14,7 +14,7 @@ export async function validateInquiryRequest(request: Request): Promise<any> {
   await validateDtoProperties(new InquiryRequest(), request.body);
 
   const fromCoordinate = validateCoordinates(request?.body?.from?.coordinates);
-  validateYulHailTaxiRestrictedArea(fromCoordinate);
+  validateYulTaxiRestrictedArea(fromCoordinate);
   const toCoordinate = validateCoordinates(request?.body?.to?.coordinates);
   const assetType = validateAssetType(request?.body?.useAssetTypes);
   const operators = validateOperators(request?.body?.operators);
@@ -30,15 +30,13 @@ export async function validateInquiryRequest(request: Request): Promise<any> {
   };
 }
 
-function validateYulHailTaxiRestrictedArea(coordinate: ICoordinates): void {
+function validateYulTaxiRestrictedArea(coordinate: ICoordinates): void {
   const yulTaxiRestrictedArea = turf.polygon([yul_airport_restricted_area], { name: 'yul-taxi-restricted-area' });
   const userPosition = turf.point([coordinate.lon, coordinate.lat]);
   const isPointContain = booleanContains(yulTaxiRestrictedArea, userPosition);
 
-  if (isPointContain) {
-    const NEAR_AIRPORT_ERROR_MSG = `Searching or hailing a taxi from the Montreal airport (YUL) zone is prohibited.`;
-    throw new BadRequestError(NEAR_AIRPORT_ERROR_MSG);
-  }
+  if (isPointContain)
+    throw new BadRequestError('Requesting a taxi from the Montreal airport (YUL) zone is prohibited.');
 }
 
 function validateAssetType(assetTypes: AssetTypes[]): AssetTypes {

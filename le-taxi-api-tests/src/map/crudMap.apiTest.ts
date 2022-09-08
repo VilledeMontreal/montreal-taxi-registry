@@ -12,7 +12,7 @@ import { getTaxiData, getTaxiOperators, getTaxiSearch } from './map.apiClient';
 // tslint:disable-next-line: max-func-body-length
 export async function crudMapTests(): Promise<void> {
   it('Can retrieve taxi-operators from map controller', async () => {
-    const operator = await createNonImmutableUser(UserRole.Operator, false);
+    const operator = await createNonImmutableUser(UserRole.Operator);
 
     const taxiOperatorsResponse = await getTaxiOperators();
     assert.strictEqual(taxiOperatorsResponse.status, StatusCodes.OK);

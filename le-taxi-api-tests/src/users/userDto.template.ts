@@ -9,6 +9,5 @@ export const copyUserTemplate = defineCopyTemplate<IUser>({
   commercial_name: 'defaultName',
   website_url: 'http://website.com',
   role: 0,
-  is_hail_enabled: false,
   operator_header_name: 'X-API-Key'
 });

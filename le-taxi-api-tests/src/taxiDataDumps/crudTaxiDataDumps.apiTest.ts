@@ -16,7 +16,7 @@ export async function crudTaxiDataDumpsTests(): Promise<void> {
   testTaxiDataDumpsAccessValid(UserRole.Stats);
 
   it('Contains property private', async () => {
-    const newOperator = await createNonImmutableUser(UserRole.Operator, false);
+    const newOperator = await createNonImmutableUser(UserRole.Operator);
     const dtoCreate = copyTaxiTemplate(x => {
       x.data[0].private = false;
     });
@@ -31,7 +31,7 @@ export async function crudTaxiDataDumpsTests(): Promise<void> {
   });
 
   it('Return taxi data on outdated etag', async () => {
-    const newOperator = await createNonImmutableUser(UserRole.Operator, false);
+    const newOperator = await createNonImmutableUser(UserRole.Operator);
     const dtoCreate = copyTaxiTemplate(x => {
       x.data[0].private = false;
     });
