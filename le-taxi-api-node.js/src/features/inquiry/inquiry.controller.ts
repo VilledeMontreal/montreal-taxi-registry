@@ -2,6 +2,7 @@
 // See LICENSE file in the project root for full license information.
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { configs } from '../../config/configs';
 import { NotFoundError } from '../errorHandling/errors';
 import { latestTaxiPositionRepository } from '../latestTaxiPositions/latestTaxiPosition.repository';
 import { addMinutes, addSec, nowUtcIsoString } from '../shared/dateUtils/dateUtils';
@@ -10,8 +11,6 @@ import { allow } from '../users/securityDecorator';
 import { UserRole } from '../users/userRole';
 import { AssetTypes, InquiryResponseDTO } from './inquiry.dto';
 import { validateInquiryRequest } from './inquiry.validators';
-
-const timingToleranceFactor = 0.2;
 
 class InquiryController {
   @allow([UserRole.Admin, UserRole.Motor])
@@ -36,22 +35,24 @@ class InquiryController {
 
     const now = nowUtcIsoString();
     const [legTaxiToSource, legSourceToDestination] = routesToClosestTaxi[0].legs;
-    const departureTime = addSec(now, legTaxiToSource.duration);
-    const arrivalTime = addSec(departureTime, legSourceToDestination.duration);
-    const departureDelta = legTaxiToSource.duration * timingToleranceFactor;
-    const arrivalDelta = legSourceToDestination.duration * timingToleranceFactor;
+    const departureTime = addSec(
+      now,
+      legTaxiToSource.duration +
+        configs.taxiRegistryOsrmApi.estimation.biasInSec +
+        configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec
+    );
+    const arrivalTime = addSec(
+      departureTime,
+      legSourceToDestination.duration + configs.taxiRegistryOsrmApi.estimation.biasInSec
+    );
 
     const inquiryResponse: InquiryResponseDTO = {
       validUntil: addMinutes(now, 5),
       options: [
         {
           mainAssetType: { id: toMainAssetType(assetType, closestTaxi.taxi.operatorPublicId) },
-          optimisticDepartureTime: addSec(departureTime, -departureDelta),
           departureTime,
-          pessimisticDepartureTime: addSec(departureTime, departureDelta),
-          optimisticArrivalTime: addSec(arrivalTime, -arrivalDelta),
           arrivalTime,
-          pessimisticArrivalTime: addSec(arrivalTime, arrivalDelta),
           from,
           to,
           pricing: {
