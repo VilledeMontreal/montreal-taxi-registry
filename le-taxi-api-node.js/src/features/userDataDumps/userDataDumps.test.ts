@@ -16,7 +16,6 @@ describe('Users data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/users'))
       .set('X-API-Key', configs.apikeys.stats)
-      .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
         res.should.have.status(StatusCodes.OK);
@@ -34,7 +33,6 @@ describe('Users data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/users'))
       .set('X-API-Key', configs.apikeys.gestion)
-      .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
         res.should.have.status(StatusCodes.OK);
@@ -52,7 +50,6 @@ describe('Users data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/users'))
       .set('X-API-Key', configs.apikeys.admin)
-      .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
         res.should.have.status(StatusCodes.OK);
@@ -70,7 +67,6 @@ describe('Users data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/users'))
       .set('X-API-Key', configs.apikeys.operateur)
-      .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
         res.should.have.status(StatusCodes.UNAUTHORIZED);

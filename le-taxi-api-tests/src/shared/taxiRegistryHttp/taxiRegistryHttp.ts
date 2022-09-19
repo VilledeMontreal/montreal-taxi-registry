@@ -72,8 +72,7 @@ async function setDefaultHeaders(
 
   const requestToReturn = httpOperationFunc
     .set('X-API-KEY', apiKeyOrDefault)
-    .set('Content-Type', 'application/json')
-    .set('Accept', 'application/json');
+    .set('Content-Type', 'application/json');
 
   if (requestCompression) requestToReturn.set('Accept-Encoding', 'gzip');
   if (eTag) requestToReturn.set('If-None-Match', eTag);

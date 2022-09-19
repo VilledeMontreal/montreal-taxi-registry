@@ -21,7 +21,6 @@ describe('Taxi Areas ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/legacy-web/taxi-areas'))
       .set('X-API-Key', configs.apikeys.stats)
-      .set('Accept', 'Application/json')
       .catch(err => expect(err).to.have.status(StatusCodes.UNAUTHORIZED));
   });
 });
@@ -32,7 +31,6 @@ function testGetTaxiAreasUserAccessValid(apikey: string, role: string) {
       .request(app)
       .get(buildApiEndpoint('/api/legacy-web/taxi-areas'))
       .set('X-API-Key', apikey)
-      .set('Accept', 'Application/json')
       .then(res => {
         expect(res).to.have.status(StatusCodes.OK);
         expect(res?.body).to.have.property('features');
