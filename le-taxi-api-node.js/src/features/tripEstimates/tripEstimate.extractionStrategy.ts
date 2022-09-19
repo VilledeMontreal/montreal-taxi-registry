@@ -62,7 +62,6 @@ async function fetchTaxiPositions(date: string): Promise<TaxiPositionSnapshotReq
   const response = await superagent
     .get(url)
     .set('X-API-KEY', apikey)
-    .set('X-VERSION', '2')
     .set('Accept-Encoding', 'GZIP');
   const snapshots = response.body.items.map(item =>
     toTaxiPositionSnapshotRequest(item)

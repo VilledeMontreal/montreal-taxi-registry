@@ -14,5 +14,4 @@ scenarios:
       - get:
           url: '/api/legacy-web/taxis/grid?page=0&pagesize=10'
           headers:
-            X-VERSION: '2'
             X-API-KEY: '{{apikey}}'

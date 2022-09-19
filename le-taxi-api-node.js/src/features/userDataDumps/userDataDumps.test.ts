@@ -16,7 +16,6 @@ describe('Users data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/users'))
       .set('X-API-Key', configs.apikeys.stats)
-      .set('X-VERSION', '2')
       .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
@@ -35,7 +34,6 @@ describe('Users data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/users'))
       .set('X-API-Key', configs.apikeys.gestion)
-      .set('X-VERSION', '2')
       .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
@@ -54,7 +52,6 @@ describe('Users data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/users'))
       .set('X-API-Key', configs.apikeys.admin)
-      .set('X-VERSION', '2')
       .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {
@@ -73,7 +70,6 @@ describe('Users data dump ----------- Roles -----------', () => {
       .request(app)
       .get(buildApiEndpoint('/api/data-dumps/users'))
       .set('X-API-Key', configs.apikeys.operateur)
-      .set('X-VERSION', '2')
       .set('Accept', 'Application/json')
       .set('Accept-Encoding', 'gzip')
       .end((err, res) => {

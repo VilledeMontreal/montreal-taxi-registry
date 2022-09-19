@@ -19,7 +19,6 @@ before:
           beforeRequest: 'beforeRequestForInitialization'
           json: '{{snapshots}}'
           headers:
-            X-VERSION: '2'
             X-API-KEY: '{{operatorApikey}}'
       count: 25
 scenarios:
@@ -30,5 +29,4 @@ scenarios:
           beforeRequest: 'beforeRequestForTests'
           json: '{{snapshots}}'
           headers:
-            X-VERSION: '2'
             X-API-KEY: '{{operatorApikey}}'

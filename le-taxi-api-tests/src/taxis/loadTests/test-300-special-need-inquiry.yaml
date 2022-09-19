@@ -15,6 +15,5 @@ scenarios:
       - post:
           url: '/api/inquiry'
           headers:
-            X-VERSION: '2'
             X-API-KEY: '{{apikey}}'
           json: '{{body}}'

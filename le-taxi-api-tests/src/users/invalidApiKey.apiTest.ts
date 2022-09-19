@@ -77,7 +77,6 @@ async function checkApiWithApikey(apiKey: string) {
   await superagentWithStats
     .post(getAbsoluteUrl('/api/drivers/'))
     .set('X-API-KEY', apiKey)
-    .set('X-VERSION', '2')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send(dto);
@@ -87,7 +86,6 @@ async function checkApiWithoutApikey() {
   const dto = copyDriverTemplate();
   await superagentWithStats
     .post(getAbsoluteUrl('/api/drivers/'))
-    .set('X-VERSION', '2')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send(dto);
@@ -98,7 +96,6 @@ async function checkGeoServerWithApikey(apiKey: string) {
   await superagentWithStats
     .post(getAbsoluteUrl('/api/taxi-position-snapshots'))
     .set('X-API-KEY', apiKey)
-    .set('X-VERSION', '2')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send(dto);
@@ -108,7 +105,6 @@ async function checkGeoServerWithoutApikey() {
   const dto = copyTaxiPositionTemplate(x => (x.items[0].timestamp = getCurrentUnixTime()));
   await superagentWithStats
     .post(getAbsoluteUrl('/api/taxi-position-snapshots'))
-    .set('X-VERSION', '2')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
     .send(dto);

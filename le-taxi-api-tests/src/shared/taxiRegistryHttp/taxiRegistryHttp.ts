@@ -72,7 +72,6 @@ async function setDefaultHeaders(
 
   const requestToReturn = httpOperationFunc
     .set('X-API-KEY', apiKeyOrDefault)
-    .set('X-VERSION', '2')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json');
 
