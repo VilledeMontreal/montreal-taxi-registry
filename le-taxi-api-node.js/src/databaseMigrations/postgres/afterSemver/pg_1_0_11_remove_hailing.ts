@@ -3,8 +3,8 @@
 import { postgrePool } from '../../../features/shared/taxiPostgre/taxiPostgre';
 
 export async function pg_1_0_11_remove_hailing(): Promise<void> {
-  await postgrePool.query(`DROP TABLE public."hail"`);
-  await postgrePool.query(`DROP SEQUENCE hail_id_seq`);
+  await postgrePool.query(`DROP TABLE IF EXISTS public."hail" CASCADE`);
+  await postgrePool.query(`DROP SEQUENCE IF EXISTS hail_id_seq`);
   await postgrePool.query(`ALTER TABLE public."user"
   DROP COLUMN is_hail_enabled,
   DROP COLUMN hail_endpoint_production;`);
