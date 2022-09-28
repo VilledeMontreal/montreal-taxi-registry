@@ -41,17 +41,19 @@ export class TaxiService {
   async findTaxis(licencePlate: string, professionalLicence: string) {
     if (!licencePlate && !professionalLicence) throw new BadRequestError('missing parameters');
     if (licencePlate) {
-      return await postgrePool.query(`
+      const queryResult = await postgrePool.query(`
         SELECT taxi.id
         FROM vehicle left join public.taxi on vehicle.id = taxi.vehicle_id
         WHERE licence_plate=$1::text
         `, [licencePlate]);
+      return queryResult.rows;
     } else if (professionalLicence) {
-      return await postgrePool.query(`
+      const queryResult = await postgrePool.query(`
         SELECT taxi.id
         FROM driver left join public.taxi on driver.id = taxi.driver_id
         WHERE professional_licence=$1::text
         `, [professionalLicence]);
+        return queryResult.rows;
     }
   }
 }
