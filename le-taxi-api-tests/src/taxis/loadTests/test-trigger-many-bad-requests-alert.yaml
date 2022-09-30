@@ -1,0 +1,18 @@
+config:
+  target: 'https://taximtldev.accept.ville.montreal.qc.ca'
+  processor: './generatePayload.js'
+  http:
+    pool: 20
+    timeout: 5
+  phases:
+    - name: 'trigger many bad requests (4xx)'
+      arrivalRate: 50
+      duration: 300
+before:
+  flow:
+    - log: 'WARNING: to trigger alerts you need to make sure they are available on DEV. Check kubernetes-installed-apps repository first.'
+scenarios:
+  - name: 'error 400'
+    flow:
+      - get:
+          url: '/api/fakes/fake-error-400'
