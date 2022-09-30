@@ -29,3 +29,15 @@ GET /fake-open-data-taxi-areas:
         }
       ]
     }
+GET /fake-error-400:
+  code: 400
+  headers:
+    Content-Type: "application/json"
+  body: |-
+    { "error": "Bang! - Fake 400"}
+GET /fake-error-500:
+  code: 500
+  headers:
+    Content-Type: "application/json"
+  body: |-
+    { "error": "Bang! - Fake 500"}
