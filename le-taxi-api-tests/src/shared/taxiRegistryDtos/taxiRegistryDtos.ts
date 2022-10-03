@@ -42,10 +42,12 @@ export interface IUser {
   standard_booking_ios_deeplink_uri?: string;
   standard_booking_ios_store_uri?: string;
   standard_booking_is_promoted_to_public?: boolean;
+  standard_booking_inquiries_starts_at?: string;
   minivan_booking_is_available_from_web_url?: boolean;
   minivan_booking_is_available_from_android_uri?: boolean;
   minivan_booking_is_available_from_ios_uri?: boolean;
   minivan_booking_is_promoted_to_public?: boolean;
+  minivan_booking_inquiries_starts_at?: string;
   special_need_booking_phone_number?: string;
   special_need_booking_website_url?: string;
   special_need_booking_android_deeplink_uri?: string;
@@ -53,6 +55,7 @@ export interface IUser {
   special_need_booking_ios_deeplink_uri?: string;
   special_need_booking_ios_store_uri?: string;
   special_need_booking_is_promoted_to_public?: boolean;
+  special_need_booking_inquiries_starts_at?: string;
 }
 
 export interface ITaxi {

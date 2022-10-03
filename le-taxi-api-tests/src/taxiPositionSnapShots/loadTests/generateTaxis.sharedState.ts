@@ -1,10 +1,9 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import * as fs from 'fs';
-import { UserRole } from '../../shared/commonTests/UserRole';
 import { IUser } from '../../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { setupNewCustomTaxi } from '../../taxis/taxi.fixture';
-import { createNonImmutableUser } from '../../users/user.sharedFixture';
+import { createOperatorWithPromotion } from '../../users/user.sharedFixture';
 import { ITaxiToLoad } from './iTaxiToLoad';
 import lodash = require('lodash');
 
@@ -49,7 +48,8 @@ async function createTaxisForUser(user: IUser) {
 }
 
 async function createUsersToLoadTests() {
-  return await Promise.all(lodash.times(100, async () => await createNonImmutableUser(UserRole.Operator)));
+  const promotions = { standard: true, minivan: true, special_need: true };
+  return await Promise.all(lodash.times(100, async () => await createOperatorWithPromotion(promotions)));
 }
 
 async function createRegularTaxi(apikey: string) {

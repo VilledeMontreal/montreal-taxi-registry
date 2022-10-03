@@ -45,15 +45,19 @@ export async function createNonImmutableUser(role: UserRole) {
 }
 
 export async function createOperatorWithPromotion(promotions: IPromotions) {
+  const now = new Date(Date.now()).toISOString();
   const userDto = copyUserTemplate(x => {
     x.role = UserRole.Operator;
     x.operator_api_key = uuidv4();
     x.standard_booking_website_url = 'http://test.ca';
     x.standard_booking_is_promoted_to_public = promotions.standard;
+    x.standard_booking_inquiries_starts_at = promotions.standard ? now : null;
     x.minivan_booking_is_available_from_web_url = true;
     x.minivan_booking_is_promoted_to_public = promotions.minivan;
+    x.minivan_booking_inquiries_starts_at = promotions.minivan ? now : null;
     x.special_need_booking_website_url = 'http://test.ca';
     x.special_need_booking_is_promoted_to_public = promotions.special_need;
+    x.special_need_booking_inquiries_starts_at = promotions.special_need ? now : null;
   });
 
   return await createPromotedOperator(userDto);
