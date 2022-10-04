@@ -18,8 +18,8 @@ export async function connectToMongoDb() {
 }
 
 function buildMongoConnectionString(): string {
-  const { host1, host2, port, username, password, defaultauthdb, options } = configs.dataSources.mongo;
-  return `mongodb://${username}:${password}@${host1}:${port},${host2}:${port}/${defaultauthdb}?${options}`;
+  const { host1, host2, host3, port, username, password, defaultauthdb, options } = configs.dataSources.mongo;
+  return `mongodb://${username}:${password}@${host1}:${port},${host2}:${port},${host3}:${port}/${defaultauthdb}?${options}`;
 }
 
 export function getMongoDb() {

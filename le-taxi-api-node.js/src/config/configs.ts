@@ -189,6 +189,7 @@ export class Configs {
       mongo: {
         host1: this.cache.get<string>('dataSources.mongo.host1'),
         host2: this.cache.get<string>('dataSources.mongo.host2'),
+        host3: this.cache.get<string>('dataSources.mongo.host3'),
         port: this.cache.get<number>('dataSources.mongo.port'),
         username: this.cache.get<string>('dataSources.mongo.username'),
         password: this.cache.get<string>('dataSources.mongo.password'),

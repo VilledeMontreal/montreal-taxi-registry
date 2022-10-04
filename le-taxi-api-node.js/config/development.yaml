@@ -17,6 +17,7 @@ dataSources:
   mongo:
     host1: dvllgt01a.ile.montreal.qc.ca
     host2: dvllgt01b.ile.montreal.qc.ca
+    host3: dvllgt01c.ile.montreal.qc.ca
 caching:
   taxisMaxAgeInSec: 10
   usersMaxAgeInSec: 10

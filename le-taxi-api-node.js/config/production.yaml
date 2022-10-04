@@ -20,6 +20,7 @@ dataSources:
   mongo:
     host1: prdlgt01a.ile.montreal.qc.ca
     host2: prdlgt01b.ile.montreal.qc.ca
+    host3: prdlgt01c.ile.montreal.qc.ca
 
 #==========================================
 # Routing Service OSRM
