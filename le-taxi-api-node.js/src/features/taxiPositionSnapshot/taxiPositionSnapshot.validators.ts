@@ -86,13 +86,19 @@ export async function validateTaxiOwnership(taxiPositionSnapshot: TaxiPositionSn
   const taxiSummaries = await taxiSummaryRepositoryWithCaching.getByKeys(
     taxiPositionSnapshot.items.map(item => item.taxi)
   );
+  const hasUnknownTaxi = taxiPositionSnapshot.items.some(snapshot => taxiSummaries && !taxiSummaries[snapshot.taxi]);
+  if (hasUnknownTaxi) {
+    throw new BadRequestError(
+      `The validation failed for this taxi position snapshot because: some taxis are not existing in the system`
+    );
+  }
+
   const hasWrongOwner = taxiPositionSnapshot.items.some(
     snapshot => taxiSummaries && taxiSummaries[snapshot.taxi] && taxiSummaries[snapshot.taxi].operatorId !== operatorId
   );
-
   if (hasWrongOwner) {
     throw new BadRequestError(
-      `The validation failed for this taxi position snapshot because: the taxi doesn't belong to the operator`
+      `The validation failed for this taxi position snapshot because: some taxis do not belong to the operator`
     );
   }
 }
