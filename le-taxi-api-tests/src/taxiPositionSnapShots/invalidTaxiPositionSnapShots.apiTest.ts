@@ -17,6 +17,20 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
   testCreateTaxiPositionSnapShotsUserAccessInvalid(UserRole.Stats);
   testCreateTaxiPositionSnapShotsUserAccessInvalid(UserRole.Prefecture);
 
+  it('should return error when operator sends a taxi that doesnt exist.', async () => {
+    const [dtoTaxiPositionSnapShot, apiKey] = await getValidTaxiPositionSnapshotDtoAndApikey(UserRole.Operator, 3);
+
+    dtoTaxiPositionSnapShot.items[0].taxi = 'unknowntaxi';
+
+    await shouldThrow(
+      () => postTaxiPositionSnapshots(dtoTaxiPositionSnapShot, apiKey),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.include(err.response.body.error.message, `some taxis are not existing in the system`);
+      }
+    );
+  });
+
   it('should return error when operator sends positions for a taxi that doesnt belong to him.', async () => {
     const [dtoTaxiPositionSnapShotA] = await getValidTaxiPositionSnapshotDtoAndApikey(UserRole.Operator);
     const [dtoTaxiPositionSnapShotB, operatorB] = await getValidTaxiPositionSnapshotDtoAndApikey(UserRole.Operator);
@@ -27,7 +41,7 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
       () => postTaxiPositionSnapshots(dtoTaxiPositionSnapShotA, operatorB),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `the taxi doesn't belong to the operator`);
+        assert.include(err.response.body.error.message, `some taxis do not belong to the operator`);
       }
     );
   });
