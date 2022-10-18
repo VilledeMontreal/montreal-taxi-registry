@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { generateSouthShoreLat } from '../../shared/commonLoadTests/specialRegion';
+import { generateSouthShoreLat, generateSouthShoreLon } from '../../shared/commonLoadTests/specialRegion';
 import { IInquirySharedState } from './IInquirySharedState';
 
 const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/inquiry.sharedState.json');
@@ -21,13 +21,13 @@ function generatePayloadInquiry(context: any, ee: any, next: any, assetType: str
     from: {
       coordinates: {
         lat: generateSouthShoreLat(),
-        lon: generateSouthShoreLat()
+        lon: generateSouthShoreLon()
       }
     },
     to: {
       coordinates: {
         lat: generateSouthShoreLat(),
-        lon: generateSouthShoreLat()
+        lon: generateSouthShoreLon()
       }
     },
     useAssetTypes: [assetType]
