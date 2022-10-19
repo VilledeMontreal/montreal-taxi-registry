@@ -10,6 +10,36 @@ export function getTaxiPositionSnapshotRoutes(): IHandlerRoute[] {
       method: HttpMethods.POST,
       path: buildApiEndpoint('/api/taxi-position-snapshots'),
       handler: taxiPositionSnapshotController.addTaxiPositionSnapshot
+    },
+    {
+      method: HttpMethods.POST,
+      path: buildApiEndpoint('/api/taxi-position-snapshots-empty'),
+      handler: taxiPositionSnapshotController.addTaxiPositionSnapshotEmpty
+    },
+    {
+      method: HttpMethods.POST,
+      path: buildApiEndpoint('/api/taxi-position-snapshots-validations'),
+      handler: taxiPositionSnapshotController.addTaxiPositionSnapshotValidations
+    },
+    {
+      method: HttpMethods.POST,
+      path: buildApiEndpoint('/api/taxi-position-snapshots-mongo-read'),
+      handler: taxiPositionSnapshotController.addTaxiPositionSnapshotMongoRead
+    },
+    {
+      method: HttpMethods.POST,
+      path: buildApiEndpoint('/api/taxi-position-snapshots-mongo-write'),
+      handler: taxiPositionSnapshotController.addTaxiPositionSnapshotMongoWrite
+    },
+    {
+      method: HttpMethods.GET,
+      path: buildApiEndpoint('/api/taxi-position-snapshots-get-empty'),
+      handler: taxiPositionSnapshotController.addTaxiPositionSnapshotGetEmpty
+    },
+    {
+      method: HttpMethods.POST,
+      path: buildApiEndpoint('/api/taxi-position-snapshots-post-empty'),
+      handler: taxiPositionSnapshotController.addTaxiPositionSnapshotPostEmpty
     }
   ];
 }

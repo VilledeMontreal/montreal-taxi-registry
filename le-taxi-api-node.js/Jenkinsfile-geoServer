@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1740-remove-hailing": "develop",
+            "feature/inquiry-tests": "develop",
         ],
     ],
     packaging: [
