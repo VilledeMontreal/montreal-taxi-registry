@@ -18,7 +18,7 @@ scenarios:
               # npm run load-test-position-snapshots-with-25-operators-200-taxis
               # at an hour that fits in a 10 minutes windows. Ex: xx:00, xx:10, xx:20, xx:30, xx:40, xx:50,
               # and ajusting the snapshot id (date each 10 minutes) in the url below
-              url: '/api/data-dumps/taxi-positions/2021-12-22T13:30:00.000Z'
+              url: '/api/data-dumps/taxi-positions/2022-11-01T15:20:00.000Z'
               headers:
                 Accept-Encoding: 'gzip'
                 X-API-KEY: '{{apikey}}'
