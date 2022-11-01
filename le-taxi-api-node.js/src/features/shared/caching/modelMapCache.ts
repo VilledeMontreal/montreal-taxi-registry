@@ -43,9 +43,10 @@ export class ModelMapCache<TModel> {
   }
 
   public async getByKeys(keys: string[]): Promise<ModelMap<TModel>> {
-    const [keysInCache, keysNotInCache] = this.lookupAndSanitizeCacheKeys(keys);
+    const sanitizedKeys = this.sanitizeCacheKeys(keys);
 
-    const volatileModels = keysInCache.length && this.getFromCache(keysInCache);
+    const volatileModels = this.getFromCache(sanitizedKeys);
+    const keysNotInCache = sanitizedKeys.filter(key => volatileModels && !volatileModels[key]);
     const persistedModels = keysNotInCache.length && (await this.accessor(keysNotInCache));
     this.setInCache(persistedModels);
 
@@ -57,17 +58,14 @@ export class ModelMapCache<TModel> {
     return values && values[key];
   }
 
-  private lookupAndSanitizeCacheKeys(keys: string[]): [string[], string[]] {
-    const inCache: string[] = [];
-    const notInCache: string[] = [];
-    const sanitizedKeys = keys.filter((key, index) => key && keys.indexOf(key) === index);
-    sanitizedKeys.forEach(key => (this.cache.has(key) ? inCache.push(key) : notInCache.push(key)));
-    return [inCache, notInCache];
+  private sanitizeCacheKeys(keys: string[]): string[] {
+    return keys.filter((key, index) => key && keys.indexOf(key) === index);
   }
 
   private getFromCache(keys: string[]): ModelMap<TModel> {
     return keys.reduce((map, key) => {
-      map[key] = this.cache.get(key);
+      const cached = this.cache.get(key);
+      if (cached) map[key] = cached;
       return map;
     }, {});
   }
