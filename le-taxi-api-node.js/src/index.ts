@@ -21,6 +21,7 @@ import {
 } from './features/shared/expressErrorHandling/expressErrorHandling';
 import { logger } from './features/shared/logging/logger';
 import { connectToMongoDb } from './features/shared/taxiMongo/taxiMongo';
+import { handleConstructorField } from './features/shared/validations/validators';
 import { initializeAuthorizationViaCookies } from './features/users/securityDecorator';
 import { getSigningKeyForJwtCreation } from './libs/security';
 import { httpMethodToExpressMethodName, IHandlerRoute } from './models/route.model';
@@ -56,7 +57,7 @@ async function startServer() {
   app.use(cors(corsOptions));
 
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json({ limit: '100mb' }));
+  app.use(bodyParser.json({ limit: '100mb', reviver: handleConstructorField }));
 
   // xss security
   app.use(function(req, res, next) {
