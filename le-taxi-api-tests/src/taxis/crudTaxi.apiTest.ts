@@ -586,6 +586,15 @@ export async function crudTaxiTests(): Promise<void> {
 
     assert.strictEqual(canUse.status, StatusCodes.CREATED);
   });
+
+  it('Should succeed when receiving a vehicle with a `constructor` property', async () => {
+    const dtoCreate = copyTaxiTemplate();
+    const vehicle = { ...dtoCreate.data[0].vehicle, constructor: 'defaultConstructor' };
+    dtoCreate.data[0].vehicle = vehicle;
+
+    const response = await setupNewTaxi(dtoCreate);
+    assert.strictEqual(response.status, StatusCodes.CREATED);
+  });
 }
 
 function testCreateTaxiUserAccessValid(role: UserRole) {

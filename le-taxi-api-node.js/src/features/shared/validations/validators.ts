@@ -41,12 +41,6 @@ export function validateArrayLimit<T>(array: T[], limit: number): void {
   }
 }
 
-export function validateIsPropertyNull4ReservedField<T>(array: T[], property = 'constructor'): void {
-  if (!array[0][property]) {
-    throw new BadRequestError(`The object failed the validation because ${property} should not be null or undefined`);
-  }
-}
-
 export function validateUndefined(dto: any, message: string) {
   if (_.isNil(dto)) {
     throw new BadRequestError(`${message}`);
@@ -56,6 +50,14 @@ export function validateUndefined(dto: any, message: string) {
 export async function validateDtoProperties<T extends object>(dto: T, data: any) {
   const instance = plainToClassFromExist(dto, data);
   await handleErrors(() => validateOrReject(instance, { skipMissingProperties: true }));
+}
+
+export function handleConstructorField(key: string, value: any) {
+  if (key === 'constructor') {
+    this.manufacturer = value;
+    return;
+  }
+  return value;
 }
 
 async function handleErrors(func: () => void) {

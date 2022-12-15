@@ -110,7 +110,7 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          `The object failed the validation because constructor should not be null or undefined`
+          `The object failed the validation because constructor must be longer than or equal to 1 characters`
         );
       }
     );
@@ -208,7 +208,7 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          `The object failed the validation because manufacturer should not contain a legacy-not-provided string`
+          `The object failed the validation because constructor should not contain a legacy-not-provided string`
         );
       }
     );

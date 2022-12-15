@@ -109,11 +109,11 @@ export class VehicleRequestDto {
   @IsBoolean()
   public luxury: boolean;
 
-  @IsDefined()
-  @IsString()
-  @MaxLength(255)
-  @MinLength(1)
-  @NotContains('legacy-not-provided')
+  @IsDefined({ message: `constructor should not be null or undefined` })
+  @IsString({ message: `constructor must be a string` })
+  @MaxLength(255, { message: `constructor must be shorter than or equal to $constraint1 characters` })
+  @MinLength(1, { message: `constructor must be longer than or equal to $constraint1 characters` })
+  @NotContains('legacy-not-provided', { message: `constructor should not contain a $constraint1 string` })
   public manufacturer: string; // @note: replaces 'constructor' property to avoid problems with DTO validation at runtime because 'constructor' is a reserved keyword in TypeScript.
 
   @IsDefined()
