@@ -16,10 +16,10 @@ export async function validateInquiryRequest(request: Request): Promise<any> {
   const fromCoordinate = validateCoordinates(request?.body?.from?.coordinates);
   validateYulTaxiRestrictedArea(fromCoordinate);
   const toCoordinate = validateCoordinates(request?.body?.to?.coordinates);
-  const assetType = validateAssetType(request?.body?.useAssetTypes);
+  const assetTypes = validateAssetType(request?.body?.useAssetTypes);
   const operators = validateOperators(request?.body?.operators);
   return {
-    assetType,
+    assetTypes,
     from: {
       coordinates: fromCoordinate
     },
@@ -35,12 +35,13 @@ function validateYulTaxiRestrictedArea(coordinate: ICoordinates): void {
   const userPosition = turf.point([coordinate.lon, coordinate.lat]);
   const isPointContain = booleanContains(yulTaxiRestrictedArea, userPosition);
 
-  if (isPointContain)
+  if (isPointContain) {
     throw new BadRequestError('Requesting a taxi from the Montreal airport (YUL) zone is prohibited.');
+  }
 }
 
-function validateAssetType(assetTypes: AssetTypes[]): AssetTypes {
-  return assetTypes[0];
+function validateAssetType(assetTypes: AssetTypes[]): AssetTypes[] {
+  return assetTypes.filter((assetType, i) => assetTypes.indexOf(assetType) === i);
 }
 
 function validateOperators(operators: string[]): number[] {

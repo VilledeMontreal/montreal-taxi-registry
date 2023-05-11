@@ -1,11 +1,11 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import * as fs from 'fs';
+import lodash = require('lodash');
 import { IUser } from '../../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { setupNewCustomTaxi } from '../../taxis/taxi.fixture';
 import { createOperatorWithPromotion } from '../../users/user.sharedFixture';
 import { ITaxiToLoad } from './iTaxiToLoad';
-import lodash = require('lodash');
 
 // tslint:disable:no-console
 async function generateTaxisSharedState() {

@@ -40,7 +40,7 @@ export async function getImmutableUserApiKey(role: UserRole) {
 }
 
 export async function createNonImmutableUser(role: UserRole) {
-  const userDto = copyUserTemplate(x => x.role = role);
+  const userDto = copyUserTemplate(x => (x.role = role));
   return await createUser(userDto);
 }
 

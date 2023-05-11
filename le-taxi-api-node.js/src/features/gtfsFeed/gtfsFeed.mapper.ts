@@ -80,12 +80,15 @@ function distribute<T>(options: {
   specialNeed: (operator: UserModel) => T[];
 }): T[] {
   const aggregator: T[] = [];
-  if (options.standard && options.operator.standard_booking_inquiries_starts_at <= options.now)
+  if (options.standard && options.operator.standard_booking_inquiries_starts_at <= options.now) {
     aggregator.push(...options.standard(options.operator));
-  if (options.minivan && options.operator.minivan_booking_inquiries_starts_at <= options.now)
+  }
+  if (options.minivan && options.operator.minivan_booking_inquiries_starts_at <= options.now) {
     aggregator.push(...options.minivan(options.operator));
-  if (options.specialNeed && options.operator.special_need_booking_inquiries_starts_at <= options.now)
+  }
+  if (options.specialNeed && options.operator.special_need_booking_inquiries_starts_at <= options.now) {
     aggregator.push(...options.specialNeed(options.operator));
+  }
 
   return aggregator;
 }

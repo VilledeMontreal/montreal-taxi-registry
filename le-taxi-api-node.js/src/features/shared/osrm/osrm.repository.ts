@@ -14,30 +14,42 @@ class OsrmRepository {
    * duration in (sec)
    * distance in (m)
    */
-  public async getRoutes(from: ICoordinates, to: ICoordinates, closestTaxi?: ICoordinates): Promise<OsrmRoute[]> {
-    const { base, domainPath, route, version } = configs.taxiRegistryOsrmApi;
+  public async getRoutes(from: ICoordinates, to: ICoordinates): Promise<OsrmRoute[]> {
+    const { base, domainPath } = configs.taxiRegistryOsrmApi;
     const params = `overview=false&alternatives=false`;
-
-    const closestTaxiPlaceholder = closestTaxi?.lat && closestTaxi?.lon ? `${closestTaxi.lon},${closestTaxi.lat};` : '';
-    const cityInternalOsrmUrl = `${base}${domainPath}/${route}/${version}/${constants.osrm.profile.CAR}/${closestTaxiPlaceholder}${from.lon},${from.lat};${to.lon},${to.lat}?${params}`;
+    const url = `${base}${domainPath}/${constants.osrm.profile.ROUTE}/${from.lon},${from.lat};${to.lon},${to.lat}?${params}`;
 
     try {
-      const response = await superagent.get(cityInternalOsrmUrl);
-
-      if (response.clientError) {
-        throw new BadRequestError(`Error calling routing service ${response.error}`);
-      }
-
-      if (!response?.body?.routes) {
-        throw new BadRequestError(`Error no route found`);
-      }
-
+      const response = await superagent.get(url);
+      if (response.clientError) throw new BadRequestError(`Error calling routing service ${response.error}`);
+      if (!response?.body?.routes) throw new BadRequestError(`Error no route found`);
       return response.body.routes;
     } catch (error) {
-      if (error.response.body.code === 'NoRoute') {
-        return [new OsrmRoute()];
-      }
+      if (error.response.body.code === 'NoRoute') return [new OsrmRoute()];
+      throw new BadRequestError(`Error calling routing service ${error}`);
+    }
+  }
 
+  public async getTable(origin: ICoordinates, destinations: ICoordinates[]): Promise<number[][]> {
+    const { base, domainPath } = configs.taxiRegistryOsrmApi;
+    const params = `sources=0&destinations=`;
+
+    const destinationsPlaceholder = destinations.reduce((acc, closestTaxi) => {
+      acc += `;${closestTaxi.lon},${closestTaxi.lat}`;
+      return acc;
+    }, '');
+    const destinationsNumber = Array.from(destinations, (_, i) => i + 1).join(';');
+    const url = `${base}${domainPath}/${constants.osrm.profile.TABLE}/${origin.lon},${origin.lat}${destinationsPlaceholder}?${params}${destinationsNumber}`;
+
+    try {
+      const response = await superagent.get(url);
+      if (response.clientError) throw new BadRequestError(`Error calling table service ${response.error}`);
+      if (response.body.code !== 'Ok' || !response?.body?.durations) {
+        throw new BadRequestError(`Error unable to get routing tables`);
+      }
+      return response.body.durations;
+    } catch (error) {
+      if (error.response.body.code === 'NoTable') return [];
       throw new BadRequestError(`Error calling routing service ${error}`);
     }
   }
