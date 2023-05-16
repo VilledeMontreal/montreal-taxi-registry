@@ -14,7 +14,7 @@ environment:
 e2eTesting:
   maxTestConcurrency: 30
 inquiries:
-  delayToExceedPromotion: 11
+  delayToExceedPromotion: 0
 caching:
   delayToExceedUsersCache: 11
 

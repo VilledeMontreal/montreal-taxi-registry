@@ -2,17 +2,19 @@
 // See LICENSE file in the project root for full license information.
 import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
+import { v4 as uuidv4 } from 'uuid';
 import { configs } from '../../config/configs';
 import { generateSouthShoreCoordinates } from '../shared/commonLoadTests/specialRegion';
 import { UserRole } from '../shared/commonTests/UserRole';
 import { aFewSeconds } from '../shared/commonTests/testUtil';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
-import { updateUser } from '../users/user.apiClient';
+import { createPromotedOperator, updateUser } from '../users/user.apiClient';
 import {
   createNonImmutableUser,
   createOperatorWithPromotion,
   getImmutableUserApiKey
 } from '../users/user.sharedFixture';
+import { copyUserTemplate } from '../users/userDto.template';
 import { postInquiry } from './inquiry.apiClient';
 import {
   buildInquiryRequest,
@@ -126,6 +128,45 @@ export async function crudInquiryTests(): Promise<void> {
     assert.isNumber(inquiryResponse.body.options[0].pricing.parts[0].amount);
     assert.isNumber(inquiryResponse.body.options[0].pricing.parts[0].pessimisticAmount);
     assert.isString(inquiryResponse.body.options[0].pricing.parts[0].currencyCode);
+    assert.isNumber(inquiryResponse.body.options[0].estimatedWaitTime);
+    assert.isNumber(inquiryResponse.body.options[0].estimatedTravelTime);
+    assert.isString(inquiryResponse.body.options[0].booking.agency.id);
+    assert.isString(inquiryResponse.body.options[0].booking.agency.name);
+    assert.isString(inquiryResponse.body.options[0].booking.mainAssetType.id);
+    assert.isString(inquiryResponse.body.options[0].booking.phoneNumber);
+    assert.isString(inquiryResponse.body.options[0].booking.androidUri);
+    assert.isString(inquiryResponse.body.options[0].booking.iosUri);
+    assert.isString(inquiryResponse.body.options[0].booking.webUrl);
+
+    assert.match(inquiryResponse.body.options[0].booking.phoneNumber, new RegExp(`\\+1[0-9]{10}`));
+  });
+
+  it(`Should return null fields if booking information is missing`, async () => {
+    const now = new Date(Date.now()).toISOString();
+    const userDto = copyUserTemplate(x => {
+        x.role = UserRole.Operator;
+        x.operator_api_key = uuidv4();
+        x.standard_booking_phone_number = '+1 (514) 555 1234';
+        x.standard_booking_is_promoted_to_public = true;
+        x.standard_booking_inquiries_starts_at = now;
+      });
+    const newOperator = await createPromotedOperator(userDto);
+    await setupTaxiFromOptions({ ...generateSouthShoreCoordinates(), type: 'sedan' }, newOperator.apikey);
+
+    const inquiryRequest = buildInquiryRequest(
+      generateSouthShoreCoordinates(),
+      generateSouthShoreCoordinates(),
+      [AssetTypes.Normal],
+      [newOperator]
+    );
+    const inquiryResponse = await postInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isString(inquiryResponse.body.validUntil);
+    assert.isArray(inquiryResponse.body.options);
+    assert.isNull(inquiryResponse.body.options[0].booking.androidUri);
+    assert.isNull(inquiryResponse.body.options[0].booking.iosUri);
+    assert.isNull(inquiryResponse.body.options[0].booking.webUrl);
   });
 
   it(`Should be able to return multiple responses if useAssetType type contains more than one element`, async () => {
@@ -199,11 +240,11 @@ export async function crudInquiryTests(): Promise<void> {
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
     );
 
-    const closestOperatorRoute = response.body.options[0].mainAssetType;
+    const closestOperator = response.body.options[0].booking.agency;
     const expectedTaxiIndex = 0;
 
     assert.strictEqual(response.status, StatusCodes.OK);
-    assert.include(closestOperatorRoute.id, operators[expectedTaxiIndex].public_id);
+    assert.strictEqual(closestOperator.id, operators[expectedTaxiIndex].public_id);
   });
 
   it(`Should return a regular taxi, even if special_need are closer`, async () => {
@@ -218,11 +259,11 @@ export async function crudInquiryTests(): Promise<void> {
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
     );
 
-    const closestOperatorRoute = response.body.options[0].mainAssetType;
+    const closestOperator = response.body.options[0].booking.agency;
     const expectedTaxiIndex = 2;
 
     assert.strictEqual(response.status, StatusCodes.OK);
-    assert.include(closestOperatorRoute.id, operators[expectedTaxiIndex].public_id);
+    assert.strictEqual(closestOperator.id, operators[expectedTaxiIndex].public_id);
   });
 
   it(`Should return a special_need taxi, even if regular/mpv are closer`, async () => {
@@ -237,11 +278,11 @@ export async function crudInquiryTests(): Promise<void> {
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.SpecialNeed], operators)
     );
 
-    const closestOperatorRoute = response.body.options[0].mainAssetType;
+    const closestOperator = response.body.options[0].booking.agency;
     const expectedTaxiIndex = 2;
 
     assert.strictEqual(response.status, StatusCodes.OK);
-    assert.include(closestOperatorRoute.id, operators[expectedTaxiIndex].public_id);
+    assert.strictEqual(closestOperator.id, operators[expectedTaxiIndex].public_id);
   });
 
   it(`Should return a mpv, even if regular/special_need closer`, async () => {
@@ -258,11 +299,11 @@ export async function crudInquiryTests(): Promise<void> {
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Mpv], operators)
     );
 
-    const closestOperatorRoute = response.body.options[0].mainAssetType;
+    const closestOperator = response.body.options[0].booking.agency;
     const expectedTaxiIndex = 4;
 
     assert.strictEqual(response.status, StatusCodes.OK);
-    assert.include(closestOperatorRoute.id, operators[expectedTaxiIndex].public_id);
+    assert.strictEqual(closestOperator.id, operators[expectedTaxiIndex].public_id);
   });
 
   it(`Can return a station_wagon same as sedan`, async () => {
@@ -276,11 +317,11 @@ export async function crudInquiryTests(): Promise<void> {
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
     );
 
-    const closestOperatorRoute = response.body.options[0].mainAssetType;
+    const closestOperator = response.body.options[0].booking.agency;
     const expectedTaxiIndex = 0;
 
     assert.strictEqual(response.status, StatusCodes.OK);
-    assert.include(closestOperatorRoute.id, operators[expectedTaxiIndex].public_id);
+    assert.strictEqual(closestOperator.id, operators[expectedTaxiIndex].public_id);
   });
 
   it(`Can request a taxi with no operator specified`, async () => {

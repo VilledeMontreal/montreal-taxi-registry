@@ -9,3 +9,8 @@ export const userRepositoryWithCaching = ModelMapCache.createFromSingle<UserMode
   async key => await userRepository.getUserByApiKey(key),
   { maxCapacity: 50, maxAge: configs.caching.usersMaxAgeInSec * 1000 }
 );
+
+export const userRepositoryByIdWithCaching = ModelMapCache.createFromSingle<UserModel>(
+  async key => await userRepository.getUserById(key),
+  { maxCapacity: 50, maxAge: configs.caching.usersMaxAgeInSec * 1000 }
+);

@@ -10,6 +10,12 @@ import {
   TaxiType
 } from './gtfsDeepLinks.templates';
 
+const taxiRegistryRoutes = {
+  standard: 'taxi-registry-standard-route',
+  minivan: 'taxi-registry-minivan-route',
+  specialNeed: 'taxi-registry-special-need-route',
+}
+
 class GtfsDeepLinksGenerator {
   public generateDeepLinksPage(user: UserModel): string {
     return `
@@ -24,7 +30,6 @@ class GtfsDeepLinksGenerator {
 <body>
   <h1>GTFS-OnDemand URL scheme Acceptance Test</h1>
   <div><h2>${user.commercial_name}<h2></div>
-  <div><h3>Public ID: ${user.public_id}<h3></div>
   <div><strong>Important: </strong>To pass a test, the user should not have to re-enter the information provided through the GTFS-OnDemand URL scheme.</div>
 
   ${generatePhoneBooking(user)}
@@ -60,7 +65,7 @@ function generateWebBooking(user: UserModel): string {
     ${evaluateBookingStandard({
       taxiType: TaxiType.Standard,
       platformType: PlatformType.Web,
-      serviceType: `${user.public_id}-standard-route`,
+      serviceType: taxiRegistryRoutes.standard,
       bookingUrl: user.standard_booking_website_url,
       display: !!user.standard_booking_website_url
     })}
@@ -68,7 +73,7 @@ function generateWebBooking(user: UserModel): string {
     ${evaluateBookingMinivan({
       taxiType: TaxiType.Minivan,
       platformType: PlatformType.Web,
-      serviceType: `${user.public_id}-minivan-route`,
+      serviceType: taxiRegistryRoutes.minivan,
       bookingUrl: user.standard_booking_website_url,
       display: !!user.minivan_booking_is_available_from_web_url
     })}
@@ -76,7 +81,7 @@ function generateWebBooking(user: UserModel): string {
     ${evaluateBookingSpecialNeed({
       taxiType: TaxiType.SpecialNeed,
       platformType: PlatformType.Web,
-      serviceType: `${user.public_id}-special-need-route`,
+      serviceType: taxiRegistryRoutes.specialNeed,
       bookingUrl: user.special_need_booking_website_url,
       display: !!user.special_need_booking_website_url,
       displayTemplate: user.standard_booking_website_url !== user.special_need_booking_website_url
@@ -92,7 +97,7 @@ function generateAndroidBooking(user: UserModel): string {
     ${evaluateBookingStandard({
       taxiType: TaxiType.Standard,
       platformType: PlatformType.Android,
-      serviceType: `${user.public_id}-standard-route`,
+      serviceType: taxiRegistryRoutes.standard,
       bookingUrl: user.standard_booking_android_deeplink_uri,
       storeUrl: user.standard_booking_android_store_uri,
       display: !!user.standard_booking_android_deeplink_uri
@@ -101,7 +106,7 @@ function generateAndroidBooking(user: UserModel): string {
     ${evaluateBookingMinivan({
       taxiType: TaxiType.Minivan,
       platformType: PlatformType.Android,
-      serviceType: `${user.public_id}-minivan-route`,
+      serviceType: taxiRegistryRoutes.minivan,
       bookingUrl: user.standard_booking_android_deeplink_uri,
       display: !!user.minivan_booking_is_available_from_android_uri
     })}
@@ -109,7 +114,7 @@ function generateAndroidBooking(user: UserModel): string {
   ${evaluateBookingSpecialNeed({
     taxiType: TaxiType.SpecialNeed,
     platformType: PlatformType.Android,
-    serviceType: `${user.public_id}-special-need-route`,
+    serviceType: taxiRegistryRoutes.specialNeed,
     bookingUrl: user.special_need_booking_android_deeplink_uri,
     storeUrl: user.special_need_booking_android_store_uri,
     display: !!user.special_need_booking_android_deeplink_uri,
@@ -126,7 +131,7 @@ function generateIosBooking(user: UserModel): string {
   ${evaluateBookingStandard({
     taxiType: TaxiType.Standard,
     platformType: PlatformType.Ios,
-    serviceType: `${user.public_id}-standard-route`,
+    serviceType: taxiRegistryRoutes.standard,
     bookingUrl: user.standard_booking_ios_deeplink_uri,
     storeUrl: user.standard_booking_ios_store_uri,
     display: !!user.standard_booking_ios_deeplink_uri
@@ -135,7 +140,7 @@ function generateIosBooking(user: UserModel): string {
   ${evaluateBookingMinivan({
     taxiType: TaxiType.Minivan,
     platformType: PlatformType.Ios,
-    serviceType: `${user.public_id}-minivan-route`,
+    serviceType: taxiRegistryRoutes.minivan,
     bookingUrl: user.standard_booking_ios_deeplink_uri,
     display: !!user.minivan_booking_is_available_from_ios_uri
   })}
@@ -143,7 +148,7 @@ function generateIosBooking(user: UserModel): string {
   ${evaluateBookingSpecialNeed({
     taxiType: TaxiType.SpecialNeed,
     platformType: PlatformType.Ios,
-    serviceType: `${user.public_id}-special-need-route`,
+    serviceType: taxiRegistryRoutes.specialNeed,
     bookingUrl: user.special_need_booking_ios_deeplink_uri,
     storeUrl: user.special_need_booking_ios_store_uri,
     display: !!user.special_need_booking_ios_deeplink_uri,

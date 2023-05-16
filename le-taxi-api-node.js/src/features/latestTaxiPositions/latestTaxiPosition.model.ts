@@ -1,5 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { AssetTypes } from '../inquiry/inquiry.dto';
 import { TaxiSummaryModel } from '../taxiSummaries/taxiSummary.model';
 
 export class LatestTaxiPositionModel {
@@ -10,9 +11,11 @@ export class LatestTaxiPositionModel {
   public status: string;
   public timestampUnixTime: number;
   public receivedAt?: Date;
-  public taxi?: TaxiSummaryModel;
+  public taxi?: TaxiSummaryModelExtended;
   public isPromoted: boolean;
 }
+
+export type TaxiSummaryModelExtended = TaxiSummaryModel & { assetType?: AssetTypes };
 
 interface ILocation {
   type: string;
