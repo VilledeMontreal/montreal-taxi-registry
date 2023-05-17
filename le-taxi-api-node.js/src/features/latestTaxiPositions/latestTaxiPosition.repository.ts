@@ -1,5 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { AssetTypes } from '../inquiry/inquiry.dto';
 import { ICoordinates } from '../shared/coordinates/coordinates';
 import { getMongoDb } from '../shared/taxiMongo/taxiMongo';
 import { TaxiStatus } from './../../libs/taxiStatus';
@@ -9,26 +10,54 @@ import { LatestTaxiPositionModel } from './latestTaxiPosition.model';
 class LatestTaxiPositionRepository {
   public async findLatestTaxiPosition(
     coordinate: ICoordinates,
-    isMpv: boolean,
-    isSpecialNeedVehicle: boolean,
+    assetTypes: AssetTypes[],
     operators: number[] = null
-  ): Promise<LatestTaxiPositionModel> {
+  ): Promise<LatestTaxiPositionModel[]> {
     const db = getMongoDb();
 
-    const filter = {
-      status: TaxiStatus.Free,
-      isPromoted: true,
-      location: {
-        $near: {
-          $geometry: { type: 'Point', coordinates: [coordinate.lon, coordinate.lat] }
+    const aggregate = [
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [coordinate.lon, coordinate.lat]
+          },
+          spherical: true,
+          distanceField: 'distance'
         }
       },
-      ...operatorsCondition(operators),
-      ...transportationTypeCondition(isMpv, isSpecialNeedVehicle)
-    };
+      {
+        $facet: assetTypes.reduce((map, key) => {
+          map[key] = [
+            {
+              $match: {
+                status: TaxiStatus.Free,
+                isPromoted: true,
+                ...operatorsCondition(operators),
+                ...transportationTypeCondition(key)
+              }
+            },
+            {
+              $addFields: {
+                'taxi.assetType': key
+              }
+            },
+            {
+              $limit: 1
+            }
+          ];
+          return map;
+        }, {})
+      }
+    ];
 
-    const latestTaxiPosition = await db.collection('latestTaxiPositions').findOne(filter);
-    return latestTaxiPositionMapper.mongoToLatestTaxiPositionModel(latestTaxiPosition);
+    const results = await db
+      .collection('latestTaxiPositions')
+      .aggregate(aggregate)
+      .toArray();
+    return Object.values(results[0])
+      .filter(result => result.length)
+      .map(result => latestTaxiPositionMapper.mongoToLatestTaxiPositionModel(result[0]));
   }
 
   public async getLatestTaxiPositionByTaxiId(id: string): Promise<LatestTaxiPositionModel> {
@@ -78,19 +107,19 @@ function operatorsCondition(operators: number[]): any {
   return operators && operators.length > 0 ? { 'taxi.operatorId': { $in: operators } } : {};
 }
 
-function transportationTypeCondition(isMpv: boolean, isSpecialNeedVehicle: boolean): any {
-  if (isMpv) {
-    return {
-      'taxi.isMpv': true,
-      'taxi.isSpecialNeedVehicle': false
-    };
+function transportationTypeCondition(assetType: AssetTypes): any {
+  switch (assetType) {
+    case AssetTypes.Mpv:
+      return {
+        'taxi.isMpv': true,
+        'taxi.isSpecialNeedVehicle': false
+      };
+    case AssetTypes.SpecialNeed:
+      return { 'taxi.isSpecialNeedVehicle': true };
+    default:
+    case AssetTypes.Normal:
+      return { 'taxi.isSpecialNeedVehicle': false };
   }
-
-  if (isSpecialNeedVehicle) {
-    return { 'taxi.isSpecialNeedVehicle': true };
-  }
-
-  return { 'taxi.isSpecialNeedVehicle': false };
 }
 
 export const latestTaxiPositionRepository = new LatestTaxiPositionRepository();
