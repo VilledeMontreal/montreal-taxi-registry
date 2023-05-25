@@ -5,14 +5,14 @@ import { ICoordinates } from '../shared/coordinates/coordinates';
 import { getMongoDb } from '../shared/taxiMongo/taxiMongo';
 import { TaxiStatus } from './../../libs/taxiStatus';
 import { latestTaxiPositionMapper } from './latestTaxiPosition.mapper';
-import { LatestTaxiPositionModel } from './latestTaxiPosition.model';
+import { LatestTaxiPositionModel, LatestTaxiPositionModelExtended } from './latestTaxiPosition.model';
 
 class LatestTaxiPositionRepository {
   public async findLatestTaxiPosition(
     coordinate: ICoordinates,
     assetTypes: AssetTypes[],
     operators: number[] = null
-  ): Promise<LatestTaxiPositionModel[]> {
+  ): Promise<LatestTaxiPositionModelExtended[]> {
     const db = getMongoDb();
 
     const aggregate = [
@@ -57,7 +57,7 @@ class LatestTaxiPositionRepository {
       .toArray();
     return Object.values(results[0])
       .filter(result => result.length)
-      .map(result => latestTaxiPositionMapper.mongoToLatestTaxiPositionModel(result[0]));
+      .map(result => latestTaxiPositionMapper.mongoToLatestTaxiPositionModelExtended(result[0]));
   }
 
   public async getLatestTaxiPositionByTaxiId(id: string): Promise<LatestTaxiPositionModel> {

@@ -11,11 +11,14 @@ export class LatestTaxiPositionModel {
   public status: string;
   public timestampUnixTime: number;
   public receivedAt?: Date;
-  public taxi?: TaxiSummaryModelExtended;
+  public taxi?: TaxiSummaryModel;
   public isPromoted: boolean;
 }
 
-export type TaxiSummaryModelExtended = TaxiSummaryModel & { assetType?: AssetTypes };
+export type TaxiSummaryModelExtended = TaxiSummaryModel & { assetType: AssetTypes };
+export class LatestTaxiPositionModelExtended extends LatestTaxiPositionModel {
+  public taxi?: TaxiSummaryModelExtended;
+};
 
 interface ILocation {
   type: string;
