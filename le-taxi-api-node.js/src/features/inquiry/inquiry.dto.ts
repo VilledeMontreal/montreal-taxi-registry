@@ -72,6 +72,21 @@ export class InquiryResponseOptionsDTO {
       }
     ];
   };
+  estimatedWaitTime: number;
+  estimatedTravelTime: number;
+  booking: {
+    agency: {
+      id: string;
+      name: string;
+    },
+    mainAssetType: {
+      id: string;
+    },
+    phoneNumber: string;
+    androidUri: string;
+    iosUri: string;
+    webUrl: string;
+  }
 }
 
 export class InquiryResponseDTO {

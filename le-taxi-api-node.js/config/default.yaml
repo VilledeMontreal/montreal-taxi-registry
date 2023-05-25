@@ -91,7 +91,7 @@ caching:
   taxisMaxAgeInSec: 86400
   usersMaxAgeInSec: 86400
 inquiries:
-  promotionDelayInSec: 86400
+  promotionDelayInSec: 0
 
 #==========================================
 # Routing Service OSRM

@@ -6,21 +6,27 @@ import { TaxiPositionSnapshotItemRequestDto } from '../taxiPositionSnapshot/taxi
 import { TaxiPositionSnapshotRequestDto } from '../taxiPositionSnapshot/taxiPositionSnapshotRequest.dto';
 import { TaxiSummaryModel } from '../taxiSummaries/taxiSummary.model';
 import { UserModel } from '../users/user.model';
-import { LatestTaxiPositionModel } from './latestTaxiPosition.model';
+import { LatestTaxiPositionModel, LatestTaxiPositionModelExtended } from './latestTaxiPosition.model';
 
 class LatestTaxiPositionMapper {
-  public mongoToLatestTaxiPositionModel(latestTaxiPosition: any): LatestTaxiPositionModel {
-    if (!latestTaxiPosition) return latestTaxiPosition;
+  public mongoToLatestTaxiPositionModel(mongoResult: any): LatestTaxiPositionModel {
+    if (!mongoResult) return mongoResult;
     return {
-      taxiId: latestTaxiPosition._id,
-      lon: latestTaxiPosition.location.coordinates[0],
-      lat: latestTaxiPosition.location.coordinates[1],
-      status: latestTaxiPosition.status,
-      isPromoted: latestTaxiPosition.isPromoted,
-      timestampUnixTime: latestTaxiPosition.timestampUnixTime,
-      receivedAt: latestTaxiPosition.receivedAt,
-      taxi: latestTaxiPosition.taxi
+      taxiId: mongoResult._id,
+      lon: mongoResult.location.coordinates[0],
+      lat: mongoResult.location.coordinates[1],
+      status: mongoResult.status,
+      isPromoted: mongoResult.isPromoted,
+      timestampUnixTime: mongoResult.timestampUnixTime,
+      receivedAt: mongoResult.receivedAt,
+      taxi: mongoResult.taxi
     };
+  }
+
+  public mongoToLatestTaxiPositionModelExtended(mongoResult: any): LatestTaxiPositionModelExtended {
+    const latestTaxiPosition = this.mongoToLatestTaxiPositionModel(mongoResult);
+    const latestTaxiPositionExtended = { ...latestTaxiPosition, taxi: { ...latestTaxiPosition.taxi, assetType: mongoResult.taxi.assetType } };
+    return latestTaxiPositionExtended;
   }
 
   public toLatestTaxiPositionModels(
