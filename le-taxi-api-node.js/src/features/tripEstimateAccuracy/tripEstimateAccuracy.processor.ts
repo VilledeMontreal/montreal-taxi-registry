@@ -52,9 +52,10 @@ class TripEstimateAccuracyProcessor {
   ): Promise<void> {
     const subRealTrips = await taxiEstimateAccuracyRepository.getRealTripsBatch(sampleId, offset, batchSize);
 
-    const estimatedTripsBatch = await Promise.all(
-      subRealTrips.map(realTrip => estimateWithOsrm(realTrip, testExecutionId))
-    );
+    const estimatedTripPromises = subRealTrips.map(realTrip => estimateWithOsrm(realTrip, testExecutionId));
+    const estimatedTripPromisesWithTimeout = this.wrapWithTimeout(estimatedTripPromises,10000);
+
+    const estimatedTripsBatch = await Promise.all(estimatedTripPromisesWithTimeout);
 
     await taxiEstimateAccuracyRepository.insertEstimatedTrips(estimatedTripsBatch);
 
@@ -64,6 +65,23 @@ class TripEstimateAccuracyProcessor {
       }] real_trip_id.`
     );
   }
+
+private wrapWithTimeout<T>(promises: Promise<T>[], timeoutInMs: number):Promise<T>[]{
+  return promises.map((promise) => {
+    const waitForSeconds = new Promise<T>((resolve, reject) => {
+      setTimeout(() => {
+        reject("Timeout exceeded");
+      }, timeoutInMs);
+    });
+
+    // basically creating a situation where there'll be a race between them
+    return Promise.race([promise, waitForSeconds]);
+  });
+}
+
+
+
+
 
   protected async generateTestExecutionReport(
     testExecution: TestExecution,
