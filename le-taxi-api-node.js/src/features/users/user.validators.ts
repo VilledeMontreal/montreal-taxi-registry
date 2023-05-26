@@ -58,7 +58,7 @@ export async function prepareDtoForUpdate(userRequestDto: UserRequestDto): Promi
 }
 
 function updateInquiriesStartTime(user: UserRequestDto, previousUser: UserModel = null): UserRequestDto {
-  const nextDay = addSec(nowUtcIsoString(), configs.inquiries.promotionDelayInSec);
+  const startTime = addSec(nowUtcIsoString(), configs.inquiries.promotionDelayInSec);
 
   if (
     promotionStateChanged(
@@ -66,7 +66,7 @@ function updateInquiriesStartTime(user: UserRequestDto, previousUser: UserModel 
       previousUser?.standard_booking_is_promoted_to_public ?? false
     )
   ) {
-    user.standard_booking_inquiries_starts_at = user.standard_booking_is_promoted_to_public ? nextDay : null;
+    user.standard_booking_inquiries_starts_at = user.standard_booking_is_promoted_to_public ? startTime : null;
   }
 
   if (
@@ -75,7 +75,7 @@ function updateInquiriesStartTime(user: UserRequestDto, previousUser: UserModel 
       previousUser?.minivan_booking_is_promoted_to_public ?? false
     )
   ) {
-    user.minivan_booking_inquiries_starts_at = user.minivan_booking_is_promoted_to_public ? nextDay : null;
+    user.minivan_booking_inquiries_starts_at = user.minivan_booking_is_promoted_to_public ? startTime : null;
   }
 
   if (
@@ -84,7 +84,7 @@ function updateInquiriesStartTime(user: UserRequestDto, previousUser: UserModel 
       previousUser?.special_need_booking_is_promoted_to_public ?? false
     )
   ) {
-    user.special_need_booking_inquiries_starts_at = user.special_need_booking_is_promoted_to_public ? nextDay : null;
+    user.special_need_booking_inquiries_starts_at = user.special_need_booking_is_promoted_to_public ? startTime : null;
   }
 
   return user;

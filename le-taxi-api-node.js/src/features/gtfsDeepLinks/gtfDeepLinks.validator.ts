@@ -12,7 +12,8 @@ export async function validateUserId(request: Request): Promise<UserModel> {
 }
 
 export function validateUserForDeepLinks(user: UserModel) {
-  if (user.role_name !== UserRole.Operator)
+  if (user.role_name !== UserRole.Operator) {
     throw new BadRequestError('GTFS Deep links can only be generated for operators');
+  }
   if (!user.public_id) throw new BadRequestError('Operators must be provided with a public_id');
 }

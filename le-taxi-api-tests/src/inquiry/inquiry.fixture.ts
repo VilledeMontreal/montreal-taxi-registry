@@ -29,13 +29,13 @@ export interface ITaxiOptions extends ITaxiPositions {
 export function buildInquiryRequest(
   fromCoordinate: ICoordinateDTO,
   toCoordinate: ICoordinateDTO,
-  assetType: AssetTypes,
+  assetTypes: AssetTypes[],
   operators?: IUser[]
 ): IInquiryRequestDTO {
   return {
     from: { coordinates: fromCoordinate },
     to: { coordinates: toCoordinate },
-    useAssetTypes: [assetType],
+    useAssetTypes: assetTypes,
     operators: operators?.map(operator => operator.id)
   };
 }

@@ -10,10 +10,10 @@ export async function getRoutesFromTaxiRegistryOsrm(
   from: ICoordinates,
   to: ICoordinates
 ): Promise<Response> {
-  const { base, domainPath, route, version } = configs.taxiRegistryOsrmApi;
+  const { base, domainPath } = configs.taxiRegistryOsrmApi;
 
   const params = `overview=false&alternatives=false`;
-  const cityInternalOsrmUrl = `${base}${domainPath}/${route}/${version}/${constants.osrm.profile.CAR}/${closestTaxi.lon},${closestTaxi.lat};${from.lon},${from.lat};${to.lon},${to.lat}?${params}`;
+  const cityInternalOsrmUrl = `${base}${domainPath}/${constants.osrm.profile.ROUTE}/${closestTaxi.lon},${closestTaxi.lat};${from.lon},${from.lat};${to.lon},${to.lat}?${params}`;
 
   return await superagentWithStats.get(cityInternalOsrmUrl);
 }

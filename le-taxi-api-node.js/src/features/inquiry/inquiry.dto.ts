@@ -1,16 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { Type } from 'class-transformer';
-import {
-  ArrayMaxSize,
-  ArrayMinSize,
-  ArrayNotEmpty,
-  IsArray,
-  IsDefined,
-  IsEnum,
-  IsNotEmpty,
-  ValidateNested
-} from 'class-validator';
+import { ArrayMinSize, ArrayNotEmpty, IsArray, IsDefined, IsEnum, IsNotEmpty, ValidateNested } from 'class-validator';
 
 /* tslint:disable:max-classes-per-file */
 export enum AssetTypes {
@@ -53,7 +44,6 @@ export class InquiryRequest {
   @IsArray()
   @ArrayNotEmpty()
   @ArrayMinSize(1)
-  @ArrayMaxSize(1)
   @IsEnum(AssetTypes, { each: true })
   useAssetTypes: AssetTypes[];
 
@@ -61,30 +51,45 @@ export class InquiryRequest {
   operators: string[];
 }
 
+export class InquiryResponseOptionsDTO {
+  mainAssetType: { id: string };
+  departureTime: string;
+  arrivalTime: string;
+  from: {
+    coordinates: CoordinatesHolder;
+  };
+  to: {
+    coordinates: CoordinatesHolder;
+  };
+  pricing: {
+    estimated: boolean;
+    parts: [
+      {
+        optimisticAmount: number;
+        amount: number;
+        pessimisticAmount: number;
+        currencyCode: string;
+      }
+    ];
+  };
+  estimatedWaitTime: number;
+  estimatedTravelTime: number;
+  booking: {
+    agency: {
+      id: string;
+      name: string;
+    },
+    mainAssetType: {
+      id: string;
+    },
+    phoneNumber: string;
+    androidUri: string;
+    iosUri: string;
+    webUrl: string;
+  }
+}
+
 export class InquiryResponseDTO {
   validUntil: string;
-  options: [
-    {
-      mainAssetType: { id: string };
-      departureTime: string;
-      arrivalTime: string;
-      from: {
-        coordinates: CoordinatesHolder;
-      };
-      to: {
-        coordinates: CoordinatesHolder;
-      };
-      pricing: {
-        estimated: boolean;
-        parts: [
-          {
-            optimisticAmount: number;
-            amount: number;
-            pessimisticAmount: number;
-            currencyCode: string;
-          }
-        ];
-      };
-    }
-  ];
+  options: InquiryResponseOptionsDTO[];
 }

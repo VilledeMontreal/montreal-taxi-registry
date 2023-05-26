@@ -91,7 +91,7 @@ caching:
   taxisMaxAgeInSec: 86400
   usersMaxAgeInSec: 86400
 inquiries:
-  promotionDelayInSec: 86400
+  promotionDelayInSec: 0
 
 #==========================================
 # Routing Service OSRM
@@ -99,8 +99,6 @@ inquiries:
 taxiRegistryOsrmApi:
   base: https://api.dev.interne.montreal.ca
   domainPath: /api/taxi/taxi-registry-osrm
-  route: route
-  version: v1
   estimation:
     biasInSec: 336 # Bias calculated against Polytechnic's data to even the distribution over/under
     requestAndDispatchInSec: 120 # Arbitrary time to account for the taxi request and dispatch

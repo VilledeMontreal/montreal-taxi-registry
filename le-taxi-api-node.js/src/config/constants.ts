@@ -119,9 +119,8 @@ export class Constants {
   get osrm() {
     return {
       profile: {
-        BIKE: 'bike',
-        CAR: 'car',
-        FOOT: 'foot'
+        ROUTE: 'route/v1/car',
+        TABLE: 'table/v1/driving'
       }
     };
   }

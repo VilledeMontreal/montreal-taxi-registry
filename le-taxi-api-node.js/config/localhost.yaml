@@ -5,5 +5,3 @@ api:
 caching:
   taxisMaxAgeInSec: 10
   usersMaxAgeInSec: 10
-inquiries:
-  promotionDelayInSec: 10
