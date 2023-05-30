@@ -4,7 +4,7 @@ import { HttpMethods, IHandlerRoute } from '../../../models/route.model';
 import { buildApiEndpoint } from '../../shared/utils/apiUtils';
 import { gtfsInquiryController } from './gtfsInquiry.controller';
 
-export function getInquiryRoutes(): IHandlerRoute[] {
+export function getGtfsInquiryRoutes(): IHandlerRoute[] {
   return [
     {
       method: HttpMethods.POST,

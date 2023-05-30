@@ -15,7 +15,7 @@ export class InquiryRequest {
   from: ICoordinates;
   to: ICoordinates;
   inquiryTypes: InquiryTypes[];
-  operators: number[];
+  operators?: number[];
 }
 
 export class InquiryResponse {
