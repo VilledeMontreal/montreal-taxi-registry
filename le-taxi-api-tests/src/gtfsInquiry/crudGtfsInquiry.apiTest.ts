@@ -15,16 +15,16 @@ import {
   getImmutableUserApiKey
 } from '../users/user.sharedFixture';
 import { copyUserTemplate } from '../users/userDto.template';
-import { postInquiry } from './inquiry.apiClient';
+import { postGtfsInquiry } from './gtfsInquiry.apiClient';
 import {
   buildInquiryRequest,
   createTaxisWithPromotions,
   demoteOperatorTaxis,
   setupTaxiFromOptions
-} from './inquiry.fixture';
+} from './gtfsInquiry.fixture';
 
 // tslint:disable: max-func-body-length
-export async function crudInquiryTests(): Promise<void> {
+export async function crudGtfsInquiryTests(): Promise<void> {
   testInquiryUserAccessValid(UserRole.Admin);
   testInquiryUserAccessValid(UserRole.Motor);
 
@@ -36,7 +36,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });
@@ -49,7 +49,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Mpv],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });
@@ -66,7 +66,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Mpv],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });
@@ -83,7 +83,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });
@@ -98,7 +98,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.SpecialNeed],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });
@@ -111,7 +111,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.isString(inquiryResponse.body.validUntil);
@@ -159,7 +159,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       [newOperator]
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.isString(inquiryResponse.body.validUntil);
@@ -184,7 +184,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal, AssetTypes.SpecialNeed],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 2);
   });
@@ -204,9 +204,31 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal, AssetTypes.Normal, AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 1);
+  });
+
+  it(`Should return all vehicle types when useAssetType is empty`, async () => {
+    const { lat, lon } = generateSouthShoreCoordinates();
+
+    const operators = await createTaxisWithPromotions([
+      { lat: lat + 0.0001, lon, specialNeedVehicle: true }, // Expected
+      { lat: lat + 0.0001, lon, type: 'mpv' }, // Expected
+      { lat: lat + 0.0002, lon }, // Expected
+      { lat: lat + 0.001, lon },
+      { lat: lat + 0.002, lon },
+    ]);
+
+    const inquiryRequest = buildInquiryRequest(
+      generateSouthShoreCoordinates(),
+      generateSouthShoreCoordinates(),
+      [],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.strictEqual(inquiryResponse.body.options.length, 3);
   });
 
   it(`Should return a validUntil in a 5 minute range (+- 30 seconds)`, async () => {
@@ -220,7 +242,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.isTrue(inquiryResponse.body.validUntil > validUntilLow);
@@ -236,7 +258,7 @@ export async function crudInquiryTests(): Promise<void> {
       { lat: lat + 0.00011, lon }, // 1.11m further
       { lat: lat + 0.0002, lon } // 9m further
     ]);
-    const response = await postInquiry(
+    const response = await postGtfsInquiry(
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
     );
 
@@ -255,7 +277,7 @@ export async function crudInquiryTests(): Promise<void> {
       { lat: lat + 0.0001, lon, specialNeedVehicle: true, type: 'mpv' },
       { lat: lat + 0.0002, lon } // Expected
     ]);
-    const response = await postInquiry(
+    const response = await postGtfsInquiry(
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
     );
 
@@ -274,7 +296,7 @@ export async function crudInquiryTests(): Promise<void> {
       { lat: lat + 0.0001, lon, type: 'mpv' },
       { lat: lat + 0.0002, lon, specialNeedVehicle: true } // Expected
     ]);
-    const response = await postInquiry(
+    const response = await postGtfsInquiry(
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.SpecialNeed], operators)
     );
 
@@ -295,7 +317,7 @@ export async function crudInquiryTests(): Promise<void> {
       { lat: lat + 0.0001, lon, type: 'mpv', specialNeedVehicle: true },
       { lat: lat + 0.0002, lon, type: 'mpv' } // Expected
     ]);
-    const response = await postInquiry(
+    const response = await postGtfsInquiry(
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Mpv], operators)
     );
 
@@ -313,7 +335,7 @@ export async function crudInquiryTests(): Promise<void> {
       { lat: lat + 0.0001, lon, type: 'station_wagon' },
       { lat: lat + 0.0002, lon }
     ]);
-    const response = await postInquiry(
+    const response = await postGtfsInquiry(
       buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
     );
 
@@ -329,7 +351,7 @@ export async function crudInquiryTests(): Promise<void> {
     const inquiryRequest = buildInquiryRequest(generateSouthShoreCoordinates(), generateSouthShoreCoordinates(), [
       AssetTypes.Normal
     ]);
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });
@@ -339,7 +361,7 @@ export async function crudInquiryTests(): Promise<void> {
     await createTaxisWithPromotions([{ ...coordinates, type: 'sedan' }]);
 
     const inquiryRequest = buildInquiryRequest(coordinates, coordinates, [AssetTypes.Normal]);
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     const now = new Date();
     const fiveSecondsInMillis = 5000;
@@ -369,7 +391,7 @@ export async function crudInquiryTests(): Promise<void> {
       useAssetTypes: [AssetTypes.Normal],
       operators: [newOperator.id]
     };
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 0);
@@ -390,7 +412,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 0);
@@ -410,7 +432,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 0);
@@ -428,7 +450,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Mpv],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 0);
@@ -446,7 +468,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 0);
@@ -468,7 +490,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 0);
@@ -487,12 +509,12 @@ export async function crudInquiryTests(): Promise<void> {
       useAssetTypes: [AssetTypes.Normal],
       operators: [newOperator.id]
     };
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
 
     await demoteOperatorTaxis(newOperator, taxi);
 
-    const inquiryResponseAfterDemotion = await postInquiry(inquiryRequest);
+    const inquiryResponseAfterDemotion = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponseAfterDemotion.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponseAfterDemotion.body.options.length, 0);
@@ -511,11 +533,11 @@ export async function crudInquiryTests(): Promise<void> {
       useAssetTypes: [AssetTypes.Mpv],
       operators: [newOperator.id]
     };
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
 
     await demoteOperatorTaxis(newOperator, taxi);
-    const inquiryResponseAfterDemotion = await postInquiry(inquiryRequest);
+    const inquiryResponseAfterDemotion = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponseAfterDemotion.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponseAfterDemotion.body.options.length, 0);
@@ -534,11 +556,11 @@ export async function crudInquiryTests(): Promise<void> {
       useAssetTypes: [AssetTypes.SpecialNeed],
       operators: [newOperator.id]
     };
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
 
     await demoteOperatorTaxis(newOperator, taxi);
-    const inquiryResponseAfterDemotion = await postInquiry(inquiryRequest);
+    const inquiryResponseAfterDemotion = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponseAfterDemotion.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponseAfterDemotion.body.options.length, 0);
@@ -568,7 +590,7 @@ export async function crudInquiryTests(): Promise<void> {
       [AssetTypes.Normal],
       operators
     );
-    const inquiryResponse = await postInquiry(inquiryRequest);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 0);
@@ -580,7 +602,7 @@ function testInquiryUserAccessValid(role: UserRole) {
     const apiKey = await getImmutableUserApiKey(role);
     const operators = await createTaxisWithPromotions([generateSouthShoreCoordinates()]);
 
-    const inquiryResponse = await postInquiry(
+    const inquiryResponse = await postGtfsInquiry(
       buildInquiryRequest(
         generateSouthShoreCoordinates(),
         generateSouthShoreCoordinates(),

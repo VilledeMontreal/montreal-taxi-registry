@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { Type } from 'class-transformer';
-import { ArrayMinSize, ArrayNotEmpty, IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
+import { IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
 
 /* tslint:disable:max-classes-per-file */
 /* tslint:enable:allow-snake-case-per-file */
@@ -42,8 +42,6 @@ export class GofsLiteWaitTimeRequestDto {
 
   @IsDefined()
   @IsArray()
-  @ArrayNotEmpty()
-  @ArrayMinSize(1)
   @IsEnum(GofsLiteBrandIdTypes, { each: true })
   brand_id: GofsLiteBrandIdTypes[];
 }

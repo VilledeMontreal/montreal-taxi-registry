@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { Type } from 'class-transformer';
-import { ArrayMinSize, ArrayNotEmpty, IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min, ValidateNested } from 'class-validator';
+import { IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min, ValidateNested } from 'class-validator';
 
 /* tslint:disable:max-classes-per-file */
 export enum GtfsAssetTypes {
@@ -51,8 +51,6 @@ export class GtfsInquiryRequestDto {
 
   @IsDefined()
   @IsArray()
-  @ArrayNotEmpty()
-  @ArrayMinSize(1)
   @IsEnum(GtfsAssetTypes, { each: true })
   useAssetTypes: GtfsAssetTypes[];
 

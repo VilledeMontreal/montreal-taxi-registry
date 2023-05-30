@@ -13,9 +13,9 @@ export function validateInquiryRequest(inquiryRequest: InquiryRequest): InquiryR
   const inquiryTypes = validateInquiryTypes(inquiryRequest.inquiryTypes);
   const operators = validateOperators(inquiryRequest.operators);
   return forceTypes({
+    ...inquiryRequest,
     inquiryTypes,
     operators,
-    ...inquiryRequest
   });
 }
 
@@ -45,7 +45,7 @@ function validateYulTaxiRestrictedArea(coordinate: ICoordinates): void {
 }
 
 function validateInquiryTypes(inquiryTypes: InquiryTypes[]): InquiryTypes[] {
-  if (inquiryTypes.length === 0) return Object.values(InquiryTypes);
+  if (!inquiryTypes || inquiryTypes.length === 0) return Object.values(InquiryTypes);
   return inquiryTypes.filter((inquiryType, i) => inquiryTypes.indexOf(inquiryType) === i);
 }
 
