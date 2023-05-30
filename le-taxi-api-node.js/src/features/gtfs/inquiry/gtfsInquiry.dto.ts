@@ -1,66 +1,73 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { Type } from 'class-transformer';
-import { ArrayMinSize, ArrayNotEmpty, IsArray, IsDefined, IsEnum, IsNotEmpty, ValidateNested } from 'class-validator';
+import { ArrayMinSize, ArrayNotEmpty, IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min, ValidateNested } from 'class-validator';
 
 /* tslint:disable:max-classes-per-file */
-export enum AssetTypes {
-  Normal = 'taxi-registry-standard-route',
-  Mpv = 'taxi-registry-minivan-route',
+export enum GtfsAssetTypes {
+  Standard = 'taxi-registry-standard-route',
+  Minivan = 'taxi-registry-minivan-route',
   SpecialNeed = 'taxi-registry-special-need-route'
 }
 
-export class Coordinates {
+export class GtfsCoordinates {
   @IsDefined()
   @IsNotEmpty()
-  lat: any;
+  @IsNumber()
+  @Min(-90)
+  @Max(90)
+  @Type(() => Number)
+  lat: number;
+
   @IsDefined()
   @IsNotEmpty()
-  lon: any;
+  @IsNumber()
+  @Min(-180)
+  @Max(180)
+  @Type(() => Number)
+  lon: number;
 }
 
-export class CoordinatesHolder {
+export class GtfsCoordinatesHolder {
   @IsDefined()
   @IsNotEmpty()
-  @Type(() => Coordinates)
+  @Type(() => GtfsCoordinates)
   @ValidateNested()
-  coordinates: Coordinates;
+  coordinates: GtfsCoordinates;
 }
 
-export class InquiryRequest {
+export class GtfsInquiryRequestDto {
   @IsDefined()
   @IsNotEmpty()
-  @Type(() => CoordinatesHolder)
+  @Type(() => GtfsCoordinatesHolder)
   @ValidateNested()
-  from: CoordinatesHolder;
+  from: GtfsCoordinatesHolder;
 
   @IsDefined()
   @IsNotEmpty()
-  @Type(() => CoordinatesHolder)
+  @Type(() => GtfsCoordinatesHolder)
   @ValidateNested()
-  to: CoordinatesHolder;
+  to: GtfsCoordinatesHolder;
 
   @IsDefined()
   @IsArray()
   @ArrayNotEmpty()
   @ArrayMinSize(1)
-  @IsEnum(AssetTypes, { each: true })
-  useAssetTypes: AssetTypes[];
+  @IsEnum(GtfsAssetTypes, { each: true })
+  useAssetTypes: GtfsAssetTypes[];
 
   @IsArray()
-  operators: string[];
+  @IsNumber({}, { each: true })
+  @Type(() => Number)
+  operators: number[];
 }
 
-export class InquiryResponseOptionsDTO {
+export class GtfsInquiryResponseOptionsDto {
   mainAssetType: { id: string };
   departureTime: string;
   arrivalTime: string;
-  from: {
-    coordinates: CoordinatesHolder;
-  };
-  to: {
-    coordinates: CoordinatesHolder;
-  };
+  from: GtfsCoordinatesHolder;
+  to: GtfsCoordinatesHolder;
   pricing: {
     estimated: boolean;
     parts: [
@@ -89,7 +96,7 @@ export class InquiryResponseOptionsDTO {
   }
 }
 
-export class InquiryResponseDTO {
+export class GtfsInquiryResponseDto {
   validUntil: string;
-  options: InquiryResponseOptionsDTO[];
+  options: GtfsInquiryResponseOptionsDto[];
 }

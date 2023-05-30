@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { UserModel } from '../users/user.model';
+import { UserModel } from '../../users/user.model';
 import {
   GtfsAgencyDto,
   GtfsBookingDeepLinksDto,

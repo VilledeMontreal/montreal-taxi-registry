@@ -7,8 +7,8 @@ import {
   generateSouthShoreLon,
   getAirportCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { shouldThrow } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
+import { shouldThrow } from '../shared/commonTests/testUtil';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { getImmutableUserApiKey } from '../users/user.sharedFixture';
 import { postInquiry } from './inquiry.apiClient';
@@ -61,7 +61,7 @@ export async function invalidInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The latitude or longitude values are not valid');
+        assert.include(err.response.body.error.message, 'The object failed the validation because lat must not be greater than 90');
       }
     );
 
@@ -74,7 +74,7 @@ export async function invalidInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The latitude or longitude values are not valid');
+        assert.include(err.response.body.error.message, 'The object failed the validation because lon must not be greater than 180');
       }
     );
 
@@ -87,7 +87,7 @@ export async function invalidInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The latitude or longitude values are not valid');
+        assert.include(err.response.body.error.message, 'The object failed the validation because lat must not be greater than 90');
       }
     );
 
@@ -100,7 +100,7 @@ export async function invalidInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The latitude or longitude values are not valid');
+        assert.include(err.response.body.error.message, 'The object failed the validation because lon must not be greater than 180');
       }
     );
   });
@@ -169,7 +169,7 @@ export async function invalidInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The latitude or longitude values are not valid`);
+        assert.include(err.response.body.error.message, `The object failed the validation because lat must not be greater than 90`);
       }
     );
 
@@ -182,7 +182,7 @@ export async function invalidInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The latitude or longitude values are not valid`);
+        assert.include(err.response.body.error.message, `The object failed the validation because lon must not be greater than 180`);
       }
     );
 
@@ -195,7 +195,7 @@ export async function invalidInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The latitude or longitude values are not valid`);
+        assert.include(err.response.body.error.message, `The object failed the validation because lat must not be less than -90`);
       }
     );
 
@@ -208,7 +208,7 @@ export async function invalidInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The latitude or longitude values are not valid`);
+        assert.include(err.response.body.error.message, `The object failed the validation because lon must not be less than -180`);
       }
     );
   });

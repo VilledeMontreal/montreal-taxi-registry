@@ -1,10 +1,10 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { Request } from 'express';
-import { BadRequestError } from '../errorHandling/errors';
-import { UserModel } from '../users/user.model';
-import { userRepository } from '../users/user.repository';
-import { UserRole } from '../users/userRole';
+import { BadRequestError } from '../../errorHandling/errors';
+import { UserModel } from '../../users/user.model';
+import { userRepository } from '../../users/user.repository';
+import { UserRole } from '../../users/userRole';
 
 export async function validateUserId(request: Request): Promise<UserModel> {
   if (!request.params.id) throw new BadRequestError('An id must be provided.');
