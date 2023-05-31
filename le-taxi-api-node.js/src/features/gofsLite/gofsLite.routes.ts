@@ -10,6 +10,11 @@ export function getGofsLiteRoutes(): IHandlerRoute[] {
       method: HttpMethods.POST,
       path: buildApiEndpoint('/api/gofs-lite/1/:lang/wait_time'),
       handler: gofsLiteController.postWaitTime
+    },
+    {
+      method: HttpMethods.GET,
+      path: buildApiEndpoint('/api/gofs-lite'),
+      handler: gofsLiteController.getFeeds
     }
   ];
 }

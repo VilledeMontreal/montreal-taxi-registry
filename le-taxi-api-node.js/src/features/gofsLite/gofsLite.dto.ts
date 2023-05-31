@@ -64,10 +64,28 @@ export class GofsLiteWaitTimeDataResponseDto {
 }
 
 export class GofsLiteWaitTimeResponseDto {
+  wait_times: GofsLiteWaitTimeDataResponseDto[];
+}
+
+export class GofsLiteFeedDetailResponseDto {
+  name: string;
+  url: string;
+}
+
+export class GofsLiteFeedResponseDto {
+  en: {
+    feeds: GofsLiteFeedDetailResponseDto[]
+  };
+  fr: {
+    feeds: GofsLiteFeedDetailResponseDto[]
+  };
+}
+
+export class GofsLiteResponseDto {
   last_updated: number;
   ttl: number;
   version: string;
-  data: {
-    wait_times: GofsLiteWaitTimeDataResponseDto[];
-  }
+  data: GofsLiteDataResponseDto
 }
+
+export type GofsLiteDataResponseDto = GofsLiteWaitTimeResponseDto | GofsLiteFeedResponseDto;

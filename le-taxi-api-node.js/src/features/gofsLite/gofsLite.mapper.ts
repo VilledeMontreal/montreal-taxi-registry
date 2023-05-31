@@ -1,7 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { InquiryRequest, InquiryResponse, InquiryResponseData, InquiryTypes } from "../inquiry/inquiry.dto";
-import { nowAsEpoch } from "../shared/dateUtils/dateUtils";
 import { GofsLiteBrandIdTypes, GofsLiteWaitTimeDataResponseDto, GofsLiteWaitTimeRequestDto, GofsLiteWaitTimeResponseDto } from "./gofsLite.dto";
 
 class GofsLiteMapper {
@@ -21,12 +20,7 @@ class GofsLiteMapper {
 
   public toGofsLiteWaitTimeResponse(inquiryResponse: InquiryResponse): GofsLiteWaitTimeResponseDto {
     return {
-      last_updated: nowAsEpoch(),
-      ttl: 5 * 60,
-      version: "1.0",
-      data: {
-        wait_times: inquiryResponse.data?.map(data => toWaitTimeResponseData(data)) || []
-      }
+      wait_times: inquiryResponse.data?.map(data => toWaitTimeResponseData(data)) || []
     }
   };
 }

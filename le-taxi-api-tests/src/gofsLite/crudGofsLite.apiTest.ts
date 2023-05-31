@@ -4,12 +4,12 @@ import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { createTaxisWithPromotions } from '../gtfsInquiry/gtfsInquiry.fixture';
 import { generateSouthShoreCoordinates, generateSouthShoreLat, generateSouthShoreLon } from '../shared/commonLoadTests/specialRegion';
-import { postGofsLite } from './gofsLite.apiClient';
+import { getFeed, postGofsLite } from './gofsLite.apiClient';
 
 // tslint:disable: max-func-body-length
 export async function crudGofsLiteTests(): Promise<void> {
 
-  it(`Should be able to request wait_time`, async () => {
+  it(`Should be able to request GOFS wait_time`, async () => {
     await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
     const waitTimeRequest = {
       pickup_lat: generateSouthShoreLat(),
@@ -22,5 +22,10 @@ export async function crudGofsLiteTests(): Promise<void> {
     const inquiryResponse = await postGofsLite(waitTimeRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+  });
+
+  it(`Should be able to request GOFS feed`, async () => {
+    const response = await getFeed();
+    assert.strictEqual(response.status, StatusCodes.OK);
   });
 }

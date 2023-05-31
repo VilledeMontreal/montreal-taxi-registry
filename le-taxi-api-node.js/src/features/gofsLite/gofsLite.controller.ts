@@ -2,13 +2,17 @@
 // See LICENSE file in the project root for full license information.
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { getAbsoluteUrl } from '../../utils/configs/system';
 import { inquiryProcessor } from '../inquiry/inquiry.processor';
 import { nowAsEpoch } from '../shared/dateUtils/dateUtils';
+import { buildApiEndpoint } from '../shared/utils/apiUtils';
 import { allow } from '../users/securityDecorator';
 import { UserRole } from '../users/userRole';
-import { GofsLiteWaitTimeResponseDto } from './gofsLite.dto';
+import { GofsLiteDataResponseDto, GofsLiteFeedDetailResponseDto, GofsLiteResponseDto } from './gofsLite.dto';
 import { gofsLiteMapper } from './gofsLite.mapper';
 import { validateGofsLiteWaitTimeRequest } from './gofsLite.validators';
+
+
 
 class GofsLiteController {
   @allow([UserRole.Admin, UserRole.Motor])
@@ -24,18 +28,42 @@ class GofsLiteController {
     const gofsResponse = await gofsLiteMapper.toGofsLiteWaitTimeResponse(inquiryResponse);
     sendResponse(response, gofsResponse);
   }
+
+  @allow([UserRole.Admin, UserRole.Motor])
+  public async getFeeds(request: Request, response: Response) {
+    const feeds = request.app._router.stack
+      .filter(layer => layer?.route?.path?.includes('gofs-lite/1/'))
+      .map(layer => layer.route.path);
+    sendResponse(response, {
+      en: {
+        feeds: buildFeed(feeds, 'en')
+      },
+      fr: {
+        feeds: buildFeed(feeds, 'fr')
+      }
+    }, 24 * 60 * 60);
+  }
 }
 
-function sendResponse(response: Response, gofsResponse?: GofsLiteWaitTimeResponseDto) {
-  const defaultResponse = {
-    last_updated: nowAsEpoch(),
-    ttl: 5 * 60,
-    version: "1.0",
-    options: []
-  };
+function buildFeed(feeds: string[], lang: string): GofsLiteFeedDetailResponseDto[] {
+  return feeds.map(feed => ({
+    name: feed.substring(feed.lastIndexOf('/') + 1),
+    url: getAbsoluteUrl(buildApiEndpoint(feed.replace(':lang', lang)))
+  }))
+}
 
+function wrapReponse(response: GofsLiteDataResponseDto, ttl?: number): GofsLiteResponseDto {
+  return {
+    last_updated: nowAsEpoch(),
+    ttl: ttl ?? 5 * 60,
+    version: "1.0",
+    data: response || null
+  }
+}
+
+function sendResponse(response: Response, gofsData?: GofsLiteDataResponseDto, ttl?: number) {
   response.status(StatusCodes.OK);
-  response.json(gofsResponse ?? defaultResponse);
+  response.json(wrapReponse(gofsData, ttl) ?? wrapReponse([] as any));
 }
 
 export const gofsLiteController = new GofsLiteController();
