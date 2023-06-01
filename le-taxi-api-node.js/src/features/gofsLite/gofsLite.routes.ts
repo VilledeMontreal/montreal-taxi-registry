@@ -7,14 +7,24 @@ import { gofsLiteController } from './gofsLite.controller';
 export function getGofsLiteRoutes(): IHandlerRoute[] {
   return [
     {
+      method: HttpMethods.GET,
+      path: buildApiEndpoint('/api/gofs-lite'),
+      handler: gofsLiteController.getFeeds
+    },
+    {
       method: HttpMethods.POST,
       path: buildApiEndpoint('/api/gofs-lite/1/:lang/wait_time'),
       handler: gofsLiteController.postWaitTime
     },
     {
       method: HttpMethods.GET,
-      path: buildApiEndpoint('/api/gofs-lite'),
-      handler: gofsLiteController.getFeeds
-    }
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/service_brand'),
+      handler: gofsLiteController.getServiceBrands
+    },
+    {
+      method: HttpMethods.GET,
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/system_information'),
+      handler: gofsLiteController.getSystemInformation
+    },
   ];
 }

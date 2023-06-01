@@ -5,6 +5,11 @@ import { IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min } from 'clas
 
 /* tslint:disable:max-classes-per-file */
 /* tslint:enable:allow-snake-case-per-file */
+export enum GofsLiteSupportedLangTypes {
+  En = 'en',
+  Fr = 'fr',
+}
+
 export enum GofsLiteBrandIdTypes {
   Standard = 'taxi-registry-standard',
   Minivan = 'taxi-registry-minivan',
@@ -81,6 +86,22 @@ export class GofsLiteFeedResponseDto {
   };
 }
 
+export class GofsLiteServiceBrandsDetailResponseDto {
+  brand_id: string;
+  brand_name: string;
+}
+
+export class GofsLiteServiceBrandsResponseDto {
+  service_brands: GofsLiteServiceBrandsDetailResponseDto[]
+}
+
+export class GofsLiteSystemInformationResponseDto {
+  language: string;
+  timezone: string;
+  name: string;
+  short_name: string;
+}
+
 export class GofsLiteResponseDto {
   last_updated: number;
   ttl: number;
@@ -88,4 +109,4 @@ export class GofsLiteResponseDto {
   data: GofsLiteDataResponseDto
 }
 
-export type GofsLiteDataResponseDto = GofsLiteWaitTimeResponseDto | GofsLiteFeedResponseDto;
+export type GofsLiteDataResponseDto = GofsLiteWaitTimeResponseDto | GofsLiteFeedResponseDto | GofsLiteServiceBrandsResponseDto | GofsLiteSystemInformationResponseDto

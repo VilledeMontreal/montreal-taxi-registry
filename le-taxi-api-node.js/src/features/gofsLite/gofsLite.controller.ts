@@ -8,15 +8,28 @@ import { nowAsEpoch } from '../shared/dateUtils/dateUtils';
 import { buildApiEndpoint } from '../shared/utils/apiUtils';
 import { allow } from '../users/securityDecorator';
 import { UserRole } from '../users/userRole';
+import { serviceBrandsFunc, systemInformationFunc } from './gofsLite.constants';
 import { GofsLiteDataResponseDto, GofsLiteFeedDetailResponseDto, GofsLiteResponseDto } from './gofsLite.dto';
 import { gofsLiteMapper } from './gofsLite.mapper';
-import { validateGofsLiteWaitTimeRequest } from './gofsLite.validators';
+import { validateGofsLiteWaitTimeRequest, validateLang } from './gofsLite.validators';
 
 
 
 class GofsLiteController {
   @allow([UserRole.Admin, UserRole.Motor])
+  public async getFeeds(request: Request, response: Response) {
+    const feeds = request.app._router.stack
+      .filter(layer => layer?.route?.path?.includes('gofs-lite/1/'))
+      .map(layer => layer.route.path);
+    sendResponse(response, {
+      en: { feeds: buildFeed(feeds, 'en') },
+      fr: { feeds: buildFeed(feeds, 'fr') }
+    }, 24 * 60 * 60);
+  }
+
+  @allow([UserRole.Admin, UserRole.Motor])
   public async postWaitTime(request: Request, response: Response) {
+    validateLang(request);
     const inquiryRequest = await validateGofsLiteWaitTimeRequest(request);
     const inquiryResponse = await inquiryProcessor.process(inquiryRequest);
 
@@ -30,18 +43,15 @@ class GofsLiteController {
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
-  public async getFeeds(request: Request, response: Response) {
-    const feeds = request.app._router.stack
-      .filter(layer => layer?.route?.path?.includes('gofs-lite/1/'))
-      .map(layer => layer.route.path);
-    sendResponse(response, {
-      en: {
-        feeds: buildFeed(feeds, 'en')
-      },
-      fr: {
-        feeds: buildFeed(feeds, 'fr')
-      }
-    }, 24 * 60 * 60);
+  public async getServiceBrands(request: Request, response: Response) {
+    const lang = validateLang(request);
+    sendResponse(response, serviceBrandsFunc(lang));
+  }
+
+  @allow([UserRole.Admin, UserRole.Motor])
+  public async getSystemInformation(request: Request, response, Response) {
+    const lang = validateLang(request);
+    sendResponse(response, systemInformationFunc(lang));
   }
 }
 
@@ -67,3 +77,4 @@ function sendResponse(response: Response, gofsData?: GofsLiteDataResponseDto, tt
 }
 
 export const gofsLiteController = new GofsLiteController();
+
