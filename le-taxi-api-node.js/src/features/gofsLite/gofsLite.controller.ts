@@ -8,12 +8,10 @@ import { nowAsEpoch } from '../shared/dateUtils/dateUtils';
 import { buildApiEndpoint } from '../shared/utils/apiUtils';
 import { allow } from '../users/securityDecorator';
 import { UserRole } from '../users/userRole';
-import { serviceBrandsFunc, systemInformationFunc } from './gofsLite.constants';
+import { calendars, operatingRules, serviceBrandsFunc, systemInformationFunc, zones } from './gofsLite.constants';
 import { GofsLiteDataResponseDto, GofsLiteFeedDetailResponseDto, GofsLiteResponseDto } from './gofsLite.dto';
 import { gofsLiteMapper } from './gofsLite.mapper';
 import { validateGofsLiteWaitTimeRequest, validateLang } from './gofsLite.validators';
-
-
 
 class GofsLiteController {
   @allow([UserRole.Admin, UserRole.Motor])
@@ -52,6 +50,24 @@ class GofsLiteController {
   public async getSystemInformation(request: Request, response, Response) {
     const lang = validateLang(request);
     sendResponse(response, systemInformationFunc(lang));
+  }
+
+  @allow([UserRole.Admin, UserRole.Motor])
+  public async getZones(request: Request, response, Response) {
+    validateLang(request);
+    sendResponse(response, zones);
+  }
+
+  @allow([UserRole.Admin, UserRole.Motor])
+  public async getOperatingRules(request: Request, response, Response) {
+    validateLang(request);
+    sendResponse(response, operatingRules);
+  }
+
+  @allow([UserRole.Admin, UserRole.Motor])
+  public async getCalendars(request: Request, response, Response) {
+    validateLang(request);
+    sendResponse(response, calendars);
   }
 }
 

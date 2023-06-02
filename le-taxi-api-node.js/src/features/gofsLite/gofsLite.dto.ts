@@ -2,6 +2,7 @@
 // See LICENSE file in the project root for full license information.
 import { Type } from 'class-transformer';
 import { IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
+import { FeatureCollection } from 'geojson';
 
 /* tslint:disable:max-classes-per-file */
 /* tslint:enable:allow-snake-case-per-file */
@@ -102,6 +103,31 @@ export class GofsLiteSystemInformationResponseDto {
   short_name: string;
 }
 
+export class GofsLiteZoneResponseDto {
+  zones: FeatureCollection
+}
+
+export class GofsLiteOperatingRulesDetailsDto {
+  from_zone_id: string;
+  to_zone_id: string;
+  calendars: string[];
+  vehicle_type_id: string[];
+}
+
+export class GofsLiteOperatingRulesResponseDto {
+  operating_rules: GofsLiteOperatingRulesDetailsDto[];
+}
+
+export class GofsLiteCalendarsDetailsResponseDto {
+  calendar_id: string;
+  start_date: string;
+  end_date: string;
+}
+
+export class GofsLiteCalendarsResponseDto {
+  calendars: GofsLiteCalendarsDetailsResponseDto[];
+}
+
 export class GofsLiteResponseDto {
   last_updated: number;
   ttl: number;
@@ -109,4 +135,11 @@ export class GofsLiteResponseDto {
   data: GofsLiteDataResponseDto
 }
 
-export type GofsLiteDataResponseDto = GofsLiteWaitTimeResponseDto | GofsLiteFeedResponseDto | GofsLiteServiceBrandsResponseDto | GofsLiteSystemInformationResponseDto
+export type GofsLiteDataResponseDto =
+  GofsLiteWaitTimeResponseDto
+  | GofsLiteFeedResponseDto
+  | GofsLiteServiceBrandsResponseDto
+  | GofsLiteSystemInformationResponseDto
+  | GofsLiteZoneResponseDto
+  | GofsLiteOperatingRulesResponseDto
+  | GofsLiteCalendarsResponseDto

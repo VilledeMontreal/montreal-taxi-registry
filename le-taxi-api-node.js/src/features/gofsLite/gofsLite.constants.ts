@@ -1,7 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 
-import { GofsLiteServiceBrandsResponseDto, GofsLiteSupportedLangTypes, GofsLiteSystemInformationResponseDto } from "./gofsLite.dto";
+import { locationsGeoJson } from "../shared/locations/locations";
+import { GofsLiteCalendarsResponseDto, GofsLiteOperatingRulesResponseDto, GofsLiteServiceBrandsResponseDto, GofsLiteSupportedLangTypes, GofsLiteSystemInformationResponseDto, GofsLiteZoneResponseDto } from "./gofsLite.dto";
 
 export function serviceBrandsFunc(lang: GofsLiteSupportedLangTypes): GofsLiteServiceBrandsResponseDto {
     return {
@@ -27,4 +28,35 @@ export function systemInformationFunc(lang: GofsLiteSupportedLangTypes): GofsLit
     name: lang === GofsLiteSupportedLangTypes.Fr ? 'Registre des taxis de Montréal' : 'Montreal taxi registry',
     short_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Registre des taxis' : 'Taxi registry',
   }
+}
+
+export const zones: GofsLiteZoneResponseDto = {
+  zones: locationsGeoJson
+};
+
+export const operatingRules: GofsLiteOperatingRulesResponseDto = {
+  operating_rules: [
+    {
+      from_zone_id: 'artm',
+      to_zone_id: 'artm',
+      calendars: ['all-days'],
+      vehicle_type_id: []
+    },
+    {
+      from_zone_id: 'artm',
+      to_zone_id: 'airport',
+      calendars: ['all-days'],
+      vehicle_type_id: []
+    }
+  ]
+}
+
+export const calendars: GofsLiteCalendarsResponseDto = {
+  calendars: [
+    {
+      calendar_id: 'all-days',
+      start_date: '20230101',
+      end_date: '21230101'
+    }
+  ]
 }

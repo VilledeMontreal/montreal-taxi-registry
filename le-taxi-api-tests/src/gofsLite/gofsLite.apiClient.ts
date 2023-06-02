@@ -23,3 +23,18 @@ export async function getSystemInformation(apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
   return await getTaxiRegistry('/api/gofs-lite/1/en/system_information', apiKey, defaultApiKey);
 }
+
+export async function getZones(apiKey?: string) {
+  const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/zones', apiKey, defaultApiKey);
+}
+
+export async function getOperatingRules(apiKey?: string) {
+  const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/operating_rules', apiKey, defaultApiKey);
+}
+
+export async function getCalendars(apiKey?: string) {
+  const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/calendars', apiKey, defaultApiKey);
+}
