@@ -4,7 +4,7 @@ import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { createTaxisWithPromotions } from '../gtfsInquiry/gtfsInquiry.fixture';
 import { generateSouthShoreCoordinates, generateSouthShoreLat, generateSouthShoreLon } from '../shared/commonLoadTests/specialRegion';
-import { getCalendars, getFeed, getOperatingRules, getServiceBrand, getSystemInformation, getZones, postGofsLite } from './gofsLite.apiClient';
+import { getCalendars, getFeed, getOperatingRules, getServiceBrands, getSystemInformation, getZones, postGofsLite } from './gofsLite.apiClient';
 
 // tslint:disable: max-func-body-length
 export async function crudGofsLiteTests(): Promise<void> {
@@ -28,8 +28,8 @@ export async function crudGofsLiteTests(): Promise<void> {
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });
 
-  it(`Should be able to request GOFS service_brand`, async () => {
-    const response = await getServiceBrand();
+  it(`Should be able to request GOFS service_brands`, async () => {
+    const response = await getServiceBrands();
     assert.strictEqual(response.status, StatusCodes.OK);
   });
 

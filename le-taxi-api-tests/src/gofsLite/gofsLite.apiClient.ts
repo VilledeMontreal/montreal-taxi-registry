@@ -14,9 +14,9 @@ export async function postGofsLite(dto: any, apiKey?: string) {
   return await postTaxiRegistry('/api/gofs-lite/1/en/wait_time', dto, apiKey, defaultApiKey);
 }
 
-export async function getServiceBrand(apiKey?: string) {
+export async function getServiceBrands(apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
-  return await getTaxiRegistry('/api/gofs-lite/1/en/service_brand', apiKey, defaultApiKey);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/service_brands', apiKey, defaultApiKey);
 }
 
 export async function getSystemInformation(apiKey?: string) {

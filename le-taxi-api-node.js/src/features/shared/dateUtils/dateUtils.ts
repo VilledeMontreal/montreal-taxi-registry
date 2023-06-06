@@ -37,7 +37,7 @@ function nowUtcIsoString(): string {
 }
 
 function nowAsEpoch(): number {
-  return Math.round(new Date(Date.now()).getTime() / 1000);
+  return Math.round(Date.now() / 1000);
 }
 
 function isUtcIsoString(value: string) {
@@ -152,3 +152,4 @@ export {
   getDateNoDash,
   getTimeNoDash
 };
+

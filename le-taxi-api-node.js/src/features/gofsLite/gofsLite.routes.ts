@@ -18,7 +18,7 @@ export function getGofsLiteRoutes(): IHandlerRoute[] {
     },
     {
       method: HttpMethods.GET,
-      path: buildApiEndpoint('/api/gofs-lite/1/:lang/service_brand'),
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/service_brands'),
       handler: gofsLiteController.getServiceBrands
     },
     {

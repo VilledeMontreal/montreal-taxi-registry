@@ -12,9 +12,9 @@ export enum GofsLiteSupportedLangTypes {
 }
 
 export enum GofsLiteBrandIdTypes {
-  Standard = 'taxi-registry-standard',
-  Minivan = 'taxi-registry-minivan',
-  SpecialNeed = 'taxi-registry-special-need'
+  Standard = 'taxi-registry-standard-route',
+  Minivan = 'taxi-registry-minivan-route',
+  SpecialNeed = 'taxi-registry-special-need-route'
 }
 
 export class GofsLiteWaitTimeRequestDto {
@@ -135,6 +135,8 @@ export class GofsLiteResponseDto {
   data: GofsLiteDataResponseDto
 }
 
+type GofsLiteEmptyDataResponseDto = [];
+
 export type GofsLiteDataResponseDto =
   GofsLiteWaitTimeResponseDto
   | GofsLiteFeedResponseDto
@@ -143,3 +145,4 @@ export type GofsLiteDataResponseDto =
   | GofsLiteZoneResponseDto
   | GofsLiteOperatingRulesResponseDto
   | GofsLiteCalendarsResponseDto
+  | GofsLiteEmptyDataResponseDto

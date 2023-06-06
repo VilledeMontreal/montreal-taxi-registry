@@ -8,7 +8,7 @@ import { nowAsEpoch } from '../shared/dateUtils/dateUtils';
 import { buildApiEndpoint } from '../shared/utils/apiUtils';
 import { allow } from '../users/securityDecorator';
 import { UserRole } from '../users/userRole';
-import { calendars, operatingRules, serviceBrandsFunc, systemInformationFunc, zones } from './gofsLite.constants';
+import { calendars, operatingRules, serviceBrandsFunc, systemInformationFunc, zonesFunc } from './gofsLite.constants';
 import { GofsLiteDataResponseDto, GofsLiteFeedDetailResponseDto, GofsLiteResponseDto } from './gofsLite.dto';
 import { gofsLiteMapper } from './gofsLite.mapper';
 import { validateGofsLiteWaitTimeRequest, validateLang } from './gofsLite.validators';
@@ -54,8 +54,8 @@ class GofsLiteController {
 
   @allow([UserRole.Admin, UserRole.Motor])
   public async getZones(request: Request, response, Response) {
-    validateLang(request);
-    sendResponse(response, zones);
+    const lang = validateLang(request);
+    sendResponse(response, zonesFunc(lang));
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
@@ -78,18 +78,18 @@ function buildFeed(feeds: string[], lang: string): GofsLiteFeedDetailResponseDto
   }))
 }
 
-function wrapReponse(response: GofsLiteDataResponseDto, ttl?: number): GofsLiteResponseDto {
+function wrapResponse(response: GofsLiteDataResponseDto, ttl?: number): GofsLiteResponseDto {
   return {
     last_updated: nowAsEpoch(),
     ttl: ttl ?? 5 * 60,
     version: "1.0",
-    data: response || null
+    data: response || []
   }
 }
 
 function sendResponse(response: Response, gofsData?: GofsLiteDataResponseDto, ttl?: number) {
   response.status(StatusCodes.OK);
-  response.json(wrapReponse(gofsData, ttl) ?? wrapReponse([] as any));
+  response.json(wrapResponse(gofsData, ttl));
 }
 
 export const gofsLiteController = new GofsLiteController();
