@@ -15,7 +15,8 @@ export async function validateGofsLiteWaitTimeRequest(request: Request): Promise
 
 export function validateLang(request: Request): GofsLiteSupportedLangTypes {
   const lang = request.params.lang.toLowerCase();
-  if (!Object.values(GofsLiteSupportedLangTypes).includes(lang as GofsLiteSupportedLangTypes))
+  if (!Object.values(GofsLiteSupportedLangTypes).includes(lang as GofsLiteSupportedLangTypes)) {
     throw new BadRequestError('Unsupported lang requested. Only fr/en available');
+  }
   return lang as GofsLiteSupportedLangTypes;
 }

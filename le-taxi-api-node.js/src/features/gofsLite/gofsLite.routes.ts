@@ -40,6 +40,6 @@ export function getGofsLiteRoutes(): IHandlerRoute[] {
       method: HttpMethods.GET,
       path: buildApiEndpoint('/api/gofs-lite/1/:lang/calendars'),
       handler: gofsLiteController.getCalendars
-    },
+    }
   ];
 }

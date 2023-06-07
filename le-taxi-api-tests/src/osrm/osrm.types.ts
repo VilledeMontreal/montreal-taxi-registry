@@ -31,10 +31,10 @@ export interface IRoutingTest {
     from: ICoordinates;
     to: ICoordinates;
   };
-  expectedResponse?: ExpectedResponse;
+  expectedResponse?: IExpectedResponse;
 }
 
-interface ExpectedResponse extends Partial<Response> {
+interface IExpectedResponse extends Partial<Response> {
   statusCode: StatusCodes;
   message?: string;
   legTaxiToFrom?: IOsrmLegs;

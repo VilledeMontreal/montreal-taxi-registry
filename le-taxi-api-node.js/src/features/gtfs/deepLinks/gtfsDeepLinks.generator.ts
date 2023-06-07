@@ -13,8 +13,8 @@ import {
 const taxiRegistryRoutes = {
   standard: 'taxi-registry-standard-route',
   minivan: 'taxi-registry-minivan-route',
-  specialNeed: 'taxi-registry-special-need-route',
-}
+  specialNeed: 'taxi-registry-special-need-route'
+};
 
 class GtfsDeepLinksGenerator {
   public generateDeepLinksPage(user: UserModel): string {

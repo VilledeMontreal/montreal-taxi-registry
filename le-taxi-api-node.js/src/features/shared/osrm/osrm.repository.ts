@@ -35,9 +35,11 @@ class OsrmRepository {
     const params = `sources=0&destinations=`;
 
     const destinationsPlaceholder = destinations.reduce((acc, closestTaxi) => {
+      // tslint:disable-next-line: no-parameter-reassignment
       acc += `;${closestTaxi.lon},${closestTaxi.lat}`;
       return acc;
     }, '');
+
     const destinationsNumber = Array.from(destinations, (_, i) => i + 1).join(';');
     const url = `${base}${domainPath}/${constants.osrm.profile.TABLE}/${origin.lon},${origin.lat}${destinationsPlaceholder}?${params}${destinationsNumber}`;
 

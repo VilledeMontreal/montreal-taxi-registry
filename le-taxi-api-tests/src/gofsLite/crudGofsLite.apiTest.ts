@@ -3,8 +3,20 @@
 import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { createTaxisWithPromotions } from '../gtfsInquiry/gtfsInquiry.fixture';
-import { generateSouthShoreCoordinates, generateSouthShoreLat, generateSouthShoreLon } from '../shared/commonLoadTests/specialRegion';
-import { getCalendars, getFeed, getOperatingRules, getServiceBrands, getSystemInformation, getZones, postGofsLite } from './gofsLite.apiClient';
+import {
+  generateSouthShoreCoordinates,
+  generateSouthShoreLat,
+  generateSouthShoreLon
+} from '../shared/commonLoadTests/specialRegion';
+import {
+  getCalendars,
+  getFeed,
+  getOperatingRules,
+  getServiceBrands,
+  getSystemInformation,
+  getZones,
+  postGofsLite
+} from './gofsLite.apiClient';
 
 // tslint:disable: max-func-body-length
 export async function crudGofsLiteTests(): Promise<void> {
@@ -20,7 +32,7 @@ export async function crudGofsLiteTests(): Promise<void> {
       pickup_lon: generateSouthShoreLon(),
       drop_off_lat: generateSouthShoreLat(),
       drop_off_lon: generateSouthShoreLon(),
-      brand_id: [] as string[],
+      brand_id: [] as string[]
     };
 
     const inquiryResponse = await postGofsLite(waitTimeRequest);

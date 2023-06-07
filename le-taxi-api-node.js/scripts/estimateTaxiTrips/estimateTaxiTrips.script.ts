@@ -49,22 +49,22 @@ export class EstimateTaxiTripsScript extends ScriptBase<EstimationArguments> {
     }
 
     let errorCount = 0;
-    while(errorCount!=-1 && errorCount<5000){
+    while (errorCount !== -1 && errorCount < 5000) {
       try {
-        this.logger.info('error count = '+errorCount);
+        this.logger.info('error count = ' + errorCount);
         const testExecutionReport = await tripEstimateAccuracyProcessor.process(estimationArguments);
-  
+
         this.logger.info('Test execution report have been generated.');
         for (const key in testExecutionReport) {
           this.logger.info(`${key}: ${testExecutionReport[key]}`);
         }
-        errorCount=-1;
+        errorCount = -1;
       } catch (error) {
         this.logger.error(
           `Error executing script estimate-taxi-trips: ${error}, ${this.buildResumeCommandLine(estimationArguments)}`
         );
         errorCount++;
-      } 
+      }
     }
   }
 

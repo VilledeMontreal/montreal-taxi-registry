@@ -8,7 +8,7 @@ import { FeatureCollection } from 'geojson';
 /* tslint:enable:allow-snake-case-per-file */
 export enum GofsLiteSupportedLangTypes {
   En = 'en',
-  Fr = 'fr',
+  Fr = 'fr'
 }
 
 export enum GofsLiteBrandIdTypes {
@@ -65,8 +65,8 @@ export class GofsLiteWaitTimeDataResponseDto {
       ios_uri: string;
       web_uri: string;
       phone_number: string;
-    }
-  }
+    };
+  };
 }
 
 export class GofsLiteWaitTimeResponseDto {
@@ -80,10 +80,10 @@ export class GofsLiteFeedDetailResponseDto {
 
 export class GofsLiteFeedResponseDto {
   en: {
-    feeds: GofsLiteFeedDetailResponseDto[]
+    feeds: GofsLiteFeedDetailResponseDto[];
   };
   fr: {
-    feeds: GofsLiteFeedDetailResponseDto[]
+    feeds: GofsLiteFeedDetailResponseDto[];
   };
 }
 
@@ -93,7 +93,7 @@ export class GofsLiteServiceBrandsDetailResponseDto {
 }
 
 export class GofsLiteServiceBrandsResponseDto {
-  service_brands: GofsLiteServiceBrandsDetailResponseDto[]
+  service_brands: GofsLiteServiceBrandsDetailResponseDto[];
 }
 
 export class GofsLiteSystemInformationResponseDto {
@@ -104,7 +104,7 @@ export class GofsLiteSystemInformationResponseDto {
 }
 
 export class GofsLiteZoneResponseDto {
-  zones: FeatureCollection
+  zones: FeatureCollection;
 }
 
 export class GofsLiteOperatingRulesDetailsDto {
@@ -132,17 +132,17 @@ export class GofsLiteResponseDto {
   last_updated: number;
   ttl: number;
   version: string;
-  data: GofsLiteDataResponseDto
+  data: GofsLiteDataResponseDto;
 }
 
 type GofsLiteEmptyDataResponseDto = [];
 
 export type GofsLiteDataResponseDto =
-  GofsLiteWaitTimeResponseDto
+  | GofsLiteWaitTimeResponseDto
   | GofsLiteFeedResponseDto
   | GofsLiteServiceBrandsResponseDto
   | GofsLiteSystemInformationResponseDto
   | GofsLiteZoneResponseDto
   | GofsLiteOperatingRulesResponseDto
   | GofsLiteCalendarsResponseDto
-  | GofsLiteEmptyDataResponseDto
+  | GofsLiteEmptyDataResponseDto;

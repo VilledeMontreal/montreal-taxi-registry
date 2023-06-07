@@ -61,7 +61,7 @@ export async function createOperatorWithPromotion(promotions: IPromotions) {
     x.special_need_booking_website_url = 'http://test.specialneed.ca';
     x.special_need_booking_android_deeplink_uri = 'http://test.specialneed.android.ca';
     x.special_need_booking_ios_deeplink_uri = 'http://test.specialneed.ios.ca';
-    x.special_need_booking_phone_number = '+1 (514) 555 1234'
+    x.special_need_booking_phone_number = '+1 (514) 555 1234';
     x.special_need_booking_is_promoted_to_public = promotions.special_need;
     x.special_need_booking_inquiries_starts_at = promotions.special_need ? now : null;
   });

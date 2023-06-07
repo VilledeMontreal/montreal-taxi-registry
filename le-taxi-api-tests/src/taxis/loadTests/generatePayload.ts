@@ -3,6 +3,7 @@
 import { generateSouthShoreLat, generateSouthShoreLon } from '../../shared/commonLoadTests/specialRegion';
 import { IInquirySharedState } from './IInquirySharedState';
 
+// tslint:disable-next-line: no-console
 console.log('WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!');
 
 const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/inquiry.sharedState.json');

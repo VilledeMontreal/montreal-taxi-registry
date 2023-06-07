@@ -83,15 +83,15 @@ export class GtfsInquiryResponseOptionsDto {
     agency: {
       id: string;
       name: string;
-    },
+    };
     mainAssetType: {
       id: string;
-    },
+    };
     phoneNumber: string;
     androidUri: string;
     iosUri: string;
     webUrl: string;
-  }
+  };
 }
 
 export class GtfsInquiryResponseDto {

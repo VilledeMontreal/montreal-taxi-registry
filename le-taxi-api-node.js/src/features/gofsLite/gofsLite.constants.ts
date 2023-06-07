@@ -1,47 +1,57 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 
-import { FeatureCollection } from "geojson";
+import { FeatureCollection } from 'geojson';
 import * as _ from 'lodash';
-import { locationsGeoJson } from "../shared/locations/locations";
-import { GofsLiteCalendarsResponseDto, GofsLiteOperatingRulesResponseDto, GofsLiteServiceBrandsResponseDto, GofsLiteSupportedLangTypes, GofsLiteSystemInformationResponseDto, GofsLiteZoneResponseDto } from "./gofsLite.dto";
+import { locationsGeoJson } from '../shared/locations/locations';
+import {
+  GofsLiteCalendarsResponseDto,
+  GofsLiteOperatingRulesResponseDto,
+  GofsLiteServiceBrandsResponseDto,
+  GofsLiteSupportedLangTypes,
+  GofsLiteSystemInformationResponseDto,
+  GofsLiteZoneResponseDto
+} from './gofsLite.dto';
 
 export function serviceBrandsFunc(lang: GofsLiteSupportedLangTypes): GofsLiteServiceBrandsResponseDto {
-    return {
-      service_brands: [
-        {
-          brand_id: 'taxi-registry-standard-route',
-          brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi régulier' : 'Taxi standard'
-        }, {
-          brand_id: 'taxi-registry-minivan-route',
-          brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi fourgonnette' : 'Taxi minivan'
-        }, {
-          brand_id: 'taxi-registry-special-need-route',
-          brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi adapté' : 'Taxi special need'
-        },
-      ]
-    }
-};
+  return {
+    service_brands: [
+      {
+        brand_id: 'taxi-registry-standard-route',
+        brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi régulier' : 'Taxi standard'
+      },
+      {
+        brand_id: 'taxi-registry-minivan-route',
+        brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi fourgonnette' : 'Taxi minivan'
+      },
+      {
+        brand_id: 'taxi-registry-special-need-route',
+        brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi adapté' : 'Taxi special need'
+      }
+    ]
+  };
+}
 
 export function systemInformationFunc(lang: GofsLiteSupportedLangTypes): GofsLiteSystemInformationResponseDto {
   return {
     language: lang as GofsLiteSupportedLangTypes,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     name: lang === GofsLiteSupportedLangTypes.Fr ? 'Registre des taxis de Montréal' : 'Montreal taxi registry',
-    short_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Registre des taxis' : 'Taxi registry',
-  }
+    short_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Registre des taxis' : 'Taxi registry'
+  };
 }
 
 export function zonesFunc(lang: GofsLiteSupportedLangTypes): GofsLiteZoneResponseDto {
   return {
     zones: lang === GofsLiteSupportedLangTypes.Fr ? locationsGeoJson : patchLocationsInEnglish(locationsGeoJson)
-  }
+  };
 }
 
 function patchLocationsInEnglish(locations: FeatureCollection): FeatureCollection {
   const locationsEn = _.cloneDeep(locations);
   locationsEn.features[0].properties.stop_name = 'International Airport Montréal-Trudeau';
-  locationsEn.features[0].properties.stop_desc = 'The airport is subject to federal jurisdiction that prevents the Taxi Registry to honour ride request from the airport';
+  locationsEn.features[0].properties.stop_desc =
+    'The airport is subject to federal jurisdiction that prevents the Taxi Registry to honour ride request from the airport';
   locationsEn.features[1].properties.stop_name = 'Jurisdiction of the Autorité régionale de transport métropolitain';
   locationsEn.features[1].properties.stop_desc = `Longueuil Urban Area, Beauharnois-Salaberry MRC, Deux-Montagnes MRC, L'Assomption MRC, Rivière-du-Nord MRC, Vallée-du-Richelieu MRC, Moulins MRC, Marguerite-D'Youville MRC, Roussillon MRC, Rouville MRC, Thérèse-De Blainville MRC, Vaudreuil-Soulanges MRC, City of Laval, City of Mirabel.`;
   return locationsEn;
@@ -62,7 +72,7 @@ export const operatingRules: GofsLiteOperatingRulesResponseDto = {
       vehicle_type_id: []
     }
   ]
-}
+};
 
 export const calendars: GofsLiteCalendarsResponseDto = {
   calendars: [
@@ -72,4 +82,4 @@ export const calendars: GofsLiteCalendarsResponseDto = {
       end_date: '21230101'
     }
   ]
-}
+};

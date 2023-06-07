@@ -9,13 +9,13 @@ export async function estimateWithOsrm(realTrip: RealTrip, testExecutionId: numb
     { lat: realTrip.departure_lat, lon: realTrip.departure_lon },
     { lat: realTrip.arrival_lat, lon: realTrip.arrival_lon }
   );
-  
+
   return {
     real_trip_id: Number(realTrip.id),
     test_execution_id: testExecutionId,
     estimated_arrival_time: estimateArrivalTime(new Date(realTrip.departure_time), route.duration),
     // !!! Important !!!
-    // route.distance can be used to perform stats analysis on distance with the same query used 
+    // route.distance can be used to perform stats analysis on distance with the same query used
     // for duration.
     //
     // Queries for duration:

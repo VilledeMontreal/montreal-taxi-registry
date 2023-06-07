@@ -19,10 +19,14 @@ class GofsLiteController {
     const feeds = request.app._router.stack
       .filter(layer => layer?.route?.path?.includes('gofs-lite/1/'))
       .map(layer => layer.route.path);
-    sendResponse(response, {
-      en: { feeds: buildFeed(feeds, 'en') },
-      fr: { feeds: buildFeed(feeds, 'fr') }
-    }, 24 * 60 * 60);
+    sendResponse(
+      response,
+      {
+        en: { feeds: buildFeed(feeds, 'en') },
+        fr: { feeds: buildFeed(feeds, 'fr') }
+      },
+      24 * 60 * 60
+    );
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
@@ -47,25 +51,25 @@ class GofsLiteController {
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
-  public async getSystemInformation(request: Request, response, Response) {
+  public async getSystemInformation(request: Request, response: Response) {
     const lang = validateLang(request);
     sendResponse(response, systemInformationFunc(lang));
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
-  public async getZones(request: Request, response, Response) {
+  public async getZones(request: Request, response: Response) {
     const lang = validateLang(request);
     sendResponse(response, zonesFunc(lang));
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
-  public async getOperatingRules(request: Request, response, Response) {
+  public async getOperatingRules(request: Request, response: Response) {
     validateLang(request);
     sendResponse(response, operatingRules);
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
-  public async getCalendars(request: Request, response, Response) {
+  public async getCalendars(request: Request, response: Response) {
     validateLang(request);
     sendResponse(response, calendars);
   }
@@ -75,16 +79,16 @@ function buildFeed(feeds: string[], lang: string): GofsLiteFeedDetailResponseDto
   return feeds.map(feed => ({
     name: feed.substring(feed.lastIndexOf('/') + 1),
     url: getAbsoluteUrl(buildApiEndpoint(feed.replace(':lang', lang)))
-  }))
+  }));
 }
 
 function wrapResponse(response: GofsLiteDataResponseDto, ttl?: number): GofsLiteResponseDto {
   return {
     last_updated: nowAsEpoch(),
     ttl: ttl ?? 5 * 60,
-    version: "1.0",
+    version: '1.0',
     data: response || []
-  }
+  };
 }
 
 function sendResponse(response: Response, gofsData?: GofsLiteDataResponseDto, ttl?: number) {
@@ -93,4 +97,3 @@ function sendResponse(response: Response, gofsData?: GofsLiteDataResponseDto, tt
 }
 
 export const gofsLiteController = new GofsLiteController();
-

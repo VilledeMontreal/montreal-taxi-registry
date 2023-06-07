@@ -5,8 +5,8 @@ import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
 import { configs } from '../../config/configs';
 import { generateSouthShoreCoordinates } from '../shared/commonLoadTests/specialRegion';
-import { UserRole } from '../shared/commonTests/UserRole';
 import { aFewSeconds } from '../shared/commonTests/testUtil';
+import { UserRole } from '../shared/commonTests/UserRole';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { createPromotedOperator, updateUser } from '../users/user.apiClient';
 import {
@@ -144,12 +144,12 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   it(`Should return null fields if booking information is missing`, async () => {
     const now = new Date(Date.now()).toISOString();
     const userDto = copyUserTemplate(x => {
-        x.role = UserRole.Operator;
-        x.operator_api_key = uuidv4();
-        x.standard_booking_phone_number = '+1 (514) 555 1234';
-        x.standard_booking_is_promoted_to_public = true;
-        x.standard_booking_inquiries_starts_at = now;
-      });
+      x.role = UserRole.Operator;
+      x.operator_api_key = uuidv4();
+      x.standard_booking_phone_number = '+1 (514) 555 1234';
+      x.standard_booking_is_promoted_to_public = true;
+      x.standard_booking_inquiries_starts_at = now;
+    });
     const newOperator = await createPromotedOperator(userDto);
     await setupTaxiFromOptions({ ...generateSouthShoreCoordinates(), type: 'sedan' }, newOperator.apikey);
 
@@ -217,7 +217,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat: lat + 0.0001, lon, type: 'mpv' }, // Expected
       { lat: lat + 0.0002, lon }, // Expected
       { lat: lat + 0.001, lon },
-      { lat: lat + 0.002, lon },
+      { lat: lat + 0.002, lon }
     ]);
 
     const inquiryRequest = buildInquiryRequest(

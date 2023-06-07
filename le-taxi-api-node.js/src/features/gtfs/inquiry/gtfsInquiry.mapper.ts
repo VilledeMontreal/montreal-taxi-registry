@@ -1,8 +1,13 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { InquiryRequest, InquiryResponse, InquiryResponseData, InquiryTypes } from "../../inquiry/inquiry.dto";
-import { addMinutes, addSec, nowUtcIsoString } from "../../shared/dateUtils/dateUtils";
-import { GtfsAssetTypes, GtfsInquiryRequestDto, GtfsInquiryResponseDto, GtfsInquiryResponseOptionsDto } from "./gtfsInquiry.dto";
+import { InquiryRequest, InquiryResponse, InquiryResponseData, InquiryTypes } from '../../inquiry/inquiry.dto';
+import { addMinutes, addSec, nowUtcIsoString } from '../../shared/dateUtils/dateUtils';
+import {
+  GtfsAssetTypes,
+  GtfsInquiryRequestDto,
+  GtfsInquiryResponseDto,
+  GtfsInquiryResponseOptionsDto
+} from './gtfsInquiry.dto';
 
 class GtfsInquiryMapper {
   public toInquiryRequest(gtfsInquiryRequest: GtfsInquiryRequestDto): InquiryRequest {
@@ -17,7 +22,7 @@ class GtfsInquiryMapper {
       },
       inquiryTypes: toInquiryTypes(gtfsInquiryRequest.useAssetTypes),
       operators: gtfsInquiryRequest.operators
-    }
+    };
   }
 
   public toGtfsInquiryResponse(inquiryResponse: InquiryResponse): GtfsInquiryResponseDto {
@@ -25,8 +30,8 @@ class GtfsInquiryMapper {
     return {
       validUntil: addMinutes(now, 5),
       options: inquiryResponse.data?.map(data => toInquiryResponseOptions(data, now)) || []
-    }
-  };
+    };
+  }
 }
 
 function toInquiryTypes(gtfsAssetTypes: GtfsAssetTypes[]): InquiryTypes[] {
@@ -65,15 +70,15 @@ function toInquiryResponseOptions(data: InquiryResponseData, now: string): GtfsI
 
   return {
     mainAssetType: {
-      id: assetType,
+      id: assetType
     },
     departureTime,
     arrivalTime,
     from: {
-      coordinates: data.from,
+      coordinates: data.from
     },
     to: {
-      coordinates: data.to,
+      coordinates: data.to
     },
     pricing: {
       estimated: true,
@@ -94,12 +99,20 @@ function toInquiryResponseOptions(data: InquiryResponseData, now: string): GtfsI
         name: data.operator.commercial_name
       },
       mainAssetType: {
-        id: toMainAssetType(assetType, data.operator.public_id),
+        id: toMainAssetType(assetType, data.operator.public_id)
       },
-      phoneNumber: isSpecialNeed ? data.operator.special_need_booking_phone_number : data.operator.standard_booking_phone_number,
-      androidUri: isSpecialNeed ? data.operator.special_need_booking_android_deeplink_uri : data.operator.standard_booking_android_deeplink_uri,
-      iosUri: isSpecialNeed ? data.operator.special_need_booking_ios_deeplink_uri : data.operator.standard_booking_ios_deeplink_uri,
-      webUrl: isSpecialNeed ? data.operator.special_need_booking_website_url : data.operator.standard_booking_website_url,
+      phoneNumber: isSpecialNeed
+        ? data.operator.special_need_booking_phone_number
+        : data.operator.standard_booking_phone_number,
+      androidUri: isSpecialNeed
+        ? data.operator.special_need_booking_android_deeplink_uri
+        : data.operator.standard_booking_android_deeplink_uri,
+      iosUri: isSpecialNeed
+        ? data.operator.special_need_booking_ios_deeplink_uri
+        : data.operator.standard_booking_ios_deeplink_uri,
+      webUrl: isSpecialNeed
+        ? data.operator.special_need_booking_website_url
+        : data.operator.standard_booking_website_url
     }
   };
 }

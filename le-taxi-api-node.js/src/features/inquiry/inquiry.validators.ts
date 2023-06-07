@@ -15,23 +15,23 @@ export function validateInquiryRequest(inquiryRequest: InquiryRequest): InquiryR
   return forceTypes({
     ...inquiryRequest,
     inquiryTypes,
-    operators,
+    operators
   });
 }
 
 function forceTypes(inquiryRequest: InquiryRequest): InquiryRequest {
-    return {
-      from: {
-        lat: +inquiryRequest.from.lat,
-        lon: +inquiryRequest.from.lon
-      },
-      to: {
-        lat: +inquiryRequest.to?.lat,
-        lon: +inquiryRequest.to?.lon
-      },
-      inquiryTypes: inquiryRequest.inquiryTypes,
-      operators: inquiryRequest.operators?.map(operator => +operator)
-    }
+  return {
+    from: {
+      lat: +inquiryRequest.from.lat,
+      lon: +inquiryRequest.from.lon
+    },
+    to: {
+      lat: +inquiryRequest.to?.lat,
+      lon: +inquiryRequest.to?.lon
+    },
+    inquiryTypes: inquiryRequest.inquiryTypes,
+    operators: inquiryRequest.operators?.map(operator => +operator)
+  };
 }
 
 function validateYulTaxiRestrictedArea(coordinate: ICoordinates): void {
@@ -50,5 +50,5 @@ function validateInquiryTypes(inquiryTypes: InquiryTypes[]): InquiryTypes[] {
 }
 
 function validateOperators(operators: number[]): number[] {
-  return (!operators || operators.length === 0 || !configs.environment.isLocalOrDev) ? null : operators;
+  return !operators || operators.length === 0 || !configs.environment.isLocalOrDev ? null : operators;
 }

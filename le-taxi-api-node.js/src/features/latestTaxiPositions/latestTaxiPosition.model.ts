@@ -18,7 +18,7 @@ export class LatestTaxiPositionModel {
 export type TaxiSummaryModelExtended = TaxiSummaryModel & { inquiryType: InquiryTypes };
 export class LatestTaxiPositionModelExtended extends LatestTaxiPositionModel {
   public taxi?: TaxiSummaryModelExtended;
-};
+}
 
 interface ILocation {
   type: string;

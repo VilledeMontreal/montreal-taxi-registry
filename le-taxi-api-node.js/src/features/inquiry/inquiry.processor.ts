@@ -12,7 +12,7 @@ interface IInquiryResponseParams {
   from: any;
   to: any;
   taxi: TaxiSummaryModelExtended;
-  waitDuration: number,
+  waitDuration: number;
   tripDuration: number;
 }
 
@@ -23,9 +23,9 @@ class InquiryProcessor {
       inquiryRequest.inquiryTypes,
       inquiryRequest.operators
     );
-    const routeFromSourceToDestinationPromise = inquiryRequest.to ?
-      osrmRepository.getRoutes(inquiryRequest.from, inquiryRequest.to) :
-      [];
+    const routeFromSourceToDestinationPromise = inquiryRequest.to
+      ? osrmRepository.getRoutes(inquiryRequest.from, inquiryRequest.to)
+      : [];
 
     const [closestTaxis, routeFromSourceToDestination] = await Promise.all([
       closestTaxiPromise,
@@ -42,16 +42,20 @@ class InquiryProcessor {
       }))
     );
 
-    const data = await Promise.all(closestTaxis.map(async (closestTaxi, i) => ({
-      inquiryType: closestTaxi.taxi.inquiryType,
-      operator: await userRepositoryByIdWithCaching.getByKey(closestTaxi.taxi.operatorId),
-      from: inquiryRequest.from,
-      to: inquiryRequest.to,
-      estimatedWaitTime: routesFromTaxiPositionToCustomer[0][i] +
-        configs.taxiRegistryOsrmApi.estimation.biasInSec +
-        configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec,
-      estimatedTravelTime: routeFromSourceToDestination[0].legs[0].duration + configs.taxiRegistryOsrmApi.estimation.biasInSec,
-    })));
+    const data = await Promise.all(
+      closestTaxis.map(async (closestTaxi, i) => ({
+        inquiryType: closestTaxi.taxi.inquiryType,
+        operator: await userRepositoryByIdWithCaching.getByKey(closestTaxi.taxi.operatorId),
+        from: inquiryRequest.from,
+        to: inquiryRequest.to,
+        estimatedWaitTime:
+          routesFromTaxiPositionToCustomer[0][i] +
+          configs.taxiRegistryOsrmApi.estimation.biasInSec +
+          configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec,
+        estimatedTravelTime:
+          routeFromSourceToDestination[0].legs[0].duration + configs.taxiRegistryOsrmApi.estimation.biasInSec
+      }))
+    );
 
     return { data };
   }

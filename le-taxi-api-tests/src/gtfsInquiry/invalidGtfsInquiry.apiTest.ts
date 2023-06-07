@@ -7,8 +7,8 @@ import {
   generateSouthShoreLon,
   getAirportCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { UserRole } from '../shared/commonTests/UserRole';
 import { shouldThrow } from '../shared/commonTests/testUtil';
+import { UserRole } from '../shared/commonTests/UserRole';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { getImmutableUserApiKey } from '../users/user.sharedFixture';
 import { postGtfsInquiry } from './gtfsInquiry.apiClient';
@@ -61,7 +61,10 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The object failed the validation because lat must not be greater than 90');
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because lat must not be greater than 90'
+        );
       }
     );
 
@@ -74,7 +77,10 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The object failed the validation because lon must not be greater than 180');
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because lon must not be greater than 180'
+        );
       }
     );
 
@@ -87,7 +93,10 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The object failed the validation because lat must not be greater than 90');
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because lat must not be greater than 90'
+        );
       }
     );
 
@@ -100,7 +109,10 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The object failed the validation because lon must not be greater than 180');
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because lon must not be greater than 180'
+        );
       }
     );
   });
@@ -169,7 +181,10 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The object failed the validation because lat must not be greater than 90`);
+        assert.include(
+          err.response.body.error.message,
+          `The object failed the validation because lat must not be greater than 90`
+        );
       }
     );
 
@@ -182,7 +197,10 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The object failed the validation because lon must not be greater than 180`);
+        assert.include(
+          err.response.body.error.message,
+          `The object failed the validation because lon must not be greater than 180`
+        );
       }
     );
 
@@ -195,7 +213,10 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The object failed the validation because lat must not be less than -90`);
+        assert.include(
+          err.response.body.error.message,
+          `The object failed the validation because lat must not be less than -90`
+        );
       }
     );
 
@@ -208,7 +229,10 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The object failed the validation because lon must not be less than -180`);
+        assert.include(
+          err.response.body.error.message,
+          `The object failed the validation because lon must not be less than -180`
+        );
       }
     );
   });
