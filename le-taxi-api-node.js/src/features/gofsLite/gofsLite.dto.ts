@@ -12,9 +12,9 @@ export enum GofsLiteSupportedLangTypes {
 }
 
 export enum GofsLiteBrandIdTypes {
-  Standard = 'taxi-registry-standard-route',
-  Minivan = 'taxi-registry-minivan-route',
-  SpecialNeed = 'taxi-registry-special-need-route'
+  Standard = 'taxi-registry-standard',
+  Minivan = 'taxi-registry-minivan',
+  SpecialNeed = 'taxi-registry-special-need'
 }
 
 export class GofsLiteWaitTimeRequestDto {

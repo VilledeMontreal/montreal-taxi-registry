@@ -11,11 +11,11 @@ const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/inquiry.
 export const sharedState: IInquirySharedState = JSON.parse(sharedStateJson);
 
 export function generateStandardPayloadInquiry(context: any, ee: any, next: any) {
-  return generatePayloadInquiry(context, ee, next, 'taxi-registry-standard-route');
+  return generatePayloadInquiry(context, ee, next, 'taxi-registry-standard');
 }
 
 export function generateSpecialNeedPayloadInquiry(context: any, ee: any, next: any) {
-  return generatePayloadInquiry(context, ee, next, 'taxi-registry-special-need-route');
+  return generatePayloadInquiry(context, ee, next, 'taxi-registry-special-need');
 }
 
 function generatePayloadInquiry(context: any, ee: any, next: any, assetType: string) {

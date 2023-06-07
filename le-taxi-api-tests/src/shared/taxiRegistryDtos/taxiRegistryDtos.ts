@@ -239,7 +239,7 @@ export interface ICoordinateDTO {
 }
 
 export enum AssetTypes {
-  Normal = 'taxi-registry-standard-route',
-  Mpv = 'taxi-registry-minivan-route',
-  SpecialNeed = 'taxi-registry-special-need-route'
+  Normal = 'taxi-registry-standard',
+  Mpv = 'taxi-registry-minivan',
+  SpecialNeed = 'taxi-registry-special-need'
 }

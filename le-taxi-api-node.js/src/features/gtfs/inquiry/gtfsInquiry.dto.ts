@@ -5,9 +5,9 @@ import { IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min, ValidateNes
 
 /* tslint:disable:max-classes-per-file */
 export enum GtfsAssetTypes {
-  Standard = 'taxi-registry-standard-route',
-  Minivan = 'taxi-registry-minivan-route',
-  SpecialNeed = 'taxi-registry-special-need-route'
+  Standard = 'taxi-registry-standard',
+  Minivan = 'taxi-registry-minivan',
+  SpecialNeed = 'taxi-registry-special-need'
 }
 
 export class GtfsCoordinates {

@@ -11,9 +11,9 @@ import {
 } from './gtfsDeepLinks.templates';
 
 const taxiRegistryRoutes = {
-  standard: 'taxi-registry-standard-route',
-  minivan: 'taxi-registry-minivan-route',
-  specialNeed: 'taxi-registry-special-need-route'
+  standard: 'taxi-registry-standard',
+  minivan: 'taxi-registry-minivan',
+  specialNeed: 'taxi-registry-special-need'
 };
 
 class GtfsDeepLinksGenerator {

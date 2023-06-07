@@ -125,12 +125,12 @@ function toMainAssetType(assetType: GtfsAssetTypes, operatorPublicId: string) {
 function getMainAssetTypeExtension(assetType: GtfsAssetTypes) {
   switch (assetType) {
     case GtfsAssetTypes.SpecialNeed:
-      return 'standard-route';
+      return 'standard';
     case GtfsAssetTypes.Minivan:
-      return 'minivan-route';
+      return 'minivan';
     default:
     case GtfsAssetTypes.Standard:
-      return 'special-need-route';
+      return 'special-need';
   }
 }
 

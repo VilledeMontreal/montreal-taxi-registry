@@ -17,15 +17,15 @@ export function serviceBrandsFunc(lang: GofsLiteSupportedLangTypes): GofsLiteSer
   return {
     service_brands: [
       {
-        brand_id: 'taxi-registry-standard-route',
+        brand_id: 'taxi-registry-standard',
         brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi régulier' : 'Taxi standard'
       },
       {
-        brand_id: 'taxi-registry-minivan-route',
+        brand_id: 'taxi-registry-minivan',
         brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi fourgonnette' : 'Taxi minivan'
       },
       {
-        brand_id: 'taxi-registry-special-need-route',
+        brand_id: 'taxi-registry-special-need',
         brand_name: lang === GofsLiteSupportedLangTypes.Fr ? 'Taxi adapté' : 'Taxi special need'
       }
     ]
