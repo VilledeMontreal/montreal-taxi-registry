@@ -3,10 +3,10 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import * as JSZip from 'jszip';
-import { nowUtcIsoString } from '../shared/dateUtils/dateUtils';
-import { allow } from '../users/securityDecorator';
-import { userRepository } from '../users/user.repository';
-import { UserRole } from '../users/userRole';
+import { nowUtcIsoString } from '../../shared/dateUtils/dateUtils';
+import { allow } from '../../users/securityDecorator';
+import { userRepository } from '../../users/user.repository';
+import { UserRole } from '../../users/userRole';
 import { gtfsFeedGenerator } from './gtfsFeed.generator';
 
 class GtfsFeedController {

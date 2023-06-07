@@ -4,16 +4,6 @@ import { plainToClassFromExist } from 'class-transformer';
 import { validateOrReject, ValidationError } from 'class-validator';
 import * as _ from 'lodash';
 import { BadRequestError, MultipleIssuesError } from '../../errorHandling/errors';
-import { Coordinates } from '../../inquiry/inquiry.dto';
-import { ICoordinates } from '../coordinates/coordinates';
-
-export function validateCoordinates(coordinate: Coordinates): ICoordinates {
-  if (!isLatitudeValid(coordinate.lat) || !isLongitudeValid(coordinate.lon)) {
-    throw new BadRequestError(`The latitude or longitude values are not valid`);
-  }
-
-  return { lat: +coordinate.lat, lon: +coordinate.lon };
-}
 
 // Values specified in https://docs.mongodb.com/manual/geospatial-queries/
 export function isLatitudeValid(lat: number): boolean {

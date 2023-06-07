@@ -36,6 +36,10 @@ function nowUtcIsoString(): string {
   return new Date(Date.now()).toISOString();
 }
 
+function nowAsEpoch(): number {
+  return Math.round(Date.now() / 1000);
+}
+
 function isUtcIsoString(value: string) {
   const isoStringRegEx = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{3}Z$/;
   return isoStringRegEx.test(value);
@@ -132,6 +136,7 @@ export {
   toUtcIsoString,
   toUtcHumanDate,
   nowUtcIsoString,
+  nowAsEpoch,
   isUtcIsoString,
   isIsoDate,
   durationInSeconds,

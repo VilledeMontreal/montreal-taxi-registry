@@ -2,6 +2,7 @@
 // See LICENSE file in the project root for full license information.
 import { configs } from '../../../config/configs';
 
+// tslint:disable-next-line: no-console
 console.log('WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!');
 
 export function beforeFlow(context: any, ee: any, next: any) {

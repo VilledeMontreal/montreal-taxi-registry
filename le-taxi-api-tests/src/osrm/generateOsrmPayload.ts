@@ -3,6 +3,7 @@
 import { getRandomNumberBetween } from '../shared/commonLoadTests/randomData';
 import { generateSouthShoreLat, generateSouthShoreLon } from '../shared/commonLoadTests/specialRegion';
 
+// tslint:disable-next-line: no-console
 console.log('WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!');
 
 export function beforeGetRoute(context: any, ee: any, next: any) {

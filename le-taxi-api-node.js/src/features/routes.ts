@@ -7,9 +7,10 @@ import { getAdsDataDumpsRoutes } from './adsDataDumps/adsDataDumps.routes';
 import { getDriverDataDumpsRoutes } from './driverDataDumps/driverDataDumps.routes';
 import { getDriversRoutes } from './drivers/driver.routes';
 import { getTaxiPathRoutes } from './exportTaxiPath/taxiPath.route';
-import { getGtfsDeepLinksRoutes } from './gtfsDeepLinks/gtfsDeepLinks.routes';
-import { getGtfsFeedRoutes } from './gtfsFeed/gtfsFeed.routes';
-import { getInquiryRoutes } from './inquiry/inquiry.routes';
+import { getGofsLiteRoutes } from './gofsLite/gofsLite.routes';
+import { getGtfsDeepLinksRoutes } from './gtfs/deepLinks/gtfsDeepLinks.routes';
+import { getGtfsFeedRoutes } from './gtfs/feed/gtfsFeed.routes';
+import { getGtfsInquiryRoutes } from './gtfs/inquiry/gtfsInquiry.routes';
 import { getMapRoutes } from './map/map.routes';
 import { getRolesDataDumpRoutes } from './roleDataDumps/roleDataDumps.routes';
 import { getTaxiAreasRoutes } from './taxiAreas/taxiAreas.routes';
@@ -33,7 +34,8 @@ export function getFeaturesRoutes(): IHandlerRoute[] {
     getDriversRoutes(),
     getGtfsDeepLinksRoutes(),
     getGtfsFeedRoutes(),
-    getInquiryRoutes(),
+    getGtfsInquiryRoutes(),
+    getGofsLiteRoutes(),
     getMapRoutes(),
     getRolesDataDumpRoutes(),
     getTaxiAreasRoutes(),

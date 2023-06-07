@@ -11,10 +11,10 @@ import { shouldThrow } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { getImmutableUserApiKey } from '../users/user.sharedFixture';
-import { postInquiry } from './inquiry.apiClient';
+import { postGtfsInquiry } from './gtfsInquiry.apiClient';
 
 // tslint:disable: max-func-body-length
-export async function invalidInquiryTests(): Promise<void> {
+export async function invalidGtfsInquiryTests(): Promise<void> {
   testInvalidAccessToInquiryEndpoint(UserRole.Operator);
   testInvalidAccessToInquiryEndpoint(UserRole.Manager);
   testInvalidAccessToInquiryEndpoint(UserRole.Inspector);
@@ -24,7 +24,7 @@ export async function invalidInquiryTests(): Promise<void> {
   it(`Should return Bad Request on missing top level properties`, async () => {
     const inquiryRequest = {};
     await shouldThrow(
-      () => postInquiry(inquiryRequest),
+      () => postGtfsInquiry(inquiryRequest),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, 'more than one of its property are invalid');
@@ -39,7 +39,7 @@ export async function invalidInquiryTests(): Promise<void> {
   it(`Should return Bad Request on missing nested properties`, async () => {
     const inquiryRequest = { from: {}, to: { coordinates: {}, useAssetTypes: [AssetTypes.SpecialNeed] } };
     await shouldThrow(
-      () => postInquiry(inquiryRequest),
+      () => postGtfsInquiry(inquiryRequest),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, 'more than one of its property are invalid');
@@ -54,53 +54,65 @@ export async function invalidInquiryTests(): Promise<void> {
   it(`Should return Bad Request on invalid coordinates`, async () => {
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: 'invalidLatitude', lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The latitude or longitude values are not valid');
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because lat must not be greater than 90'
+        );
       }
     );
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: 'invalidLongitude' } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The latitude or longitude values are not valid');
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because lon must not be greater than 180'
+        );
       }
     );
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: 'invalidLatitude', lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The latitude or longitude values are not valid');
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because lat must not be greater than 90'
+        );
       }
     );
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: 'invalidLongitude' } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'The latitude or longitude values are not valid');
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because lon must not be greater than 180'
+        );
       }
     );
   });
@@ -108,7 +120,7 @@ export async function invalidInquiryTests(): Promise<void> {
   it(`Should return Bad Request when latitude and longitude are null values`, async () => {
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: null, lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
@@ -121,7 +133,7 @@ export async function invalidInquiryTests(): Promise<void> {
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: null } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
@@ -134,7 +146,7 @@ export async function invalidInquiryTests(): Promise<void> {
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: null, lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
@@ -147,7 +159,7 @@ export async function invalidInquiryTests(): Promise<void> {
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: null } },
           useAssetTypes: [AssetTypes.Normal]
@@ -162,53 +174,65 @@ export async function invalidInquiryTests(): Promise<void> {
   it(`Should return Bad Request when latitude or longitude out of bounds`, async () => {
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: 90.000001, lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The latitude or longitude values are not valid`);
+        assert.include(
+          err.response.body.error.message,
+          `The object failed the validation because lat must not be greater than 90`
+        );
       }
     );
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: 181 } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The latitude or longitude values are not valid`);
+        assert.include(
+          err.response.body.error.message,
+          `The object failed the validation because lon must not be greater than 180`
+        );
       }
     );
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: -90.000001, lon: generateSouthShoreLon() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The latitude or longitude values are not valid`);
+        assert.include(
+          err.response.body.error.message,
+          `The object failed the validation because lat must not be less than -90`
+        );
       }
     );
 
     await shouldThrow(
       () =>
-        postInquiry({
+        postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: -181 } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `The latitude or longitude values are not valid`);
+        assert.include(
+          err.response.body.error.message,
+          `The object failed the validation because lon must not be less than -180`
+        );
       }
     );
   });
@@ -220,7 +244,7 @@ export async function invalidInquiryTests(): Promise<void> {
       useAssetTypes: {}
     };
     await shouldThrow(
-      () => postInquiry(inquiryRequest),
+      () => postGtfsInquiry(inquiryRequest),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, 'each value in useAssetTypes must be a valid enum value');
@@ -235,25 +259,10 @@ export async function invalidInquiryTests(): Promise<void> {
       useAssetTypes: ['unknow_type']
     };
     await shouldThrow(
-      () => postInquiry(inquiryRequest),
+      () => postGtfsInquiry(inquiryRequest),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, 'each value in useAssetTypes must be a valid enum value');
-      }
-    );
-  });
-
-  it(`Should return Bad Request if useAssetType type is empty`, async () => {
-    const inquiryRequest = {
-      from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-      to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-      useAssetTypes: [] as string[]
-    };
-    await shouldThrow(
-      () => postInquiry(inquiryRequest),
-      err => {
-        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'useAssetTypes must contain at least 1 elements');
       }
     );
   });
@@ -266,7 +275,7 @@ export async function invalidInquiryTests(): Promise<void> {
     };
 
     await shouldThrow(
-      () => postInquiry(inquiryRequest),
+      () => postGtfsInquiry(inquiryRequest),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
@@ -288,7 +297,7 @@ function testInvalidAccessToInquiryEndpoint(role: UserRole) {
       useAssetTypes: [AssetTypes.Normal]
     };
     await shouldThrow(
-      () => postInquiry(inquiryRequest, apiKey),
+      () => postGtfsInquiry(inquiryRequest, apiKey),
       err => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(

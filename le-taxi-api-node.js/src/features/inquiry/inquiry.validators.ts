@@ -2,31 +2,35 @@
 // See LICENSE file in the project root for full license information.
 import booleanContains from '@turf/boolean-contains';
 import * as turf from '@turf/helpers';
-import { Request } from 'express';
 import { configs } from '../../config/configs';
 import { BadRequestError } from '../errorHandling/errors';
 import { ICoordinates } from '../shared/coordinates/coordinates';
 import { yul_airport_restricted_area } from '../shared/locations/locations';
-import { isNumber, validateCoordinates, validateDtoProperties } from '../shared/validations/validators';
-import { AssetTypes, InquiryRequest } from './inquiry.dto';
+import { InquiryRequest, InquiryTypes } from './inquiry.dto';
 
-export async function validateInquiryRequest(request: Request): Promise<any> {
-  await validateDtoProperties(new InquiryRequest(), request.body);
+export function validateInquiryRequest(inquiryRequest: InquiryRequest): InquiryRequest {
+  validateYulTaxiRestrictedArea(inquiryRequest.from);
+  const inquiryTypes = validateInquiryTypes(inquiryRequest.inquiryTypes);
+  const operators = validateOperators(inquiryRequest.operators);
+  return forceTypes({
+    ...inquiryRequest,
+    inquiryTypes,
+    operators
+  });
+}
 
-  const fromCoordinate = validateCoordinates(request?.body?.from?.coordinates);
-  validateYulTaxiRestrictedArea(fromCoordinate);
-  const toCoordinate = validateCoordinates(request?.body?.to?.coordinates);
-  const assetTypes = validateAssetType(request?.body?.useAssetTypes);
-  const operators = validateOperators(request?.body?.operators);
+function forceTypes(inquiryRequest: InquiryRequest): InquiryRequest {
   return {
-    assetTypes,
     from: {
-      coordinates: fromCoordinate
+      lat: +inquiryRequest.from.lat,
+      lon: +inquiryRequest.from.lon
     },
     to: {
-      coordinates: toCoordinate
+      lat: +inquiryRequest.to?.lat,
+      lon: +inquiryRequest.to?.lon
     },
-    operators
+    inquiryTypes: inquiryRequest.inquiryTypes,
+    operators: inquiryRequest.operators?.map(operator => +operator)
   };
 }
 
@@ -40,15 +44,11 @@ function validateYulTaxiRestrictedArea(coordinate: ICoordinates): void {
   }
 }
 
-function validateAssetType(assetTypes: AssetTypes[]): AssetTypes[] {
-  return assetTypes.filter((assetType, i) => assetTypes.indexOf(assetType) === i);
+function validateInquiryTypes(inquiryTypes: InquiryTypes[]): InquiryTypes[] {
+  if (!inquiryTypes || inquiryTypes.length === 0) return Object.values(InquiryTypes);
+  return inquiryTypes.filter((inquiryType, i) => inquiryTypes.indexOf(inquiryType) === i);
 }
 
-function validateOperators(operators: string[]): number[] {
-  if (!operators || operators.length === 0 || !configs.environment.isLocalOrDev) return null;
-
-  return operators.map(operator => {
-    if (!isNumber(operator)) throw new BadRequestError(`The operators must be numbers`);
-    return +operator;
-  });
+function validateOperators(operators: number[]): number[] {
+  return !operators || operators.length === 0 || !configs.environment.isLocalOrDev ? null : operators;
 }

@@ -2,8 +2,8 @@
 // See LICENSE file in the project root for full license information.
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { allow } from '../users/securityDecorator';
-import { UserRole } from '../users/userRole';
+import { allow } from '../../users/securityDecorator';
+import { UserRole } from '../../users/userRole';
 import { validateUserForDeepLinks, validateUserId } from './gtfDeepLinks.validator';
 import { gtfsDeepLinksGenerator } from './gtfsDeepLinks.generator';
 

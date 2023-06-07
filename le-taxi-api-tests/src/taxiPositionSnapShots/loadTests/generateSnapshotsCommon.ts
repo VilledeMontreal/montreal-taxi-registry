@@ -5,6 +5,7 @@ import { generateSouthShoreLat, generateSouthShoreLon } from '../../shared/commo
 import { getCurrentUnixTime } from '../../shared/commonTests/testUtil';
 import { copyTaxiPositionSnapShotItemTemplate } from '../taxiPositionSnapShotsDto.template';
 
+// tslint:disable-next-line: no-console
 console.log('WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!');
 
 const taxiSharedStateJson = require('fs').readFileSync('src/taxiPositionSnapShots/loadTests/taxi.sharedState.json');

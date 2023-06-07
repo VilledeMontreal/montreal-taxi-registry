@@ -2,8 +2,8 @@
 // See LICENSE file in the project root for full license information.
 import { Parser } from 'json2csv';
 import { EOL } from 'os';
-import { addDays, addYears, getDateNoDash } from '../shared/dateUtils/dateUtils';
-import { UserModel } from '../users/user.model';
+import { addDays, addYears, getDateNoDash } from '../../shared/dateUtils/dateUtils';
+import { UserModel } from '../../users/user.model';
 import {
   agency,
   bookingRules,
@@ -12,8 +12,8 @@ import {
   feedInfo,
   riderCategories,
   routes,
-  stops,
   stopTimes,
+  stops,
   trips,
   vehicleCategories
 } from './gtfsFeed.constants';

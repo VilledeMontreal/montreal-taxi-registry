@@ -25,7 +25,10 @@ class LatestTaxiPositionMapper {
 
   public mongoToLatestTaxiPositionModelExtended(mongoResult: any): LatestTaxiPositionModelExtended {
     const latestTaxiPosition = this.mongoToLatestTaxiPositionModel(mongoResult);
-    const latestTaxiPositionExtended = { ...latestTaxiPosition, taxi: { ...latestTaxiPosition.taxi, assetType: mongoResult.taxi.assetType } };
+    const latestTaxiPositionExtended = {
+      ...latestTaxiPosition,
+      taxi: { ...latestTaxiPosition.taxi, inquiryType: mongoResult.taxi.inquiryType }
+    };
     return latestTaxiPositionExtended;
   }
 

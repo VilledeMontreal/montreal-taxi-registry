@@ -3,6 +3,7 @@
 import { generateSouthShoreLat, generateSouthShoreLon } from '../../shared/commonLoadTests/specialRegion';
 import { IInquirySharedState } from './IInquirySharedState';
 
+// tslint:disable-next-line: no-console
 console.log('WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!');
 
 const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/inquiry.sharedState.json');
@@ -10,11 +11,11 @@ const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/inquiry.
 export const sharedState: IInquirySharedState = JSON.parse(sharedStateJson);
 
 export function generateStandardPayloadInquiry(context: any, ee: any, next: any) {
-  return generatePayloadInquiry(context, ee, next, 'taxi-registry-standard-route');
+  return generatePayloadInquiry(context, ee, next, 'taxi-registry-standard');
 }
 
 export function generateSpecialNeedPayloadInquiry(context: any, ee: any, next: any) {
-  return generatePayloadInquiry(context, ee, next, 'taxi-registry-special-need-route');
+  return generatePayloadInquiry(context, ee, next, 'taxi-registry-special-need');
 }
 
 function generatePayloadInquiry(context: any, ee: any, next: any, assetType: string) {

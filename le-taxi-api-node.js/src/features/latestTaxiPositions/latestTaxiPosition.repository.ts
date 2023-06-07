@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { AssetTypes } from '../inquiry/inquiry.dto';
+import { InquiryTypes } from '../inquiry/inquiry.dto';
 import { ICoordinates } from '../shared/coordinates/coordinates';
 import { getMongoDb } from '../shared/taxiMongo/taxiMongo';
 import { TaxiStatus } from './../../libs/taxiStatus';
@@ -8,9 +8,9 @@ import { latestTaxiPositionMapper } from './latestTaxiPosition.mapper';
 import { LatestTaxiPositionModel, LatestTaxiPositionModelExtended } from './latestTaxiPosition.model';
 
 class LatestTaxiPositionRepository {
-  public async findLatestTaxiPosition(
+  public async findClosestTaxis(
     coordinate: ICoordinates,
-    assetTypes: AssetTypes[],
+    inquiryTypes: InquiryTypes[],
     operators: number[] = null
   ): Promise<LatestTaxiPositionModelExtended[]> {
     const db = getMongoDb();
@@ -27,7 +27,7 @@ class LatestTaxiPositionRepository {
         }
       },
       {
-        $facet: assetTypes.reduce((map, key) => {
+        $facet: inquiryTypes.reduce((map, key) => {
           map[key] = [
             {
               $match: {
@@ -39,7 +39,7 @@ class LatestTaxiPositionRepository {
             },
             {
               $addFields: {
-                'taxi.assetType': key
+                'taxi.inquiryType': key
               }
             },
             {
@@ -107,17 +107,17 @@ function operatorsCondition(operators: number[]): any {
   return operators && operators.length > 0 ? { 'taxi.operatorId': { $in: operators } } : {};
 }
 
-function transportationTypeCondition(assetType: AssetTypes): any {
-  switch (assetType) {
-    case AssetTypes.Mpv:
+function transportationTypeCondition(inquiryTypes: InquiryTypes): any {
+  switch (inquiryTypes) {
+    case InquiryTypes.Minivan:
       return {
         'taxi.isMpv': true,
         'taxi.isSpecialNeedVehicle': false
       };
-    case AssetTypes.SpecialNeed:
+    case InquiryTypes.SpecialNeed:
       return { 'taxi.isSpecialNeedVehicle': true };
     default:
-    case AssetTypes.Normal:
+    case InquiryTypes.Standard:
       return { 'taxi.isSpecialNeedVehicle': false };
   }
 }

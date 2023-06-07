@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { UserModel } from '../users/user.model';
+import { UserModel } from '../../users/user.model';
 import {
   evaluateBookingMinivan,
   evaluateBookingSpecialNeed,
@@ -11,10 +11,10 @@ import {
 } from './gtfsDeepLinks.templates';
 
 const taxiRegistryRoutes = {
-  standard: 'taxi-registry-standard-route',
-  minivan: 'taxi-registry-minivan-route',
-  specialNeed: 'taxi-registry-special-need-route',
-}
+  standard: 'taxi-registry-standard',
+  minivan: 'taxi-registry-minivan',
+  specialNeed: 'taxi-registry-special-need'
+};
 
 class GtfsDeepLinksGenerator {
   public generateDeepLinksPage(user: UserModel): string {

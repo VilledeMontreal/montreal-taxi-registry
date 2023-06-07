@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { ICoordinates } from '../shared/coordinates/coordinates';
+import { ICoordinates } from '../../shared/coordinates/coordinates';
 
 const serviceUnavailable = `<div>The operator has stated that they do not offer this service. If this is incorrect, please contact support.taxi.exchange.point@montreal.ca</div>`;
 
