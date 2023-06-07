@@ -49,7 +49,7 @@ export function zonesFunc(lang: GofsLiteSupportedLangTypes): GofsLiteZoneRespons
 
 function patchLocationsInEnglish(locations: FeatureCollection): FeatureCollection {
   const locationsEn = _.cloneDeep(locations);
-  locationsEn.features[0].properties.stop_name = 'International Airport Montréal-Trudeau';
+  locationsEn.features[0].properties.stop_name = 'Montréal-Trudeau International Airport';
   locationsEn.features[0].properties.stop_desc =
     'The airport is subject to federal jurisdiction that prevents the Taxi Registry to honour ride request from the airport';
   locationsEn.features[1].properties.stop_name = 'Jurisdiction of the Autorité régionale de transport métropolitain';
