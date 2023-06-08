@@ -4,7 +4,11 @@ import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
 import { configs } from '../../config/configs';
-import { generateSouthShoreCoordinates } from '../shared/commonLoadTests/specialRegion';
+import {
+  generateSouthShoreCoordinates,
+  getAirportCoordinates,
+  getDowntownCoordinates
+} from '../shared/commonLoadTests/specialRegion';
 import { aFewSeconds } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
@@ -124,9 +128,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.isNumber(inquiryResponse.body.options[0].to.coordinates.lat);
     assert.isNumber(inquiryResponse.body.options[0].to.coordinates.lon);
     assert.isBoolean(inquiryResponse.body.options[0].pricing.estimated);
-    assert.isNumber(inquiryResponse.body.options[0].pricing.parts[0].optimisticAmount);
     assert.isNumber(inquiryResponse.body.options[0].pricing.parts[0].amount);
-    assert.isNumber(inquiryResponse.body.options[0].pricing.parts[0].pessimisticAmount);
     assert.isString(inquiryResponse.body.options[0].pricing.parts[0].currencyCode);
     assert.isNumber(inquiryResponse.body.options[0].estimatedWaitTime);
     assert.isNumber(inquiryResponse.body.options[0].estimatedTravelTime);
@@ -367,12 +369,12 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const fiveSecondsInMillis = 5000;
     const departureTime =
       now.getTime() +
-      (configs.taxiRegistryOsrmApi.estimation.biasInSec +
+      (configs.taxiRegistryOsrmApi.estimation.durationBias +
         configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec) *
         1000;
     const departureTimeLow = new Date(departureTime - fiveSecondsInMillis).toISOString();
     const departureTimeHigh = new Date(departureTime + fiveSecondsInMillis).toISOString();
-    const arrivalTime = departureTime + configs.taxiRegistryOsrmApi.estimation.biasInSec * 1000;
+    const arrivalTime = departureTime + configs.taxiRegistryOsrmApi.estimation.durationBias * 1000;
     const arrivalTimeLow = new Date(arrivalTime - fiveSecondsInMillis).toISOString();
     const arrivalTimeHigh = new Date(arrivalTime + fiveSecondsInMillis).toISOString();
 
@@ -381,6 +383,36 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.isTrue(inquiryResponse.body.options[0].departureTime < departureTimeHigh);
     assert.isTrue(inquiryResponse.body.options[0].arrivalTime > arrivalTimeLow);
     assert.isTrue(inquiryResponse.body.options[0].arrivalTime < arrivalTimeHigh);
+  });
+
+  it(`Should return a fixed price for a ride from downtown to the airport`, async () => {
+    const coordinates = generateSouthShoreCoordinates();
+    await createTaxisWithPromotions([{ ...coordinates, type: 'sedan' }]);
+
+    const downtownCoordinates = getDowntownCoordinates();
+    const airportCoordinates = getAirportCoordinates();
+    const inquiryRequest = buildInquiryRequest(downtownCoordinates, airportCoordinates, [AssetTypes.Normal]);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    const estimatedPrice = inquiryResponse.body.options[0].pricing.parts[0].amount;
+    const dailyPrice = configs.inquiries.fixedDailyPriceDowntownToAirport;
+    const nightlyPrice = configs.inquiries.fixedNightlyPriceDowntownToAirport;
+    assert.isTrue(estimatedPrice === dailyPrice || estimatedPrice === nightlyPrice);
+  });
+
+  it(`Should return a price for a ride from downtown to the south shore`, async () => {
+    const coordinates = generateSouthShoreCoordinates();
+    await createTaxisWithPromotions([{ ...coordinates, type: 'sedan' }]);
+
+    const downtownCoordinates = getDowntownCoordinates();
+    const southShoreCoordinates = generateSouthShoreCoordinates();
+    const inquiryRequest = buildInquiryRequest(downtownCoordinates, southShoreCoordinates, [AssetTypes.Normal]);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    const estimatedPrice = inquiryResponse.body.options[0].pricing.parts[0].amount;
+    assert.isTrue(estimatedPrice > 0);
   });
 
   it(`Should return empty response when no taxi found`, async () => {

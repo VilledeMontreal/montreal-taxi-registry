@@ -135,6 +135,7 @@ export {
   asUtcIsoString,
   toUtcIsoString,
   toUtcHumanDate,
+  toLocalDate,
   nowUtcIsoString,
   nowAsEpoch,
   isUtcIsoString,

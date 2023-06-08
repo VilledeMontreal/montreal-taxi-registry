@@ -92,6 +92,8 @@ caching:
   usersMaxAgeInSec: 86400
 inquiries:
   promotionDelayInSec: 0
+  fixedDailyPriceDowntownToAirport: 49.45 # Airport day fixed rate + compensation
+  fixedNightlyPriceDowntownToAirport: 56.70 # Airport night fixed rate + compensation
 
 #==========================================
 # Routing Service OSRM
@@ -100,5 +102,12 @@ taxiRegistryOsrmApi:
   base: https://api.dev.interne.montreal.ca
   domainPath: /api/taxi/taxi-registry-osrm
   estimation:
-    biasInSec: 336 # Bias calculated against Polytechnic's data to even the distribution over/under
     requestAndDispatchInSec: 120 # Arbitrary time to account for the taxi request and dispatch
+    durationBias: 349 # Bias calculated against Polytechnic's data to even the distribution over/under
+    durationDailyRateRatio: 0.58 # Ratio for the average daily duration rate calculated against Polytechnic's
+    durationNightlyRateRatio: 0.68 # Ratio for the average nightly duration rate calculated against Polytechnic's
+    distanceBias: 973 # Bias calculated against Polytechnic's data to even the distribution over/under
+    distanceDailyRateRatio: 0.95 # Ratio for the average daily distance rate calculated against Polytechnic's
+    distanceNightlyRateRatio: 1.03 # Ratio for the average nightly distance rate calculated against Polytechnic's
+    dailyCompensationRate: 6.07 # Day fixed rate + compensations
+    nightlyCompensationRate: 6.67 # Night fixed rate + compensations

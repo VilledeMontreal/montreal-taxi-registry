@@ -235,7 +235,9 @@ export class Configs {
   }
   get inquiries() {
     return {
-      promotionDelayInSec: this.cache.get<number>('inquiries.promotionDelayInSec')
+      promotionDelayInSec: this.cache.get<number>('inquiries.promotionDelayInSec'),
+      fixedDailyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedDailyPriceDowntownToAirport'),
+      fixedNightlyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedNightlyPriceDowntownToAirport')
     };
   }
 
@@ -247,8 +249,15 @@ export class Configs {
       base: this.cache.get<string>('taxiRegistryOsrmApi.base'),
       domainPath: this.cache.get<string>('taxiRegistryOsrmApi.domainPath'),
       estimation: {
-        biasInSec: this.cache.get<number>('taxiRegistryOsrmApi.estimation.biasInSec'),
-        requestAndDispatchInSec: this.cache.get<number>('taxiRegistryOsrmApi.estimation.requestAndDispatchInSec')
+        requestAndDispatchInSec: this.cache.get<number>('taxiRegistryOsrmApi.estimation.requestAndDispatchInSec'),
+        durationBias: this.cache.get<number>('taxiRegistryOsrmApi.estimation.durationBias'),
+        durationDailyRateRatio: this.cache.get<number>('taxiRegistryOsrmApi.estimation.durationDailyRateRatio'),
+        durationNightlyRateRatio: this.cache.get<number>('taxiRegistryOsrmApi.estimation.durationNightlyRateRatio'),
+        distanceBias: this.cache.get<number>('taxiRegistryOsrmApi.estimation.distanceBias'),
+        distanceDailyRateRatio: this.cache.get<number>('taxiRegistryOsrmApi.estimation.distanceDailyRateRatio'),
+        distanceNightlyRateRatio: this.cache.get<number>('taxiRegistryOsrmApi.estimation.distanceNightlyRateRatio'),
+        dailyCompensationRate: this.cache.get<number>('taxiRegistryOsrmApi.estimation.dailyCompensationRate'),
+        nightlyCompensationRate: this.cache.get<number>('taxiRegistryOsrmApi.estimation.nightlyCompensationRate')
       }
     };
   }

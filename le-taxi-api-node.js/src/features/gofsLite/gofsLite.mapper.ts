@@ -65,7 +65,7 @@ function toWaitTimeResponseData(data: InquiryResponseData): GofsLiteWaitTimeData
     brand_id: toBrandId(data.inquiryType),
     estimated_wait_time: data.estimatedWaitTime,
     estimated_travel_time: data.estimatedTravelTime,
-    estimated_travel_cost: 0,
+    estimated_travel_cost: data.estimatedPrice,
     estimated_travel_cost_currency: 'CAD',
     realtime_booking: {
       booking_detail: {

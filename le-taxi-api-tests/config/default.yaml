@@ -15,6 +15,8 @@ e2eTesting:
   maxTestConcurrency: 30
 inquiries:
   delayToExceedPromotion: 0
+  fixedDailyPriceDowntownToAirport: 49.45
+  fixedNightlyPriceDowntownToAirport: 56.70
 caching:
   delayToExceedUsersCache: 11
 
@@ -27,5 +29,12 @@ taxiRegistryOsrmApi:
   route: route
   version: v1
   estimation:
-    biasInSec: 336 # Bias calculated against Polytechnic's data to even the distribution over/under
     requestAndDispatchInSec: 120 # Arbitrary time to account for the taxi request and dispatch
+    durationBias: 349 # Bias calculated against Polytechnic's data to even the distribution over/under
+    durationDailyRateRatio: 0.58 # Ratio for the average daily duration rate calculated against Polytechnic's
+    durationNightlyRateRatio: 0.68 # Ratio for the average nightly duration rate calculated against Polytechnic's
+    distanceBias: 973 # Bias calculated against Polytechnic's data to even the distribution over/under
+    distanceDailyRateRatio: 0.95 # Ratio for the average daily distance rate calculated against Polytechnic's
+    distanceNightlyRateRatio: 1.03 # Ratio for the average nightly distance rate calculated against Polytechnic's
+    dailyCompensationRate: 6.07 # Day fixed rate + compensations
+    nightlyCompensationRate: 6.67 # Night fixed rate + compensations
