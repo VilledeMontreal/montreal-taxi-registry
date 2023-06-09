@@ -70,9 +70,7 @@ export class GtfsInquiryResponseOptionsDto {
     estimated: boolean;
     parts: [
       {
-        optimisticAmount: number;
         amount: number;
-        pessimisticAmount: number;
         currencyCode: string;
       }
     ];

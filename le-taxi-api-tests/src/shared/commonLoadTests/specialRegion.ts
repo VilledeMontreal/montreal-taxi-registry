@@ -27,3 +27,8 @@ export function getAirportCoordinates(): ICoordinates {
   // Airport Montreal, 7 Roméo-Vachon Blvd N, Dorval, Quebec H4Y 1H1
   return { lat: 45.457659, lon: -73.7507184 };
 }
+
+export function getDowntownCoordinates(): ICoordinates {
+  // 80 queen
+  return { lat: 45.49714, lon: -73.55461 };
+}

@@ -5,7 +5,7 @@ import * as turf from '@turf/helpers';
 import { configs } from '../../config/configs';
 import { BadRequestError } from '../errorHandling/errors';
 import { ICoordinates } from '../shared/coordinates/coordinates';
-import { yul_airport_restricted_area } from '../shared/locations/locations';
+import { airportGeometry } from '../shared/locations/locations';
 import { InquiryRequest, InquiryTypes } from './inquiry.dto';
 
 export function validateInquiryRequest(inquiryRequest: InquiryRequest): InquiryRequest {
@@ -35,7 +35,7 @@ function forceTypes(inquiryRequest: InquiryRequest): InquiryRequest {
 }
 
 function validateYulTaxiRestrictedArea(coordinate: ICoordinates): void {
-  const yulTaxiRestrictedArea = turf.polygon([yul_airport_restricted_area], { name: 'yul-taxi-restricted-area' });
+  const yulTaxiRestrictedArea = turf.polygon([airportGeometry], { name: 'yul-taxi-restricted-area' });
   const userPosition = turf.point([coordinate.lon, coordinate.lat]);
   const isPointContain = booleanContains(yulTaxiRestrictedArea, userPosition);
 

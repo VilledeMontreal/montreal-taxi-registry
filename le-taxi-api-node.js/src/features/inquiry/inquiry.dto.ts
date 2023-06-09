@@ -23,10 +23,12 @@ export class InquiryResponse {
 }
 
 export class InquiryResponseData {
+  date: string;
   inquiryType: InquiryTypes;
   operator: UserModel;
   from: ICoordinates;
   to: ICoordinates;
   estimatedWaitTime: number;
   estimatedTravelTime: number;
+  estimatedPrice: number;
 }

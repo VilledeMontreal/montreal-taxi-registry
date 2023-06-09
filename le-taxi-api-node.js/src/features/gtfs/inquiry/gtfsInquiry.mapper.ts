@@ -26,7 +26,7 @@ class GtfsInquiryMapper {
   }
 
   public toGtfsInquiryResponse(inquiryResponse: InquiryResponse): GtfsInquiryResponseDto {
-    const now = nowUtcIsoString();
+    const now = inquiryResponse?.data?.length > 0 ? inquiryResponse.data[0].date : nowUtcIsoString();
     return {
       validUntil: addMinutes(now, 5),
       options: inquiryResponse.data?.map(data => toInquiryResponseOptions(data, now)) || []
@@ -84,9 +84,7 @@ function toInquiryResponseOptions(data: InquiryResponseData, now: string): GtfsI
       estimated: true,
       parts: [
         {
-          optimisticAmount: 0,
-          amount: 0,
-          pessimisticAmount: 0,
+          amount: data.estimatedPrice,
           currencyCode: 'CAD'
         }
       ]

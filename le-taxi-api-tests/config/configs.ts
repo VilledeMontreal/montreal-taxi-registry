@@ -88,7 +88,9 @@ export class Configs {
    */
   get inquiries() {
     return {
-      delayToExceedPromotion: this.cache.get<number>('inquiries.delayToExceedPromotion')
+      delayToExceedPromotion: this.cache.get<number>('inquiries.delayToExceedPromotion'),
+      fixedDailyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedDailyPriceDowntownToAirport'),
+      fixedNightlyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedNightlyPriceDowntownToAirport')
     };
   }
 
@@ -109,7 +111,7 @@ export class Configs {
       base: this.cache.get<string>('taxiRegistryOsrmApi.base'),
       domainPath: this.cache.get<string>('taxiRegistryOsrmApi.domainPath'),
       estimation: {
-        biasInSec: this.cache.get<number>('taxiRegistryOsrmApi.estimation.biasInSec'),
+        durationBias: this.cache.get<number>('taxiRegistryOsrmApi.estimation.durationBias'),
         requestAndDispatchInSec: this.cache.get<number>('taxiRegistryOsrmApi.estimation.requestAndDispatchInSec')
       }
     };
