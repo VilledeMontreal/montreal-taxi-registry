@@ -59,9 +59,8 @@ export function toBrandId(inquiryTypes: InquiryTypes): GofsLiteBrandIdTypes {
 }
 
 function toWaitTimeResponseData(data: InquiryResponseData): GofsLiteWaitTimeDataResponseDto {
-  const isSpecialNeed = data.inquiryType === InquiryTypes.SpecialNeed;
-
-  return {
+  const hasDestination = !!data.estimatedTravelTime;
+  const response = {
     brand_id: toBrandId(data.inquiryType),
     estimated_wait_time: data.estimatedWaitTime,
     estimated_travel_time: data.estimatedTravelTime,
@@ -69,22 +68,22 @@ function toWaitTimeResponseData(data: InquiryResponseData): GofsLiteWaitTimeData
     estimated_travel_cost_currency: 'CAD',
     realtime_booking: {
       booking_detail: {
-        service_name: data.operator.commercial_name,
-        android_uri: isSpecialNeed
-          ? data.operator.special_need_booking_android_deeplink_uri
-          : data.operator.standard_booking_android_deeplink_uri,
-        ios_uri: isSpecialNeed
-          ? data.operator.special_need_booking_ios_deeplink_uri
-          : data.operator.standard_booking_ios_deeplink_uri,
-        web_uri: isSpecialNeed
-          ? data.operator.special_need_booking_website_url
-          : data.operator.standard_booking_website_url,
-        phone_number: isSpecialNeed
-          ? data.operator.special_need_booking_phone_number
-          : data.operator.standard_booking_phone_number
+        service_name: data.booking.operator.commercial_name,
+        phone_number: data.booking.phoneNumber,
+        web_uri: data.booking.webUrl,
+        android_uri: data.booking.androidUri,
+        ios_uri: data.booking.iosUri
       }
     }
-  };
+  }
+
+  if (!hasDestination) {
+    response.estimated_travel_time = null;
+    response.estimated_travel_cost = null;
+    response.estimated_travel_cost_currency = null;
+  }
+
+  return response;
 }
 
 export const gofsLiteMapper = new GofsLiteMapper();

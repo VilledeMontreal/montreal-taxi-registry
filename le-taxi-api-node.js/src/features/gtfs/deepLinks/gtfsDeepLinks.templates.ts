@@ -93,6 +93,8 @@ function evaluateTemplate(opts: IDeepLinkBookingOptions) {
 
   return `
 <div>
+  ${eightyQueenWithNoDestination(opts)}
+  <br>
   ${eightyQueenToCityHall(opts)}
   <br>
   ${eightyQueenToAirport(opts)}
@@ -118,6 +120,14 @@ function cityHallToEightyQueen(opts: IDeepLinkBookingOptions) {
   const link = buildDeepLink(opts.bookingUrl, opts.serviceType, cityHall, eightyQueen);
   return `
 <div>Can book a ${opts.taxiType} with the ${opts.platformType}:</div>
+<div><a href='${link}'>${link}</a></div>
+`;
+}
+
+function eightyQueenWithNoDestination(opts: IDeepLinkBookingOptions) {
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen);
+  return `
+<div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to no particular destination with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
 `;
 }
@@ -194,6 +204,7 @@ function middleOfSaintLawrenceTomiddleOfSaintLawrenceOther(opts: IDeepLinkBookin
 `;
 }
 
-function buildDeepLink(baseUrl: string, serviceType: string, pickup: ICoordinates, dropoff: ICoordinates): string {
-  return `${baseUrl}?service_type=${serviceType}&pickup_latitude=${pickup.lat}&pickup_longitude=${pickup.lon}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${dropoff.lon}`;
+function buildDeepLink(baseUrl: string, serviceType: string, pickup: ICoordinates, dropoff?: ICoordinates): string {
+  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${pickup.lat}&pickup_longitude=${pickup.lon}`
+  return dropoff ? `${deepLink}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${dropoff.lon}` : deepLink;
 }

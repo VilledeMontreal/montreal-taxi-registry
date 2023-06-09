@@ -9,8 +9,8 @@ import {
   getAirportCoordinates,
   getDowntownCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { aFewSeconds } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
+import { aFewSeconds } from '../shared/commonTests/testUtil';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { createPromotedOperator, updateUser } from '../users/user.apiClient';
 import {
@@ -37,6 +37,19 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const inquiryRequest = buildInquiryRequest(
       generateSouthShoreCoordinates(),
       generateSouthShoreCoordinates(),
+      [AssetTypes.Normal],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+  });
+
+  it(`Should be able to request a ride with no destination`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
+    const inquiryRequest = buildInquiryRequest(
+      generateSouthShoreCoordinates(),
+      null,
       [AssetTypes.Normal],
       operators
     );

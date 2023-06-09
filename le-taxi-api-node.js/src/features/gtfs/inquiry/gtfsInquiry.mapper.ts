@@ -17,8 +17,8 @@ class GtfsInquiryMapper {
         lon: gtfsInquiryRequest.from.coordinates.lon
       },
       to: {
-        lat: gtfsInquiryRequest.to.coordinates.lat,
-        lon: gtfsInquiryRequest.to.coordinates.lon
+        lat: gtfsInquiryRequest.to?.coordinates?.lat,
+        lon: gtfsInquiryRequest.to?.coordinates?.lon
       },
       inquiryTypes: toInquiryTypes(gtfsInquiryRequest.useAssetTypes),
       operators: gtfsInquiryRequest.operators
@@ -63,12 +63,12 @@ export function toAssetType(inquiryTypes: InquiryTypes): GtfsAssetTypes {
 }
 
 function toInquiryResponseOptions(data: InquiryResponseData, now: string): GtfsInquiryResponseOptionsDto {
+  const hasDestination = !!data.estimatedTravelTime;
   const departureTime = addSec(now, data.estimatedWaitTime);
-  const arrivalTime = addSec(departureTime, data.estimatedTravelTime);
-  const isSpecialNeed = data.inquiryType === InquiryTypes.SpecialNeed;
+  const arrivalTime = hasDestination ? addSec(departureTime, data.estimatedTravelTime) : null;
   const assetType = toAssetType(data.inquiryType);
 
-  return {
+  const response = {
     mainAssetType: {
       id: assetType
     },
@@ -93,26 +93,27 @@ function toInquiryResponseOptions(data: InquiryResponseData, now: string): GtfsI
     estimatedTravelTime: data.estimatedTravelTime,
     booking: {
       agency: {
-        id: data.operator.public_id,
-        name: data.operator.commercial_name
+        id: data.booking.operator.public_id,
+        name: data.booking.operator.commercial_name
       },
       mainAssetType: {
-        id: toMainAssetType(assetType, data.operator.public_id)
+        id: toMainAssetType(assetType, data.booking.operator.public_id)
       },
-      phoneNumber: isSpecialNeed
-        ? data.operator.special_need_booking_phone_number
-        : data.operator.standard_booking_phone_number,
-      androidUri: isSpecialNeed
-        ? data.operator.special_need_booking_android_deeplink_uri
-        : data.operator.standard_booking_android_deeplink_uri,
-      iosUri: isSpecialNeed
-        ? data.operator.special_need_booking_ios_deeplink_uri
-        : data.operator.standard_booking_ios_deeplink_uri,
-      webUrl: isSpecialNeed
-        ? data.operator.special_need_booking_website_url
-        : data.operator.standard_booking_website_url
+      phoneNumber: data.booking.phoneNumber,
+      androidUri: data.booking.androidUri,
+      iosUri: data.booking.iosUri,
+      webUrl: data.booking.webUrl
     }
   };
+
+  if (!hasDestination) {
+    response.to.coordinates = null;
+    response.pricing.estimated = false;
+    response.pricing.parts = [];
+    response.estimatedTravelTime = null;
+  }
+
+  return response;
 }
 
 function toMainAssetType(assetType: GtfsAssetTypes, operatorPublicId: string) {

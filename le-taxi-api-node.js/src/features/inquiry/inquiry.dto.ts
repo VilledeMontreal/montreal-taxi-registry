@@ -13,7 +13,7 @@ export enum InquiryTypes {
 
 export class InquiryRequest {
   from: ICoordinates;
-  to: ICoordinates;
+  to?: ICoordinates;
   inquiryTypes: InquiryTypes[];
   operators?: number[];
 }
@@ -22,13 +22,21 @@ export class InquiryResponse {
   data: InquiryResponseData[];
 }
 
+export class InquiryBookingResponseData {
+  operator: UserModel;
+  phoneNumber: string;
+  webUrl: string;
+  androidUri: string;
+  iosUri: string;
+}
+
 export class InquiryResponseData {
   date: string;
   inquiryType: InquiryTypes;
-  operator: UserModel;
   from: ICoordinates;
-  to: ICoordinates;
+  to?: ICoordinates;
   estimatedWaitTime: number;
-  estimatedTravelTime: number;
-  estimatedPrice: number;
+  estimatedTravelTime?: number;
+  estimatedPrice?: number;
+  booking: InquiryBookingResponseData
 }
