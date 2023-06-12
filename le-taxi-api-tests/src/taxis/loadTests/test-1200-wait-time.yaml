@@ -5,15 +5,15 @@ config:
     pool: 20
     timeout: 35
   phases:
-    - name: '1 200 inquiries with special-need attribute'
+    - name: '1 200 inquiries'
       arrivalRate: 20
       duration: 300
 scenarios:
-  - name: 'inquiries with special-need attribute'
+  - name: 'GOFS wait_time'
     flow:
-      - function: 'generateSpecialNeedPayloadInquiry'
+      - function: 'generateStandardPayloadWaitTime'
       - post:
-          url: '/api/inquiry'
+          url: '/api/gofs-lite/1/en/wait_time'
           headers:
             X-API-KEY: '{{apikey}}'
           json: '{{body}}'

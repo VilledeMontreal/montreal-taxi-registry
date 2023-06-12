@@ -3,17 +3,17 @@ config:
   processor: './generatePayload.js'
   http:
     pool: 20
-    timeout: 35
+    timeout: 5
   phases:
-    - name: '1 200 inquiries'
-      arrivalRate: 20
+    - name: '300 inquiries with special-need attribute'
+      arrivalRate: 5
       duration: 300
 scenarios:
-  - name: 'inquiries'
+  - name: 'GOFS wait_time with special-need attribute'
     flow:
-      - function: 'generateStandardPayloadInquiry'
+      - function: 'generateSpecialNeedPayloadWaitTime'
       - post:
-          url: '/api/inquiry'
+          url: '/api/gofs-lite/1/en/wait_time'
           headers:
             X-API-KEY: '{{apikey}}'
           json: '{{body}}'
