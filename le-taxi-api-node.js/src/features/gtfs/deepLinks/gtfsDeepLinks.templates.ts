@@ -126,9 +126,14 @@ function cityHallToEightyQueen(opts: IDeepLinkBookingOptions) {
 
 function eightyQueenWithNoDestination(opts: IDeepLinkBookingOptions) {
   const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen);
+  const linkEmpty = `${link}&dropoff_latitude=&dropoff_longitude=`;
+  const linkNull = `${link}&dropoff_latitude=null&dropoff_longitude=null`;
+
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to no particular destination with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
+<div><a href='${linkEmpty}'>${linkEmpty}</a></div>
+<div><a href='${linkNull}'>${linkNull}</a></div>
 `;
 }
 

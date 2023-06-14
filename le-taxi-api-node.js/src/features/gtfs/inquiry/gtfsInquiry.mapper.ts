@@ -108,8 +108,7 @@ function toInquiryResponseOptions(data: InquiryResponseData, now: string): GtfsI
 
   if (!hasDestination) {
     response.to.coordinates = null;
-    response.pricing.estimated = false;
-    response.pricing.parts = [];
+    response.pricing = null;
     response.estimatedTravelTime = null;
   }
 
