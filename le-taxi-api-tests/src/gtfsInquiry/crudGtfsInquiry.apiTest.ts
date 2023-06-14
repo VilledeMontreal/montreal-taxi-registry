@@ -9,8 +9,8 @@ import {
   getAirportCoordinates,
   getDowntownCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { aFewSeconds } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
+import { aFewSeconds } from '../shared/commonTests/testUtil';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { createPromotedOperator, updateUser } from '../users/user.apiClient';
 import {
@@ -37,6 +37,19 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const inquiryRequest = buildInquiryRequest(
       generateSouthShoreCoordinates(),
       generateSouthShoreCoordinates(),
+      [AssetTypes.Normal],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+  });
+
+  it(`Should be able to request a ride with no destination`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
+    const inquiryRequest = buildInquiryRequest(
+      generateSouthShoreCoordinates(),
+      null,
       [AssetTypes.Normal],
       operators
     );
@@ -626,6 +639,56 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(inquiryResponse.body.options.length, 0);
+  });
+
+  it(`Can request with null field TO`, async () => {
+    const inquiryResponse = await postGtfsInquiry({
+      from: { coordinates: generateSouthShoreCoordinates() },
+      to: null,
+      useAssetTypes: [AssetTypes.Normal]
+    });
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+  });
+
+  it(`Can request with an undefined field TO`, async () => {
+    const inquiryResponse = await postGtfsInquiry({
+      from: { coordinates: generateSouthShoreCoordinates() },
+      useAssetTypes: [AssetTypes.Normal]
+    });
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+  });
+
+  it(`Can request with null coordinates in the field TO`, async () => {
+    const inquiryResponse = await postGtfsInquiry({
+      from: { coordinates: generateSouthShoreCoordinates() },
+      to: { coordinates: null },
+      useAssetTypes: [AssetTypes.Normal]
+    });
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+  });
+
+  it(`Can request with undefined coordinates in the field TO`, async () => {
+    const inquiryResponse = await postGtfsInquiry({
+      from: { coordinates: generateSouthShoreCoordinates() },
+      to: { },
+      useAssetTypes: [AssetTypes.Normal]
+    });
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+  });
+
+  it(`Should nullify field in the response when no destination is provided`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
+    const inquiryResponse = await postGtfsInquiry({
+      from: { coordinates: generateSouthShoreCoordinates() },
+      useAssetTypes: [AssetTypes.Normal],
+      operators: operators?.map(operator => operator.id)
+    });
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isNull(inquiryResponse.body.options[0].arrivalTime);
+    assert.isNull(inquiryResponse.body.options[0].to.coordinates);
+    assert.isNull(inquiryResponse.body.options[0].pricing);
+    assert.isNull(inquiryResponse.body.options[0].estimatedTravelTime);
   });
 }
 

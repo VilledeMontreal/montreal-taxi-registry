@@ -28,12 +28,32 @@ export class GtfsCoordinates {
   lon: number;
 }
 
+export class GtfsCoordinatesNullable {
+  @IsNumber()
+  @Min(-90)
+  @Max(90)
+  @Type(() => Number)
+  lat?: number;
+
+  @IsNumber()
+  @Min(-180)
+  @Max(180)
+  @Type(() => Number)
+  lon?: number;
+}
+
 export class GtfsCoordinatesHolder {
   @IsDefined()
   @IsNotEmpty()
   @Type(() => GtfsCoordinates)
   @ValidateNested()
   coordinates: GtfsCoordinates;
+}
+
+export class GtfsCoordinatesHolderNullable {
+  @Type(() => GtfsCoordinatesNullable)
+  @ValidateNested()
+  coordinates?: GtfsCoordinatesNullable;
 }
 
 export class GtfsInquiryRequestDto {
@@ -43,11 +63,9 @@ export class GtfsInquiryRequestDto {
   @ValidateNested()
   from: GtfsCoordinatesHolder;
 
-  @IsDefined()
-  @IsNotEmpty()
-  @Type(() => GtfsCoordinatesHolder)
+  @Type(() => GtfsCoordinatesHolderNullable)
   @ValidateNested()
-  to: GtfsCoordinatesHolder;
+  to?: GtfsCoordinatesHolderNullable;
 
   @IsDefined()
   @IsArray()
@@ -68,12 +86,10 @@ export class GtfsInquiryResponseOptionsDto {
   to: GtfsCoordinatesHolder;
   pricing: {
     estimated: boolean;
-    parts: [
-      {
-        amount: number;
-        currencyCode: string;
-      }
-    ];
+    parts: {
+      amount: number;
+      currencyCode: string;
+    }[];
   };
   estimatedWaitTime: number;
   estimatedTravelTime: number;
@@ -86,9 +102,9 @@ export class GtfsInquiryResponseOptionsDto {
       id: string;
     };
     phoneNumber: string;
+    webUrl: string;
     androidUri: string;
     iosUri: string;
-    webUrl: string;
   };
 }
 

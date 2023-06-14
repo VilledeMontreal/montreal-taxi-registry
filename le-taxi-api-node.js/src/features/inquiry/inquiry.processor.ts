@@ -3,13 +3,14 @@
 import booleanContains from '@turf/boolean-contains';
 import * as turf from '@turf/helpers';
 import { configs } from '../../config/configs';
+import { LatestTaxiPositionModelExtended } from '../latestTaxiPositions/latestTaxiPosition.model';
 import { latestTaxiPositionRepository } from '../latestTaxiPositions/latestTaxiPosition.repository';
 import { ICoordinates } from '../shared/coordinates/coordinates';
 import { nowUtcIsoString, toLocalDate } from '../shared/dateUtils/dateUtils';
 import { airportGeometry, downtownGeometry } from '../shared/locations/locations';
 import { osrmRepository } from '../shared/osrm/osrm.repository';
 import { userRepositoryByIdWithCaching } from '../users/user.repositoryWithCaching';
-import { InquiryRequest, InquiryResponse } from './inquiry.dto';
+import { InquiryBookingResponseData, InquiryRequest, InquiryResponse, InquiryResponseData, InquiryTypes } from './inquiry.dto';
 
 interface IEstimatePriceProperties {
   date: string;
@@ -26,7 +27,8 @@ class InquiryProcessor {
       inquiryRequest.inquiryTypes,
       inquiryRequest.operators
     );
-    const routeFromSourceToDestinationPromise = inquiryRequest.to
+    const hasDestination = !!(inquiryRequest.to?.lat && inquiryRequest.to?.lon);
+    const routeFromSourceToDestinationPromise = hasDestination
       ? osrmRepository.getRoutes(inquiryRequest.from, inquiryRequest.to)
       : [];
 
@@ -43,36 +45,77 @@ class InquiryProcessor {
         lat: closestTaxi.lat,
         lon: closestTaxi.lon
       }))
-    );
+      );
 
     const date = nowUtcIsoString();
-    const estimatedDuration = routeFromSourceToDestination[0].legs[0].duration;
-    const estimatedDistance = routeFromSourceToDestination[0].legs[0].distance;
-    const estimatedPrice = estimatePrice({
-      date,
-      from: inquiryRequest.from,
-      to: inquiryRequest.to,
-      duration: estimatedDuration,
-      distance: estimatedDistance
-    });
     const data = await Promise.all(
-      closestTaxis.map(async (closestTaxi, i) => ({
-        date,
-        inquiryType: closestTaxi.taxi.inquiryType,
-        operator: await userRepositoryByIdWithCaching.getByKey(closestTaxi.taxi.operatorId),
-        from: inquiryRequest.from,
-        to: inquiryRequest.to,
-        estimatedWaitTime:
-          routesFromTaxiPositionToCustomer[0][i] +
-          configs.taxiRegistryOsrmApi.estimation.durationBias +
-          configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec,
-        estimatedTravelTime: estimatedDuration + configs.taxiRegistryOsrmApi.estimation.durationBias,
-        estimatedPrice
-      }))
+      closestTaxis.map(async (closestTaxi, i) => {
+        const booking = await prepareBooking(closestTaxi, inquiryRequest);
+        return {
+          date,
+          inquiryType: closestTaxi.taxi.inquiryType,
+          from: inquiryRequest.from,
+          to: inquiryRequest.to,
+          estimatedWaitTime:
+            routesFromTaxiPositionToCustomer[0][i] +
+            configs.taxiRegistryOsrmApi.estimation.durationBias +
+            configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec,
+          booking
+        } as InquiryResponseData;
+      })
     );
+
+    if (hasDestination) {
+      data.forEach(response => {
+        const estimatedDuration = routeFromSourceToDestination[0].legs[0].duration;
+        const estimatedDistance = routeFromSourceToDestination[0].legs[0].distance;
+        response.estimatedTravelTime = estimatedDuration + configs.taxiRegistryOsrmApi.estimation.durationBias;
+        response.estimatedPrice = estimatePrice({
+          date,
+          from: inquiryRequest.from,
+          to: inquiryRequest.to,
+          duration: estimatedDuration,
+          distance: estimatedDistance
+        });
+      })
+    }
 
     return { data };
   }
+}
+
+async function prepareBooking(closestTaxi: LatestTaxiPositionModelExtended, inquiryRequest: InquiryRequest): Promise<InquiryBookingResponseData> {
+  const operator = await userRepositoryByIdWithCaching.getByKey(closestTaxi.taxi.operatorId);
+  const isSpecialNeed = closestTaxi.taxi.inquiryType === InquiryTypes.SpecialNeed;
+
+  const phoneNumber = isSpecialNeed
+    ? operator.special_need_booking_phone_number
+    : operator.standard_booking_phone_number;
+  const webUrl = isSpecialNeed
+    ? operator.special_need_booking_website_url
+    : operator.standard_booking_website_url;
+  const androidUri = isSpecialNeed
+    ? operator.special_need_booking_android_deeplink_uri
+    : operator.standard_booking_android_deeplink_uri;
+  const iosUri = isSpecialNeed
+    ? operator.special_need_booking_ios_deeplink_uri
+    : operator.standard_booking_ios_deeplink_uri;
+  const queryParams = buildQueryParams(closestTaxi.taxi.inquiryType, inquiryRequest);
+
+  return {
+    operator,
+    phoneNumber,
+    webUrl: webUrl && webUrl + queryParams,
+    androidUri: androidUri && androidUri + queryParams,
+    iosUri: iosUri && iosUri + queryParams
+  };
+}
+
+function buildQueryParams(inquiryType: InquiryTypes, inquiryRequest: InquiryRequest): string {
+  const queryParams = `?service_type=${inquiryType}&pickup_latitude=${inquiryRequest.from.lat}&pickup_longitude=${inquiryRequest.from.lon}`;
+  return (inquiryRequest.to?.lat && inquiryRequest.to?.lon) ?
+    `${queryParams}&dropoff_latitude=${inquiryRequest.to.lat}&dropoff_longitude=${inquiryRequest.to.lon}` :
+    queryParams;
 }
 
 function estimatePrice(props: IEstimatePriceProperties): number {

@@ -7,8 +7,8 @@ import {
   generateSouthShoreLon,
   getAirportCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { shouldThrow } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
+import { shouldThrow } from '../shared/commonTests/testUtil';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { getImmutableUserApiKey } from '../users/user.sharedFixture';
 import { postGtfsInquiry } from './gtfsInquiry.apiClient';
@@ -30,21 +30,33 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.include(err.response.body.error.message, 'more than one of its property are invalid');
         const errorDetailsArray = err.response.body.error.details.map((detail: any) => detail.message);
         assert.include(errorDetailsArray, 'from should not be null or undefined');
-        assert.include(errorDetailsArray, 'to should not be null or undefined');
         assert.include(errorDetailsArray, 'useAssetTypes should not be null or undefined');
       }
     );
   });
 
-  it(`Should return Bad Request on missing nested properties`, async () => {
-    const inquiryRequest = { from: {}, to: { coordinates: {}, useAssetTypes: [AssetTypes.SpecialNeed] } };
+  it(`Should return Bad Request on missing from coordinates`, async () => {
+    const inquiryRequest = { from: {}, to: { coordinates: {} }, useAssetTypes: [AssetTypes.SpecialNeed] };
+    await shouldThrow(
+      () => postGtfsInquiry(inquiryRequest),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.include(
+          err.response.body.error.message,
+          'coordinates should not be null or undefined'
+        );
+      }
+    );
+  });
+
+  it(`Should return Bad Request on missing from lat/lon`, async () => {
+    const inquiryRequest = { from: { coordinates: {} }, to: {}, useAssetTypes: [AssetTypes.SpecialNeed] };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, 'more than one of its property are invalid');
         const errorDetailsArray = err.response.body.error.details.map((detail: any) => detail.message);
-        assert.include(errorDetailsArray, 'coordinates should not be null or undefined');
         assert.include(errorDetailsArray, 'lat should not be null or undefined');
         assert.include(errorDetailsArray, 'lon should not be null or undefined');
       }
@@ -136,32 +148,6 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         postGtfsInquiry({
           from: { coordinates: { lat: generateSouthShoreLat(), lon: null } },
           to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-          useAssetTypes: [AssetTypes.Normal]
-        }),
-      err => {
-        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `lon should not be null or undefined`);
-      }
-    );
-
-    await shouldThrow(
-      () =>
-        postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: null, lon: generateSouthShoreLon() } },
-          useAssetTypes: [AssetTypes.Normal]
-        }),
-      err => {
-        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `lat should not be null or undefined`);
-      }
-    );
-
-    await shouldThrow(
-      () =>
-        postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: null } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {

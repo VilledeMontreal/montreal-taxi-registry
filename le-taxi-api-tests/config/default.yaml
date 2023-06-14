@@ -15,8 +15,8 @@ e2eTesting:
   maxTestConcurrency: 30
 inquiries:
   delayToExceedPromotion: 0
-  fixedDailyPriceDowntownToAirport: 49.45
-  fixedNightlyPriceDowntownToAirport: 56.70
+  fixedDailyPriceDowntownToAirport: 49.45 # Airport day fixed rate + compensation
+  fixedNightlyPriceDowntownToAirport: 56.70 # Airport night fixed rate + compensation
 caching:
   delayToExceedUsersCache: 11
 

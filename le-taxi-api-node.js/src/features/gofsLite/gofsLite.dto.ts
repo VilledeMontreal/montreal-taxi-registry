@@ -38,13 +38,13 @@ export class GofsLiteWaitTimeRequestDto {
   @Min(-90)
   @Max(90)
   @Type(() => Number)
-  drop_off_lat: any;
+  drop_off_lat?: any;
 
   @IsNumber()
   @Min(-180)
   @Max(180)
   @Type(() => Number)
-  drop_off_lon: number;
+  drop_off_lon?: number;
 
   @IsDefined()
   @IsArray()
@@ -61,10 +61,10 @@ export class GofsLiteWaitTimeDataResponseDto {
   realtime_booking: {
     booking_detail: {
       service_name: string;
+      phone_number: string;
+      web_uri: string;
       android_uri: string;
       ios_uri: string;
-      web_uri: string;
-      phone_number: string;
     };
   };
 }
