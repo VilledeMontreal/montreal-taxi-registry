@@ -15,49 +15,25 @@ class LatestTaxiPositionRepository {
   ): Promise<LatestTaxiPositionModelExtended[]> {
     const db = getMongoDb();
 
-    const aggregate = [
-      {
-        $geoNear: {
-          near: {
-            type: 'Point',
-            coordinates: [coordinate.lon, coordinate.lat]
-          },
-          spherical: true,
-          distanceField: 'distance'
+    const filters = inquiryTypes.map(inquiryType => ({
+      status: TaxiStatus.Free,
+      isPromoted: true,
+      location: {
+        $near: {
+          $geometry: { type: 'Point', coordinates: [coordinate.lon, coordinate.lat] }
         }
       },
-      {
-        $facet: inquiryTypes.reduce((map, key) => {
-          map[key] = [
-            {
-              $match: {
-                status: TaxiStatus.Free,
-                isPromoted: true,
-                ...operatorsCondition(operators),
-                ...transportationTypeCondition(key)
-              }
-            },
-            {
-              $addFields: {
-                'taxi.inquiryType': key
-              }
-            },
-            {
-              $limit: 1
-            }
-          ];
-          return map;
-        }, {})
-      }
-    ];
+      ...operatorsCondition(operators),
+      ...transportationTypeCondition(inquiryType)
+    }));
 
-    const results = await db
-      .collection('latestTaxiPositions')
-      .aggregate(aggregate)
-      .toArray();
-    return Object.values(results[0])
-      .filter(result => result.length)
-      .map(result => latestTaxiPositionMapper.mongoToLatestTaxiPositionModelExtended(result[0]));
+    const results = await Promise.all(
+      filters.map(filter => db.collection('latestTaxiPositions').findOne(filter))
+    );
+
+    return results
+      .map((result, i) => latestTaxiPositionMapper.mongoToLatestTaxiPositionModelExtended(result, inquiryTypes[i]))
+      .filter(result => !!result);
   }
 
   public async getLatestTaxiPositionByTaxiId(id: string): Promise<LatestTaxiPositionModel> {

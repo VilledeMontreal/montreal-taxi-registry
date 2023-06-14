@@ -1,5 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { InquiryTypes } from '../inquiry/inquiry.dto';
 import { ModelMap } from '../shared/caching/modelMap';
 import { nowUtcIsoString } from '../shared/dateUtils/dateUtils';
 import { TaxiPositionSnapshotItemRequestDto } from '../taxiPositionSnapshot/taxiPositionSnapshotItemRequest.dto';
@@ -23,12 +24,9 @@ class LatestTaxiPositionMapper {
     };
   }
 
-  public mongoToLatestTaxiPositionModelExtended(mongoResult: any): LatestTaxiPositionModelExtended {
-    const latestTaxiPosition = this.mongoToLatestTaxiPositionModel(mongoResult);
-    const latestTaxiPositionExtended = {
-      ...latestTaxiPosition,
-      taxi: { ...latestTaxiPosition.taxi, inquiryType: mongoResult.taxi.inquiryType }
-    };
+  public mongoToLatestTaxiPositionModelExtended(mongoResult: any, inquiryType: InquiryTypes): LatestTaxiPositionModelExtended {
+    const latestTaxiPositionExtended = this.mongoToLatestTaxiPositionModel(mongoResult) as LatestTaxiPositionModelExtended;
+    if (latestTaxiPositionExtended) latestTaxiPositionExtended.taxi.inquiryType = inquiryType;
     return latestTaxiPositionExtended;
   }
 

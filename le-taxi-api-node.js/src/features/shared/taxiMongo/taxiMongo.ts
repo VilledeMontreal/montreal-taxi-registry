@@ -11,7 +11,7 @@ let client: MongoClient;
 export async function connectToMongoDb() {
   client = await MongoClient.connect(buildMongoConnectionString(), {
     keepAlive: true,
-    maxPoolSize: 10
+    maxPoolSize: 30
   });
   db = client.db('vdm_txp');
   return db;
