@@ -20,8 +20,9 @@ class LatestTaxiPositionRepository {
       isPromoted: true,
       location: {
         $near: {
-          $geometry: { type: 'Point', coordinates: [coordinate.lon, coordinate.lat] }
-        }
+          $geometry: { type: 'Point', coordinates: [coordinate.lon, coordinate.lat] },
+          $maxDistance: 5000
+        },
       },
       ...operatorsCondition(operators),
       ...transportationTypeCondition(inquiryType)

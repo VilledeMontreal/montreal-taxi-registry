@@ -10,22 +10,22 @@ const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/motor.sh
 
 export const sharedState: IMotorSharedState = JSON.parse(sharedStateJson);
 
-export function generateStandardPayloadWaitTime(context: any, ee: any, next: any) {
-  return generatePayloadWaitTime(context, ee, next, 'taxi-registry-standard');
+export function generateWaitTimePayload(context: any, ee: any, next: any) {
+  return generatePayload(context, ee, next);
 }
 
-export function generateSpecialNeedPayloadWaiTime(context: any, ee: any, next: any) {
-  return generatePayloadWaitTime(context, ee, next, 'taxi-registry-special-need');
+export function generateWaitTimePayloadNoDestination(context: any, ee: any, next: any) {
+  return generatePayload(context, ee, next, false);
 }
 
-function generatePayloadWaitTime(context: any, ee: any, next: any, assetType: string) {
+function generatePayload(context: any, ee: any, next: any, withDestination: boolean = true) {
   context.vars.apikey = sharedState.searchMotor.apiKey;
   context.vars.body = {
     pickup_lat: generateSouthShoreLat(),
     pickup_lon: generateSouthShoreLon(),
-    drop_off_lat: generateSouthShoreLat(),
-    drop_off_lon: generateSouthShoreLon(),
-    brand_id: [assetType]
+    drop_off_lat: withDestination ? generateSouthShoreLat() : null,
+    drop_off_lon: withDestination ? generateSouthShoreLon() : null,
+    brand_id: ['taxi-registry-standard','taxi-registry-minivan','taxi-registry-special-need']
   };
   return next();
 }

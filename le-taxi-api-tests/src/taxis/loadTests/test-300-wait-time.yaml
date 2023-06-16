@@ -11,7 +11,7 @@ config:
 scenarios:
   - name: 'GOFS wait_time'
     flow:
-      - function: 'generateStandardPayloadWaitTime'
+      - function: 'generateWaitTimePayload'
       - post:
           url: '/api/gofs-lite/1/en/wait_time'
           headers:
