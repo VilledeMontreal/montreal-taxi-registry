@@ -4,19 +4,19 @@ import { ICoordinates } from '../coordinates/coordinates';
 import { getRandomNumberBetween } from './randomData';
 
 export function generateNorthShoreLat() {
-  return getRandomNumberBetween(45.536157, 45.647259);
+  return getRandomNumberBetween(45.55, 45.6);
 }
 
 export function generateNorthShoreLon() {
-  return getRandomNumberBetween(-73.895812, -74.019535);
+  return getRandomNumberBetween(-73.95, -74);
 }
 
 export function generateSouthShoreLat(): number {
-  return getRandomNumberBetween(45.350207, 45.60605);
+  return getRandomNumberBetween(45.350207, 45.40);
 }
 
 export function generateSouthShoreLon(): number {
-  return getRandomNumberBetween(-73.484619, -73.327838);
+  return getRandomNumberBetween(-73.40, -73.35);
 }
 
 export function generateSouthShoreCoordinates(): ICoordinates {

@@ -16,16 +16,16 @@ class LatestTaxiPositionRepository {
     const db = getMongoDb();
 
     const filters = inquiryTypes.map(inquiryType => ({
-      status: TaxiStatus.Free,
       isPromoted: true,
+      status: TaxiStatus.Free,
+      ...operatorsCondition(operators),
+      ...transportationTypeCondition(inquiryType),
       location: {
         $near: {
           $geometry: { type: 'Point', coordinates: [coordinate.lon, coordinate.lat] },
-          $maxDistance: 5000
+          $maxDistance: getArbitraryMaxDistance(inquiryType)
         },
       },
-      ...operatorsCondition(operators),
-      ...transportationTypeCondition(inquiryType)
     }));
 
     const results = await Promise.all(
@@ -96,6 +96,18 @@ function transportationTypeCondition(inquiryTypes: InquiryTypes): any {
     default:
     case InquiryTypes.Standard:
       return { 'taxi.isSpecialNeedVehicle': false };
+  }
+}
+
+function getArbitraryMaxDistance(inquiryType: InquiryTypes): number {
+  switch (inquiryType) {
+    case InquiryTypes.SpecialNeed:
+      return 10000;
+    case InquiryTypes.Minivan:
+      return 7000;
+    default:
+    case InquiryTypes.Standard:
+      return 5000;
   }
 }
 
