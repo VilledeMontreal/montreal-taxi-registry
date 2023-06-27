@@ -76,6 +76,7 @@ dataSources:
     username:
     password:
     options: replicaSet=rsgeotaxi
+    poolSize: 100
   taxiEstimate:
     host: development
     apikey: secret
@@ -94,6 +95,10 @@ inquiries:
   promotionDelayInSec: 0
   fixedDailyPriceDowntownToAirport: 49.45 # Airport day fixed rate + compensation
   fixedNightlyPriceDowntownToAirport: 56.70 # Airport night fixed rate + compensation
+  searchDistance:
+    standard: 5000
+    minivan: 7000
+    specialNeed: 10000
 
 #==========================================
 # Routing Service OSRM

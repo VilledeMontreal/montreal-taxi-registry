@@ -3,8 +3,10 @@
 import { ICoordinates } from '../coordinates/coordinates';
 import { getRandomNumberBetween } from './randomData';
 
+// Currently searching mongo with a maxDistance of 5000m, so the tests need to be within 5km to succeed
+// 0.025 lat and 0.05 lon roughly gives a 4.8km max distance
 export function generateNorthShoreLat() {
-  return getRandomNumberBetween(45.55, 45.6);
+  return getRandomNumberBetween(45.575, 45.6);
 }
 
 export function generateNorthShoreLon() {
@@ -12,11 +14,11 @@ export function generateNorthShoreLon() {
 }
 
 export function generateSouthShoreLat(): number {
-  return getRandomNumberBetween(45.350207, 45.40);
+  return getRandomNumberBetween(45.375, 45.4);
 }
 
 export function generateSouthShoreLon(): number {
-  return getRandomNumberBetween(-73.40, -73.35);
+  return getRandomNumberBetween(-73.4, -73.35);
 }
 
 export function generateSouthShoreCoordinates(): ICoordinates {

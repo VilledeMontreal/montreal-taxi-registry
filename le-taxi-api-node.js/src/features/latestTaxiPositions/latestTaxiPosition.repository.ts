@@ -1,5 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { configs } from '../../config/configs';
 import { InquiryTypes } from '../inquiry/inquiry.dto';
 import { ICoordinates } from '../shared/coordinates/coordinates';
 import { getMongoDb } from '../shared/taxiMongo/taxiMongo';
@@ -102,12 +103,12 @@ function transportationTypeCondition(inquiryTypes: InquiryTypes): any {
 function getArbitraryMaxDistance(inquiryType: InquiryTypes): number {
   switch (inquiryType) {
     case InquiryTypes.SpecialNeed:
-      return 10000;
+      return configs.inquiries.searchDistance.specialNeed;
     case InquiryTypes.Minivan:
-      return 7000;
+      return configs.inquiries.searchDistance.minivan;
     default:
     case InquiryTypes.Standard:
-      return 5000;
+      return configs.inquiries.searchDistance.standard;
   }
 }
 

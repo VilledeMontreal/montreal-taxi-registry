@@ -194,7 +194,8 @@ export class Configs {
         username: this.cache.get<string>('dataSources.mongo.username'),
         password: this.cache.get<string>('dataSources.mongo.password'),
         defaultauthdb: this.cache.get<string>('dataSources.mongo.defaultauthdb'),
-        options: this.cache.get<string>('dataSources.mongo.options')
+        options: this.cache.get<string>('dataSources.mongo.options'),
+        poolSize: this.cache.get<number>('dataSources.mongo.poolSize')
       },
       postgres: {
         host: this.cache.get<string>('dataSources.postgres.host'),
@@ -237,7 +238,12 @@ export class Configs {
     return {
       promotionDelayInSec: this.cache.get<number>('inquiries.promotionDelayInSec'),
       fixedDailyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedDailyPriceDowntownToAirport'),
-      fixedNightlyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedNightlyPriceDowntownToAirport')
+      fixedNightlyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedNightlyPriceDowntownToAirport'),
+      searchDistance: {
+        standard: this.cache.get<number>('inquiries.searchDistance.standard'),
+        minivan: this.cache.get<number>('inquiries.searchDistance.minivan'),
+        specialNeed: this.cache.get<number>('inquiries.searchDistance.specialNeed'),
+      }
     };
   }
 
