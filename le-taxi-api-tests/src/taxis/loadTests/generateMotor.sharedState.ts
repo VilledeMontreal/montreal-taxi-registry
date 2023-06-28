@@ -3,18 +3,18 @@
 import * as fs from 'fs';
 import { UserRole } from '../../shared/commonTests/UserRole';
 import { getImmutableUserApiKey } from '../../users/user.sharedFixture';
-import { IInquirySharedState } from './IInquirySharedState';
+import { IMotorSharedState } from './IMotorSharedState';
 
-async function generateInquirySharedState() {
+async function generateMotorSharedState() {
   const motorApiKey = await getImmutableUserApiKey(UserRole.Motor);
-  const sharedState: IInquirySharedState = {
+  const sharedState: IMotorSharedState = {
     searchMotor: {
       apiKey: motorApiKey
     }
   };
 
-  fs.writeFileSync('src/taxis/loadTests/inquiry.sharedState.json', JSON.stringify(sharedState));
+  fs.writeFileSync('src/taxis/loadTests/motor.sharedState.json', JSON.stringify(sharedState));
 }
 
 // tslint:disable-next-line: no-floating-promises
-generateInquirySharedState();
+generateMotorSharedState();

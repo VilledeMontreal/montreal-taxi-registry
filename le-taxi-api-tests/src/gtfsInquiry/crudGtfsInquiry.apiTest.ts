@@ -189,8 +189,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, specialNeedVehicle: true }, // Expected
-      { lat: lat + 0.0001, lon, type: 'mpv' }, // Expected
-      { lat: lat + 0.0002, lon }
+      { lat: lat + 0.0001, lon, type: 'mpv' },
+      { lat: lat + 0.0002, lon }, // Expected
     ]);
 
     const inquiryRequest = buildInquiryRequest(
@@ -209,7 +209,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, specialNeedVehicle: true }, // Expected
-      { lat: lat + 0.0001, lon, type: 'mpv' }, // Expected
+      { lat: lat + 0.0001, lon, type: 'mpv' },
       { lat: lat + 0.0002, lon }
     ]);
 

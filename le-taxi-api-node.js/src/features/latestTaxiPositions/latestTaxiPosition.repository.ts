@@ -1,5 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { configs } from '../../config/configs';
 import { InquiryTypes } from '../inquiry/inquiry.dto';
 import { ICoordinates } from '../shared/coordinates/coordinates';
 import { getMongoDb } from '../shared/taxiMongo/taxiMongo';
@@ -15,49 +16,26 @@ class LatestTaxiPositionRepository {
   ): Promise<LatestTaxiPositionModelExtended[]> {
     const db = getMongoDb();
 
-    const aggregate = [
-      {
-        $geoNear: {
-          near: {
-            type: 'Point',
-            coordinates: [coordinate.lon, coordinate.lat]
-          },
-          spherical: true,
-          distanceField: 'distance'
-        }
+    const filters = inquiryTypes.map(inquiryType => ({
+      isPromoted: true,
+      status: TaxiStatus.Free,
+      ...operatorsCondition(operators),
+      ...transportationTypeCondition(inquiryType),
+      location: {
+        $near: {
+          $geometry: { type: 'Point', coordinates: [coordinate.lon, coordinate.lat] },
+          $maxDistance: getArbitraryMaxDistance(inquiryType)
+        },
       },
-      {
-        $facet: inquiryTypes.reduce((map, key) => {
-          map[key] = [
-            {
-              $match: {
-                status: TaxiStatus.Free,
-                isPromoted: true,
-                ...operatorsCondition(operators),
-                ...transportationTypeCondition(key)
-              }
-            },
-            {
-              $addFields: {
-                'taxi.inquiryType': key
-              }
-            },
-            {
-              $limit: 1
-            }
-          ];
-          return map;
-        }, {})
-      }
-    ];
+    }));
 
-    const results = await db
-      .collection('latestTaxiPositions')
-      .aggregate(aggregate)
-      .toArray();
-    return Object.values(results[0])
-      .filter(result => result.length)
-      .map(result => latestTaxiPositionMapper.mongoToLatestTaxiPositionModelExtended(result[0]));
+    const results = await Promise.all(
+      filters.map(filter => db.collection('latestTaxiPositions').findOne(filter))
+    );
+
+    return results
+      .map((result, i) => latestTaxiPositionMapper.mongoToLatestTaxiPositionModelExtended(result, inquiryTypes[i]))
+      .filter(result => !!result);
   }
 
   public async getLatestTaxiPositionByTaxiId(id: string): Promise<LatestTaxiPositionModel> {
@@ -119,6 +97,18 @@ function transportationTypeCondition(inquiryTypes: InquiryTypes): any {
     default:
     case InquiryTypes.Standard:
       return { 'taxi.isSpecialNeedVehicle': false };
+  }
+}
+
+function getArbitraryMaxDistance(inquiryType: InquiryTypes): number {
+  switch (inquiryType) {
+    case InquiryTypes.SpecialNeed:
+      return configs.inquiries.searchDistance.specialNeed;
+    case InquiryTypes.Minivan:
+      return configs.inquiries.searchDistance.minivan;
+    default:
+    case InquiryTypes.Standard:
+      return configs.inquiries.searchDistance.standard;
   }
 }
 

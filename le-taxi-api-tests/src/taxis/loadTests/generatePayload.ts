@@ -1,39 +1,31 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { generateSouthShoreLat, generateSouthShoreLon } from '../../shared/commonLoadTests/specialRegion';
-import { IInquirySharedState } from './IInquirySharedState';
+import { IMotorSharedState } from './IMotorSharedState';
 
 // tslint:disable-next-line: no-console
 console.log('WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!');
 
-const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/inquiry.sharedState.json');
+const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/motor.sharedState.json');
 
-export const sharedState: IInquirySharedState = JSON.parse(sharedStateJson);
+export const sharedState: IMotorSharedState = JSON.parse(sharedStateJson);
 
-export function generateStandardPayloadInquiry(context: any, ee: any, next: any) {
-  return generatePayloadInquiry(context, ee, next, 'taxi-registry-standard');
+export function generateWaitTimePayload(context: any, ee: any, next: any) {
+  return generatePayload(context, ee, next);
 }
 
-export function generateSpecialNeedPayloadInquiry(context: any, ee: any, next: any) {
-  return generatePayloadInquiry(context, ee, next, 'taxi-registry-special-need');
+export function generateWaitTimePayloadNoDestination(context: any, ee: any, next: any) {
+  return generatePayload(context, ee, next, false);
 }
 
-function generatePayloadInquiry(context: any, ee: any, next: any, assetType: string) {
+function generatePayload(context: any, ee: any, next: any, withDestination: boolean = true) {
   context.vars.apikey = sharedState.searchMotor.apiKey;
   context.vars.body = {
-    from: {
-      coordinates: {
-        lat: generateSouthShoreLat(),
-        lon: generateSouthShoreLon()
-      }
-    },
-    to: {
-      coordinates: {
-        lat: generateSouthShoreLat(),
-        lon: generateSouthShoreLon()
-      }
-    },
-    useAssetTypes: [assetType]
+    pickup_lat: generateSouthShoreLat(),
+    pickup_lon: generateSouthShoreLon(),
+    drop_off_lat: withDestination ? generateSouthShoreLat() : null,
+    drop_off_lon: withDestination ? generateSouthShoreLon() : null,
+    brand_id: ['taxi-registry-standard','taxi-registry-minivan','taxi-registry-special-need']
   };
   return next();
 }

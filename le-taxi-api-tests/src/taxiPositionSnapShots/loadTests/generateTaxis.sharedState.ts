@@ -1,11 +1,11 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import * as fs from 'fs';
-import lodash = require('lodash');
 import { IUser } from '../../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { setupNewCustomTaxi } from '../../taxis/taxi.fixture';
 import { createOperatorWithPromotion } from '../../users/user.sharedFixture';
 import { ITaxiToLoad } from './iTaxiToLoad';
+import lodash = require('lodash');
 
 // tslint:disable:no-console
 async function generateTaxisSharedState() {
@@ -30,7 +30,7 @@ async function createTaxisToLoad(): Promise<ITaxiToLoad> {
 async function createTaxisForUser(user: IUser) {
   const taxiResponses: any[] = [];
 
-  // 200 taxis, 5% of which are special-need
+  // 200 taxis, 5% of which are special-need and 0% minivan (desired)
   for (let i = 0; i < 190; i++) taxiResponses.push(await createRegularTaxi(user.apikey));
   for (let i = 0; i < 10; i++) taxiResponses.push(await createSpecialNeedTaxi(user.apikey));
 
