@@ -429,6 +429,16 @@
               </div>
             </div>
           </md-expansion-panel>
+          <div class="action-button select-space">
+            <button
+              [disabled]="!(user && user.id && user.public_id)"
+              type="submit"
+              md-raised-button
+              (click)="OpenGtfsUrlPage()"
+            >
+              Ouvrir la page GTFS URL Acceptance tests
+            </button>
+          </div>
         </div>
       </div>
 
@@ -436,17 +446,17 @@
         <tr>
           <td>
             <button
-              [disabled]="!(user && user.id && user.public_id)"
+              *ngIf="user && user.id"
               type="submit"
               md-raised-button
-              (click)="OpenGtfsUrlPage()"
+              (click)="ChangeAPI()"
             >
-              GTFS URL Acceptance tests
+              Changer la clé de l'API
             </button>
           </td>
           <td>
             <button
-              *ngIf="user && user.email"
+              *ngIf="user && user.id"
               type="submit"
               md-raised-button
               (click)="ChangePassword()"

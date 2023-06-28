@@ -2,9 +2,9 @@
 // See LICENSE file in the project root for full license information.
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 import { userInfo } from '../data/userInfo.d';
 import { LibService } from '../services/lib.service';
@@ -18,6 +18,7 @@ export class AccountService {
   private updateUrl = '/legacy-web/users';
   private insertUrl = '/legacy-web/users';
   private updatePasswordUrl = '/legacy-web/users/password';
+  private updateAPIUrl = '/legacy-web/users/apikey';
   private roleUrl = '/legacy-web/roles';
   private gtfsAcceptanceTestsUrl = '/users/:id/gtfs-url-scheme-acceptance-test';
 
@@ -148,6 +149,21 @@ export class AccountService {
 
     return this.http
       .put(this.backEndUrl + this.updatePasswordUrl, userinfo, options)
+      .map(this.libService.extractData)
+      .catch(this.libService.handleError);
+  }
+
+  updateAPI(userinfo: userInfo) {
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    const options = new RequestOptions({
+      headers: headers,
+      withCredentials: true
+    });
+
+    return this.http
+      .put(this.backEndUrl + this.updateAPIUrl, userinfo, options)
       .map(this.libService.extractData)
       .catch(this.libService.handleError);
   }

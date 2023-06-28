@@ -2,7 +2,7 @@
 // See LICENSE file in the project root for full license information.
 import * as crypto from 'crypto';
 import { configs } from '../config/configs';
-import { UserModel } from '../features/users/user.model';
+import { AuthenticatedUser } from '../features/users/user.model';
 
 let nJwt = require("njwt");
 const _signingKeyForJwtCreation = getSigningKeyForJwtCreation();
@@ -29,7 +29,7 @@ class Security {
     return cipher === this.encrypt(plain);
   }
 
-  createJwt(user: UserModel): any {
+  createJwt(user: AuthenticatedUser): any {
     var claims = {
       user: user.email,
       role: user.role_name,

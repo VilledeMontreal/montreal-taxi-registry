@@ -8,7 +8,7 @@ import { menu } from '../config/menu';
 import { BadRequestError, UnauthorizedError } from '../features/errorHandling/errors';
 import { buildApiEndpoint } from '../features/shared/utils/apiUtils';
 import { allow } from '../features/users/securityDecorator';
-import { UserModel } from '../features/users/user.model';
+import { AuthenticatedUser } from '../features/users/user.model';
 import { userRepository } from '../features/users/user.repository';
 import { UserRole } from '../features/users/userRole';
 import { security } from '../libs/security';
@@ -46,7 +46,7 @@ export class controller {
     if (username && password) {
       userRepository
         .getUserForAuthentication(username) // In our case, the user's email is the username.
-        .then(function (user: UserModel) {
+        .then(function (user: AuthenticatedUser) {
           if (!user) {
             throw new UnauthorizedError('No user was found with this username. Verify the username and try again.');
           }

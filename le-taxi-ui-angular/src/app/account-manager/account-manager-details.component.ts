@@ -17,6 +17,13 @@ const EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@`]+(\.[^<>()\[\]\\.,;:\s@`]+)*)|(`.+
 const URL_REGEXP = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
 
 @Component({
+  templateUrl: 'dialog-confirm-apikey.html'
+})
+export class DialogConfirmAPIComponent {
+  constructor(public dialogRef: MdDialogRef<DialogConfirmAPIComponent>) {}
+}
+
+@Component({
   templateUrl: 'dialog-confirm-password.html'
 })
 export class DialogConfirmPasswordComponent {
@@ -187,6 +194,40 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
               `OK`,
               `success-snackbar`
             );
+          },
+          (error) => {
+            this.openSnackBar(
+              `Une erreur est survenue.`,
+              `OK`,
+              `error-snackbar`,
+              5000
+            );
+          }
+        );
+      }
+    });
+  }
+
+  ChangeAPI() {
+    const dialogRef = this.dialog.open(DialogConfirmAPIComponent, {
+      width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe((option) => {
+      if (option === true) {
+        this.accountService.updateAPI(this.user).subscribe(
+          (result) => {
+            this.openSnackBar(
+              `Compte utilisateur mis à jour. Envoyer la clef suivante à l'utilisateur : ${result.apikey}`,
+              `OK`,
+              `success-snackbar`,
+              5000
+            );
+            this.accountService
+              .getAccount(+this.user.id)
+              .subscribe(([result]) => {
+                this.user.apikey = result.apikey;
+              });
           },
           (error) => {
             this.openSnackBar(
