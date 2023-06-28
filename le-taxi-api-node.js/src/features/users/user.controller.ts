@@ -7,7 +7,6 @@ import { userRepository } from './user.repository';
 import {
   prepareDtoForInsertion,
   prepareDtoForUpdate,
-  validateUpdateApikeyRequest,
   validateUpdatePasswordRequest,
   validateUserRequest
 } from './user.validators';
@@ -74,14 +73,6 @@ class UsersController {
   public async updatePassword(request: Request, response: Response) {
     const { userId, password } = await validateUpdatePasswordRequest(request);
     const userModel = await userRepository.updatePassword(userId, password);
-    response.status(StatusCodes.OK);
-    response.json(userModel);
-  }
-
-  @allow([UserRole.Admin, UserRole.Manager])
-  public async updateApikey(request: Request, response: Response) {
-    const { userId, apikey } = await validateUpdateApikeyRequest(request);
-    const userModel = await userRepository.updateApikey(userId, apikey);
     response.status(StatusCodes.OK);
     response.json(userModel);
   }

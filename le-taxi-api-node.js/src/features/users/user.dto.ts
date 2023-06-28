@@ -55,9 +55,6 @@ export class UserRequestDto {
   @IsPhoneNumber('US')
   phone_number_technical: string;
 
-  operator_api_key: string;
-  operator_header_name: string;
-
   @IsOptional()
   @IsUrl(isUrlOptions)
   website_url: string;

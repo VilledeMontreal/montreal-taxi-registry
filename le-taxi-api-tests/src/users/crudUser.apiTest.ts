@@ -3,15 +3,7 @@
 import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { UserRole } from '../shared/commonTests/UserRole';
-import {
-  createUser,
-  getLoginUserinfo,
-  getUser,
-  login,
-  updateApikey,
-  updatePassword,
-  updateUser
-} from './user.apiClient';
+import { createUser, getLoginUserinfo, getUser, login, updatePassword, updateUser } from './user.apiClient';
 import { getImmutableUserApiKey } from './user.sharedFixture';
 import { copyUserTemplate } from './userDto.template';
 
@@ -19,9 +11,6 @@ import { copyUserTemplate } from './userDto.template';
 export async function crudUserTests(): Promise<void> {
   testCreateAccountUserAccessValid(UserRole.Admin);
   testCreateAccountUserAccessValid(UserRole.Manager);
-
-  testChangeApikeyAccessValid(UserRole.Admin);
-  testChangeApikeyAccessValid(UserRole.Manager);
 
   testChangePasswordAccessValid(UserRole.Admin);
   testChangePasswordAccessValid(UserRole.Manager);
@@ -193,22 +182,6 @@ function testCreateAccountUserAccessValid(role: UserRole) {
     const dtoCreate = copyUserTemplate(x => (x.role = UserRole.Stats));
     const user = await createUser(dtoCreate, apiKey);
     assert.exists(user.id);
-  });
-}
-
-function testChangeApikeyAccessValid(role: UserRole) {
-  it(`User with role ${UserRole[role]} should be able to change an Apikey `, async () => {
-    const dtoCreate = copyUserTemplate(x => (x.role = UserRole.Stats));
-    const apiKey = await getImmutableUserApiKey(role);
-    const user = await createUser(dtoCreate);
-    const previousApikey = user.apikey;
-    const accountDto = await updateApikey(x => {
-      x.id = user.id;
-    }, apiKey);
-    assert.strictEqual(accountDto.status, StatusCodes.OK);
-
-    const newApikey = accountDto.body.apikey;
-    assert.notStrictEqual(previousApikey, newApikey);
   });
 }
 

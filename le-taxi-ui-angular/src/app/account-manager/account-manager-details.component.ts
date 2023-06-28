@@ -17,13 +17,6 @@ const EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@`]+(\.[^<>()\[\]\\.,;:\s@`]+)*)|(`.+
 const URL_REGEXP = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
 
 @Component({
-  templateUrl: 'dialog-confirm-apikey.html'
-})
-export class DialogConfirmAPIComponent {
-  constructor(public dialogRef: MdDialogRef<DialogConfirmAPIComponent>) {}
-}
-
-@Component({
   templateUrl: 'dialog-confirm-password.html'
 })
 export class DialogConfirmPasswordComponent {
@@ -57,8 +50,6 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
       phone_number_technical: ['', Validators.pattern(PHONE_REGEXP)],
       email_customer: ['', Validators.pattern(EMAIL_REGEXP)],
       email_technical: ['', Validators.pattern(EMAIL_REGEXP)],
-      operator_header_name: ['', ''],
-      operator_api_key: ['', ''],
       role: ['', Validators.required],
       public_id: ['', [Validators.pattern(GUID_REGEXP)]],
       website_url: ['', Validators.pattern(URL_REGEXP)],
@@ -126,8 +117,6 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
                 phone_number_technical: this.user.phone_number_technical,
                 email_customer: this.user.email_customer,
                 email_technical: this.user.email_technical,
-                operator_header_name: this.user.operator_header_name,
-                operator_api_key: this.user.operator_api_key,
                 role: this.user.role,
                 public_id: this.user.public_id,
                 website_url: this.user.website_url,
@@ -212,40 +201,6 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ChangeAPI() {
-    const dialogRef = this.dialog.open(DialogConfirmAPIComponent, {
-      width: '250px'
-    });
-
-    dialogRef.afterClosed().subscribe((option) => {
-      if (option === true) {
-        this.accountService.updateAPI(this.user).subscribe(
-          (result) => {
-            this.openSnackBar(
-              `Compte utilisateur mis à jour. Envoyer la clef suivante à l'utilisateur : ${result.apikey}`,
-              `OK`,
-              `success-snackbar`,
-              5000
-            );
-            this.accountService
-              .getAccount(+this.user.id)
-              .subscribe(([result]) => {
-                this.user.apikey = result.apikey;
-              });
-          },
-          (error) => {
-            this.openSnackBar(
-              `Une erreur est survenue.`,
-              `OK`,
-              `error-snackbar`,
-              5000
-            );
-          }
-        );
-      }
-    });
-  }
-
   OpenGtfsUrlPage() {
     this.accountService.opentGtfsAcceptanceTestsPage(this.user.id);
   }
@@ -258,8 +213,6 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
     this.user.phone_number_technical = this.detailsForm.value.phone_number_technical || null;
     this.user.email_customer = this.detailsForm.value.email_customer || null;
     this.user.email_technical = this.detailsForm.value.email_technical || null;
-    this.user.operator_header_name = this.detailsForm.value.operator_header_name || null;
-    this.user.operator_api_key = this.detailsForm.value.operator_api_key || null;
     this.user.role = this.detailsForm.value.role || null;
     this.user.public_id = this.detailsForm.value.public_id || null;
     this.user.website_url = this.detailsForm.value.website_url || null;

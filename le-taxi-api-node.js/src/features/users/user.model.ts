@@ -13,8 +13,6 @@ export class UserModel {
   email_customer: string;
   email_technical: string;
   phone_number_technical: string;
-  operator_api_key: string;
-  operator_header_name: string;
   role: number;
   role_name: string;
   website_url: string;

@@ -5,7 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4 } from 'uuid';
 import { shouldThrow } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
-import { createUser, login, updateApikey, updatePassword, updateUser } from './user.apiClient';
+import { createUser, login, updatePassword, updateUser } from './user.apiClient';
 import { getImmutableUserApiKey } from './user.sharedFixture';
 import { copyUserTemplate } from './userDto.template';
 
@@ -16,12 +16,6 @@ export async function invalidUserTests(): Promise<void> {
   testCreateAccountUserAccessInvalid(UserRole.Motor);
   testCreateAccountUserAccessInvalid(UserRole.Stats);
   testCreateAccountUserAccessInvalid(UserRole.Inspector);
-
-  testChangeApikeyAccessInvalid(UserRole.Operator);
-  testChangeApikeyAccessInvalid(UserRole.Prefecture);
-  testChangeApikeyAccessInvalid(UserRole.Motor);
-  testChangeApikeyAccessInvalid(UserRole.Stats);
-  testChangeApikeyAccessInvalid(UserRole.Inspector);
 
   testChangePasswordAccessInvalid(UserRole.Operator);
   testChangePasswordAccessInvalid(UserRole.Prefecture);
@@ -259,27 +253,6 @@ function testCreateAccountUserAccessInvalid(role: UserRole) {
     const apiKey = await getImmutableUserApiKey(role);
     await shouldThrow(
       () => createUser(dtoCreate, apiKey),
-      err => {
-        assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
-        assert.strictEqual(
-          err.response.body.error.message,
-          'The user has a role which has insufficient permissions to access this resource.'
-        );
-      }
-    );
-  });
-}
-
-function testChangeApikeyAccessInvalid(role: UserRole) {
-  it(`User with role ${UserRole[role]} should not be able to change an Apikey `, async () => {
-    const dtoCreate = copyUserTemplate(x => (x.role = UserRole.Stats));
-    const user = await createUser(dtoCreate);
-    const apiKey = await getImmutableUserApiKey(role);
-    await shouldThrow(
-      () =>
-        updateApikey(x => {
-          x.id = user.id;
-        }, apiKey),
       err => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(

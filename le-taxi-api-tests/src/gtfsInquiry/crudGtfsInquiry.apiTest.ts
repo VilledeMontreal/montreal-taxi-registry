@@ -2,15 +2,14 @@
 // See LICENSE file in the project root for full license information.
 import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
-import { v4 as uuidv4 } from 'uuid';
 import { configs } from '../../config/configs';
 import {
   generateSouthShoreCoordinates,
   getAirportCoordinates,
   getDowntownCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { UserRole } from '../shared/commonTests/UserRole';
 import { aFewSeconds } from '../shared/commonTests/testUtil';
+import { UserRole } from '../shared/commonTests/UserRole';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { createPromotedOperator, updateUser } from '../users/user.apiClient';
 import {
@@ -47,12 +46,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Should be able to request a ride with no destination`, async () => {
     const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
-    const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      null,
-      [AssetTypes.Normal],
-      operators
-    );
+    const inquiryRequest = buildInquiryRequest(generateSouthShoreCoordinates(), null, [AssetTypes.Normal], operators);
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
@@ -160,7 +154,6 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const now = new Date(Date.now()).toISOString();
     const userDto = copyUserTemplate(x => {
       x.role = UserRole.Operator;
-      x.operator_api_key = uuidv4();
       x.standard_booking_phone_number = '+1 (514) 555 1234';
       x.standard_booking_is_promoted_to_public = true;
       x.standard_booking_inquiries_starts_at = now;
@@ -190,7 +183,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, specialNeedVehicle: true }, // Expected
       { lat: lat + 0.0001, lon, type: 'mpv' },
-      { lat: lat + 0.0002, lon }, // Expected
+      { lat: lat + 0.0002, lon } // Expected
     ]);
 
     const inquiryRequest = buildInquiryRequest(
@@ -670,7 +663,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   it(`Can request with undefined coordinates in the field TO`, async () => {
     const inquiryResponse = await postGtfsInquiry({
       from: { coordinates: generateSouthShoreCoordinates() },
-      to: { },
+      to: {},
       useAssetTypes: [AssetTypes.Normal]
     });
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);

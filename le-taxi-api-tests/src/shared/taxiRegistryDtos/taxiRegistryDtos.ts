@@ -29,11 +29,9 @@ export interface IUser {
   commercial_name: string;
   active?: string;
   role: number;
-  operator_header_name?: string;
   email_customer?: string;
   email_technical?: string;
   phone_number_technical?: string;
-  operator_api_key?: string;
   website_url?: string;
   standard_booking_phone_number?: string;
   standard_booking_website_url?: string;

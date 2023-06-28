@@ -70,28 +70,6 @@
           </md-error>
         </md-input-container>
       </div>
-      <div>
-        <md-input-container class="input-full-width">
-          <input
-            mdInput
-            type="text"
-            formControlName="operator_header_name"
-            placeholder="Identifiant de clé du service de l'opérateur"
-          />
-          <!--<md-error *ngIf="loginForm.password.errors.required">Ce champs est requis</md-error-->
-        </md-input-container>
-      </div>
-      <div>
-        <md-input-container class="input-full-width">
-          <input
-            mdInput
-            type="text"
-            formControlName="operator_api_key"
-            placeholder="Clé du service de l'opérateur"
-          />
-          <!--<md-error *ngIf="loginForm.password.errors.required">Ce champs est requis</md-error-->
-        </md-input-container>
-      </div>
       <button
         [disabled]="!detailsForm.valid"
         type="submit"

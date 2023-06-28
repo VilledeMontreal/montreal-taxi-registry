@@ -31,13 +31,6 @@ export function validateUpdatePasswordRequest(request: Request): any {
   return { userId: request.body.id, password };
 }
 
-export function validateUpdateApikeyRequest(request: Request): any {
-  if (!request.body || !request.body.id) throw new BadRequestError('Data validation failed');
-
-  const apikey = generateApikey();
-  return { userId: request.body.id, apikey };
-}
-
 export function prepareDtoForInsertion(userRequestDto: UserRequestDto): UserRequestDto {
   const user = sanitizeDto(userRequestDto);
 

@@ -40,11 +40,6 @@ export function getUsersRoutes(): IHandlerRoute[] {
       method: HttpMethods.PUT,
       path: buildApiEndpoint('/api/legacy-web/users/password'),
       handler: usersController.updatePassword
-    },
-    {
-      method: HttpMethods.PUT,
-      path: buildApiEndpoint('/api/legacy-web/users/apikey'),
-      handler: usersController.updateApikey
     }
   ];
 }

@@ -430,54 +430,18 @@
             </div>
           </md-expansion-panel>
         </div>
-        <div class="action-button select-space">
-          <button
-          [disabled]="!(user && user.id && user.public_id)"
-          type="submit"
-          md-raised-button
-          (click)="OpenGtfsUrlPage()"
-        >
-          Ouvrir la page GTFS URL Acceptance tests
-        </button>
-        </div>
-        <div>
-          <div class="section-title">
-            Pour héler un taxi via le serveur de l'opérateur
-          </div>
-        </div>
-        <div>
-          <md-input-container class="input-full-width">
-            <input
-              mdInput
-              type="text"
-              formControlName="operator_header_name"
-              placeholder="Entête clé API:"
-            />
-          </md-input-container>
-        </div>
-        <div>
-          <md-input-container class="input-full-width">
-            <input
-              mdInput
-              type="text"
-              formControlName="operator_api_key"
-              placeholder="Clé API:"
-            />
-          </md-input-container>
-        </div>
       </div>
 
       <table class="two-inline">
         <tr>
-          <td></td>
           <td>
             <button
-              *ngIf="user && user.email"
+              [disabled]="!(user && user.id && user.public_id)"
               type="submit"
               md-raised-button
-              (click)="ChangeAPI()"
+              (click)="OpenGtfsUrlPage()"
             >
-              Changer la clé de l'API
+              GTFS URL Acceptance tests
             </button>
           </td>
           <td>

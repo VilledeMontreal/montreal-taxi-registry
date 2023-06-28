@@ -19,7 +19,6 @@ import {
   getUsersPaginated,
   insertUser,
   insertUserRole,
-  updateApikey,
   updatePassword,
   updateUser
 } from './user.constants';
@@ -142,14 +141,6 @@ class UserRepository {
     await postgrePool.query(updatePassword, [userId, cipher]);
     const user = await this.getUserById(userId);
     user.password = password;
-    return user;
-  }
-
-  public async updateApikey(userId: string, apikey: string): Promise<UserModel> {
-    const cipher = security.encrypt(apikey);
-    await postgrePool.query(updateApikey, [userId, cipher]);
-    const user = await this.getUserById(userId);
-    user.apikey = apikey;
     return user;
   }
 

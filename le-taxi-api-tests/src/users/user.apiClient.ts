@@ -71,19 +71,9 @@ function generateAutoEmail(): string {
   return newEmail;
 }
 
-export async function updateApikey(dto?: (x: any) => void, apiKey?: string) {
-  const dtoCreateAccount = copyUserTemplate(dto);
-  return await putAccountApikey(dtoCreateAccount, apiKey);
-}
-
 export async function updatePassword(dto?: (x: any) => void, apiKey?: string) {
   const dtoCreateAccount = copyUserTemplate(dto);
   return await putAccountPassword(dtoCreateAccount, apiKey);
-}
-
-async function putAccountApikey(dto: any, apiKey?: string) {
-  const defaultApiKey = await getImmutableUserApiKey(UserRole.Manager);
-  return await putTaxiRegistry('/api/legacy-web/users/apikey', dto, apiKey, defaultApiKey);
 }
 
 async function putAccountPassword(dto: any, apiKey?: string) {

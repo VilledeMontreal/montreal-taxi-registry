@@ -25,7 +25,7 @@ function generatePayload(context: any, ee: any, next: any, withDestination: bool
     pickup_lon: generateSouthShoreLon(),
     drop_off_lat: withDestination ? generateSouthShoreLat() : null,
     drop_off_lon: withDestination ? generateSouthShoreLon() : null,
-    brand_id: ['taxi-registry-standard','taxi-registry-minivan','taxi-registry-special-need']
+    brand_id: ['taxi-registry-standard', 'taxi-registry-minivan', 'taxi-registry-special-need']
   };
   return next();
 }

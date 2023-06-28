@@ -11,8 +11,6 @@ export interface userInfo {
   email_customer: string;
   email_technical: string;
   phone_number_technical: string;
-  operator_api_key: string;
-  operator_header_name: string;
   role: string;
   role_name: string;
   public_id: string;

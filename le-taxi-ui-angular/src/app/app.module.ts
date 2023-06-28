@@ -8,8 +8,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   DateAdapter,
-  MdDatepickerModule, MdDialogModule, MdNativeDateModule,
-  MD_DATE_FORMATS
+  MD_DATE_FORMATS,
+  MdDatepickerModule, MdDialogModule, MdNativeDateModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomMaterialModule } from './material/app.material.module';
@@ -31,7 +31,7 @@ import { VehicleService } from './services/vehicle.service';
 
 import { registerLocaleData } from '@angular/common';
 import localeFrCa from '@angular/common/locales/fr-CA';
-import { AccountManagerDetailsComponent, DialogConfirmAPIComponent, DialogConfirmPasswordComponent } from './account-manager/account-manager-details.component';
+import { AccountManagerDetailsComponent, DialogConfirmPasswordComponent } from './account-manager/account-manager-details.component';
 import { AccountManagerComponent } from './account-manager/account-manager.component';
 import { ConfirmdialogComponent } from './confirmdialog/confirmdialog.component';
 import { DriverComponent } from './driver/driver.component';
@@ -79,7 +79,6 @@ import { GtfsFeedService } from './services/gtfsFeed.service';
     ConfirmdialogComponent,
     InfoPopupComponent,
     DialogConfirmPasswordComponent,
-    DialogConfirmAPIComponent,
     NavBarComponent,
     TaxiPathMapComponent,
     TaxiPathSidebarComponent
@@ -87,8 +86,7 @@ import { GtfsFeedService } from './services/gtfsFeed.service';
   entryComponents: [
     ConfirmdialogComponent,
     InfoPopupComponent,
-    DialogConfirmPasswordComponent,
-    DialogConfirmAPIComponent
+    DialogConfirmPasswordComponent
   ],
   providers: [
     LoginService,

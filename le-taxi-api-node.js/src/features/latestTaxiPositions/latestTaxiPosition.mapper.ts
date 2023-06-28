@@ -24,8 +24,13 @@ class LatestTaxiPositionMapper {
     };
   }
 
-  public mongoToLatestTaxiPositionModelExtended(mongoResult: any, inquiryType: InquiryTypes): LatestTaxiPositionModelExtended {
-    const latestTaxiPositionExtended = this.mongoToLatestTaxiPositionModel(mongoResult) as LatestTaxiPositionModelExtended;
+  public mongoToLatestTaxiPositionModelExtended(
+    mongoResult: any,
+    inquiryType: InquiryTypes
+  ): LatestTaxiPositionModelExtended {
+    const latestTaxiPositionExtended = this.mongoToLatestTaxiPositionModel(
+      mongoResult
+    ) as LatestTaxiPositionModelExtended;
     if (latestTaxiPositionExtended) latestTaxiPositionExtended.taxi.inquiryType = inquiryType;
     return latestTaxiPositionExtended;
   }

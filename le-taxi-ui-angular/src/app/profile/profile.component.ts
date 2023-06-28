@@ -41,8 +41,6 @@ export class ProfileComponent implements OnInit {
       phone_number_technical: ['', Validators.pattern(PHONE_REGEXP)],
       email_customer: ['', Validators.pattern(EMAIL_REGEXP)],
       email_technical: ['', Validators.pattern(EMAIL_REGEXP)],
-      operator_header_name: ['', ''],
-      operator_api_key: ['', '']
     });
     this.passwordForm = this.fb.group(
       {
@@ -58,9 +56,7 @@ export class ProfileComponent implements OnInit {
         commercial_name: this.userinfo.commercial_name,
         phone_number_technical: this.userinfo.phone_number_technical,
         email_customer: this.userinfo.email_customer,
-        email_technical: this.userinfo.email_technical,
-        operator_header_name: this.userinfo.operator_header_name,
-        operator_api_key: this.userinfo.operator_api_key
+        email_technical: this.userinfo.email_technical
       });
     });
   }
@@ -99,8 +95,6 @@ export class ProfileComponent implements OnInit {
     this.userinfo.phone_number_technical = this.detailsForm.value.phone_number_technical;
     this.userinfo.email_customer = this.detailsForm.value.email_customer;
     this.userinfo.email_technical = this.detailsForm.value.email_technical;
-    this.userinfo.operator_header_name = this.detailsForm.value.operator_header_name;
-    this.userinfo.operator_api_key = this.detailsForm.value.operator_api_key;
 
     this.accountService.update(this.userinfo).subscribe(
       (result) => {
