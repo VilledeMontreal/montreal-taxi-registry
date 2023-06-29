@@ -75,7 +75,7 @@ function toWaitTimeResponseData(data: InquiryResponseData): GofsLiteWaitTimeData
         ios_uri: data.booking.iosUri
       }
     }
-  }
+  };
 
   if (!hasDestination) {
     response.estimated_travel_time = null;

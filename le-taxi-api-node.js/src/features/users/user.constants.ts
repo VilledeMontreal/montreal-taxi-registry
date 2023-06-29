@@ -27,8 +27,6 @@ export const getUserById = `SELECT
     u.email_customer,
     u.email_technical,
     u.phone_number_technical,
-    u.operator_api_key,
-    u.operator_header_name,
     u.website_url,
     u.standard_booking_phone_number,
     u.standard_booking_website_url,
@@ -62,14 +60,10 @@ export const getUserById = `SELECT
 export const getUserByApikey = `SELECT
     u.id,
     u.email,
-    u.public_id,
-    r.name as role_name,
-    r.id as role,
-    u.operator_api_key,
-    u.operator_header_name,
     u.active,
-    u.commercial_name,
+    u.public_id,
     u.confirmed_at,
+    u.commercial_name,
     u.email_customer,
     u.email_technical,
     u.phone_number_technical,
@@ -94,7 +88,9 @@ export const getUserByApikey = `SELECT
     u.special_need_booking_ios_deeplink_uri,
     u.special_need_booking_ios_store_uri,
     u.special_need_booking_is_promoted_to_public,
-    u.special_need_booking_inquiries_starts_at
+    u.special_need_booking_inquiries_starts_at,
+    r.name as role_name,
+    r.id as role
   FROM public.user u
   INNER JOIN public.roles_users ru ON u.id = ru.user_id
   INNER JOIN public.role r ON r.id = ru.role_id
@@ -104,14 +100,10 @@ export const getUserByApikey = `SELECT
 export const getPromotedOperators = `SELECT
     u.id,
     u.email,
-    u.public_id,
-    r.name as role_name,
-    r.id as role,
-    u.operator_api_key,
-    u.operator_header_name,
     u.active,
-    u.commercial_name,
+    u.public_id,
     u.confirmed_at,
+    u.commercial_name,
     u.email_customer,
     u.email_technical,
     u.phone_number_technical,
@@ -136,7 +128,9 @@ export const getPromotedOperators = `SELECT
     u.special_need_booking_ios_deeplink_uri,
     u.special_need_booking_ios_store_uri,
     u.special_need_booking_is_promoted_to_public,
-    u.special_need_booking_inquiries_starts_at
+    u.special_need_booking_inquiries_starts_at,
+    r.name as role_name,
+    r.id as role
   FROM public.user u
   INNER JOIN public.roles_users ru ON u.id = ru.user_id
   INNER JOIN public.role r ON r.id = ru.role_id
@@ -156,14 +150,12 @@ export const getUserForAuthentication = `SELECT
     u.active,
     u.public_id,
     u.apikey_v2 as apikey,
-    u.commercial_name,
     u.password_v2 as password,
     u.confirmed_at,
+    u.commercial_name,
     u.email_customer,
     u.email_technical,
     u.phone_number_technical,
-    u.operator_header_name,
-    u.operator_api_key,
     r.id as role,
     r.name as role_name
   FROM "user" u
@@ -177,13 +169,11 @@ export const getUsersByRole = `SELECT
     u.email,
     u.active,
     u.public_id,
-    u.commercial_name,
     u.confirmed_at,
+    u.commercial_name,
     u.email_customer,
     u.email_technical,
-    u.phone_number_technical,
-    u.operator_header_name,
-    u.operator_api_key
+    u.phone_number_technical
   FROM "user" u
   INNER JOIN roles_users ru ON ru.user_id = u.id
   INNER JOIN role r ON ru.role_id = r.id
@@ -200,8 +190,6 @@ export const getUsersPaginated = `SELECT
     u.email_customer,
     u.email_technical,
     u.phone_number_technical,
-    u.operator_api_key,
-    u.operator_header_name,
     u.website_url,
     u.standard_booking_phone_number,
     u.standard_booking_website_url,
@@ -245,8 +233,6 @@ export const insertUser = `INSERT INTO public."user"(
   email_customer,
   email_technical,
   phone_number_technical,
-  operator_api_key,
-  operator_header_name,
   website_url,
   standard_booking_phone_number,
   standard_booking_website_url,
@@ -280,8 +266,6 @@ export const insertUser = `INSERT INTO public."user"(
     email_customer,
     email_technical,
     phone_number_technical,
-    operator_api_key,
-    operator_header_name,
     website_url,
     standard_booking_phone_number,
     standard_booking_website_url,
@@ -314,8 +298,6 @@ export const updateUser = `UPDATE public."user" SET (
   email_customer,
   email_technical,
   phone_number_technical,
-  operator_api_key,
-  operator_header_name,
   website_url,
   standard_booking_phone_number,
   standard_booking_website_url,
@@ -344,8 +326,6 @@ export const updateUser = `UPDATE public."user" SET (
     email_customer,
     email_technical,
     phone_number_technical,
-    operator_api_key,
-    operator_header_name,
     website_url,
     standard_booking_phone_number,
     standard_booking_website_url,

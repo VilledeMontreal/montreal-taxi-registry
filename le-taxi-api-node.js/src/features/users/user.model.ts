@@ -13,8 +13,6 @@ export class UserModel {
   email_customer: string;
   email_technical: string;
   phone_number_technical: string;
-  operator_api_key: string;
-  operator_header_name: string;
   role: number;
   role_name: string;
   website_url: string;
@@ -40,6 +38,47 @@ export class UserModel {
   special_need_booking_is_promoted_to_public: boolean;
   special_need_booking_inquiries_starts_at: string;
 }
+
+type BaseUserModel = 'id'
+  | 'email'
+  | 'active'
+  | 'public_id'
+  | 'confirmed_at'
+  | 'commercial_name'
+  | 'email_customer'
+  | 'email_technical'
+  | 'phone_number_technical';
+
+type OperatorUserModel = 'website_url'
+  | 'standard_booking_phone_number'
+  | 'standard_booking_website_url'
+  | 'standard_booking_android_deeplink_uri'
+  | 'standard_booking_android_store_uri'
+  | 'standard_booking_ios_deeplink_uri'
+  | 'standard_booking_ios_store_uri'
+  | 'standard_booking_is_promoted_to_public'
+  | 'standard_booking_inquiries_starts_at'
+  | 'minivan_booking_is_available_from_web_url'
+  | 'minivan_booking_is_available_from_android_uri'
+  | 'minivan_booking_is_available_from_ios_uri'
+  | 'minivan_booking_is_promoted_to_public'
+  | 'minivan_booking_inquiries_starts_at'
+  | 'special_need_booking_phone_number'
+  | 'special_need_booking_website_url'
+  | 'special_need_booking_android_deeplink_uri'
+  | 'special_need_booking_android_store_uri'
+  | 'special_need_booking_ios_deeplink_uri'
+  | 'special_need_booking_ios_store_uri'
+  | 'special_need_booking_is_promoted_to_public'
+  | 'special_need_booking_inquiries_starts_at';
+
+type RoleUserModel = 'role' | 'role_name';
+
+type AuthenticationUserModel = 'apikey' | 'password';
+
+export type BaseUser = Pick<UserModel, BaseUserModel>
+export type AuthenticatedUser = Pick<UserModel, BaseUserModel| RoleUserModel | AuthenticationUserModel>
+export type PromotedOperator = Pick<UserModel, BaseUserModel | RoleUserModel | OperatorUserModel>
 
 // For any custom properties populated by us
 // let typescript knows about it (thanks to declaration merging)

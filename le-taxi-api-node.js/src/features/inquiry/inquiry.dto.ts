@@ -38,5 +38,5 @@ export class InquiryResponseData {
   estimatedWaitTime: number;
   estimatedTravelTime?: number;
   estimatedPrice?: number;
-  booking: InquiryBookingResponseData
+  booking: InquiryBookingResponseData;
 }

@@ -5,5 +5,5 @@ export class OperatorModel {
 
   id: string;
   name: string;
-  displayName: boolean;
+  displayName: string;
 }

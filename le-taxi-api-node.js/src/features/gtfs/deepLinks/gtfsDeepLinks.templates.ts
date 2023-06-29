@@ -210,6 +210,6 @@ function middleOfSaintLawrenceTomiddleOfSaintLawrenceOther(opts: IDeepLinkBookin
 }
 
 function buildDeepLink(baseUrl: string, serviceType: string, pickup: ICoordinates, dropoff?: ICoordinates): string {
-  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${pickup.lat}&pickup_longitude=${pickup.lon}`
+  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${pickup.lat}&pickup_longitude=${pickup.lon}`;
   return dropoff ? `${deepLink}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${dropoff.lon}` : deepLink;
 }

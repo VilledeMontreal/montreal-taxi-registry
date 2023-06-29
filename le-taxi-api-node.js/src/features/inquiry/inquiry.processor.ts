@@ -10,7 +10,13 @@ import { nowUtcIsoString, toLocalDate } from '../shared/dateUtils/dateUtils';
 import { airportGeometry, downtownGeometry } from '../shared/locations/locations';
 import { osrmRepository } from '../shared/osrm/osrm.repository';
 import { userRepositoryByIdWithCaching } from '../users/user.repositoryWithCaching';
-import { InquiryBookingResponseData, InquiryRequest, InquiryResponse, InquiryResponseData, InquiryTypes } from './inquiry.dto';
+import {
+  InquiryBookingResponseData,
+  InquiryRequest,
+  InquiryResponse,
+  InquiryResponseData,
+  InquiryTypes
+} from './inquiry.dto';
 
 interface IEstimatePriceProperties {
   date: string;
@@ -45,7 +51,7 @@ class InquiryProcessor {
         lat: closestTaxi.lat,
         lon: closestTaxi.lon
       }))
-      );
+    );
 
     const date = nowUtcIsoString();
     const data = await Promise.all(
@@ -77,23 +83,24 @@ class InquiryProcessor {
           duration: estimatedDuration,
           distance: estimatedDistance
         });
-      })
+      });
     }
 
     return { data };
   }
 }
 
-async function prepareBooking(closestTaxi: LatestTaxiPositionModelExtended, inquiryRequest: InquiryRequest): Promise<InquiryBookingResponseData> {
+async function prepareBooking(
+  closestTaxi: LatestTaxiPositionModelExtended,
+  inquiryRequest: InquiryRequest
+): Promise<InquiryBookingResponseData> {
   const operator = await userRepositoryByIdWithCaching.getByKey(closestTaxi.taxi.operatorId);
   const isSpecialNeed = closestTaxi.taxi.inquiryType === InquiryTypes.SpecialNeed;
 
   const phoneNumber = isSpecialNeed
     ? operator.special_need_booking_phone_number
     : operator.standard_booking_phone_number;
-  const webUrl = isSpecialNeed
-    ? operator.special_need_booking_website_url
-    : operator.standard_booking_website_url;
+  const webUrl = isSpecialNeed ? operator.special_need_booking_website_url : operator.standard_booking_website_url;
   const androidUri = isSpecialNeed
     ? operator.special_need_booking_android_deeplink_uri
     : operator.standard_booking_android_deeplink_uri;
@@ -113,9 +120,9 @@ async function prepareBooking(closestTaxi: LatestTaxiPositionModelExtended, inqu
 
 function buildQueryParams(inquiryType: InquiryTypes, inquiryRequest: InquiryRequest): string {
   const queryParams = `?service_type=${inquiryType}&pickup_latitude=${inquiryRequest.from.lat}&pickup_longitude=${inquiryRequest.from.lon}`;
-  return (inquiryRequest.to?.lat && inquiryRequest.to?.lon) ?
-    `${queryParams}&dropoff_latitude=${inquiryRequest.to.lat}&dropoff_longitude=${inquiryRequest.to.lon}` :
-    queryParams;
+  return inquiryRequest.to?.lat && inquiryRequest.to?.lon
+    ? `${queryParams}&dropoff_latitude=${inquiryRequest.to.lat}&dropoff_longitude=${inquiryRequest.to.lon}`
+    : queryParams;
 }
 
 function estimatePrice(props: IEstimatePriceProperties): number {

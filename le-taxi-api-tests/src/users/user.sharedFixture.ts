@@ -1,6 +1,5 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { v4 as uuidv4 } from 'uuid';
 import { UserRole } from '../shared/commonTests/UserRole';
 import { IUser } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { createPromotedOperator, createUser } from './user.apiClient';
@@ -48,7 +47,6 @@ export async function createOperatorWithPromotion(promotions: IPromotions) {
   const now = new Date(Date.now()).toISOString();
   const userDto = copyUserTemplate(x => {
     x.role = UserRole.Operator;
-    x.operator_api_key = uuidv4();
     x.standard_booking_website_url = 'http://test.ca';
     x.standard_booking_android_deeplink_uri = 'http://test.android.ca';
     x.standard_booking_ios_deeplink_uri = 'http://test.ios.ca';

@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { UserModel } from '../../users/user.model';
+import { PromotedOperator, UserModel } from '../../users/user.model';
 import {
   GtfsAgencyDto,
   GtfsBookingDeepLinksDto,
@@ -11,7 +11,7 @@ import {
 } from './gtfsFeed.dto';
 
 class GtfsFeedMapper {
-  public operatorToAgency(operator: UserModel, now: string): GtfsAgencyDto[] {
+  public operatorToAgency(operator: PromotedOperator, now: string): GtfsAgencyDto[] {
     return distribute({
       operator,
       now,
@@ -21,7 +21,7 @@ class GtfsFeedMapper {
     });
   }
 
-  public operatorToBookingDeepLinks(operator: UserModel, now: string): GtfsBookingDeepLinksDto[] {
+  public operatorToBookingDeepLinks(operator: PromotedOperator, now: string): GtfsBookingDeepLinksDto[] {
     return distribute({
       operator,
       now,
@@ -31,7 +31,7 @@ class GtfsFeedMapper {
     });
   }
 
-  public operatorToRoutes(operator: UserModel, now: string): GtfsRoutesDto[] {
+  public operatorToRoutes(operator: PromotedOperator, now: string): GtfsRoutesDto[] {
     return distribute({
       operator,
       now,
@@ -41,7 +41,7 @@ class GtfsFeedMapper {
     });
   }
 
-  public operatorToTrips(operator: UserModel, now: string): GtfsTripsDto[] {
+  public operatorToTrips(operator: PromotedOperator, now: string): GtfsTripsDto[] {
     return distribute({
       operator,
       now,
@@ -51,7 +51,7 @@ class GtfsFeedMapper {
     });
   }
 
-  public operatorToBookingRules(operator: UserModel, now: string): GtfsBookingRulesDto[] {
+  public operatorToBookingRules(operator: PromotedOperator, now: string): GtfsBookingRulesDto[] {
     return distribute({
       operator,
       now,
@@ -61,7 +61,7 @@ class GtfsFeedMapper {
     });
   }
 
-  public operatorToStopTimes(operator: UserModel, now: string): GtfsStopTimesDto[] {
+  public operatorToStopTimes(operator: PromotedOperator, now: string): GtfsStopTimesDto[] {
     return distribute({
       operator,
       now,
@@ -73,11 +73,11 @@ class GtfsFeedMapper {
 }
 
 function distribute<T>(options: {
-  operator: UserModel;
+  operator: PromotedOperator;
   now: string;
-  standard: (operator: UserModel) => T[];
-  minivan: (operator: UserModel) => T[];
-  specialNeed: (operator: UserModel) => T[];
+  standard: (operator: PromotedOperator) => T[];
+  minivan: (operator: PromotedOperator) => T[];
+  specialNeed: (operator: PromotedOperator) => T[];
 }): T[] {
   const aggregator: T[] = [];
   if (options.standard && options.operator.standard_booking_inquiries_starts_at <= options.now) {

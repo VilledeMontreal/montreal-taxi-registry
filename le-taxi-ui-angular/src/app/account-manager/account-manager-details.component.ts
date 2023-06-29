@@ -57,8 +57,6 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
       phone_number_technical: ['', Validators.pattern(PHONE_REGEXP)],
       email_customer: ['', Validators.pattern(EMAIL_REGEXP)],
       email_technical: ['', Validators.pattern(EMAIL_REGEXP)],
-      operator_header_name: ['', ''],
-      operator_api_key: ['', ''],
       role: ['', Validators.required],
       public_id: ['', [Validators.pattern(GUID_REGEXP)]],
       website_url: ['', Validators.pattern(URL_REGEXP)],
@@ -126,8 +124,6 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
                 phone_number_technical: this.user.phone_number_technical,
                 email_customer: this.user.email_customer,
                 email_technical: this.user.email_technical,
-                operator_header_name: this.user.operator_header_name,
-                operator_api_key: this.user.operator_api_key,
                 role: this.user.role,
                 public_id: this.user.public_id,
                 website_url: this.user.website_url,
@@ -258,8 +254,6 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
     this.user.phone_number_technical = this.detailsForm.value.phone_number_technical || null;
     this.user.email_customer = this.detailsForm.value.email_customer || null;
     this.user.email_technical = this.detailsForm.value.email_technical || null;
-    this.user.operator_header_name = this.detailsForm.value.operator_header_name || null;
-    this.user.operator_api_key = this.detailsForm.value.operator_api_key || null;
     this.user.role = this.detailsForm.value.role || null;
     this.user.public_id = this.detailsForm.value.public_id || null;
     this.user.website_url = this.detailsForm.value.website_url || null;

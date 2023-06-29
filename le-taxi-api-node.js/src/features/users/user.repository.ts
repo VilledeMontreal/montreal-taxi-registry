@@ -24,7 +24,7 @@ import {
   updateUser
 } from './user.constants';
 import { UserRequestDto } from './user.dto';
-import { UserModel } from './user.model';
+import { AuthenticatedUser, BaseUser, UserModel } from './user.model';
 import { UserRole } from './userRole';
 
 class UserRepository {
@@ -64,7 +64,7 @@ class UserRepository {
     return queryResult.rows;
   }
 
-  public async getUserForAuthentication(email: string): Promise<UserModel> {
+  public async getUserForAuthentication(email: string): Promise<AuthenticatedUser> {
     const queryResult: QueryResult = await postgrePool.query<UserModel>(getUserForAuthentication, [email]);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
@@ -72,7 +72,7 @@ class UserRepository {
     return queryResult.rows[0];
   }
 
-  public async getUsersByRole(role: UserRole): Promise<UserModel[]> {
+  public async getUsersByRole(role: UserRole): Promise<BaseUser[]> {
     const queryResult: QueryResult = await postgrePool.query<UserModel>(getUsersByRole, [role]);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;

@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1791-performance-tests-gofslite": "develop",
+            "feature/TM-1793-remove-hailing-ui": "develop",
         ],
     ],
     packaging: [

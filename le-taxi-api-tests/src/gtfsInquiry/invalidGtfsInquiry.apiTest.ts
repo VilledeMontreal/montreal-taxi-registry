@@ -7,8 +7,8 @@ import {
   generateSouthShoreLon,
   getAirportCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { UserRole } from '../shared/commonTests/UserRole';
 import { shouldThrow } from '../shared/commonTests/testUtil';
+import { UserRole } from '../shared/commonTests/UserRole';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { getImmutableUserApiKey } from '../users/user.sharedFixture';
 import { postGtfsInquiry } from './gtfsInquiry.apiClient';
@@ -41,10 +41,7 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       () => postGtfsInquiry(inquiryRequest),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(
-          err.response.body.error.message,
-          'coordinates should not be null or undefined'
-        );
+        assert.include(err.response.body.error.message, 'coordinates should not be null or undefined');
       }
     );
   });

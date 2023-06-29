@@ -5,6 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { constants } from '../config/constants';
 import { buildApiEndpoint } from '../features/shared/utils/apiUtils';
 import { allow } from '../features/users/securityDecorator';
+import { BaseUser } from '../features/users/user.model';
 import { userRepository } from '../features/users/user.repository';
 import { UserRole } from '../features/users/userRole';
 import { OperatorModel } from '../models/operator.model';
@@ -23,7 +24,7 @@ export class controller {
   getAllOperators(request: Request, response: Response, next: NextFunction) {
     userRepository
       .getUsersByRole(UserRole.Operator)
-      .then((users: any[]) => {
+      .then((users: BaseUser[]) => {
         const operators: OperatorModel[] = [];
 
         users.forEach(({ id, email, commercial_name }) => {

@@ -3,7 +3,7 @@
 import { Parser } from 'json2csv';
 import { EOL } from 'os';
 import { addDays, addYears, getDateNoDash } from '../../shared/dateUtils/dateUtils';
-import { UserModel } from '../../users/user.model';
+import { PromotedOperator } from '../../users/user.model';
 import {
   agency,
   bookingRules,
@@ -23,7 +23,7 @@ const byteOrderMark = '\uFEFF';
 
 export interface GtfsFeedGeneratorContext {
   now: string;
-  promotedOperators: UserModel[];
+  promotedOperators: PromotedOperator[];
 }
 
 class GtfsFeedGenerator {
