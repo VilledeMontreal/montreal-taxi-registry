@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1740-remove-hailing": "develop",
+            "feature/test-performance": "develop",
         ],
     ],
     packaging: [
@@ -42,8 +42,8 @@ ctx = pipeline.createContext([
             maxMemory: "4096Mi",
         ],
         autoScaling: [
-            minReplicas: 2,
-            maxReplicas: 2,
+            minReplicas: 1,
+            maxReplicas: 1,
             cpuUsagePercentage: 70,
         ],
         probes: [
