@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { getRandomArrayItem } from '../../shared/commonLoadTests/randomData';
-import { generateSouthShoreLat, generateSouthShoreLon } from '../../shared/commonLoadTests/specialRegion';
+import { generateLatForLoadTest, generateLonForLoadTest } from '../../shared/commonLoadTests/specialRegion';
 import { getCurrentUnixTime } from '../../shared/commonTests/testUtil';
 import { copyTaxiPositionSnapShotItemTemplate } from '../taxiPositionSnapShotsDto.template';
 
@@ -39,8 +39,8 @@ function generateTaxiPositionSnapshotsPayload(currentOperatorShareState: any): a
       taxiPositionSnapShotItem.taxi = taxi.id;
       taxiPositionSnapShotItem.operator = currentOperatorShareState.operator.email;
       taxiPositionSnapShotItem.status = getRandomArrayItem(['free', 'occupied']);
-      taxiPositionSnapShotItem.lat = generateSouthShoreLat();
-      taxiPositionSnapShotItem.lon = generateSouthShoreLon();
+      taxiPositionSnapShotItem.lat = generateLatForLoadTest();
+      taxiPositionSnapShotItem.lon = generateLonForLoadTest();
       taxiPositionSnapShotItem.timestamp = getCurrentUnixTime();
     })
   );

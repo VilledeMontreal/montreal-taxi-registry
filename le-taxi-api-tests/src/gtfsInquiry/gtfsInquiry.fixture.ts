@@ -1,19 +1,19 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { configs } from '../../config/configs';
-import { generateSouthShoreCoordinates } from '../shared/commonLoadTests/specialRegion';
+import { generateApiTestCoordinates } from '../shared/commonLoadTests/specialRegion';
 import { aFewSeconds } from '../shared/commonTests/testUtil';
 import {
-  AssetTypes,
-  ICoordinateDTO,
-  IInquiryRequestDTO,
-  ITaxiResponseDto,
-  IUser
+    AssetTypes,
+    ICoordinateDTO,
+    IInquiryRequestDTO,
+    ITaxiResponseDto,
+    IUser
 } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { setTaxiPosition } from '../taxiPositionSnapShots/taxiPositionSnapshots.fixture';
 import { setupNewCustomTaxi } from '../taxis/taxi.fixture';
 import { updateUser } from '../users/user.apiClient';
-import { createOperatorWithPromotion, IPromotions } from '../users/user.sharedFixture';
+import { IPromotions, createOperatorWithPromotion } from '../users/user.sharedFixture';
 
 interface ITaxiPositions {
   lat?: number;
@@ -54,7 +54,7 @@ export async function createTaxisWithPromotions(
 }
 
 function fillDefaultOptions(options: ITaxiOptions): ITaxiOptions {
-  const { lat, lon } = generateSouthShoreCoordinates();
+  const { lat, lon } = generateApiTestCoordinates();
   return {
     lat: options.lat || lat,
     lon: options.lon || lon,
@@ -82,7 +82,7 @@ export async function setupTaxiFromOptions(taxiOptions: ITaxiOptions, apikey?: s
 }
 
 export async function demoteOperatorTaxis(operator: IUser, taxi: ITaxiResponseDto) {
-  const { lat, lon } = generateSouthShoreCoordinates();
+  const { lat, lon } = generateApiTestCoordinates();
 
   // Demote the operator
   const operatorApikey = operator.apikey;

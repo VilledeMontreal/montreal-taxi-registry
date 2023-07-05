@@ -13,16 +13,24 @@ export function generateNorthShoreLon() {
   return getRandomNumberBetween(-73.95, -74);
 }
 
-export function generateSouthShoreLat(): number {
+export function generateLatForApiTest(): number {
   return getRandomNumberBetween(45.375, 45.4);
 }
 
-export function generateSouthShoreLon(): number {
+export function generateLonForApiTest(): number {
   return getRandomNumberBetween(-73.4, -73.35);
 }
 
-export function generateSouthShoreCoordinates(): ICoordinates {
-  return { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() };
+export function generateApiTestCoordinates(): ICoordinates {
+  return { lat: generateLatForApiTest(), lon: generateLonForApiTest() };
+}
+
+export function generateLatForLoadTest(): number {
+  return getRandomNumberBetween(45.7, 46);
+}
+
+export function generateLonForLoadTest(): number {
+  return getRandomNumberBetween(-74, -73.5);
 }
 
 export function getAirportCoordinates(): ICoordinates {

@@ -4,18 +4,18 @@ import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { createTaxisWithPromotions } from '../gtfsInquiry/gtfsInquiry.fixture';
 import {
-  generateSouthShoreCoordinates,
-  generateSouthShoreLat,
-  generateSouthShoreLon
+    generateApiTestCoordinates,
+    generateLatForApiTest,
+    generateLonForApiTest
 } from '../shared/commonLoadTests/specialRegion';
 import {
-  getCalendars,
-  getFeed,
-  getOperatingRules,
-  getServiceBrands,
-  getSystemInformation,
-  getZones,
-  postGofsLite
+    getCalendars,
+    getFeed,
+    getOperatingRules,
+    getServiceBrands,
+    getSystemInformation,
+    getZones,
+    postGofsLite
 } from './gofsLite.apiClient';
 
 // tslint:disable: max-func-body-length
@@ -26,12 +26,12 @@ export async function crudGofsLiteTests(): Promise<void> {
   });
 
   it(`Should be able to request GOFS wait_time`, async () => {
-    await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
+    await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
     const waitTimeRequest = {
-      pickup_lat: generateSouthShoreLat(),
-      pickup_lon: generateSouthShoreLon(),
-      drop_off_lat: generateSouthShoreLat(),
-      drop_off_lon: generateSouthShoreLon(),
+      pickup_lat: generateLatForApiTest(),
+      pickup_lon: generateLonForApiTest(),
+      drop_off_lat: generateLatForApiTest(),
+      drop_off_lon: generateLonForApiTest(),
       brand_id: [] as string[]
     };
 

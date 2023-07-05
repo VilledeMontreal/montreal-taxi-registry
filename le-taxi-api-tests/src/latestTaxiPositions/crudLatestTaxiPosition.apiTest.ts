@@ -2,11 +2,11 @@
 // See LICENSE file in the project root for full license information.
 import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
-import { generateSouthShoreCoordinates } from '../shared/commonLoadTests/specialRegion';
-import { getCurrentUnixTime } from '../shared/commonTests/testUtil';
+import { generateApiTestCoordinates } from '../shared/commonLoadTests/specialRegion';
 import { UserRole } from '../shared/commonTests/UserRole';
-import { postTaxiPositionSnapshots } from '../taxiPositionSnapShots/taxiPositionSnapshots.apiClient';
+import { getCurrentUnixTime } from '../shared/commonTests/testUtil';
 import { copyTaxiPositionTemplate } from '../taxiPositionSnapShots/taxiPositionSnapShotsDto.template';
+import { postTaxiPositionSnapshots } from '../taxiPositionSnapShots/taxiPositionSnapshots.apiClient';
 import { setupNewTaxi } from '../taxis/taxi.fixture';
 import { copyTaxiTemplate } from '../taxis/taxisDto.template';
 import { createOperatorWithPromotion, getImmutableUserApiKey } from '../users/user.sharedFixture';
@@ -27,7 +27,7 @@ export async function crudLatestTaxiPositionTests(): Promise<void> {
 
     const operator = response.body.data[0].operator;
     const taxiId = response.body.data[0].id;
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
     const dtoTaxiPosition = copyTaxiPositionTemplate(x => {
       x.items[0].lat = lat;
       x.items[0].lon = lon;

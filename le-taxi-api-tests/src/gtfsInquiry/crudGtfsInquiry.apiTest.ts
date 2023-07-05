@@ -4,26 +4,26 @@ import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { configs } from '../../config/configs';
 import {
-  generateSouthShoreCoordinates,
-  getAirportCoordinates,
-  getDowntownCoordinates
+    generateApiTestCoordinates,
+    getAirportCoordinates,
+    getDowntownCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { aFewSeconds } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
+import { aFewSeconds } from '../shared/commonTests/testUtil';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { createPromotedOperator, updateUser } from '../users/user.apiClient';
 import {
-  createNonImmutableUser,
-  createOperatorWithPromotion,
-  getImmutableUserApiKey
+    createNonImmutableUser,
+    createOperatorWithPromotion,
+    getImmutableUserApiKey
 } from '../users/user.sharedFixture';
 import { copyUserTemplate } from '../users/userDto.template';
 import { postGtfsInquiry } from './gtfsInquiry.apiClient';
 import {
-  buildInquiryRequest,
-  createTaxisWithPromotions,
-  demoteOperatorTaxis,
-  setupTaxiFromOptions
+    buildInquiryRequest,
+    createTaxisWithPromotions,
+    demoteOperatorTaxis,
+    setupTaxiFromOptions
 } from './gtfsInquiry.fixture';
 
 // tslint:disable: max-func-body-length
@@ -32,10 +32,10 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   testInquiryUserAccessValid(UserRole.Motor);
 
   it(`Should be able to request standard vehicle`, async () => {
-    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -45,18 +45,18 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should be able to request a ride with no destination`, async () => {
-    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
-    const inquiryRequest = buildInquiryRequest(generateSouthShoreCoordinates(), null, [AssetTypes.Normal], operators);
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
+    const inquiryRequest = buildInquiryRequest(generateApiTestCoordinates(), null, [AssetTypes.Normal], operators);
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });
 
   it(`Should be able to request a minivan`, async () => {
-    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'mpv' }]);
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }]);
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Mpv],
       operators
     );
@@ -68,12 +68,12 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   it(`Should be able to receive a minivan when requesting minivan and minivan is promoted`, async () => {
     const promotions = { standard: true, minivan: true, special_need: false };
     const operators = await createTaxisWithPromotions(
-      [{ ...generateSouthShoreCoordinates(), type: 'mpv' }],
+      [{ ...generateApiTestCoordinates(), type: 'mpv' }],
       promotions
     );
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Mpv],
       operators
     );
@@ -85,12 +85,12 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   it(`Should be able to receive a minivan when requesting standard vehicle and minivan is promoted`, async () => {
     const promotions = { standard: true, minivan: true, special_need: false };
     const operators = await createTaxisWithPromotions(
-      [{ ...generateSouthShoreCoordinates(), type: 'mpv' }],
+      [{ ...generateApiTestCoordinates(), type: 'mpv' }],
       promotions
     );
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -101,11 +101,11 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Should be able to request a special need vehicle`, async () => {
     const operators = await createTaxisWithPromotions([
-      { ...generateSouthShoreCoordinates(), type: 'sedan', specialNeedVehicle: true }
+      { ...generateApiTestCoordinates(), type: 'sedan', specialNeedVehicle: true }
     ]);
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.SpecialNeed],
       operators
     );
@@ -115,10 +115,10 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return expected DTO format`, async () => {
-    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -159,11 +159,11 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       x.standard_booking_inquiries_starts_at = now;
     });
     const newOperator = await createPromotedOperator(userDto);
-    await setupTaxiFromOptions({ ...generateSouthShoreCoordinates(), type: 'sedan' }, newOperator.apikey);
+    await setupTaxiFromOptions({ ...generateApiTestCoordinates(), type: 'sedan' }, newOperator.apikey);
 
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       [newOperator]
     );
@@ -178,7 +178,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should be able to return multiple responses if useAssetType type contains more than one element`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, specialNeedVehicle: true }, // Expected
@@ -187,8 +187,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     ]);
 
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal, AssetTypes.SpecialNeed],
       operators
     );
@@ -198,7 +198,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return only one element when useAssetType specifies the same type multiple times`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, specialNeedVehicle: true }, // Expected
@@ -207,8 +207,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     ]);
 
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal, AssetTypes.Normal, AssetTypes.Normal],
       operators
     );
@@ -218,7 +218,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return all vehicle types when useAssetType is empty`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, specialNeedVehicle: true }, // Expected
@@ -229,8 +229,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     ]);
 
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [],
       operators
     );
@@ -240,13 +240,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return a validUntil in a 5 minute range (+- 30 seconds)`, async () => {
-    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
     const now = new Date();
     const validUntilLow = new Date(now.getTime() + 4.5 * 60 * 1000).toISOString();
     const validUntilHigh = new Date(now.getTime() + 5.5 * 60 * 1000).toISOString();
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -258,7 +258,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return closest taxi in range (1m apart)`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon }, // Expected
@@ -267,7 +267,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat: lat + 0.0002, lon } // 9m further
     ]);
     const response = await postGtfsInquiry(
-      buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
+      buildInquiryRequest({ lat, lon }, generateApiTestCoordinates(), [AssetTypes.Normal], operators)
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -278,7 +278,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return a regular taxi, even if special_need are closer`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, specialNeedVehicle: true },
@@ -286,7 +286,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat: lat + 0.0002, lon } // Expected
     ]);
     const response = await postGtfsInquiry(
-      buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
+      buildInquiryRequest({ lat, lon }, generateApiTestCoordinates(), [AssetTypes.Normal], operators)
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -297,7 +297,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return a special_need taxi, even if regular/mpv are closer`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon },
@@ -305,7 +305,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat: lat + 0.0002, lon, specialNeedVehicle: true } // Expected
     ]);
     const response = await postGtfsInquiry(
-      buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.SpecialNeed], operators)
+      buildInquiryRequest({ lat, lon }, generateApiTestCoordinates(), [AssetTypes.SpecialNeed], operators)
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -316,7 +316,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return a mpv, even if regular/special_need closer`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon },
@@ -326,7 +326,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat: lat + 0.0002, lon, type: 'mpv' } // Expected
     ]);
     const response = await postGtfsInquiry(
-      buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Mpv], operators)
+      buildInquiryRequest({ lat, lon }, generateApiTestCoordinates(), [AssetTypes.Mpv], operators)
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -337,14 +337,14 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Can return a station_wagon same as sedan`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, type: 'station_wagon' },
       { lat: lat + 0.0002, lon }
     ]);
     const response = await postGtfsInquiry(
-      buildInquiryRequest({ lat, lon }, generateSouthShoreCoordinates(), [AssetTypes.Normal], operators)
+      buildInquiryRequest({ lat, lon }, generateApiTestCoordinates(), [AssetTypes.Normal], operators)
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -355,8 +355,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Can request a taxi with no operator specified`, async () => {
-    await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
-    const inquiryRequest = buildInquiryRequest(generateSouthShoreCoordinates(), generateSouthShoreCoordinates(), [
+    await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
+    const inquiryRequest = buildInquiryRequest(generateApiTestCoordinates(), generateApiTestCoordinates(), [
       AssetTypes.Normal
     ]);
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
@@ -365,7 +365,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should account for bias and requestAndDispatch times at minimum`, async () => {
-    const coordinates = generateSouthShoreCoordinates();
+    const coordinates = generateApiTestCoordinates();
     await createTaxisWithPromotions([{ ...coordinates, type: 'sedan' }]);
 
     const inquiryRequest = buildInquiryRequest(coordinates, coordinates, [AssetTypes.Normal]);
@@ -392,7 +392,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return a fixed price for a ride from downtown to the airport`, async () => {
-    const coordinates = generateSouthShoreCoordinates();
+    const coordinates = generateApiTestCoordinates();
     await createTaxisWithPromotions([{ ...coordinates, type: 'sedan' }]);
 
     const downtownCoordinates = getDowntownCoordinates();
@@ -408,11 +408,11 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return a price for a ride from downtown to the south shore`, async () => {
-    const coordinates = generateSouthShoreCoordinates();
+    const coordinates = generateApiTestCoordinates();
     await createTaxisWithPromotions([{ ...coordinates, type: 'sedan' }]);
 
     const downtownCoordinates = getDowntownCoordinates();
-    const southShoreCoordinates = generateSouthShoreCoordinates();
+    const southShoreCoordinates = generateApiTestCoordinates();
     const inquiryRequest = buildInquiryRequest(downtownCoordinates, southShoreCoordinates, [AssetTypes.Normal]);
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -424,8 +424,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   it(`Should return empty response when no taxi found`, async () => {
     const newOperator = await createNonImmutableUser(UserRole.Operator);
     const inquiryRequest = {
-      from: { coordinates: generateSouthShoreCoordinates() },
-      to: { coordinates: generateSouthShoreCoordinates() },
+      from: { coordinates: generateApiTestCoordinates() },
+      to: { coordinates: generateApiTestCoordinates() },
       useAssetTypes: [AssetTypes.Normal],
       operators: [newOperator.id]
     };
@@ -436,7 +436,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return empty response when no taxi is free`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat, lon, status: 'off' },
@@ -446,7 +446,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const inquiryRequest = buildInquiryRequest(
       { lat, lon },
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -457,7 +457,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return empty response when requesting a standard taxi and none are available`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const operators = await createTaxisWithPromotions([
       { lat: lat + 0.0001, lon, specialNeedVehicle: true },
@@ -466,7 +466,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const inquiryRequest = buildInquiryRequest(
       { lat, lon },
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -479,12 +479,12 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   it(`Should return empty response when requesting minivan and minivan is not promoted`, async () => {
     const promotions = { standard: true, minivan: false, special_need: false };
     const operators = await createTaxisWithPromotions(
-      [{ ...generateSouthShoreCoordinates(), type: 'mpv' }],
+      [{ ...generateApiTestCoordinates(), type: 'mpv' }],
       promotions
     );
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Mpv],
       operators
     );
@@ -497,12 +497,12 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   it(`Should return empty response when requesting standard and minivan is not promoted`, async () => {
     const promotions = { standard: true, minivan: false, special_need: false };
     const operators = await createTaxisWithPromotions(
-      [{ ...generateSouthShoreCoordinates(), type: 'mpv' }],
+      [{ ...generateApiTestCoordinates(), type: 'mpv' }],
       promotions
     );
     const inquiryRequest = buildInquiryRequest(
-      generateSouthShoreCoordinates(),
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -513,7 +513,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return empty response when searching taxi not promoted`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
     const taxiOptions = [
       { lat: lat + 0.0001, lon },
       { lat: lat + 0.0001, lon, type: 'mpv' }
@@ -524,7 +524,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const inquiryRequest = buildInquiryRequest(
       { lat, lon },
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -535,7 +535,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return empty response when operator is demoted (promotion is removed) - standard`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const promotions = { standard: true, minivan: false, special_need: false };
     const newOperator = await createOperatorWithPromotion(promotions);
@@ -543,7 +543,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const inquiryRequest = {
       from: { coordinates: { lat, lon } },
-      to: { coordinates: generateSouthShoreCoordinates() },
+      to: { coordinates: generateApiTestCoordinates() },
       useAssetTypes: [AssetTypes.Normal],
       operators: [newOperator.id]
     };
@@ -559,7 +559,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return empty response when operator is demoted (promotion is removed) - minivan`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const promotions = { standard: true, minivan: true, special_need: false };
     const newOperator = await createOperatorWithPromotion(promotions);
@@ -567,7 +567,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const inquiryRequest = {
       from: { coordinates: { lat, lon } },
-      to: { coordinates: generateSouthShoreCoordinates() },
+      to: { coordinates: generateApiTestCoordinates() },
       useAssetTypes: [AssetTypes.Mpv],
       operators: [newOperator.id]
     };
@@ -582,7 +582,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return empty response when operator is demoted (promotion is removed) - special_need`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
 
     const promotions = { standard: false, minivan: false, special_need: true };
     const newOperator = await createOperatorWithPromotion(promotions);
@@ -590,7 +590,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const inquiryRequest = {
       from: { coordinates: { lat, lon } },
-      to: { coordinates: generateSouthShoreCoordinates() },
+      to: { coordinates: generateApiTestCoordinates() },
       useAssetTypes: [AssetTypes.SpecialNeed],
       operators: [newOperator.id]
     };
@@ -605,7 +605,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return empty response when searching promoted taxi that has not reached inquiries_starts_at time`, async () => {
-    const { lat, lon } = generateSouthShoreCoordinates();
+    const { lat, lon } = generateApiTestCoordinates();
     const taxiOptions = [
       { lat: lat + 0.0001, lon },
       { lat: lat + 0.0001, lon, type: 'mpv' }
@@ -624,7 +624,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     const inquiryRequest = buildInquiryRequest(
       { lat, lon },
-      generateSouthShoreCoordinates(),
+      generateApiTestCoordinates(),
       [AssetTypes.Normal],
       operators
     );
@@ -636,7 +636,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Can request with null field TO`, async () => {
     const inquiryResponse = await postGtfsInquiry({
-      from: { coordinates: generateSouthShoreCoordinates() },
+      from: { coordinates: generateApiTestCoordinates() },
       to: null,
       useAssetTypes: [AssetTypes.Normal]
     });
@@ -645,7 +645,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Can request with an undefined field TO`, async () => {
     const inquiryResponse = await postGtfsInquiry({
-      from: { coordinates: generateSouthShoreCoordinates() },
+      from: { coordinates: generateApiTestCoordinates() },
       useAssetTypes: [AssetTypes.Normal]
     });
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
@@ -653,7 +653,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Can request with null coordinates in the field TO`, async () => {
     const inquiryResponse = await postGtfsInquiry({
-      from: { coordinates: generateSouthShoreCoordinates() },
+      from: { coordinates: generateApiTestCoordinates() },
       to: { coordinates: null },
       useAssetTypes: [AssetTypes.Normal]
     });
@@ -662,7 +662,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Can request with undefined coordinates in the field TO`, async () => {
     const inquiryResponse = await postGtfsInquiry({
-      from: { coordinates: generateSouthShoreCoordinates() },
+      from: { coordinates: generateApiTestCoordinates() },
       to: {},
       useAssetTypes: [AssetTypes.Normal]
     });
@@ -670,9 +670,9 @@ export async function crudGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should nullify field in the response when no destination is provided`, async () => {
-    const operators = await createTaxisWithPromotions([{ ...generateSouthShoreCoordinates(), type: 'sedan' }]);
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
     const inquiryResponse = await postGtfsInquiry({
-      from: { coordinates: generateSouthShoreCoordinates() },
+      from: { coordinates: generateApiTestCoordinates() },
       useAssetTypes: [AssetTypes.Normal],
       operators: operators?.map(operator => operator.id)
     });
@@ -688,12 +688,12 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 function testInquiryUserAccessValid(role: UserRole) {
   it(`User with role ${UserRole[role]} should be able to inquiry`, async () => {
     const apiKey = await getImmutableUserApiKey(role);
-    const operators = await createTaxisWithPromotions([generateSouthShoreCoordinates()]);
+    const operators = await createTaxisWithPromotions([generateApiTestCoordinates()]);
 
     const inquiryResponse = await postGtfsInquiry(
       buildInquiryRequest(
-        generateSouthShoreCoordinates(),
-        generateSouthShoreCoordinates(),
+        generateApiTestCoordinates(),
+        generateApiTestCoordinates(),
         [AssetTypes.Normal],
         operators
       ),
