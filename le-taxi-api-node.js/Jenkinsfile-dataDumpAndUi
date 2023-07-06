@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1793-remove-hailing-ui": "develop",
+            "feature/fix-performance-tests": "develop",
         ],
     ],
     packaging: [
@@ -59,6 +59,14 @@ ctx = pipeline.createContext([
         monitoring: [
             enabled: true,
             path: "/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-metrics"
+        ],
+        overrides: [
+            "dev": [
+                autoScaling: [
+                    minReplicas: 1,
+                    maxReplicas: 1,
+                ],
+            ],
         ],
     ],
     approval: [

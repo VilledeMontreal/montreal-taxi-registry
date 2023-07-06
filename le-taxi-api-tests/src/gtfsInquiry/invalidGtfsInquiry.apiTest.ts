@@ -3,12 +3,12 @@
 import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import {
-  generateSouthShoreLat,
-  generateSouthShoreLon,
-  getAirportCoordinates
+    generateLatForApiTest,
+    generateLonForApiTest,
+    getAirportCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { shouldThrow } from '../shared/commonTests/testUtil';
 import { UserRole } from '../shared/commonTests/UserRole';
+import { shouldThrow } from '../shared/commonTests/testUtil';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { getImmutableUserApiKey } from '../users/user.sharedFixture';
 import { postGtfsInquiry } from './gtfsInquiry.apiClient';
@@ -64,8 +64,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: 'invalidLatitude', lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+          from: { coordinates: { lat: 'invalidLatitude', lon: generateLonForApiTest() } },
+          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -80,8 +80,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: 'invalidLongitude' } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+          from: { coordinates: { lat: generateLatForApiTest(), lon: 'invalidLongitude' } },
+          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -96,8 +96,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: 'invalidLatitude', lon: generateSouthShoreLon() } },
+          from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          to: { coordinates: { lat: 'invalidLatitude', lon: generateLonForApiTest() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -112,8 +112,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: 'invalidLongitude' } },
+          from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          to: { coordinates: { lat: generateLatForApiTest(), lon: 'invalidLongitude' } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -130,8 +130,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: null, lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+          from: { coordinates: { lat: null, lon: generateLonForApiTest() } },
+          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -143,8 +143,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: null } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+          from: { coordinates: { lat: generateLatForApiTest(), lon: null } },
+          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -158,8 +158,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: 90.000001, lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+          from: { coordinates: { lat: 90.000001, lon: generateLonForApiTest() } },
+          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -174,8 +174,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: 181 } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+          from: { coordinates: { lat: generateLatForApiTest(), lon: 181 } },
+          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -190,8 +190,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: -90.000001, lon: generateSouthShoreLon() } },
+          from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          to: { coordinates: { lat: -90.000001, lon: generateLonForApiTest() } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -206,8 +206,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-          to: { coordinates: { lat: generateSouthShoreLat(), lon: -181 } },
+          from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          to: { coordinates: { lat: generateLatForApiTest(), lon: -181 } },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -222,8 +222,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
 
   it(`Should return Bad Request if useAssetType type is not an array`, async () => {
     const inquiryRequest = {
-      from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-      to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+      from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+      to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
       useAssetTypes: {}
     };
     await shouldThrow(
@@ -237,8 +237,8 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
 
   it(`Should return Bad Request if useAssetType type is unknow`, async () => {
     const inquiryRequest = {
-      from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-      to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+      from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+      to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
       useAssetTypes: ['unknow_type']
     };
     await shouldThrow(
@@ -253,7 +253,7 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
   it(`Should return Bad Request when requesting from YUL/airport`, async () => {
     const inquiryRequest = {
       from: { coordinates: getAirportCoordinates() },
-      to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+      to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
       useAssetTypes: [AssetTypes.Normal]
     };
 
@@ -275,8 +275,8 @@ function testInvalidAccessToInquiryEndpoint(role: UserRole) {
     const apiKey = await getImmutableUserApiKey(role);
 
     const inquiryRequest = {
-      from: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
-      to: { coordinates: { lat: generateSouthShoreLat(), lon: generateSouthShoreLon() } },
+      from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+      to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
       useAssetTypes: [AssetTypes.Normal]
     };
     await shouldThrow(
