@@ -60,7 +60,7 @@ logging:
 #==========================================
 dataSources:
   postgres:
-    host: dvllgt02-vip.ile.montreal.qc.ca
+    host: pg-dvl-vdm_txp.ile.montreal.qc.ca
     port: 5432
     database: vdm_txp
     user: secret

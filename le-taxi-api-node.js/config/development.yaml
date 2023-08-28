@@ -13,7 +13,7 @@ api:
 
 dataSources:
   postgres:
-    host: dvllgt02-vip.ile.montreal.qc.ca
+    host: pg-dvl-vdm_txp.ile.montreal.qc.ca
   mongo:
     host1: dvllgt01a.ile.montreal.qc.ca
     host2: dvllgt01b.ile.montreal.qc.ca
