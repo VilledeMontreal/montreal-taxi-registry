@@ -12,9 +12,9 @@ export function getGofsLiteRoutes(): IHandlerRoute[] {
       handler: gofsLiteController.getFeeds
     },
     {
-      method: HttpMethods.POST,
-      path: buildApiEndpoint('/api/gofs-lite/1/:lang/wait_time'),
-      handler: gofsLiteController.postWaitTime
+      method: HttpMethods.GET,
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/realtime_booking'),
+      handler: gofsLiteController.getRealtimeBooking
     },
     {
       method: HttpMethods.GET,

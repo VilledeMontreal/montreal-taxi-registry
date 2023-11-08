@@ -10,11 +10,11 @@ const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/motor.sh
 
 export const sharedState: IMotorSharedState = JSON.parse(sharedStateJson);
 
-export function generateWaitTimePayload(context: any, ee: any, next: any) {
+export function generateRealtimeBookingPayload(context: any, ee: any, next: any) {
   return generatePayload(context, ee, next);
 }
 
-export function generateWaitTimePayloadNoDestination(context: any, ee: any, next: any) {
+export function generateRealtimeBookingPayloadNoDestination(context: any, ee: any, next: any) {
   return generatePayload(context, ee, next, false);
 }
 

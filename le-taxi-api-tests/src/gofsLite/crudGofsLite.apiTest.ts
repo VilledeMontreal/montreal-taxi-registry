@@ -4,18 +4,19 @@ import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { createTaxisWithPromotions } from '../gtfsInquiry/gtfsInquiry.fixture';
 import {
-    generateApiTestCoordinates,
-    generateLatForApiTest,
-    generateLonForApiTest
+  generateApiTestCoordinates,
+  generateLatForApiTest,
+  generateLonForApiTest
 } from '../shared/commonLoadTests/specialRegion';
+import { toQueryString } from '../shared/utils/queryStringUtils';
 import {
-    getCalendars,
-    getFeed,
-    getOperatingRules,
-    getServiceBrands,
-    getSystemInformation,
-    getZones,
-    postGofsLite
+  getCalendars,
+  getFeed,
+  getOperatingRules,
+  getRealtimeBooking,
+  getServiceBrands,
+  getSystemInformation,
+  getZones
 } from './gofsLite.apiClient';
 
 // tslint:disable: max-func-body-length
@@ -25,9 +26,9 @@ export async function crudGofsLiteTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.OK);
   });
 
-  it(`Should be able to request GOFS wait_time`, async () => {
+  it(`Should be able to request GOFS realtime_booking`, async () => {
     await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
-    const waitTimeRequest = {
+    const queryParams = {
       pickup_lat: generateLatForApiTest(),
       pickup_lon: generateLonForApiTest(),
       drop_off_lat: generateLatForApiTest(),
@@ -35,7 +36,7 @@ export async function crudGofsLiteTests(): Promise<void> {
       brand_id: [] as string[]
     };
 
-    const inquiryResponse = await postGofsLite(waitTimeRequest);
+    const inquiryResponse = await getRealtimeBooking(toQueryString(queryParams));
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
   });

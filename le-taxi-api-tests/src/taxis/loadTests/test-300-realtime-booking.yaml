@@ -9,11 +9,11 @@ config:
       arrivalRate: 5
       duration: 300
 scenarios:
-  - name: 'GOFS wait_time'
+  - name: 'GOFS realtime_booking'
     flow:
       - function: 'generateWaitTimePayload'
       - post:
-          url: '/api/gofs-lite/1/en/wait_time'
+          url: '/api/gofs-lite/1/en/realtime_booking'
           headers:
             X-API-KEY: '{{apikey}}'
           json: '{{body}}'

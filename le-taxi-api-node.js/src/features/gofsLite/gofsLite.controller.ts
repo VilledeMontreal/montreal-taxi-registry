@@ -11,7 +11,7 @@ import { UserRole } from '../users/userRole';
 import { calendars, operatingRules, serviceBrandsFunc, systemInformationFunc, zonesFunc } from './gofsLite.constants';
 import { GofsLiteDataResponseDto, GofsLiteFeedDetailResponseDto, GofsLiteResponseDto } from './gofsLite.dto';
 import { gofsLiteMapper } from './gofsLite.mapper';
-import { validateGofsLiteWaitTimeRequest, validateLang } from './gofsLite.validators';
+import { validateGofsLiteRealtimeBookingRequest, validateLang } from './gofsLite.validators';
 
 class GofsLiteController {
   @allow([UserRole.Admin, UserRole.Motor])
@@ -30,9 +30,9 @@ class GofsLiteController {
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
-  public async postWaitTime(request: Request, response: Response) {
+  public async getRealtimeBooking(request: Request, response: Response) {
     validateLang(request);
-    const inquiryRequest = await validateGofsLiteWaitTimeRequest(request);
+    const inquiryRequest = await validateGofsLiteRealtimeBookingRequest(request);
     const inquiryResponse = await inquiryProcessor.process(inquiryRequest);
 
     if (!inquiryResponse) {
@@ -40,7 +40,7 @@ class GofsLiteController {
       return;
     }
 
-    const gofsResponse = await gofsLiteMapper.toGofsLiteWaitTimeResponse(inquiryResponse);
+    const gofsResponse = await gofsLiteMapper.toGofsLiteRealtimeBookingResponse(inquiryResponse);
     sendResponse(response, gofsResponse);
   }
 

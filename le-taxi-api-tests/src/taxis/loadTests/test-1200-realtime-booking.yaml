@@ -3,17 +3,17 @@ config:
   processor: './generatePayload.js'
   http:
     pool: 20
-    timeout: 5
+    timeout: 35
   phases:
-    - name: '300 inquiries with no destination'
-      arrivalRate: 5
+    - name: '1 200 inquiries'
+      arrivalRate: 20
       duration: 300
 scenarios:
-  - name: 'GOFS wait_time with no destination'
+  - name: 'GOFS realtime_booking'
     flow:
-      - function: 'generateWaitTimePayloadNoDestination'
+      - function: 'generateWaitTimePayload'
       - post:
-          url: '/api/gofs-lite/1/en/wait_time'
+          url: '/api/gofs-lite/1/en/realtime_booking'
           headers:
             X-API-KEY: '{{apikey}}'
           json: '{{body}}'
