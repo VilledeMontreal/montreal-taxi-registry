@@ -18,27 +18,27 @@ export function getGofsLiteRoutes(): IHandlerRoute[] {
     },
     {
       method: HttpMethods.GET,
-      path: buildApiEndpoint('/api/gofs-lite/1/:lang/service_brands'),
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/service_brands.json'),
       handler: gofsLiteController.getServiceBrands
     },
     {
       method: HttpMethods.GET,
-      path: buildApiEndpoint('/api/gofs-lite/1/:lang/system_information'),
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/system_information.json'),
       handler: gofsLiteController.getSystemInformation
     },
     {
       method: HttpMethods.GET,
-      path: buildApiEndpoint('/api/gofs-lite/1/:lang/zones'),
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/zones.json'),
       handler: gofsLiteController.getZones
     },
     {
       method: HttpMethods.GET,
-      path: buildApiEndpoint('/api/gofs-lite/1/:lang/operating_rules'),
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/operating_rules.json'),
       handler: gofsLiteController.getOperatingRules
     },
     {
       method: HttpMethods.GET,
-      path: buildApiEndpoint('/api/gofs-lite/1/:lang/calendars'),
+      path: buildApiEndpoint('/api/gofs-lite/1/:lang/calendars.json'),
       handler: gofsLiteController.getCalendars
     }
   ];

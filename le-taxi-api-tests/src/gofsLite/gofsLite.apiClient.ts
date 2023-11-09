@@ -16,25 +16,25 @@ export async function getRealtimeBooking(params: string, apiKey?: string) {
 
 export async function getServiceBrands(apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
-  return await getTaxiRegistry('/api/gofs-lite/1/en/service_brands', apiKey, defaultApiKey);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/service_brands.json', apiKey, defaultApiKey);
 }
 
 export async function getSystemInformation(apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
-  return await getTaxiRegistry('/api/gofs-lite/1/en/system_information', apiKey, defaultApiKey);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/system_information.json', apiKey, defaultApiKey);
 }
 
 export async function getZones(apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
-  return await getTaxiRegistry('/api/gofs-lite/1/en/zones', apiKey, defaultApiKey);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/zones.json', apiKey, defaultApiKey);
 }
 
 export async function getOperatingRules(apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
-  return await getTaxiRegistry('/api/gofs-lite/1/en/operating_rules', apiKey, defaultApiKey);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/operating_rules.json', apiKey, defaultApiKey);
 }
 
 export async function getCalendars(apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Motor);
-  return await getTaxiRegistry('/api/gofs-lite/1/en/calendars', apiKey, defaultApiKey);
+  return await getTaxiRegistry('/api/gofs-lite/1/en/calendars.json', apiKey, defaultApiKey);
 }
