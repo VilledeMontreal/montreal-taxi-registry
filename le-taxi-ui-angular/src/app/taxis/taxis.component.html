@@ -107,6 +107,13 @@
         <md-cell *cdkCellDef="let row"> {{ row.added_by_name }} </md-cell>
       </ng-container>
 
+      <ng-container cdkColumnDef="path">
+        <md-header-cell *cdkHeaderCellDef></md-header-cell>
+        <md-cell *cdkCellDef="let row" class="flex">
+          <button class="path go-to-btn" (click)="goToTaxiPathPage(row)">Trajet</button>
+        </md-cell>
+      </ng-container>
+
       <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
       <md-row
         [ngClass]="{ 'taxi-actif': isTaxiActif(row.id) }"
