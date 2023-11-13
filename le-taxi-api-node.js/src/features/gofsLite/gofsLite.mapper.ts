@@ -3,29 +3,29 @@
 import { InquiryRequest, InquiryResponse, InquiryResponseData, InquiryTypes } from '../inquiry/inquiry.dto';
 import {
   GofsLiteBrandIdTypes,
-  GofsLiteWaitTimeDataResponseDto,
-  GofsLiteWaitTimeRequestDto,
-  GofsLiteWaitTimeResponseDto
+  GofsLiteRealtimeBookingDataResponseDto,
+  GofsLiteRealtimeBookingResponseDto,
+  GofsLiteRealtimeBookingRequestDto
 } from './gofsLite.dto';
 
 class GofsLiteMapper {
-  public toInquiryRequest(gofsLiteWaitTimeRequest: GofsLiteWaitTimeRequestDto): InquiryRequest {
+  public toInquiryRequest(gofsLiteRealtimeBookingRequest: GofsLiteRealtimeBookingRequestDto): InquiryRequest {
     return {
       from: {
-        lat: gofsLiteWaitTimeRequest.pickup_lat,
-        lon: gofsLiteWaitTimeRequest.pickup_lon
+        lat: gofsLiteRealtimeBookingRequest.pickup_lat,
+        lon: gofsLiteRealtimeBookingRequest.pickup_lon
       },
       to: {
-        lat: gofsLiteWaitTimeRequest.drop_off_lat,
-        lon: gofsLiteWaitTimeRequest.drop_off_lon
+        lat: gofsLiteRealtimeBookingRequest.drop_off_lat,
+        lon: gofsLiteRealtimeBookingRequest.drop_off_lon
       },
-      inquiryTypes: toInquiryTypes(gofsLiteWaitTimeRequest.brand_id)
+      inquiryTypes: toInquiryTypes(gofsLiteRealtimeBookingRequest.brand_id)
     };
   }
 
-  public toGofsLiteWaitTimeResponse(inquiryResponse: InquiryResponse): GofsLiteWaitTimeResponseDto {
+  public toGofsLiteRealtimeBookingResponse(inquiryResponse: InquiryResponse): GofsLiteRealtimeBookingResponseDto {
     return {
-      wait_times: inquiryResponse.data?.map(data => toWaitTimeResponseData(data)) || []
+      realtime_booking: inquiryResponse.data?.map(data => toRealtimeBookingResponseData(data)) || []
     };
   }
 }
@@ -58,29 +58,27 @@ export function toBrandId(inquiryTypes: InquiryTypes): GofsLiteBrandIdTypes {
   }
 }
 
-function toWaitTimeResponseData(data: InquiryResponseData): GofsLiteWaitTimeDataResponseDto {
+function toRealtimeBookingResponseData(data: InquiryResponseData): GofsLiteRealtimeBookingDataResponseDto {
   const hasDestination = !!data.estimatedTravelTime;
   const response = {
     brand_id: toBrandId(data.inquiryType),
-    estimated_wait_time: data.estimatedWaitTime,
-    estimated_travel_time: data.estimatedTravelTime,
-    estimated_travel_cost: data.estimatedPrice,
-    estimated_travel_cost_currency: 'CAD',
-    realtime_booking: {
-      booking_detail: {
-        service_name: data.booking.operator.commercial_name,
-        phone_number: data.booking.phoneNumber,
-        web_uri: data.booking.webUrl,
-        android_uri: data.booking.androidUri,
-        ios_uri: data.booking.iosUri
-      }
+    wait_time: data.estimatedWaitTime,
+    travel_time: data.estimatedTravelTime,
+    travel_cost: data.estimatedPrice,
+    travel_cost_currency: 'CAD',
+    booking_detail: {
+      service_name: data.booking.operator.commercial_name,
+      phone_number: data.booking.phoneNumber,
+      web_uri: data.booking.webUrl,
+      android_uri: data.booking.androidUri,
+      ios_uri: data.booking.iosUri
     }
   };
 
   if (!hasDestination) {
-    response.estimated_travel_time = null;
-    response.estimated_travel_cost = null;
-    response.estimated_travel_cost_currency = null;
+    response.travel_time = null;
+    response.travel_cost = null;
+    response.travel_cost_currency = null;
   }
 
   return response;

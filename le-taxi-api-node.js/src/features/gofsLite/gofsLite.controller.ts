@@ -5,20 +5,21 @@ import { StatusCodes } from 'http-status-codes';
 import { getAbsoluteUrl } from '../../utils/configs/system';
 import { inquiryProcessor } from '../inquiry/inquiry.processor';
 import { nowAsEpoch } from '../shared/dateUtils/dateUtils';
-import { buildApiEndpoint } from '../shared/utils/apiUtils';
 import { allow } from '../users/securityDecorator';
 import { UserRole } from '../users/userRole';
 import { calendars, operatingRules, serviceBrandsFunc, systemInformationFunc, zonesFunc } from './gofsLite.constants';
 import { GofsLiteDataResponseDto, GofsLiteFeedDetailResponseDto, GofsLiteResponseDto } from './gofsLite.dto';
 import { gofsLiteMapper } from './gofsLite.mapper';
-import { validateGofsLiteWaitTimeRequest, validateLang } from './gofsLite.validators';
+import { validateGofsLiteRealtimeBookingRequest, validateLang } from './gofsLite.validators';
+
+const API_PREFIX = '/api/gofs-lite/1/';
 
 class GofsLiteController {
   @allow([UserRole.Admin, UserRole.Motor])
   public async getFeeds(request: Request, response: Response) {
     const feeds = request.app._router.stack
-      .filter(layer => layer?.route?.path?.includes('gofs-lite/1/'))
-      .map(layer => layer.route.path);
+      .filter(layer => layer?.route?.path?.includes(API_PREFIX))
+      .map(layer => layer.route.path.substring(layer.route.path.indexOf(API_PREFIX)));
     sendResponse(
       response,
       {
@@ -30,9 +31,9 @@ class GofsLiteController {
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
-  public async postWaitTime(request: Request, response: Response) {
+  public async getRealtimeBooking(request: Request, response: Response) {
     validateLang(request);
-    const inquiryRequest = await validateGofsLiteWaitTimeRequest(request);
+    const inquiryRequest = await validateGofsLiteRealtimeBookingRequest(request);
     const inquiryResponse = await inquiryProcessor.process(inquiryRequest);
 
     if (!inquiryResponse) {
@@ -40,7 +41,7 @@ class GofsLiteController {
       return;
     }
 
-    const gofsResponse = await gofsLiteMapper.toGofsLiteWaitTimeResponse(inquiryResponse);
+    const gofsResponse = await gofsLiteMapper.toGofsLiteRealtimeBookingResponse(inquiryResponse);
     sendResponse(response, gofsResponse);
   }
 
@@ -78,7 +79,7 @@ class GofsLiteController {
 function buildFeed(feeds: string[], lang: string): GofsLiteFeedDetailResponseDto[] {
   return feeds.map(feed => ({
     name: feed.substring(feed.lastIndexOf('/') + 1),
-    url: getAbsoluteUrl(buildApiEndpoint(feed.replace(':lang', lang)))
+    url: getAbsoluteUrl(feed.replace(':lang', lang))
   }));
 }
 

@@ -17,14 +17,14 @@ export enum GofsLiteBrandIdTypes {
   SpecialNeed = 'taxi-registry-special-need'
 }
 
-export class GofsLiteWaitTimeRequestDto {
+export class GofsLiteRealtimeBookingRequestDto {
   @IsDefined()
   @IsNotEmpty()
   @IsNumber()
   @Min(-90)
   @Max(90)
   @Type(() => Number)
-  pickup_lat: any;
+  pickup_lat: number;
 
   @IsDefined()
   @IsNotEmpty()
@@ -38,7 +38,7 @@ export class GofsLiteWaitTimeRequestDto {
   @Min(-90)
   @Max(90)
   @Type(() => Number)
-  drop_off_lat?: any;
+  drop_off_lat?: number;
 
   @IsNumber()
   @Min(-180)
@@ -52,25 +52,23 @@ export class GofsLiteWaitTimeRequestDto {
   brand_id: GofsLiteBrandIdTypes[];
 }
 
-export class GofsLiteWaitTimeDataResponseDto {
+export class GofsLiteRealtimeBookingDataResponseDto {
   brand_id: GofsLiteBrandIdTypes;
-  estimated_wait_time: number;
-  estimated_travel_time: number;
-  estimated_travel_cost: number;
-  estimated_travel_cost_currency: string;
-  realtime_booking: {
-    booking_detail: {
-      service_name: string;
-      phone_number: string;
-      web_uri: string;
-      android_uri: string;
-      ios_uri: string;
-    };
+  wait_time: number;
+  travel_time: number;
+  travel_cost: number;
+  travel_cost_currency: string;
+  booking_detail: {
+    service_name: string;
+    phone_number: string;
+    web_uri: string;
+    android_uri: string;
+    ios_uri: string;
   };
 }
 
-export class GofsLiteWaitTimeResponseDto {
-  wait_times: GofsLiteWaitTimeDataResponseDto[];
+export class GofsLiteRealtimeBookingResponseDto {
+  realtime_booking: GofsLiteRealtimeBookingDataResponseDto[];
 }
 
 export class GofsLiteFeedDetailResponseDto {
@@ -138,7 +136,7 @@ export class GofsLiteResponseDto {
 type GofsLiteEmptyDataResponseDto = [];
 
 export type GofsLiteDataResponseDto =
-  | GofsLiteWaitTimeResponseDto
+  | GofsLiteRealtimeBookingResponseDto
   | GofsLiteFeedResponseDto
   | GofsLiteServiceBrandsResponseDto
   | GofsLiteSystemInformationResponseDto
