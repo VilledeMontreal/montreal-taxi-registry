@@ -1,25 +1,25 @@
 config:
-  target: 'https://taximtldev.accept.ville.montreal.qc.ca'
-  processor: './test-taxi-position-snapshot-data-dump.js'
+  target: "https://taximtldev.accept.ville.montreal.qc.ca"
+  processor: "./test-taxi-position-snapshot-data-dump.js"
   http:
     pool: 30
     timeout: 600
   phases:
-    - name: '150 x GET taxi positions'
+    - name: "150 x GET taxi positions"
       arrivalRate: 5
       duration: 1
 scenarios:
-  - name: 'Getting snapshots'
+  - name: "Getting snapshots"
     flow:
-      - function: 'beforeFlow'
+      - function: "beforeFlow"
       - loop:
           - get:
               # If the taxi positions snapshot don't exist anymore, simply create another one by running
               # npm run load-test-position-snapshots-with-25-operators-200-taxis
               # at an hour that fits in a 10 minutes windows. Ex: xx:00, xx:10, xx:20, xx:30, xx:40, xx:50,
               # and ajusting the snapshot id (date each 10 minutes) in the url below
-              url: '/api/data-dumps/taxi-positions/2022-11-01T15:20:00.000Z'
+              url: "/api/data-dumps/taxi-positions/2023-11-13T19:50:00.000Z"
               headers:
-                Accept-Encoding: 'gzip'
-                X-API-KEY: '{{apikey}}'
+                Accept-Encoding: "gzip"
+                X-API-KEY: "{{apikey}}"
         count: 30

@@ -16,7 +16,7 @@ api:
 
 dataSources:
   postgres:
-    host: prdlgt02-vip.ile.montreal.qc.ca
+    host: pg-prd-vdm_txp.ile.montreal.qc.ca
   mongo:
     host1: prdlgt01a.ile.montreal.qc.ca
     host2: prdlgt01b.ile.montreal.qc.ca

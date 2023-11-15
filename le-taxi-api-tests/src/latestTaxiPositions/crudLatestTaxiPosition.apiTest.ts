@@ -3,10 +3,10 @@
 import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { generateApiTestCoordinates } from '../shared/commonLoadTests/specialRegion';
-import { UserRole } from '../shared/commonTests/UserRole';
 import { getCurrentUnixTime } from '../shared/commonTests/testUtil';
-import { copyTaxiPositionTemplate } from '../taxiPositionSnapShots/taxiPositionSnapShotsDto.template';
+import { UserRole } from '../shared/commonTests/UserRole';
 import { postTaxiPositionSnapshots } from '../taxiPositionSnapShots/taxiPositionSnapshots.apiClient';
+import { copyTaxiPositionTemplate } from '../taxiPositionSnapShots/taxiPositionSnapShotsDto.template';
 import { setupNewTaxi } from '../taxis/taxi.fixture';
 import { copyTaxiTemplate } from '../taxis/taxisDto.template';
 import { createOperatorWithPromotion, getImmutableUserApiKey } from '../users/user.sharedFixture';

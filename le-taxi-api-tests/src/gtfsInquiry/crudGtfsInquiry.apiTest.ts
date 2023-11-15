@@ -4,26 +4,26 @@ import { assert } from 'chai';
 import { StatusCodes } from 'http-status-codes';
 import { configs } from '../../config/configs';
 import {
-    generateApiTestCoordinates,
-    getAirportCoordinates,
-    getDowntownCoordinates
+  generateApiTestCoordinates,
+  getAirportCoordinates,
+  getDowntownCoordinates
 } from '../shared/commonLoadTests/specialRegion';
-import { UserRole } from '../shared/commonTests/UserRole';
 import { aFewSeconds } from '../shared/commonTests/testUtil';
+import { UserRole } from '../shared/commonTests/UserRole';
 import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
 import { createPromotedOperator, updateUser } from '../users/user.apiClient';
 import {
-    createNonImmutableUser,
-    createOperatorWithPromotion,
-    getImmutableUserApiKey
+  createNonImmutableUser,
+  createOperatorWithPromotion,
+  getImmutableUserApiKey
 } from '../users/user.sharedFixture';
 import { copyUserTemplate } from '../users/userDto.template';
 import { postGtfsInquiry } from './gtfsInquiry.apiClient';
 import {
-    buildInquiryRequest,
-    createTaxisWithPromotions,
-    demoteOperatorTaxis,
-    setupTaxiFromOptions
+  buildInquiryRequest,
+  createTaxisWithPromotions,
+  demoteOperatorTaxis,
+  setupTaxiFromOptions
 } from './gtfsInquiry.fixture';
 
 // tslint:disable: max-func-body-length
@@ -67,10 +67,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Should be able to receive a minivan when requesting minivan and minivan is promoted`, async () => {
     const promotions = { standard: true, minivan: true, special_need: false };
-    const operators = await createTaxisWithPromotions(
-      [{ ...generateApiTestCoordinates(), type: 'mpv' }],
-      promotions
-    );
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], promotions);
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
@@ -84,10 +81,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Should be able to receive a minivan when requesting standard vehicle and minivan is promoted`, async () => {
     const promotions = { standard: true, minivan: true, special_need: false };
-    const operators = await createTaxisWithPromotions(
-      [{ ...generateApiTestCoordinates(), type: 'mpv' }],
-      promotions
-    );
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], promotions);
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
@@ -478,10 +472,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Should return empty response when requesting minivan and minivan is not promoted`, async () => {
     const promotions = { standard: true, minivan: false, special_need: false };
-    const operators = await createTaxisWithPromotions(
-      [{ ...generateApiTestCoordinates(), type: 'mpv' }],
-      promotions
-    );
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], promotions);
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
@@ -496,10 +487,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Should return empty response when requesting standard and minivan is not promoted`, async () => {
     const promotions = { standard: true, minivan: false, special_need: false };
-    const operators = await createTaxisWithPromotions(
-      [{ ...generateApiTestCoordinates(), type: 'mpv' }],
-      promotions
-    );
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], promotions);
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
@@ -691,12 +679,7 @@ function testInquiryUserAccessValid(role: UserRole) {
     const operators = await createTaxisWithPromotions([generateApiTestCoordinates()]);
 
     const inquiryResponse = await postGtfsInquiry(
-      buildInquiryRequest(
-        generateApiTestCoordinates(),
-        generateApiTestCoordinates(),
-        [AssetTypes.Normal],
-        operators
-      ),
+      buildInquiryRequest(generateApiTestCoordinates(), generateApiTestCoordinates(), [AssetTypes.Normal], operators),
       apiKey
     );
 
