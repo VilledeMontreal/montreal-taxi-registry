@@ -3,5 +3,6 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:8099/api',
-  uiBaseUrl: 'http://localhost:4200'
+  uiBaseUrl: 'http://localhost:4200',
+  rasterMaps: 'https://api.dev.interne.montreal.ca/api/it-platforms/geomatic/raster-maps/v2/service/zxy/fond-de-carte/{z}/{x}/{y}'
 };

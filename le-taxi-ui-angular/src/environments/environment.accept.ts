@@ -3,5 +3,6 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'https://taximtl.accept.ville.montreal.qc.ca/api',
-  uiBaseUrl: 'https://taximtl.accept.ville.montreal.qc.ca'
+  uiBaseUrl: 'https://taximtl.accept.ville.montreal.qc.ca',
+  rasterMaps: 'https://api.accept.montreal.ca/api/it-platforms/geomatic/raster-maps/v2/service/zxy/fond-de-carte/{z}/{x}/{y}'
 };
