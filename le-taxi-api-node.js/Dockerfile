@@ -8,11 +8,10 @@ WORKDIR /le-taxi-api-node
 
 COPY . /le-taxi-api-node
 
-USER root
+USER node
 
 RUN npm install && npm run tsc
 
-USER node
 
 EXPOSE 8099
 CMD [ "node", "/le-taxi-api-node/src/index.js" ]
