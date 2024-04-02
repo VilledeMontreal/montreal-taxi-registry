@@ -187,14 +187,14 @@ ctx = pipeline.createContext([
         overrides:[
             "accept": [
                 rateLimiting: [
-                    perMinute: 1200,
-                    perSecond: 160
+                    perMinute: 600,
+                    perSecond: 10
                 ],
             ],
             "prod": [
                 rateLimiting: [
-                    perMinute: 1200,
-                    perSecond: 160
+                    perMinute: 600,
+                    perSecond: 10
                 ],
             ],
         ],
