@@ -1,0 +1,49 @@
+// ==========================================
+// Project settings
+// ==========================================
+{
+  // ==========================================
+  // Hide the ".js" and ".js.map" files generated
+  // from the ".ts" files.
+  // ==========================================
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/*.js": true,
+    "**/*.map": true
+  },
+  // ==========================================
+  // Uses the TypeScript version installed
+  // in the project instead of the one bundled
+  // with VSCode.
+  // ==========================================
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  // ==========================================
+  // Newlines standardized to "\n".
+  // ==========================================
+  "files.eol": "\n",
+  // ==========================================
+  // Indentation standardized to 2 spaces.
+  // ==========================================
+  "editor.tabSize": 2,
+  //"editor.detectIndentation": false,
+  "editor.detectIndentation": true,
+  "editor.insertSpaces": true,
+  // ==========================================
+  // Automatically format the code when a file
+  // is saved. You can disable this if you dislike
+  // the feature, but then you have to make sure
+  // your code is properly formatted before commiting
+  // (or else the tests will fail, since a tslint test
+  // will be performed).
+  // ==========================================
+  "editor.formatOnSave": true,
+  "tslint.enable": true,
+  "tslint.autoFixOnSave": true,
+  "terminal.integrated.scrollback": 50000,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "sonarlint.ls.javaHome": "C:\\Program Files\\Java\\jdk-11.0.7"
+}
