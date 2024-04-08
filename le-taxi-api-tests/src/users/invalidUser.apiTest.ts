@@ -251,6 +251,106 @@ export async function invalidUserTests(): Promise<void> {
       }
     );
   });
+
+  it('Should return Bad Request when promoting standard booking taxi with missing android store links', async () => {
+    const userDto = copyUserTemplate(x => {
+      x.role = UserRole.Operator;
+      x.standard_booking_phone_number = '+1 (514) 555 1234';
+    });
+
+    const user = await createUser(userDto);
+    userDto.id = user.id;
+    userDto.standard_booking_android_deeplink_uri = 'http://test.ca';
+    userDto.standard_booking_ios_deeplink_uri = 'http://test.ca';
+    userDto.standard_booking_ios_store_uri = 'http://test.ca';
+    userDto.standard_booking_is_promoted_to_public = true;
+
+    await shouldThrow(
+      () => updateUser(userDto),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.strictEqual(
+          err.response.body.error.message,
+          'In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)'
+        );
+      }
+    );
+  });
+
+  it('Should return Bad Request when promoting standard booking taxi with missing ios store link', async () => {
+    const userDto = copyUserTemplate(x => {
+      x.role = UserRole.Operator;
+      x.standard_booking_website_url = 'https://test.ca';
+    });
+
+    const user = await createUser(userDto);
+    userDto.id = user.id;
+    userDto.standard_booking_android_deeplink_uri = 'http://test.ca';
+    userDto.standard_booking_android_store_uri = 'http://test.ca';
+    userDto.standard_booking_ios_deeplink_uri = 'http://test.ca';
+    userDto.standard_booking_is_promoted_to_public = true;
+
+    await shouldThrow(
+      () => updateUser(userDto),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.strictEqual(
+          err.response.body.error.message,
+          'In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)'
+        );
+      }
+    );
+  });
+
+  it('Should return Bad Request when promoting special need booking taxi with missing android store links', async () => {
+    const userDto = copyUserTemplate(x => {
+      x.role = UserRole.Operator;
+      x.special_need_booking_phone_number = '+1 (514) 555 1234';
+    });
+
+    const user = await createUser(userDto);
+    userDto.id = user.id;
+    userDto.special_need_booking_android_deeplink_uri = 'http://test.ca';
+    userDto.special_need_booking_ios_deeplink_uri = 'http://test.ca';
+    userDto.special_need_booking_ios_store_uri = 'http://test.ca';
+    userDto.special_need_booking_is_promoted_to_public = true;
+
+    await shouldThrow(
+      () => updateUser(userDto),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.strictEqual(
+          err.response.body.error.message,
+          'In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)'
+        );
+      }
+    );
+  });
+
+  it('Should return Bad Request when promoting special need booking taxi with missing ios store link', async () => {
+    const userDto = copyUserTemplate(x => {
+      x.role = UserRole.Operator;
+      x.special_need_booking_website_url = 'https://test.ca';
+    });
+
+    const user = await createUser(userDto);
+    userDto.id = user.id;
+    userDto.special_need_booking_android_deeplink_uri = 'http://test.ca';
+    userDto.special_need_booking_android_store_uri = 'http://test.ca';
+    userDto.special_need_booking_ios_deeplink_uri = 'http://test.ca';
+    userDto.special_need_booking_is_promoted_to_public = true;
+
+    await shouldThrow(
+      () => updateUser(userDto),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.strictEqual(
+          err.response.body.error.message,
+          'In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)'
+        );
+      }
+    );
+  });
 }
 
 function testCreateAccountUserAccessInvalid(role: UserRole) {
