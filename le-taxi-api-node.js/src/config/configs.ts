@@ -242,7 +242,7 @@ export class Configs {
       searchDistance: {
         standard: this.cache.get<number>('inquiries.searchDistance.standard'),
         minivan: this.cache.get<number>('inquiries.searchDistance.minivan'),
-        specialNeed: this.cache.get<number>('inquiries.searchDistance.specialNeed'),
+        specialNeed: this.cache.get<number>('inquiries.searchDistance.specialNeed')
       }
     };
   }

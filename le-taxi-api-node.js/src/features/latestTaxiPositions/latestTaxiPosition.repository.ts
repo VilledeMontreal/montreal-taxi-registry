@@ -25,13 +25,11 @@ class LatestTaxiPositionRepository {
         $near: {
           $geometry: { type: 'Point', coordinates: [coordinate.lon, coordinate.lat] },
           $maxDistance: getArbitraryMaxDistance(inquiryType)
-        },
-      },
+        }
+      }
     }));
 
-    const results = await Promise.all(
-      filters.map(filter => db.collection('latestTaxiPositions').findOne(filter))
-    );
+    const results = await Promise.all(filters.map(filter => db.collection('latestTaxiPositions').findOne(filter)));
 
     return results
       .map((result, i) => latestTaxiPositionMapper.mongoToLatestTaxiPositionModelExtended(result, inquiryTypes[i]))
