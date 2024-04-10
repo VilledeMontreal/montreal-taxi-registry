@@ -133,12 +133,32 @@ function ensureOperatorHasWebsiteUrl(user: UserRequestDto): void {
 }
 
 function ensureMinimalInformationForPublicPromotion(user: UserRequestDto): void {
-  ensureStandandBookingMinimalInformation(user);
+  ensureStandardBookingMinimalInformation(user);
   ensureMinivanBookingMinimalInformation(user);
   ensureSpecialNeedBookingMinimalInformation(user);
 }
 
-function ensureStandandBookingMinimalInformation(user: UserRequestDto) {
+function ensureStandardBookingMinimalInformation(user: UserRequestDto) {
+  if (
+    user.standard_booking_is_promoted_to_public &&
+    user.standard_booking_android_deeplink_uri &&
+    !user.standard_booking_android_store_uri
+  ) {
+    throw new BadRequestError(
+      'In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)'
+    );
+  }
+
+  if (
+    user.standard_booking_is_promoted_to_public &&
+    user.standard_booking_ios_deeplink_uri &&
+    !user.standard_booking_ios_store_uri
+  ) {
+    throw new BadRequestError(
+      'In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)'
+    );
+  }
+
   if (
     user.standard_booking_is_promoted_to_public &&
     !(
@@ -194,6 +214,26 @@ function ensureMinivanBookingMinimalInformation(user: UserRequestDto) {
 }
 
 function ensureSpecialNeedBookingMinimalInformation(user: UserRequestDto) {
+  if (
+    user.special_need_booking_is_promoted_to_public &&
+    user.special_need_booking_android_deeplink_uri &&
+    !user.special_need_booking_android_store_uri
+  ) {
+    throw new BadRequestError(
+      'In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)'
+    );
+  }
+
+  if (
+    user.special_need_booking_is_promoted_to_public &&
+    user.special_need_booking_ios_deeplink_uri &&
+    !user.special_need_booking_ios_store_uri
+  ) {
+    throw new BadRequestError(
+      'In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)'
+    );
+  }
+
   if (
     user.special_need_booking_is_promoted_to_public &&
     !(

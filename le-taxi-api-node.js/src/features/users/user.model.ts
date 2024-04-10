@@ -39,7 +39,8 @@ export class UserModel {
   special_need_booking_inquiries_starts_at: string;
 }
 
-type BaseUserModel = 'id'
+type BaseUserModel =
+  | 'id'
   | 'email'
   | 'active'
   | 'public_id'
@@ -49,7 +50,8 @@ type BaseUserModel = 'id'
   | 'email_technical'
   | 'phone_number_technical';
 
-type OperatorUserModel = 'website_url'
+type OperatorUserModel =
+  | 'website_url'
   | 'standard_booking_phone_number'
   | 'standard_booking_website_url'
   | 'standard_booking_android_deeplink_uri'
@@ -76,9 +78,9 @@ type RoleUserModel = 'role' | 'role_name';
 
 type AuthenticationUserModel = 'apikey' | 'password';
 
-export type BaseUser = Pick<UserModel, BaseUserModel>
-export type AuthenticatedUser = Pick<UserModel, BaseUserModel| RoleUserModel | AuthenticationUserModel>
-export type PromotedOperator = Pick<UserModel, BaseUserModel | RoleUserModel | OperatorUserModel>
+export type BaseUser = Pick<UserModel, BaseUserModel>;
+export type AuthenticatedUser = Pick<UserModel, BaseUserModel | RoleUserModel | AuthenticationUserModel>;
+export type PromotedOperator = Pick<UserModel, BaseUserModel | RoleUserModel | OperatorUserModel>;
 
 // For any custom properties populated by us
 // let typescript knows about it (thanks to declaration merging)
