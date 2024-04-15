@@ -49,11 +49,11 @@ export function zonesFunc(lang: GofsLiteSupportedLangTypes): GofsLiteZoneRespons
 
 function patchLocationsInEnglish(locations: FeatureCollection): FeatureCollection {
   const locationsEn = _.cloneDeep(locations);
-  locationsEn.features[0].properties.stop_name = 'Montréal-Trudeau International Airport';
-  locationsEn.features[0].properties.stop_desc =
+  locationsEn.features[0].properties.name = 'Montréal-Trudeau International Airport';
+  locationsEn.features[0].properties.description =
     'The airport is subject to federal jurisdiction that prevents the Taxi Registry to honour ride request from the airport';
-  locationsEn.features[1].properties.stop_name = 'Jurisdiction of the Autorité régionale de transport métropolitain';
-  locationsEn.features[1].properties.stop_desc = `Longueuil Urban Area, Beauharnois-Salaberry MRC, Deux-Montagnes MRC, L'Assomption MRC, Rivière-du-Nord MRC, Vallée-du-Richelieu MRC, Moulins MRC, Marguerite-D'Youville MRC, Roussillon MRC, Rouville MRC, Thérèse-De Blainville MRC, Vaudreuil-Soulanges MRC, City of Laval, City of Mirabel.`;
+  locationsEn.features[1].properties.name = 'Jurisdiction of the Autorité régionale de transport métropolitain';
+  locationsEn.features[1].properties.description = `Longueuil Urban Area, Beauharnois-Salaberry MRC, Deux-Montagnes MRC, L'Assomption MRC, Rivière-du-Nord MRC, Vallée-du-Richelieu MRC, Moulins MRC, Marguerite-D'Youville MRC, Roussillon MRC, Rouville MRC, Thérèse-De Blainville MRC, Vaudreuil-Soulanges MRC, City of Laval, City of Mirabel.`;
   return locationsEn;
 }
 
