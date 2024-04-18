@@ -78,7 +78,7 @@ class GofsLiteController {
 
 function buildFeed(feeds: string[], lang: string): GofsLiteFeedDetailResponseDto[] {
   return feeds.map(feed => ({
-    name: feed.substring(feed.lastIndexOf('/') + 1),
+    name: feed.substring(feed.lastIndexOf('/') + 1).replace('.json', ''),
     url: getAbsoluteUrl(feed.replace(':lang', lang))
   }));
 }

@@ -5,13 +5,13 @@ config:
     pool: 20
     timeout: 35
   phases:
-    - name: "1 200 inquiries"
-      arrivalRate: 20
+    - name: "1 800 inquiries with no destination"
+      arrivalRate: 30
       duration: 300
 scenarios:
-  - name: "GOFS realtime_booking"
+  - name: "GOFS realtime_booking with no destination"
     flow:
-      - function: "generateRealtimeBookingQueryParams"
+      - function: "generateRealtimeBookingQueryParamsNoDestination"
       - get:
           url: "/api/gofs-lite/1/en/realtime_booking"
           headers:

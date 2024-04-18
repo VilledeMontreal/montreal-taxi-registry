@@ -4,9 +4,10 @@
     {
       "type": "Feature",
       "id": "airport",
+      "zone_id": "airport",
       "properties": {
-        "stop_name": "Aéroport International Montréal-Trudeau",
-        "stop_desc": "L'aéroport est assujeti à la juridiction fédérale qui ne permet pas d'utiliser le Registre des taxis, afin de demander une course à partir de l'aéroport."
+        "name": "Aéroport International Montréal-Trudeau",
+        "description": "L'aéroport est assujeti à la juridiction fédérale qui ne permet pas d'utiliser le Registre des taxis, afin de demander une course à partir de l'aéroport."
       },
       "geometry": {
         "type": "Polygon",
@@ -71,9 +72,10 @@
     {
       "type": "Feature",
       "id": "artm",
+      "zone_id": "artm",
       "properties": {
-        "stop_name": "Territoire de l'Autorité régionale de transport métropolitain",
-        "stop_desc": "Agglomération de Longueuil, MRC de Beauharnois-Salaberry, MRC de Deux-Montagnes, MRC de L'Assomption, MRC de La Rivière-du-Nord, MRC de La Vallée-du-Richelieu, MRC des Moulins, MRC de Marguerite-D'Youville, MRC de Roussillon, MRC de Rouville, MRC de Thérèse-De Blainville, MRC de Vaudreuil-Soulanges, Ville de Laval, Ville de Mirabel."
+        "name": "Territoire de l'Autorité régionale de transport métropolitain",
+        "description": "Agglomération de Longueuil, MRC de Beauharnois-Salaberry, MRC de Deux-Montagnes, MRC de L'Assomption, MRC de La Rivière-du-Nord, MRC de La Vallée-du-Richelieu, MRC des Moulins, MRC de Marguerite-D'Youville, MRC de Roussillon, MRC de Rouville, MRC de Thérèse-De Blainville, MRC de Vaudreuil-Soulanges, Ville de Laval, Ville de Mirabel."
       },
       "geometry": {
         "type": "Polygon",
