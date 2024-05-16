@@ -1,9 +1,10 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { configs } from '../../config/configs';
-import { constants } from '../../config/constants';
-import { ICoordinates } from '../shared/coordinates/coordinates';
-import { superagentWithStats } from '../shared/e2eTesting/superagentWithStats';
+import { Response } from "superagent";
+import { configs } from "../../config/configs";
+import { constants } from "../../config/constants";
+import { ICoordinates } from "../shared/coordinates/coordinates";
+import { superagentWithStats } from "../shared/e2eTesting/superagentWithStats";
 
 export async function getRoutesFromTaxiRegistryOsrm(
   closestTaxi: ICoordinates,
