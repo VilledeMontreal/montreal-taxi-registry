@@ -4,6 +4,7 @@
     "sourceMap": true,
     "pretty": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "ignoreDeprecations": "5.0"
   }
 }
