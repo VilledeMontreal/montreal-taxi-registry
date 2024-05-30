@@ -31,7 +31,7 @@ export async function invalidJsonTests(): Promise<void> {
       () => postDtoIsString('/api/vehicles/', wrongFormatDto, apiKey),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'Unexpected number in JSON at position');
+        assert.include(err.response.body.error.message, "Expected ':'");
       }
     );
   });
@@ -59,7 +59,7 @@ export async function invalidJsonTests(): Promise<void> {
       () => postDtoIsString('/api/taxi-position-snapshots/', wrongFormatDto, operatorUser.apikey),
       err => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'Unexpected token p in JSON at position');
+        assert.include(err.response.body.error.message, "Unexpected token 'p'");
       }
     );
   });
