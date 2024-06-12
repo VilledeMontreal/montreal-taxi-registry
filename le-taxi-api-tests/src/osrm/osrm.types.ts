@@ -1,6 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { StatusCodes } from 'http-status-codes';
+import { Response } from 'superagent';
 import { ICoordinates } from '../shared/coordinates/coordinates';
 
 export interface IOsrmRoutes {

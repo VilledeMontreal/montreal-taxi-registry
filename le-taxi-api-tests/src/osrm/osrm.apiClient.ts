@@ -1,5 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { Response } from 'superagent';
 import { configs } from '../../config/configs';
 import { constants } from '../../config/constants';
 import { ICoordinates } from '../shared/coordinates/coordinates';
