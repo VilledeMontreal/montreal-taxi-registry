@@ -1,5 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { configs } from "../../../config/configs";
 import { getRandomArrayItem } from "../../shared/commonLoadTests/randomData";
 import { generatePointsForLoadTest } from "../../shared/commonLoadTests/specialRegion";
 import { getCurrentUnixTime } from "../../shared/commonTests/testUtil";
@@ -24,13 +25,16 @@ export function beforeRequestForInitialization(
   ee: any,
   next: any
 ) {
-  return beforeRequest(
-    sharedStateForInitialization,
-    requestParams,
-    context,
-    ee,
-    next
-  );
+  if (configs.loadTesting.snapshots.runWithTaxiExpiration) {
+    return beforeRequest(
+      sharedStateForInitialization,
+      requestParams,
+      context,
+      ee,
+      next
+    );
+  }
+  return next();
 }
 
 export function beforeRequestForTests(
