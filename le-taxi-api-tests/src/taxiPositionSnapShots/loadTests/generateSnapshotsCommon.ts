@@ -6,8 +6,6 @@ import { generatePointsForLoadTest } from "../../shared/commonLoadTests/specialR
 import { getCurrentUnixTime } from "../../shared/commonTests/testUtil";
 import { copyTaxiPositionSnapShotItemTemplate } from "../taxiPositionSnapShotsDto.template";
 
-const numberOfOperatorsForTesting = 20;
-
 // tslint:disable-next-line: no-console
 console.log(
   "WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!"
@@ -45,7 +43,10 @@ export function beforeRequestForTests(
   ee: any,
   next: any
 ) {
-  const sliced = sharedStateForTests.slice(0, numberOfOperatorsForTesting);
+  const sliced = sharedStateForTests.slice(
+    0,
+    configs.loadTesting.snapshots.numberOfOperators
+  );
   return beforeRequest(sliced, requestParams, context, ee, next);
 }
 

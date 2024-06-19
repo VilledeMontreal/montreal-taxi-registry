@@ -1,12 +1,12 @@
 config:
-  target: "https://taximtldev.accept.ville.montreal.qc.ca"
+  target: "https://taximtl.accept.ville.montreal.qc.ca"
   processor: "./generateQueryParams.js"
   http:
-    pool: 30
+    pool: 100
     timeout: 35
   phases:
     - name: "1 800 inquiries"
-      arrivalRate: 30
+      arrivalRate: 100
       duration: 300
 scenarios:
   - name: "GOFS realtime_booking"

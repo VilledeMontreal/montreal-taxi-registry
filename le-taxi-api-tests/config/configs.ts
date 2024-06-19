@@ -86,6 +86,9 @@ export class Configs {
         runWithTaxiExpiration: this.cache.get<number>(
           "loadTesting.snapshots.runWithTaxiExpiration"
         ),
+        numberOfOperators: this.cache.get<number>(
+          "loadTesting.snapshots.numberOfOperators"
+        ),
       },
     };
   }
@@ -152,7 +155,7 @@ export let configs: Configs = Configs.instance;
 
 export function getAbsoluteUrl(relative: string): string {
   if (configs.environment.isDev) {
-    return `https://taximtldev.accept.ville.montreal.qc.ca${relative}`;
+    return `https://taximtl.accept.ville.montreal.qc.ca${relative}`;
   }
 
   // Default value in LOCAL
