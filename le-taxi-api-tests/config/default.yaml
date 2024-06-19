@@ -25,6 +25,7 @@ caching:
 loadTesting:
   snapshots:
     runWithTaxiExpiration: false
+    numberOfOperators: 50
 
 #==========================================
 # Routing Service OSRM
