@@ -47,6 +47,36 @@ describe('ModelMapCache cache', () => {
     assert.strictEqual(mapInCache['three'], 3);
   });
 
+  it('Can update a cached value', async () => {
+    const mockRepo = { number: { one: 1 } };
+    const mockRepoWithCaching = ModelMapCache.createFromSingle<any>(
+      async key => {
+        return new Promise(async (resolve, reject) => {
+          resolve(mockRepo[key]);
+        });
+      },
+      {
+        maxCapacity: cacheMaximumCapacity,
+        maxAge: cacheExpirationInSeconds * 1000
+      }
+    );
+
+    const number = await mockRepoWithCaching.getByKey('number');
+    assert.deepEqual(number, { one: 1 });
+
+    mockRepo['number'] = { one: 2 };
+    await aFewSeconds(delayToWaitForCacheToExpireInSeconds);
+
+    const numberUpdated = await mockRepoWithCaching.getByKey('number');
+    assert.deepEqual(numberUpdated, { one: 2 });
+
+    mockRepo['number'] = { one: null };
+    await aFewSeconds(delayToWaitForCacheToExpireInSeconds);
+
+    const numberNullified = await mockRepoWithCaching.getByKey('number');
+    assert.deepEqual(numberNullified, { one: null });
+  });
+
   it('Can use getByKey() on cache fed by single accessor', async () => {
     const mockRepo = { one: 1, two: 2, three: 3 };
     const mockRepoWithCaching = buildMockRepoWithSingleCaching(mockRepo);
@@ -136,6 +166,38 @@ describe('ModelMapCache cache', () => {
     assert.strictEqual(mapExpired['three'], undefined);
   });
 
+  it('Should clear entities after expiration (when hit)', async () => {
+    const expirationForTestInSec = 3;
+    const mockRepo = { one: 1 };
+    const mockRepoWithCaching = ModelMapCache.createFromSingle<any>(
+      async key => {
+        return new Promise(async (resolve, reject) => {
+          resolve(mockRepo[key]);
+        });
+      },
+      {
+        maxCapacity: cacheMaximumCapacity,
+        maxAge: expirationForTestInSec * 1000
+      }
+    );
+
+    const one = await mockRepoWithCaching.getByKey('one');
+    assert.strictEqual(one, 1);
+    delete mockRepo['one'];
+
+    await aFewSeconds(expirationForTestInSec / 3);
+    const oneFirstHit = await mockRepoWithCaching.getByKey('one');
+    assert.strictEqual(oneFirstHit, 1);
+
+    await aFewSeconds(expirationForTestInSec / 3);
+    const oneSecondHit = await mockRepoWithCaching.getByKey('one');
+    assert.strictEqual(oneSecondHit, 1);
+
+    await aFewSeconds(expirationForTestInSec / 3);
+    const oneThirdHit = await mockRepoWithCaching.getByKey('one');
+    assert.strictEqual(oneThirdHit, undefined);
+  });
+
   it('Should roll out extra entites on max capacity', async () => {
     const mockRepo = { one: 1, two: 2, three: 3 };
     const mockRepoWithCaching = buildMockRepoWithManyCaching(mockRepo);
@@ -171,8 +233,10 @@ function buildMockRepoWithSingleCaching(mockRepo: { [id: string]: number }) {
         resolve(mockRepo[key]);
       });
     },
-
-    { maxCapacity: cacheMaximumCapacity, maxAge: cacheExpirationInSeconds * 1000 }
+    {
+      maxCapacity: cacheMaximumCapacity,
+      maxAge: cacheExpirationInSeconds * 1000
+    }
   );
 }
 
@@ -185,7 +249,10 @@ function buildMockRepoWithManyCaching(mockRepo: { [id: string]: number }) {
         resolve(map);
       });
     },
-    { maxCapacity: cacheMaximumCapacity, maxAge: cacheExpirationInSeconds * 1000 }
+    {
+      maxCapacity: cacheMaximumCapacity,
+      maxAge: cacheExpirationInSeconds * 1000
+    }
   );
 }
 
@@ -196,6 +263,9 @@ function buildMockRepoWithErrorCaching(mockRepo: { [id: string]: number }) {
         reject(new Error('Bang!'));
       });
     },
-    { maxCapacity: cacheMaximumCapacity, maxAge: cacheExpirationInSeconds * 1000 }
+    {
+      maxCapacity: cacheMaximumCapacity,
+      maxAge: cacheExpirationInSeconds * 1000
+    }
   );
 }
