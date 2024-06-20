@@ -50,38 +50,16 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 1);
   });
 
-  it(`Should be able to request a minivan`, async () => {
-    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }]);
-    const inquiryRequest = buildInquiryRequest(
-      generateApiTestCoordinates(),
-      generateApiTestCoordinates(),
-      [AssetTypes.Mpv],
-      operators
-    );
-    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
-
-    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
-  });
-
-  it(`Should be able to receive a minivan when requesting minivan and minivan is promoted`, async () => {
-    const promotions = { standard: true, minivan: true, special_need: false };
-    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], promotions);
-    const inquiryRequest = buildInquiryRequest(
-      generateApiTestCoordinates(),
-      generateApiTestCoordinates(),
-      [AssetTypes.Mpv],
-      operators
-    );
-    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
-
-    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
-  });
-
-  it(`Should be able to receive a minivan when requesting standard vehicle and minivan is promoted`, async () => {
-    const promotions = { standard: true, minivan: true, special_need: false };
-    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], promotions);
+  it(`Should receive a standard vehicle if promoted`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }], {
+      standard: true,
+      minivan: false,
+      special_need: false
+    });
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
@@ -91,12 +69,116 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 1);
   });
 
-  it(`Should be able to request a special need vehicle`, async () => {
-    const operators = await createTaxisWithPromotions([
-      { ...generateApiTestCoordinates(), type: 'sedan', specialNeedVehicle: true }
-    ]);
+  it(`Should not receive a standard vehicle if not promoted`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }], {
+      standard: false,
+      minivan: false,
+      special_need: false
+    });
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.Normal],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 0);
+  });
+
+  it(`Should receive a minivan if promoted`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], {
+      standard: true,
+      minivan: true,
+      special_need: false
+    });
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.Mpv],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 1);
+  });
+
+  it(`Should not receive a minivan if not promoted`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], {
+      standard: true,
+      minivan: false,
+      special_need: true
+    });
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.Mpv],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 0);
+  });
+
+  it(`Should receive a minivan as a standard vehicle if promoted`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], {
+      standard: true,
+      minivan: true,
+      special_need: false
+    });
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.Normal],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 1);
+  });
+
+  it(`Should not receive a minivan as a standard vehicle if not promoted`, async () => {
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'mpv' }], {
+      standard: true,
+      minivan: false,
+      special_need: true
+    });
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.Normal],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 0);
+  });
+
+  it(`Should receive a special need vehicle if promoted (sedan)`, async () => {
+    const operators = await createTaxisWithPromotions(
+      [
+        {
+          ...generateApiTestCoordinates(),
+          type: 'sedan',
+          specialNeedVehicle: true
+        }
+      ],
+      { standard: false, minivan: false, special_need: true }
+    );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
@@ -106,6 +188,56 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 1);
+  });
+
+  it(`Should receive a special need vehicle if promoted (mpv)`, async () => {
+    const operators = await createTaxisWithPromotions(
+      [
+        {
+          ...generateApiTestCoordinates(),
+          type: 'mpv',
+          specialNeedVehicle: true
+        }
+      ],
+      { standard: false, minivan: false, special_need: true }
+    );
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.SpecialNeed],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 1);
+  });
+
+  it(`Should not receive a minivan as a special need vehicle`, async () => {
+    const operators = await createTaxisWithPromotions(
+      [
+        {
+          ...generateApiTestCoordinates(),
+          type: 'mpv',
+          specialNeedVehicle: true
+        }
+      ],
+      { standard: true, minivan: true, special_need: false }
+    );
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.SpecialNeed],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isDefined(inquiryResponse.body?.options);
+    assert.strictEqual(inquiryResponse.body.options.length, 0);
   });
 
   it(`Should return expected DTO format`, async () => {
