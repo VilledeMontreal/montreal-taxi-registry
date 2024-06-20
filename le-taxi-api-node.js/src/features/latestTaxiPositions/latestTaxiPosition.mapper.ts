@@ -75,6 +75,7 @@ class LatestTaxiPositionMapper {
     }
     if (
       taxiSummary.isMpv &&
+      !taxiSummary.isSpecialNeedVehicle &&
       userModel.minivan_booking_inquiries_starts_at &&
       userModel.minivan_booking_inquiries_starts_at < now
     ) {
