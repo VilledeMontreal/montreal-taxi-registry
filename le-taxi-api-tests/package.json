@@ -14,6 +14,7 @@
     "load-test-optional-trigger-many-errors-alert": "tsc && node node_modules/artillery/bin/artillery run src/taxis/loadTests/test-trigger-many-errors-alert.yaml",
     "load-test-taxi-position-snapshot-data-dump": "tsc && node node_modules/artillery/bin/artillery run -o test-taxi-position-snapshot-data-dump.report.json src/taxiPositionSnapshotDataDumps/loadTests/test-taxi-position-snapshot-data-dump.yaml && node node_modules/artillery/bin/artillery report -o test-taxi-position-snapshot-data-dump.report.html test-taxi-position-snapshot-data-dump.report.json",
     "load-test-taxi-grid": "tsc && node node_modules/artillery/bin/artillery run -o test-taxi-grid.report.json src/taxis/loadTests/test-taxi-grid.yaml && node node_modules/artillery/bin/artillery report -o test-taxi-grid.report.html test-taxi-grid.report.json",
+    "load-test-osrm": "tsc && node node_modules/artillery/bin/artillery run -o test-osrm.report.json src/osrm/loadTests/test-osrm.yaml && node node_modules/artillery/bin/artillery report -o test-osrm.report.html test-osrm.report.json",
     "generate-load-test-shared-state": "env NODE_ENV=development npm run launch-generate-load-test-shared-state",
     "generate-integration-tests-shared-state": "env NODE_ENV=development npm run launch-generate-integration-tests-shared-state",
     "clean": "rimraf src/**/*.js src/**/*.js.map",
@@ -25,8 +26,6 @@
     "prettier": "villemontreal-lint . check node prettier",
     "prettier-fix": "villemontreal-lint . fix node prettier",
     "tsc": "tsc",
-    "osrm-random-montreal-car-route-5rps": "tsc && node node_modules/artillery/bin/artillery run -o osrm-random-montreal-car-route-5rps.report.json src/osrm/osrm-random-montreal-car-route-5rps.yaml && node node_modules/artillery/bin/artillery report -o osrm-random-montreal-car-route-5rps.report.html osrm-random-montreal-car-route-5rps.report.json",
-    "osrm-random-montreal-car-route-20rps": "tsc && node node_modules/artillery/bin/artillery run -o osrm-random-montreal-car-route-20rps.report.json src/osrm/osrm-random-montreal-car-route-20rps.yaml && node node_modules/artillery/bin/artillery report -o osrm-random-montreal-car-route-20rps.report.html osrm-random-montreal-car-route-20rps.report.json",
     "launch-generate-load-test-shared-state": "tsc && node -r source-map-support/register src/taxis/loadTests/generateMotor.sharedState.js && node -r source-map-support/register src/taxiPositionSnapShots/loadTests/generateTaxis.sharedState.js",
     "launch-generate-integration-tests-shared-state": "tsc && node -r source-map-support/register src/apiIntegrationTests/generateApiIntegration.sharedState.js",
     "launch-load-tests": "node node_modules/artillery/bin/artillery run -o load-tests-results.json artillery.yaml"
