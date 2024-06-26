@@ -1,11 +1,11 @@
 config:
-  target: 'https://taximtldev.accept.ville.montreal.qc.ca'
-  processor: './generateSnapshotsFor50Operators.js'
+  target: "https://taximtl.accept.ville.montreal.qc.ca"
+  processor: "./generateSnapshotsFor50Operators.js"
   http:
     pool: 20
     timeout: 5
   phases:
-    - name: '3 000 POST taxi-position-snapshots - 50 operators x 200 taxis'
+    - name: "3 000 POST taxi-position-snapshots - 50 operators x 200 taxis"
       # Each virtual user per second will send 1 snapshot / 200 positions.
       # Using 10 virtual users per second will have a total of 10 snapshots / 2,000 positions sent every second.
       # Therefore, we'll be sending a total of 3000 snapshots / 600,000 positions in 5 minutes.
@@ -14,19 +14,19 @@ config:
 before:
   flow:
     - loop:
-      - post:
-          url: '/api/taxi-position-snapshots'
-          beforeRequest: 'beforeRequestForInitialization'
-          json: '{{snapshots}}'
-          headers:
-            X-API-KEY: '{{operatorApikey}}'
+        - post:
+            url: "/api/taxi-position-snapshots"
+            beforeRequest: "beforeRequestForInitialization"
+            json: "{{snapshots}}"
+            headers:
+              X-API-KEY: "{{operatorApikey}}"
       count: 50
 scenarios:
-  - name: 'sending snapshots'
+  - name: "sending snapshots"
     flow:
       - post:
-          url: '/api/taxi-position-snapshots'
-          beforeRequest: 'beforeRequestForTests'
-          json: '{{snapshots}}'
+          url: "/api/taxi-position-snapshots"
+          beforeRequest: "beforeRequestForTests"
+          json: "{{snapshots}}"
           headers:
-            X-API-KEY: '{{operatorApikey}}'
+            X-API-KEY: "{{operatorApikey}}"

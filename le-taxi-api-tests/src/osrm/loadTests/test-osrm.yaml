@@ -1,0 +1,16 @@
+config:
+  target: "https://api.accept.interne.montreal.ca/api/taxi/taxi-registry-osrm"
+  processor: "./generateOsrmPayload.js"
+  http:
+    pool: 1000
+    timeout: 35
+  phases:
+    - name: "load test"
+      arrivalRate: 1000
+      duration: 300
+scenarios:
+  - name: "OSRM test"
+    flow:
+      - function: "beforeGetRoute"
+      - get:
+          url: "/route/v1/car/{{taxiLon}},{{taxiLat}};{{clientLon}},{{clientLat}};{{destinationLon}},{{destinationLat}}?overview=false"

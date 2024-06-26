@@ -1,17 +1,17 @@
 config:
-  target: 'https://taximtldev.accept.ville.montreal.qc.ca'
-  processor: './test-taxi-grid.js'
+  target: "https://taximtl.accept.ville.montreal.qc.ca"
+  processor: "./test-taxi-grid.js"
   http:
     pool: 30
   phases:
-    - name: '300 GET taxis/grid - used by UI'
+    - name: "300 GET taxis/grid - used by UI"
       arrivalRate: 1
       duration: 300
 scenarios:
-  - name: 'taxi grid'
+  - name: "taxi grid"
     flow:
-      - function: 'beforeFlow'
+      - function: "beforeFlow"
       - get:
-          url: '/api/legacy-web/taxis/grid?page=0&pagesize=10'
+          url: "/api/legacy-web/taxis/grid?page=0&pagesize=10"
           headers:
-            X-API-KEY: '{{apikey}}'
+            X-API-KEY: "{{apikey}}"
