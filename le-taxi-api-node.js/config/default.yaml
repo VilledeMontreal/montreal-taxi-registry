@@ -76,7 +76,7 @@ dataSources:
     username:
     password:
     options: replicaSet=rsgeotaxi
-    poolSize: 100
+    poolSize: 500
   taxiEstimate:
     host: development
     apikey: secret
