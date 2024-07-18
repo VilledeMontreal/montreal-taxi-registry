@@ -1,5 +1,5 @@
 config:
-  target: "https://taximtldev.accept.ville.montreal.qc.ca"
+  target: "https://taximtl.accept.ville.montreal.qc.ca"
   processor: "./generateQueryParams.js"
   http:
     pool: 20

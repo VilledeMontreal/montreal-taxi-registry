@@ -19,6 +19,13 @@ inquiries:
   fixedNightlyPriceDowntownToAirport: 56.70 # Airport night fixed rate + compensation
 caching:
   delayToExceedUsersCache: 11
+#==========================================
+# Load testing
+#==========================================
+loadTesting:
+  snapshots:
+    runWithTaxiExpiration: false
+    numberOfOperators: 50
 
 #==========================================
 # Routing Service OSRM
