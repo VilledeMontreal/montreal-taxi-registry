@@ -75,10 +75,11 @@ pipeline.withSourceCode(ctx) {
 podTemplate(
     label: WORKER_NAME,
     inheritFrom: 'default',
+    imagePullSecrets: ["acr-auth"],
     containers: [
         containerTemplate(
             name: CONTAINER_NAME,
-            image: ctx.draftImage.toString(),
+            image: ctx.containerDraftImageRegistry.getFullImageName(ctx.draftImage),
             command: 'cat',
             args: '',
             runAsUser: "0", //ctx.applicationUserID,
