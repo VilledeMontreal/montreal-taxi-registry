@@ -2,6 +2,7 @@ FROM node:20.13-slim
 
 RUN echo "America/Montreal" > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
+RUN apt-get update && apt-get install -y telnet
 
 RUN mkdir -p /le-taxi-api-node
 WORKDIR /le-taxi-api-node
