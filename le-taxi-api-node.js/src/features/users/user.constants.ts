@@ -178,6 +178,7 @@ export const getUsersByRole = `SELECT
   INNER JOIN roles_users ru ON ru.user_id = u.id
   INNER JOIN role r ON ru.role_id = r.id
   WHERE r.name = $1::text
+  AND u.active = true;
 `;
 
 export const getUsersPaginated = `SELECT
@@ -217,6 +218,7 @@ export const getUsersPaginated = `SELECT
   FROM public."user" u
   LEFT OUTER JOIN public.roles_users ru ON ru.user_id = u.id
   LEFT OUTER JOIN public.role r ON r.id = ru.role_id
+  WHERE u.active = true
   %ORDER_BY_CLAUSE%
   LIMIT $2::int
   OFFSET ($1::int * $2::int);
