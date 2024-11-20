@@ -98,7 +98,9 @@ export class Configs {
    */
   get apiTests() {
     return {
-      rootApiKey: this.cache.get<string>("apiTests.rootApiKey"),
+      rootApiKey: this.environment.isAcc
+        ? this.cache.get<string>("apiTests.performanceTests.rootApiKey")
+        : this.cache.get<string>("apiTests.rootApiKey"),
       user: this.cache.get<string>("apiTests.user"),
       password: this.cache.get<string>("apiTests.password"),
     };
@@ -155,6 +157,8 @@ export let configs: Configs = Configs.instance;
 
 export function getAbsoluteUrl(relative: string): string {
   if (configs.environment.isDev) {
+    return `https://taximtldev.accept.ville.montreal.qc.ca${relative}`;
+  } else if (configs.environment.isAcc) {
     return `https://taximtl.accept.ville.montreal.qc.ca${relative}`;
   }
 
