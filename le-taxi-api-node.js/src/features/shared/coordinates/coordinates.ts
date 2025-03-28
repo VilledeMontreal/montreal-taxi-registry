@@ -4,3 +4,7 @@ export interface ICoordinates {
   lat: number;
   lon: number;
 }
+
+export interface ICoordinatesWithAddress extends ICoordinates {
+  address: string;
+}
