@@ -98,11 +98,10 @@ export class Configs {
    */
   get apiTests() {
     return {
-      rootApiKey: this.environment.isAcc
-        ? this.cache.get<string>("apiTests.performanceTests.rootApiKey")
-        : this.cache.get<string>("apiTests.rootApiKey"),
-      user: this.cache.get<string>("apiTests.user"),
-      password: this.cache.get<string>("apiTests.password"),
+      rootApiKey: this.cache.get<string>('apiTests.rootApiKey'),
+      rootPath: this.cache.get<string>('apiTests.rootPath'),
+      user: this.cache.get<string>('apiTests.user'),
+      password: this.cache.get<string>('apiTests.password'),
     };
   }
 
@@ -156,12 +155,5 @@ export class Configs {
 export let configs: Configs = Configs.instance;
 
 export function getAbsoluteUrl(relative: string): string {
-  if (configs.environment.isDev) {
-    return `https://taximtldev.accept.ville.montreal.qc.ca${relative}`;
-  } else if (configs.environment.isAcc) {
-    return `https://taximtl.accept.ville.montreal.qc.ca${relative}`;
-  }
-
-  // Default value in LOCAL
-  return `http://localhost:8099${relative}`;
+  return `${configs.apiTests.rootPath}${relative}`;
 }

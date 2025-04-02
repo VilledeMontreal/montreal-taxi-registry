@@ -4,8 +4,9 @@
 apiTests:
   env: localhost
   rootApiKey:
-  user:
+  user: 
   password:
+  rootPath: http://localhost:8099
 environment:
   isLocal: false
 #==========================================
