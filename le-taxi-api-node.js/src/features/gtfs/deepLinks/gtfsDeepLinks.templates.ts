@@ -1,48 +1,48 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { ICoordinatesWithAddress } from "../../shared/coordinates/coordinates";
+import { ICoordinatesWithAddress } from '../../shared/coordinates/coordinates';
 
 const serviceUnavailable = `<div>The operator has stated that they do not offer this service. If this is incorrect, please contact support.taxi.exchange.point@montreal.ca</div>`;
 
 const eightyQueen = {
   lat: 45.497271007,
   lon: -73.554539698,
-  address: "80 Queen, Montréal, QC H3C 6X4",
+  address: '80 Queen, Montréal, QC H3C 6X4'
 };
-const cityHall = { lat: 45.50891801, lon: -73.554333425, address: "City Hall" };
-const airport = { lat: 45.465683693, lon: -73.74548144, address: "Airport" };
+const cityHall = { lat: 45.50891801, lon: -73.554333425, address: 'City Hall' };
+const airport = { lat: 45.465683693, lon: -73.74548144, address: 'Airport' };
 const oldLongueuil = {
   lat: 45.538120632,
   lon: -73.51005992,
-  address: "Old longueuil",
+  address: 'Old longueuil'
 };
 const middleOfAngrignonParc = {
   lat: 45.441481488,
   lon: -73.603012772,
-  address: "Angrignon Parc",
+  address: 'Angrignon Parc'
 };
 const invalidLocation = { lat: null, lon: null, address: null };
 const middleOfSaintLawrence = {
   lat: 45.432497149,
   lon: -73.538487531,
-  address: "",
+  address: ''
 };
 const middleOfSaintLawrenceOther = {
   lat: 45.3989600111,
   lon: -73.81834255,
-  address: "",
+  address: ''
 };
 
 export enum TaxiType {
-  Standard = "standard cab",
-  Minivan = "minivan",
-  SpecialNeed = "cab adapted to riders with capability issues",
+  Standard = 'standard cab',
+  Minivan = 'minivan',
+  SpecialNeed = 'cab adapted to riders with capability issues'
 }
 
 export enum PlatformType {
-  Web = "website",
-  Android = "Android app",
-  Ios = "iOS app",
+  Web = 'website',
+  Android = 'Android app',
+  Ios = 'iOS app'
 }
 
 export interface IPhoneBookingOptions {
@@ -85,9 +85,7 @@ export function evaluateBookingMinivan(opts: IDeepLinkBookingOptions): string {
 `;
 }
 
-export function evaluateBookingSpecialNeed(
-  opts: IDeepLinkBookingOptions
-): string {
+export function evaluateBookingSpecialNeed(opts: IDeepLinkBookingOptions): string {
   if (!opts.display) return serviceUnavailable;
 
   return `
@@ -96,17 +94,13 @@ ${evaluateAppStore(opts)}
 <br>
 ${cityHallToEightyQueen(opts)}
 <br>
-${opts.displayTemplate ? evaluateTemplate(opts) : ""}
+${opts.displayTemplate ? evaluateTemplate(opts) : ''}
 </div>
 `;
 }
 
 function evaluateAppStore(opts: IDeepLinkBookingOptions) {
-  if (
-    opts.platformType !== PlatformType.Android &&
-    opts.platformType !== PlatformType.Ios
-  )
-    return "";
+  if (opts.platformType !== PlatformType.Android && opts.platformType !== PlatformType.Ios) return '';
   if (!opts.storeUrl) return `<div>No store URL</div>`;
   return `
 <div>Can download the ${opts.platformType} to book a ${opts.taxiType} from the store:</div>
@@ -143,12 +137,7 @@ function evaluateTemplate(opts: IDeepLinkBookingOptions) {
 }
 
 function cityHallToEightyQueen(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    cityHall,
-    eightyQueen
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, cityHall, eightyQueen);
   return `
 <div>Can book a ${opts.taxiType} with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
@@ -169,12 +158,7 @@ function eightyQueenWithNoDestination(opts: IDeepLinkBookingOptions) {
 }
 
 function eightyQueenToCityHall(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    eightyQueen,
-    cityHall
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen, cityHall);
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to another Montreal address (City Hall) with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
@@ -182,12 +166,7 @@ function eightyQueenToCityHall(opts: IDeepLinkBookingOptions) {
 }
 
 function eightyQueenToAirport(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    eightyQueen,
-    airport
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen, airport);
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to the airport with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
@@ -195,12 +174,7 @@ function eightyQueenToAirport(opts: IDeepLinkBookingOptions) {
 }
 
 function eightyQueenToOldLongueil(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    eightyQueen,
-    oldLongueuil
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen, oldLongueuil);
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to an address in the ARTM zone (Old Longueuil) with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
@@ -208,12 +182,7 @@ function eightyQueenToOldLongueil(opts: IDeepLinkBookingOptions) {
 }
 
 function eightyQueenToMiddleOfAngrignonParc(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    eightyQueen,
-    middleOfAngrignonParc
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen, middleOfAngrignonParc);
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to a Montreal location without an address (middle of Angrignon Parc) with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
@@ -221,12 +190,7 @@ function eightyQueenToMiddleOfAngrignonParc(opts: IDeepLinkBookingOptions) {
 }
 
 function middleOfAngrignonParcToEightyQueen(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    middleOfAngrignonParc,
-    eightyQueen
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, middleOfAngrignonParc, eightyQueen);
   return `
 <div>Can book a ${opts.taxiType} from a Montreal location without address (middle of Angrignon Parc) to a Montreal address (80 Queen) with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
@@ -234,12 +198,7 @@ function middleOfAngrignonParcToEightyQueen(opts: IDeepLinkBookingOptions) {
 }
 
 function eightyQueenToInvalidLocation(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    eightyQueen,
-    invalidLocation
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen, invalidLocation);
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to an unspecified location (null) with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
@@ -247,12 +206,7 @@ function eightyQueenToInvalidLocation(opts: IDeepLinkBookingOptions) {
 }
 
 function invalidLocationToInvalidLocation(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    invalidLocation,
-    invalidLocation
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, invalidLocation, invalidLocation);
   return `
 <div>Can book a ${opts.taxiType} from an unspecified location (null) to an unspecified location (null) with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
@@ -260,27 +214,15 @@ function invalidLocationToInvalidLocation(opts: IDeepLinkBookingOptions) {
 }
 
 function invalidLocationToEightyQueen(opts: IDeepLinkBookingOptions) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    invalidLocation,
-    eightyQueen
-  );
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, invalidLocation, eightyQueen);
   return `
 <div>Can book a ${opts.taxiType} from a unspecified location (null) to a Montreal address (80 Queen) with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
 `;
 }
 
-function middleOfSaintLawrenceTomiddleOfSaintLawrenceOther(
-  opts: IDeepLinkBookingOptions
-) {
-  const link = buildDeepLink(
-    opts.bookingUrl,
-    opts.serviceType,
-    middleOfSaintLawrence,
-    middleOfSaintLawrenceOther
-  );
+function middleOfSaintLawrenceTomiddleOfSaintLawrenceOther(opts: IDeepLinkBookingOptions) {
+  const link = buildDeepLink(opts.bookingUrl, opts.serviceType, middleOfSaintLawrence, middleOfSaintLawrenceOther);
   return `
 <div>The ${opts.platformType} tolerates booking a ${opts.taxiType} from an erroneous location (middle of Saint Lawrence) to an erroneous location (other middle of Saint Lawrence):</div>
 <div><a href='${link}'>${link}</a></div>
@@ -293,11 +235,9 @@ function buildDeepLink(
   pickup: ICoordinatesWithAddress,
   dropoff?: ICoordinatesWithAddress
 ): string {
-  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${
-    pickup.lat
-  }&pickup_longitude=${pickup.lon}&pickup_address=${encodeURIComponent(
-    pickup.address
-  )}`;
+  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${pickup.lat}&pickup_longitude=${
+    pickup.lon
+  }&pickup_address=${encodeURIComponent(pickup.address)}`;
   return dropoff
     ? `${deepLink}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${
         dropoff.lon

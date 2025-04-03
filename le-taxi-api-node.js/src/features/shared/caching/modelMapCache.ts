@@ -1,9 +1,9 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as assert from "assert";
-import { LRUCache } from "lru-cache";
-import { ModelMap } from "./modelMap";
-import { defaultLRUCacheConfig, ICacheConfig } from "./taxiCacheConfig";
+import * as assert from 'assert';
+import { LRUCache } from 'lru-cache';
+import { ModelMap } from './modelMap';
+import { defaultLRUCacheConfig, ICacheConfig } from './taxiCacheConfig';
 
 export class ModelMapCache<TModel> {
   public static createFromSingle<TModel>(
@@ -11,14 +11,11 @@ export class ModelMapCache<TModel> {
     cacheConfig: ICacheConfig = defaultLRUCacheConfig
   ): ModelMapCache<TModel> {
     const accessor = async (keys: string[]) => {
-      assert(
-        keys && keys.length <= 1,
-        "A ModelMap fed by a single accessor can only be queried by a single key"
-      );
+      assert(keys && keys.length <= 1, 'A ModelMap fed by a single accessor can only be queried by a single key');
 
       const key = keys[0];
       return {
-        [key]: await singleAccessor(key),
+        [key]: await singleAccessor(key)
       };
     };
 
@@ -41,7 +38,7 @@ export class ModelMapCache<TModel> {
     this.accessor = accessor;
     this.cache = new LRUCache<string, TModel>({
       max: cacheConfig.maxCapacity,
-      ttl: cacheConfig.maxAge,
+      ttl: cacheConfig.maxAge
     });
   }
 
@@ -49,11 +46,8 @@ export class ModelMapCache<TModel> {
     const sanitizedKeys = this.sanitizeCacheKeys(keys);
 
     const volatileModels = this.getFromCache(sanitizedKeys);
-    const keysNotInCache = sanitizedKeys.filter(
-      (key) => volatileModels && !volatileModels[key]
-    );
-    const persistedModels =
-      keysNotInCache.length && (await this.accessor(keysNotInCache));
+    const keysNotInCache = sanitizedKeys.filter(key => volatileModels && !volatileModels[key]);
+    const persistedModels = keysNotInCache.length && (await this.accessor(keysNotInCache));
     this.setInCache(persistedModels);
 
     return { ...volatileModels, ...persistedModels };
@@ -77,8 +71,6 @@ export class ModelMapCache<TModel> {
   }
 
   private setInCache(modelMap: ModelMap<TModel>) {
-    Object.entries(modelMap).forEach(([key, value]) =>
-      this.cache.set(key, value)
-    );
+    Object.entries(modelMap).forEach(([key, value]) => this.cache.set(key, value));
   }
 }
