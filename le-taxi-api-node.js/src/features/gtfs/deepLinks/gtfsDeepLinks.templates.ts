@@ -1,17 +1,37 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { ICoordinates } from '../../shared/coordinates/coordinates';
+import { ICoordinatesWithAddress } from '../../shared/coordinates/coordinates';
 
 const serviceUnavailable = `<div>The operator has stated that they do not offer this service. If this is incorrect, please contact support.taxi.exchange.point@montreal.ca</div>`;
 
-const eightyQueen = { lat: 45.497271007, lon: -73.554539698 };
-const cityHall = { lat: 45.50891801, lon: -73.554333425 };
-const airport = { lat: 45.465683693, lon: -73.74548144 };
-const oldLongueuil = { lat: 45.538120632, lon: -73.51005992 };
-const middleOfAngrignonParc = { lat: 45.441481488, lon: -73.603012772 };
-const invalidLocation = { lat: null, lon: null };
-const middleOfSaintLawrence = { lat: 45.432497149, lon: -73.538487531 };
-const middleOfSaintLawrenceOther = { lat: 45.3989600111, lon: -73.81834255 };
+const eightyQueen = {
+  lat: 45.497271007,
+  lon: -73.554539698,
+  address: '80 Queen, Montréal, QC H3C 6X4'
+};
+const cityHall = { lat: 45.50891801, lon: -73.554333425, address: 'City Hall' };
+const airport = { lat: 45.465683693, lon: -73.74548144, address: 'Airport' };
+const oldLongueuil = {
+  lat: 45.538120632,
+  lon: -73.51005992,
+  address: 'Old longueuil'
+};
+const middleOfAngrignonParc = {
+  lat: 45.441481488,
+  lon: -73.603012772,
+  address: 'Angrignon Parc'
+};
+const invalidLocation = { lat: null, lon: null, address: null };
+const middleOfSaintLawrence = {
+  lat: 45.432497149,
+  lon: -73.538487531,
+  address: ''
+};
+const middleOfSaintLawrenceOther = {
+  lat: 45.3989600111,
+  lon: -73.81834255,
+  address: ''
+};
 
 export enum TaxiType {
   Standard = 'standard cab',
@@ -126,8 +146,8 @@ function cityHallToEightyQueen(opts: IDeepLinkBookingOptions) {
 
 function eightyQueenWithNoDestination(opts: IDeepLinkBookingOptions) {
   const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen);
-  const linkEmpty = `${link}&dropoff_latitude=&dropoff_longitude=`;
-  const linkNull = `${link}&dropoff_latitude=null&dropoff_longitude=null`;
+  const linkEmpty = `${link}&dropoff_latitude=&dropoff_longitude=&dropoff_address=`;
+  const linkNull = `${link}&dropoff_latitude=null&dropoff_longitude=null&dropoff_address=null`;
 
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to no particular destination with the ${opts.platformType}:</div>
@@ -164,7 +184,7 @@ function eightyQueenToOldLongueil(opts: IDeepLinkBookingOptions) {
 function eightyQueenToMiddleOfAngrignonParc(opts: IDeepLinkBookingOptions) {
   const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen, middleOfAngrignonParc);
   return `
-<div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to a Montreal location without an addressv (middle of Angrignon Parc) with the ${opts.platformType}:</div>
+<div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to a Montreal location without an address (middle of Angrignon Parc) with the ${opts.platformType}:</div>
 <div><a href='${link}'>${link}</a></div>
 `;
 }
@@ -209,7 +229,18 @@ function middleOfSaintLawrenceTomiddleOfSaintLawrenceOther(opts: IDeepLinkBookin
 `;
 }
 
-function buildDeepLink(baseUrl: string, serviceType: string, pickup: ICoordinates, dropoff?: ICoordinates): string {
-  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${pickup.lat}&pickup_longitude=${pickup.lon}`;
-  return dropoff ? `${deepLink}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${dropoff.lon}` : deepLink;
+function buildDeepLink(
+  baseUrl: string,
+  serviceType: string,
+  pickup: ICoordinatesWithAddress,
+  dropoff?: ICoordinatesWithAddress
+): string {
+  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${pickup.lat}&pickup_longitude=${
+    pickup.lon
+  }&pickup_address=${encodeURIComponent(pickup.address)}`;
+  return dropoff
+    ? `${deepLink}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${
+        dropoff.lon
+      }&dropoff_address=${encodeURIComponent(dropoff.address)}`
+    : deepLink;
 }

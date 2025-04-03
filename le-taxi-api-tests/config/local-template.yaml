@@ -1,0 +1,19 @@
+# ***************************************
+# Steps to do after git clone:
+#
+#  - Make copy of this file, rename as:
+#    - local.yaml
+#    - local-acceptation.yaml
+#    - local-development.yaml
+#  - Fill missing info
+#
+# Note:
+#  - local-development.yaml is required for task that has "-dev" as suffix
+#  - local-acceptation.yaml is required for task that has "-acc" as suffix
+#
+# ***************************************
+apiTests:
+  rootApiKey: FILL_MISSING_ROOT_API_KEY
+  user: FILL_MISSING_USER
+  password: FILL_MISSING_PASSWORD
+  rootPath: FILL_MISSING_ROOTPATH

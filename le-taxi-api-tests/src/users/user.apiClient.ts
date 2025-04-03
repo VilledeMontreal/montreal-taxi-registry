@@ -17,6 +17,7 @@ import { getImmutableUserApiKey } from './user.sharedFixture';
 import { copyUserTemplate } from './userDto.template';
 
 const rootApiKey = configs.apiTests.rootApiKey;
+console.log('rootApiKey', rootApiKey);
 
 export async function createPromotedOperator(dto: IUser, apiKey?: string) {
   if (dto.email === 'auto') dto.email = generateAutoEmail();
