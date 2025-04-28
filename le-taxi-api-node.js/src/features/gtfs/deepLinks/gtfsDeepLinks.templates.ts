@@ -10,7 +10,7 @@ const eightyQueen = {
   address: '80 Queen, Montréal, QC H3C 6X4'
 };
 const cityHall = { lat: 45.50891801, lon: -73.554333425, address: 'City Hall' };
-const airport = { lat: 45.465683693, lon: -73.74548144, address: 'Airport' };
+const airport = { lat: 45.457773, lon: -73.748345, address: 'Airport departure' };
 const oldLongueuil = {
   lat: 45.538120632,
   lon: -73.51005992,
