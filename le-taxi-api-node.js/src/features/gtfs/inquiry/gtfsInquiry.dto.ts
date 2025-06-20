@@ -42,7 +42,19 @@ export class GtfsCoordinatesNullable {
   lon?: number;
 }
 
-export class GtfsCoordinatesHolder {
+export class GtfsAddress {
+  @IsDefined()
+  @Type(() => String)
+  streetAddress: string;
+}
+
+export class GtfsAddressHolder {
+  @Type(() => GtfsAddress)
+  @ValidateNested()
+  physicalAddress?: GtfsAddress;
+}
+
+export class GtfsCoordinatesHolder extends GtfsAddressHolder {
   @IsDefined()
   @IsNotEmpty()
   @Type(() => GtfsCoordinates)
@@ -50,7 +62,7 @@ export class GtfsCoordinatesHolder {
   coordinates: GtfsCoordinates;
 }
 
-export class GtfsCoordinatesHolderNullable {
+export class GtfsCoordinatesHolderNullable extends GtfsAddressHolder {
   @Type(() => GtfsCoordinatesNullable)
   @ValidateNested()
   coordinates?: GtfsCoordinatesNullable;

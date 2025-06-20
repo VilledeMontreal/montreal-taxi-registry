@@ -23,11 +23,13 @@ function forceTypes(inquiryRequest: InquiryRequest): InquiryRequest {
   return {
     from: {
       lat: +inquiryRequest.from.lat,
-      lon: +inquiryRequest.from.lon
+      lon: +inquiryRequest.from.lon,
+      address: inquiryRequest.from.address
     },
     to: {
       lat: +inquiryRequest.to?.lat,
-      lon: +inquiryRequest.to?.lon
+      lon: +inquiryRequest.to?.lon,
+      address: inquiryRequest.to.address
     },
     inquiryTypes: inquiryRequest.inquiryTypes,
     operators: inquiryRequest.operators?.map(operator => +operator)
@@ -35,7 +37,9 @@ function forceTypes(inquiryRequest: InquiryRequest): InquiryRequest {
 }
 
 function validateYulTaxiRestrictedArea(coordinate: ICoordinates): void {
-  const yulTaxiRestrictedArea = turf.polygon([airportGeometry], { name: 'yul-taxi-restricted-area' });
+  const yulTaxiRestrictedArea = turf.polygon([airportGeometry], {
+    name: 'yul-taxi-restricted-area'
+  });
   const userPosition = turf.point([coordinate.lon, coordinate.lat]);
   const isPointContain = booleanContains(yulTaxiRestrictedArea, userPosition);
 

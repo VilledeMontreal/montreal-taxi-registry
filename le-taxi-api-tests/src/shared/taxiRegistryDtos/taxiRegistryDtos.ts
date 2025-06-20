@@ -206,13 +206,19 @@ export interface ITaxiResponseDto {
   status: string;
 }
 
+interface IStreetAddress {
+  streetAddress: string;
+}
+
 export interface IInquiryRequestDTO {
   from: {
     coordinates: ICoordinateDTO;
+    physicalAddress?: IStreetAddress;
   };
 
   to: {
     coordinates: ICoordinateDTO;
+    physicalAddress?: IStreetAddress;
   };
 
   useAssetTypes: AssetTypes[];
@@ -225,9 +231,11 @@ export interface IInquiryResponseDTO {
   arrivalTime: string; // Most by IsoString
   from: {
     coordinates: ICoordinateDTO;
+    physicalAddress?: IStreetAddress;
   };
   to: {
     coordinates: ICoordinateDTO;
+    physicalAddress?: IStreetAddress;
   };
 }
 

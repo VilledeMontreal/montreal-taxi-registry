@@ -4,8 +4,8 @@ import { InquiryRequest, InquiryResponse, InquiryResponseData, InquiryTypes } fr
 import {
   GofsLiteBrandIdTypes,
   GofsLiteRealtimeBookingDataResponseDto,
-  GofsLiteRealtimeBookingResponseDto,
-  GofsLiteRealtimeBookingRequestDto
+  GofsLiteRealtimeBookingRequestDto,
+  GofsLiteRealtimeBookingResponseDto
 } from './gofsLite.dto';
 
 class GofsLiteMapper {
@@ -13,11 +13,13 @@ class GofsLiteMapper {
     return {
       from: {
         lat: gofsLiteRealtimeBookingRequest.pickup_lat,
-        lon: gofsLiteRealtimeBookingRequest.pickup_lon
+        lon: gofsLiteRealtimeBookingRequest.pickup_lon,
+        address: gofsLiteRealtimeBookingRequest.pickup_address
       },
       to: {
         lat: gofsLiteRealtimeBookingRequest.drop_off_lat,
-        lon: gofsLiteRealtimeBookingRequest.drop_off_lon
+        lon: gofsLiteRealtimeBookingRequest.drop_off_lon,
+        address: gofsLiteRealtimeBookingRequest.drop_off_address
       },
       inquiryTypes: toInquiryTypes(gofsLiteRealtimeBookingRequest.brand_id)
     };

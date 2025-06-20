@@ -3,10 +3,10 @@
 // Original Code from https://github.com/apburnes/random-points-on-polygon
 'use strict';
 
-let extent = require('turf-extent');
-let featurecollection = require('turf-featurecollection');
-let inside = require('turf-inside');
-let random = require('turf-random');
+const extent = require('turf-extent');
+const featurecollection = require('turf-featurecollection');
+const inside = require('turf-inside');
+const random = require('turf-random');
 
 /**
  * Takes a number and a feature and {@link Polygon} or {@link MultiPolygon} and returns {@link Points} that reside inside the polygon. The polygon can
@@ -49,9 +49,9 @@ export function randomPointsOnPolygon(number: any, polygon: any, properties?: an
 
   properties = properties || {};
   fc = fc || false;
-  let points = [];
-  let bbox = extent(polygon);
-  let count = Math.round(parseFloat(number));
+  const points = [];
+  const bbox = extent(polygon);
+  const count = Math.round(parseFloat(number));
 
   for (let i = 0; i <= count; i++) {
     if (i === count) {
@@ -62,7 +62,7 @@ export function randomPointsOnPolygon(number: any, polygon: any, properties?: an
       return points;
     }
 
-    let point = random('point', 1, { bbox });
+    const point = random('point', 1, { bbox });
 
     if (inside(point.features[0], polygon) === false) {
       i = --i;

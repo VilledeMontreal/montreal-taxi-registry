@@ -119,9 +119,13 @@ async function prepareBooking(
 }
 
 function buildQueryParams(inquiryType: InquiryTypes, inquiryRequest: InquiryRequest): string {
-  const queryParams = `?service_type=${inquiryType}&pickup_latitude=${inquiryRequest.from.lat}&pickup_longitude=${inquiryRequest.from.lon}`;
+  const queryParams = `?service_type=${inquiryType}&pickup_latitude=${inquiryRequest.from.lat}&pickup_longitude=${
+    inquiryRequest.from.lon
+  }&pickup_address=${encodeURIComponent(inquiryRequest.from.address)}`;
   return inquiryRequest.to?.lat && inquiryRequest.to?.lon
-    ? `${queryParams}&dropoff_latitude=${inquiryRequest.to.lat}&dropoff_longitude=${inquiryRequest.to.lon}`
+    ? `${queryParams}&dropoff_latitude=${inquiryRequest.to.lat}&dropoff_longitude=${
+        inquiryRequest.to.lon
+      }&dropoff_address=${encodeURIComponent(inquiryRequest.to.address)}`
     : queryParams;
 }
 

@@ -34,6 +34,9 @@ export class GofsLiteRealtimeBookingRequestDto {
   @Type(() => Number)
   pickup_lon: number;
 
+  @Type(() => String)
+  pickup_address: string;
+
   @IsNumber()
   @Min(-90)
   @Max(90)
@@ -45,6 +48,9 @@ export class GofsLiteRealtimeBookingRequestDto {
   @Max(180)
   @Type(() => Number)
   drop_off_lon?: number;
+
+  @Type(() => String)
+  drop_off_address: string;
 
   @IsDefined()
   @IsArray()

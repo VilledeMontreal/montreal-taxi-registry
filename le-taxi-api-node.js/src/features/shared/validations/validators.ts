@@ -73,7 +73,7 @@ function extractErrors(errors: ValidationError[], issues: string[], depth: numbe
   if (!errors || errors.length === 0 || depth >= 10) return issues;
 
   const errToIssues = errors
-    .filter(error => error.constraints)
+    .filter(error => error?.constraints)
     .map(error => {
       const constraints = error.constraints;
       const objectKeys = Object.keys(constraints);
@@ -81,7 +81,7 @@ function extractErrors(errors: ValidationError[], issues: string[], depth: numbe
     });
 
   return extractErrors(
-    errors.flatMap(error => error.children),
+    errors.flatMap(error => error?.children),
     issues.concat(...errToIssues),
     depth + 1
   );

@@ -14,11 +14,13 @@ class GtfsInquiryMapper {
     return {
       from: {
         lat: gtfsInquiryRequest.from.coordinates.lat,
-        lon: gtfsInquiryRequest.from.coordinates.lon
+        lon: gtfsInquiryRequest.from.coordinates.lon,
+        address: gtfsInquiryRequest.from.physicalAddress?.streetAddress
       },
       to: {
         lat: gtfsInquiryRequest.to?.coordinates?.lat,
-        lon: gtfsInquiryRequest.to?.coordinates?.lon
+        lon: gtfsInquiryRequest.to?.coordinates?.lon,
+        address: gtfsInquiryRequest.to?.physicalAddress?.streetAddress
       },
       inquiryTypes: toInquiryTypes(gtfsInquiryRequest.useAssetTypes),
       operators: gtfsInquiryRequest.operators
@@ -75,10 +77,22 @@ function toInquiryResponseOptions(data: InquiryResponseData, now: string): GtfsI
     departureTime,
     arrivalTime,
     from: {
-      coordinates: data.from
+      coordinates: {
+        lat: data.from.lat,
+        lon: data.from.lon
+      },
+      physicalAddress: {
+        streetAddress: data.from.address
+      }
     },
     to: {
-      coordinates: data.to
+      coordinates: {
+        lat: data.to.lat,
+        lon: data.to.lon
+      },
+      physicalAddress: {
+        streetAddress: data.to.address
+      }
     },
     pricing: {
       estimated: true,
@@ -105,6 +119,10 @@ function toInquiryResponseOptions(data: InquiryResponseData, now: string): GtfsI
       webUrl: data.booking.webUrl
     }
   };
+
+  if (data.from.address === null || data.from.address === undefined) delete response.from.physicalAddress;
+
+  if (data.to.address === null || data.to.address === undefined) delete response.to.physicalAddress;
 
   if (!hasDestination) {
     response.to.coordinates = null;

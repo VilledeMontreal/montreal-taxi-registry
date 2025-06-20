@@ -64,7 +64,8 @@
   "devDependencies": {
     "@types/uuid": "9.0.8",
     "@villedemontreal/lint-config": "1.7.7",
-    "rimraf": "5.0.7"
+    "rimraf": "5.0.7",
+    "ts-node": "10.9.2"
   },
   "engines": {
     "node": "~20.13.0"

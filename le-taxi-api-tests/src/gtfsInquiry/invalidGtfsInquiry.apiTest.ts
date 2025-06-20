@@ -36,7 +36,11 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return Bad Request on missing from coordinates`, async () => {
-    const inquiryRequest = { from: {}, to: { coordinates: {} }, useAssetTypes: [AssetTypes.SpecialNeed] };
+    const inquiryRequest = {
+      from: {},
+      to: { coordinates: {} },
+      useAssetTypes: [AssetTypes.SpecialNeed]
+    };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
       err => {
@@ -47,7 +51,11 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
   });
 
   it(`Should return Bad Request on missing from lat/lon`, async () => {
-    const inquiryRequest = { from: { coordinates: {} }, to: {}, useAssetTypes: [AssetTypes.SpecialNeed] };
+    const inquiryRequest = {
+      from: { coordinates: {} },
+      to: {},
+      useAssetTypes: [AssetTypes.SpecialNeed]
+    };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
       err => {
@@ -64,8 +72,18 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: 'invalidLatitude', lon: generateLonForApiTest() } },
-          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          from: {
+            coordinates: {
+              lat: 'invalidLatitude',
+              lon: generateLonForApiTest()
+            }
+          },
+          to: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -80,8 +98,18 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateLatForApiTest(), lon: 'invalidLongitude' } },
-          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          from: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: 'invalidLongitude'
+            }
+          },
+          to: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -96,8 +124,18 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
-          to: { coordinates: { lat: 'invalidLatitude', lon: generateLonForApiTest() } },
+          from: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
+          to: {
+            coordinates: {
+              lat: 'invalidLatitude',
+              lon: generateLonForApiTest()
+            }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -112,8 +150,18 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
-          to: { coordinates: { lat: generateLatForApiTest(), lon: 'invalidLongitude' } },
+          from: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
+          to: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: 'invalidLongitude'
+            }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -131,7 +179,12 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       () =>
         postGtfsInquiry({
           from: { coordinates: { lat: null, lon: generateLonForApiTest() } },
-          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          to: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -144,7 +197,12 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       () =>
         postGtfsInquiry({
           from: { coordinates: { lat: generateLatForApiTest(), lon: null } },
-          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          to: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -158,8 +216,15 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: 90.000001, lon: generateLonForApiTest() } },
-          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          from: {
+            coordinates: { lat: 90.000001, lon: generateLonForApiTest() }
+          },
+          to: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -175,7 +240,12 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       () =>
         postGtfsInquiry({
           from: { coordinates: { lat: generateLatForApiTest(), lon: 181 } },
-          to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          to: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -190,8 +260,15 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
-          to: { coordinates: { lat: -90.000001, lon: generateLonForApiTest() } },
+          from: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
+          to: {
+            coordinates: { lat: -90.000001, lon: generateLonForApiTest() }
+          },
           useAssetTypes: [AssetTypes.Normal]
         }),
       err => {
@@ -206,7 +283,12 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     await shouldThrow(
       () =>
         postGtfsInquiry({
-          from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+          from: {
+            coordinates: {
+              lat: generateLatForApiTest(),
+              lon: generateLonForApiTest()
+            }
+          },
           to: { coordinates: { lat: generateLatForApiTest(), lon: -181 } },
           useAssetTypes: [AssetTypes.Normal]
         }),
@@ -222,8 +304,18 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
 
   it(`Should return Bad Request if useAssetType type is not an array`, async () => {
     const inquiryRequest = {
-      from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
-      to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+      from: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
+      to: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
       useAssetTypes: {}
     };
     await shouldThrow(
@@ -237,8 +329,18 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
 
   it(`Should return Bad Request if useAssetType type is unknow`, async () => {
     const inquiryRequest = {
-      from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
-      to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+      from: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
+      to: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
       useAssetTypes: ['unknow_type']
     };
     await shouldThrow(
@@ -250,10 +352,73 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     );
   });
 
+  it(`Should return Bad Request if physicalAddress is not an object`, async () => {
+    const inquiryRequest = {
+      from: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        },
+        physicalAddress: 'Pickup'
+      },
+      to: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
+      useAssetTypes: [AssetTypes.Normal]
+    };
+    await shouldThrow(
+      () => postGtfsInquiry(inquiryRequest),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because nested property physicalAddress must be either object or array'
+        );
+      }
+    );
+  });
+
+  it(`Should return Bad Request if physicalAddress has no streetAddress`, async () => {
+    const inquiryRequest = {
+      from: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        },
+        physicalAddress: {}
+      },
+      to: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
+      useAssetTypes: [AssetTypes.Normal]
+    };
+    await shouldThrow(
+      () => postGtfsInquiry(inquiryRequest),
+      err => {
+        assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
+        assert.include(
+          err.response.body.error.message,
+          'The object failed the validation because streetAddress should not be null or undefined'
+        );
+      }
+    );
+  });
+
   it(`Should return Bad Request when requesting from YUL/airport`, async () => {
     const inquiryRequest = {
       from: { coordinates: getAirportCoordinates() },
-      to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+      to: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
       useAssetTypes: [AssetTypes.Normal]
     };
 
@@ -275,8 +440,18 @@ function testInvalidAccessToInquiryEndpoint(role: UserRole) {
     const apiKey = await getImmutableUserApiKey(role);
 
     const inquiryRequest = {
-      from: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
-      to: { coordinates: { lat: generateLatForApiTest(), lon: generateLonForApiTest() } },
+      from: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
+      to: {
+        coordinates: {
+          lat: generateLatForApiTest(),
+          lon: generateLonForApiTest()
+        }
+      },
       useAssetTypes: [AssetTypes.Normal]
     };
     await shouldThrow(

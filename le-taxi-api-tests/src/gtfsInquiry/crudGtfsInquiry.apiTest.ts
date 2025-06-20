@@ -258,8 +258,10 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.isString(inquiryResponse.body.options[0].arrivalTime);
     assert.isNumber(inquiryResponse.body.options[0].from.coordinates.lat);
     assert.isNumber(inquiryResponse.body.options[0].from.coordinates.lon);
+    assert.isUndefined(inquiryResponse.body.options[0].from.physicalAddress);
     assert.isNumber(inquiryResponse.body.options[0].to.coordinates.lat);
     assert.isNumber(inquiryResponse.body.options[0].to.coordinates.lon);
+    assert.isUndefined(inquiryResponse.body.options[0].to.physicalAddress);
     assert.isBoolean(inquiryResponse.body.options[0].pricing.estimated);
     assert.isNumber(inquiryResponse.body.options[0].pricing.parts[0].amount);
     assert.isString(inquiryResponse.body.options[0].pricing.parts[0].currencyCode);
@@ -274,6 +276,93 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.isString(inquiryResponse.body.options[0].booking.webUrl);
 
     assert.match(inquiryResponse.body.options[0].booking.phoneNumber, new RegExp(`\\+1[0-9]{10}`));
+  });
+
+  it(`Should format the deeplinks with required parameters - No dropoff`, async () => {
+    const requiredDeeplinksParameters = ['pickup_latitude', 'pickup_longitude', 'pickup_address'];
+    const unwantedDeeplinksParameters = ['dropoff_latitude', 'dropoff_longitude', 'dropoff_address'];
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
+
+    const inquiryRequest = buildInquiryRequest(generateApiTestCoordinates(), null, [AssetTypes.Normal], operators);
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    requiredDeeplinksParameters.forEach(param => {
+      assert.isTrue(inquiryResponse.body.options[0].booking.webUrl.includes(param));
+      assert.isFalse(inquiryResponse.body.options[0].booking.webUrl.includes(unwantedDeeplinksParameters));
+    });
+    requiredDeeplinksParameters.forEach(param => {
+      assert.isTrue(inquiryResponse.body.options[0].booking.androidUri.includes(param));
+      assert.isFalse(inquiryResponse.body.options[0].booking.androidUri.includes(unwantedDeeplinksParameters));
+    });
+    requiredDeeplinksParameters.forEach(param => {
+      assert.isTrue(inquiryResponse.body.options[0].booking.iosUri.includes(param));
+      assert.isFalse(inquiryResponse.body.options[0].booking.iosUri.includes(unwantedDeeplinksParameters));
+    });
+  });
+
+  it(`Should format the deeplinks with required parameters - With dropoff`, async () => {
+    const requiredDeeplinksParameters = [
+      'pickup_latitude',
+      'pickup_longitude',
+      'pickup_address',
+      'dropoff_latitude',
+      'dropoff_longitude',
+      'dropoff_address'
+    ];
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
+
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.Normal],
+      operators
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    requiredDeeplinksParameters.forEach(param =>
+      assert.isTrue(inquiryResponse.body.options[0].booking.webUrl.includes(param))
+    );
+
+    requiredDeeplinksParameters.forEach(param =>
+      assert.isTrue(inquiryResponse.body.options[0].booking.androidUri.includes(param))
+    );
+
+    requiredDeeplinksParameters.forEach(param =>
+      assert.isTrue(inquiryResponse.body.options[0].booking.iosUri.includes(param))
+    );
+  });
+
+  it(`Should forward received addresses in both the payload and the deeplinks`, async () => {
+    const pickupAddress = 'Pickup Address, Here';
+    const dropoffAddress = 'Drop Off Address, There';
+
+    const operators = await createTaxisWithPromotions([{ ...generateApiTestCoordinates(), type: 'sedan' }]);
+
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.Normal],
+      operators
+    );
+    inquiryRequest.from.physicalAddress = { streetAddress: pickupAddress };
+    inquiryRequest.to.physicalAddress = { streetAddress: dropoffAddress };
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.strictEqual(inquiryResponse.body.options[0].from.physicalAddress.streetAddress, pickupAddress);
+    assert.strictEqual(inquiryResponse.body.options[0].to.physicalAddress.streetAddress, dropoffAddress);
+
+    const encodedPickup = `pickup_address=${encodeURIComponent(pickupAddress)}`;
+    const encodedDropoff = `dropoff_address=${encodeURIComponent(dropoffAddress)}`;
+
+    assert.isTrue(inquiryResponse.body.options[0].booking.webUrl.includes(encodedPickup));
+    assert.isTrue(inquiryResponse.body.options[0].booking.webUrl.includes(encodedDropoff));
+    assert.isTrue(inquiryResponse.body.options[0].booking.androidUri.includes(encodedPickup));
+    assert.isTrue(inquiryResponse.body.options[0].booking.androidUri.includes(encodedDropoff));
+    assert.isTrue(inquiryResponse.body.options[0].booking.iosUri.includes(encodedPickup));
+    assert.isTrue(inquiryResponse.body.options[0].booking.iosUri.includes(encodedDropoff));
   });
 
   it(`Should return null fields if booking information is missing`, async () => {

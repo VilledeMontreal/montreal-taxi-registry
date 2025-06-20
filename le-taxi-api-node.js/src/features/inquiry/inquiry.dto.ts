@@ -11,9 +11,13 @@ export enum InquiryTypes {
   SpecialNeed = 'special-need'
 }
 
+interface ICoordinatesWithAddresses extends ICoordinates {
+  address?: string;
+}
+
 export class InquiryRequest {
-  from: ICoordinates;
-  to?: ICoordinates;
+  from: ICoordinatesWithAddresses;
+  to?: ICoordinatesWithAddresses;
   inquiryTypes: InquiryTypes[];
   operators?: number[];
 }
@@ -33,8 +37,8 @@ export class InquiryBookingResponseData {
 export class InquiryResponseData {
   date: string;
   inquiryType: InquiryTypes;
-  from: ICoordinates;
-  to?: ICoordinates;
+  from: ICoordinatesWithAddresses;
+  to?: ICoordinatesWithAddresses;
   estimatedWaitTime: number;
   estimatedTravelTime?: number;
   estimatedPrice?: number;
