@@ -51,7 +51,7 @@ export class controller {
             throw new UnauthorizedError('No user was found with this username. Verify the username and try again.');
           }
           if (security.check(password, user['password'])) {
-            let token = security.createJwt(user);
+            const token = security.createJwt(user);
             new Cookies(request, response).set('access_token', token, { maxAge: 60 * 60 * 24 * 1000, httpOnly: true });
             response.writeHead(StatusCodes.OK);
             response.end();

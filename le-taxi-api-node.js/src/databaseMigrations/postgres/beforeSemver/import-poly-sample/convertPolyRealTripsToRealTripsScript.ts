@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { taxiEstimatePostgrePool } from '../../../../features/shared/taxiEstimate/taxiEstimatePostgre';
+import { taxiEstimatePostgrePool } from "../../../../features/shared/taxiEstimate/taxiEstimatePostgre";
 
 const MIN_TO_SEC = 60;
 const KM_TO_METER = 1000;

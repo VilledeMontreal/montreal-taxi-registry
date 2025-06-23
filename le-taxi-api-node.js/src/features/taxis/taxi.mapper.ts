@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { TaxiResponseDto } from './taxi.dto';
+import { TaxiResponseDto } from "./taxi.dto";
 
 class TaxiMapper {
   public anonymizeTaxi(taxi: TaxiResponseDto): Partial<TaxiResponseDto> {

@@ -4,5 +4,5 @@ export function convertStringToBoolean(value: string) {
   if (!value) {
     return false;
   }
-  return value.toLocaleLowerCase() === 'true';
+  return value.toLocaleLowerCase() === "true";
 }

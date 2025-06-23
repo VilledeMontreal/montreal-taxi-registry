@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-// tslint:disable: max-classes-per-file
+// eslint-disable max-classes-per-file
 
-import { StatusCodes } from 'http-status-codes';
+import { StatusCodes } from "http-status-codes";
 
 export class CustomError extends Error {
   private _httpStatusCode: number;
@@ -10,7 +10,7 @@ export class CustomError extends Error {
     return this._httpStatusCode;
   }
   public get tag(): string {
-    return 'CustomError';
+    return "CustomError";
   }
   constructor(message: string, httpStatusCode: number) {
     super(message);
@@ -54,11 +54,11 @@ export class InternalServerError extends CustomError {
   }
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 export class MultipleIssuesError extends CustomError {
   public readonly issues: string[];
   public get tag(): string {
-    return 'MultipleIssuesError';
+    return "MultipleIssuesError";
   }
   constructor(message: string, issues: string[]) {
     super(message, StatusCodes.BAD_REQUEST);

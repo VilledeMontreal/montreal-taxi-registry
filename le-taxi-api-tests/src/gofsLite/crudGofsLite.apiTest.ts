@@ -19,7 +19,7 @@ import {
   getZones,
 } from "./gofsLite.apiClient";
 
-// tslint:disable: max-func-body-length
+// eslint-disable max-lines-per-function
 export async function crudGofsLiteTests(): Promise<void> {
   it(`Should be able to request GOFS feed with expected payload`, async () => {
     const response = await getFeed();

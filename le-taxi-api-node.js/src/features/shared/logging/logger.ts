@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { pino } from 'pino';
+import { pino } from "pino";
 
 class Logger {
   public static readonly instance: Logger = new Logger();
@@ -10,11 +10,11 @@ class Logger {
     const logStream: NodeJS.WriteStream = process.stdout;
     this.logger = pino(
       {
-        name: 'le-taxi-api-node.js',
+        name: "le-taxi-api-node.js",
         safe: true,
         timestamp: pino.stdTimeFunctions.isoTime,
-        messageKey: 'message',
-        hooks: { logMethod }
+        messageKey: "message",
+        hooks: { logMethod },
       },
       logStream
     );

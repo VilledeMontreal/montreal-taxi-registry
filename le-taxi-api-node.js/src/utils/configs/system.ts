@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { configs } from '../../config/configs';
-import { constants } from '../../config/constants';
+import { configs } from "../../config/configs";
+import { constants } from "../../config/constants";
 
 export function getAbsoluteUrl(path: string) {
   if (configs.environment.type === constants.Environments.LOCAL) {

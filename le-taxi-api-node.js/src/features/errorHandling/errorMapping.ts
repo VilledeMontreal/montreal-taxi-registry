@@ -1,17 +1,21 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { StatusCodes } from 'http-status-codes';
-import { IApiErrorResponse } from '../shared/expressErrorHandling/apiErrorResponse';
-import { IApiError, IApiErrorBody } from './apiErrorDto';
-import { internalServerErrorResponse } from './internalServerErrorResponse';
+import { StatusCodes } from "http-status-codes";
+import { IApiErrorResponse } from "../shared/expressErrorHandling/apiErrorResponse";
+import { IApiError, IApiErrorBody } from "./apiErrorDto";
+import { internalServerErrorResponse } from "./internalServerErrorResponse";
 
-export function mapErrorToApiErrorResponse(error: any): IApiErrorResponse<IApiErrorBody> {
-  if (error.tag === 'MultipleIssuesError') {
-    const details: IApiError[] = error.issues.map(issue => ({ message: issue }));
+export function mapErrorToApiErrorResponse(
+  error: any
+): IApiErrorResponse<IApiErrorBody> {
+  if (error.tag === "MultipleIssuesError") {
+    const details: IApiError[] = error.issues.map((issue) => ({
+      message: issue,
+    }));
     return createApiErrorResponse(error.httpStatusCode, error.message, details);
   }
 
-  if (error.tag === 'CustomError') {
+  if (error.tag === "CustomError") {
     return createApiErrorResponse(error.httpStatusCode, error.message);
   }
 
@@ -31,9 +35,9 @@ function createApiErrorResponse(
     httpStatusCode,
     errorDto: {
       error: {
-        message
-      }
-    }
+        message,
+      },
+    },
   };
   if (details) {
     result.errorDto.error.details = details;

@@ -1,24 +1,15 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import {
-  validate,
-  Contains,
+  IsDefined,
   IsInt,
-  Length,
-  IsEmail,
-  IsDate,
-  Min,
-  Max,
   IsNotEmpty,
-  MaxLength,
-  MinLength,
   IsOptional,
-  IsDefined
+  MaxLength,
+  MinLength
 } from 'class-validator';
 
 export class DriverModel {
-  constructor() {}
-
   @IsOptional()
   @IsInt()
   id: number;

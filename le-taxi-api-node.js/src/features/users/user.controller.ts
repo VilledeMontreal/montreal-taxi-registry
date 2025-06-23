@@ -1,17 +1,17 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { Request, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
-import { allow } from './securityDecorator';
-import { userRepository } from './user.repository';
+import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import { allow } from "./securityDecorator";
+import { userRepository } from "./user.repository";
 import {
   prepareDtoForInsertion,
   prepareDtoForUpdate,
   validateUpdateApikeyRequest,
   validateUpdatePasswordRequest,
-  validateUserRequest
-} from './user.validators';
-import { UserRole } from './userRole';
+  validateUserRequest,
+} from "./user.validators";
+import { UserRole } from "./userRole";
 
 class UsersController {
   @allow([UserRole.Admin, UserRole.Manager])
@@ -49,7 +49,10 @@ class UsersController {
   public async createUser(request: Request, response: Response) {
     const userRequestDto = await validateUserRequest(request);
     const userRequestDtoForInsertion = prepareDtoForInsertion(userRequestDto);
-    const userModel = await userRepository.createUser(userRequestDtoForInsertion, request.userModel);
+    const userModel = await userRepository.createUser(
+      userRequestDtoForInsertion,
+      request.userModel
+    );
     response.status(StatusCodes.OK);
     response.json(userModel);
   }
@@ -58,7 +61,10 @@ class UsersController {
   public async updateUser(request: Request, response: Response) {
     const userRequestDto = await validateUserRequest(request);
     const userRequestDtoForUpdate = await prepareDtoForUpdate(userRequestDto);
-    const userModel = await userRepository.updateUser(userRequestDtoForUpdate, request.userModel);
+    const userModel = await userRepository.updateUser(
+      userRequestDtoForUpdate,
+      request.userModel
+    );
     response.status(StatusCodes.OK);
     response.json(userModel);
   }

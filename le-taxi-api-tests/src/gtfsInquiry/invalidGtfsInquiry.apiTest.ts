@@ -1,19 +1,19 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { assert } from 'chai';
-import { StatusCodes } from 'http-status-codes';
+import { assert } from "chai";
+import { StatusCodes } from "http-status-codes";
 import {
   generateLatForApiTest,
   generateLonForApiTest,
-  getAirportCoordinates
-} from '../shared/commonLoadTests/specialRegion';
-import { shouldThrow } from '../shared/commonTests/testUtil';
-import { UserRole } from '../shared/commonTests/UserRole';
-import { AssetTypes } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
-import { getImmutableUserApiKey } from '../users/user.sharedFixture';
-import { postGtfsInquiry } from './gtfsInquiry.apiClient';
+  getAirportCoordinates,
+} from "../shared/commonLoadTests/specialRegion";
+import { shouldThrow } from "../shared/commonTests/testUtil";
+import { UserRole } from "../shared/commonTests/UserRole";
+import { AssetTypes } from "../shared/taxiRegistryDtos/taxiRegistryDtos";
+import { getImmutableUserApiKey } from "../users/user.sharedFixture";
+import { postGtfsInquiry } from "./gtfsInquiry.apiClient";
 
-// tslint:disable: max-func-body-length
+// eslint-disable max-lines-per-function
 export async function invalidGtfsInquiryTests(): Promise<void> {
   testInvalidAccessToInquiryEndpoint(UserRole.Operator);
   testInvalidAccessToInquiryEndpoint(UserRole.Manager);
@@ -25,12 +25,23 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     const inquiryRequest = {};
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'more than one of its property are invalid');
-        const errorDetailsArray = err.response.body.error.details.map((detail: any) => detail.message);
-        assert.include(errorDetailsArray, 'from should not be null or undefined');
-        assert.include(errorDetailsArray, 'useAssetTypes should not be null or undefined');
+        assert.include(
+          err.response.body.error.message,
+          "more than one of its property are invalid"
+        );
+        const errorDetailsArray = err.response.body.error.details.map(
+          (detail: any) => detail.message
+        );
+        assert.include(
+          errorDetailsArray,
+          "from should not be null or undefined"
+        );
+        assert.include(
+          errorDetailsArray,
+          "useAssetTypes should not be null or undefined"
+        );
       }
     );
   });
@@ -39,13 +50,16 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     const inquiryRequest = {
       from: {},
       to: { coordinates: {} },
-      useAssetTypes: [AssetTypes.SpecialNeed]
+      useAssetTypes: [AssetTypes.SpecialNeed],
     };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'coordinates should not be null or undefined');
+        assert.include(
+          err.response.body.error.message,
+          "coordinates should not be null or undefined"
+        );
       }
     );
   });
@@ -54,16 +68,27 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
     const inquiryRequest = {
       from: { coordinates: {} },
       to: {},
-      useAssetTypes: [AssetTypes.SpecialNeed]
+      useAssetTypes: [AssetTypes.SpecialNeed],
     };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'more than one of its property are invalid');
-        const errorDetailsArray = err.response.body.error.details.map((detail: any) => detail.message);
-        assert.include(errorDetailsArray, 'lat should not be null or undefined');
-        assert.include(errorDetailsArray, 'lon should not be null or undefined');
+        assert.include(
+          err.response.body.error.message,
+          "more than one of its property are invalid"
+        );
+        const errorDetailsArray = err.response.body.error.details.map(
+          (detail: any) => detail.message
+        );
+        assert.include(
+          errorDetailsArray,
+          "lat should not be null or undefined"
+        );
+        assert.include(
+          errorDetailsArray,
+          "lon should not be null or undefined"
+        );
       }
     );
   });
@@ -74,23 +99,23 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         postGtfsInquiry({
           from: {
             coordinates: {
-              lat: 'invalidLatitude',
-              lon: generateLonForApiTest()
-            }
+              lat: "invalidLatitude",
+              lon: generateLonForApiTest(),
+            },
           },
           to: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          'The object failed the validation because lat must not be greater than 90'
+          "The object failed the validation because lat must not be greater than 90"
         );
       }
     );
@@ -101,22 +126,22 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
           from: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: 'invalidLongitude'
-            }
+              lon: "invalidLongitude",
+            },
           },
           to: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          'The object failed the validation because lon must not be greater than 180'
+          "The object failed the validation because lon must not be greater than 180"
         );
       }
     );
@@ -127,22 +152,22 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
           from: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
           to: {
             coordinates: {
-              lat: 'invalidLatitude',
-              lon: generateLonForApiTest()
-            }
+              lat: "invalidLatitude",
+              lon: generateLonForApiTest(),
+            },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          'The object failed the validation because lat must not be greater than 90'
+          "The object failed the validation because lat must not be greater than 90"
         );
       }
     );
@@ -153,22 +178,22 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
           from: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
           to: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: 'invalidLongitude'
-            }
+              lon: "invalidLongitude",
+            },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          'The object failed the validation because lon must not be greater than 180'
+          "The object failed the validation because lon must not be greater than 180"
         );
       }
     );
@@ -182,14 +207,17 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
           to: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `lat should not be null or undefined`);
+        assert.include(
+          err.response.body.error.message,
+          `lat should not be null or undefined`
+        );
       }
     );
 
@@ -200,14 +228,17 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
           to: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, `lon should not be null or undefined`);
+        assert.include(
+          err.response.body.error.message,
+          `lon should not be null or undefined`
+        );
       }
     );
   });
@@ -217,17 +248,17 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       () =>
         postGtfsInquiry({
           from: {
-            coordinates: { lat: 90.000001, lon: generateLonForApiTest() }
+            coordinates: { lat: 90.000001, lon: generateLonForApiTest() },
           },
           to: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
@@ -243,12 +274,12 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
           to: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
@@ -263,15 +294,15 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
           from: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
           to: {
-            coordinates: { lat: -90.000001, lon: generateLonForApiTest() }
+            coordinates: { lat: -90.000001, lon: generateLonForApiTest() },
           },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
@@ -286,13 +317,13 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
           from: {
             coordinates: {
               lat: generateLatForApiTest(),
-              lon: generateLonForApiTest()
-            }
+              lon: generateLonForApiTest(),
+            },
           },
           to: { coordinates: { lat: generateLatForApiTest(), lon: -181 } },
-          useAssetTypes: [AssetTypes.Normal]
+          useAssetTypes: [AssetTypes.Normal],
         }),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
@@ -307,22 +338,25 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       from: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
       to: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
-      useAssetTypes: {}
+      useAssetTypes: {},
     };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'each value in useAssetTypes must be a valid enum value');
+        assert.include(
+          err.response.body.error.message,
+          "each value in useAssetTypes must be a valid enum value"
+        );
       }
     );
   });
@@ -332,22 +366,25 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       from: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
       to: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
-      useAssetTypes: ['unknow_type']
+      useAssetTypes: ["unknow_type"],
     };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, 'each value in useAssetTypes must be a valid enum value');
+        assert.include(
+          err.response.body.error.message,
+          "each value in useAssetTypes must be a valid enum value"
+        );
       }
     );
   });
@@ -357,25 +394,25 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       from: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
+          lon: generateLonForApiTest(),
         },
-        physicalAddress: 'Pickup'
+        physicalAddress: "Pickup",
       },
       to: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
-      useAssetTypes: [AssetTypes.Normal]
+      useAssetTypes: [AssetTypes.Normal],
     };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          'The object failed the validation because nested property physicalAddress must be either object or array'
+          "The object failed the validation because nested property physicalAddress must be either object or array"
         );
       }
     );
@@ -386,25 +423,25 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       from: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
+          lon: generateLonForApiTest(),
         },
-        physicalAddress: {}
+        physicalAddress: {},
       },
       to: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
-      useAssetTypes: [AssetTypes.Normal]
+      useAssetTypes: [AssetTypes.Normal],
     };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          'The object failed the validation because streetAddress should not be null or undefined'
+          "The object failed the validation because streetAddress should not be null or undefined"
         );
       }
     );
@@ -416,19 +453,19 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
       to: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
-      useAssetTypes: [AssetTypes.Normal]
+      useAssetTypes: [AssetTypes.Normal],
     };
 
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          'Requesting a taxi from the Montreal airport (YUL) zone is prohibited.'
+          "Requesting a taxi from the Montreal airport (YUL) zone is prohibited."
         );
       }
     );
@@ -443,24 +480,24 @@ function testInvalidAccessToInquiryEndpoint(role: UserRole) {
       from: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
       to: {
         coordinates: {
           lat: generateLatForApiTest(),
-          lon: generateLonForApiTest()
-        }
+          lon: generateLonForApiTest(),
+        },
       },
-      useAssetTypes: [AssetTypes.Normal]
+      useAssetTypes: [AssetTypes.Normal],
     };
     await shouldThrow(
       () => postGtfsInquiry(inquiryRequest, apiKey),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(
           err.response.body.error.message,
-          'The user has a role which has insufficient permissions to access this resource.'
+          "The user has a role which has insufficient permissions to access this resource."
         );
       }
     );

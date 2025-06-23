@@ -1,14 +1,14 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { Request, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
-import { inquiryProcessor } from '../../inquiry/inquiry.processor';
-import { addMinutes, nowUtcIsoString } from '../../shared/dateUtils/dateUtils';
-import { allow } from '../../users/securityDecorator';
-import { UserRole } from '../../users/userRole';
-import { GtfsInquiryResponseDto } from './gtfsInquiry.dto';
-import { gtfsInquiryMapper } from './gtfsInquiry.mapper';
-import { validateGtfsInquiryRequest } from './gtfsInquiry.validators';
+import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
+import { inquiryProcessor } from "../../inquiry/inquiry.processor";
+import { addMinutes, nowUtcIsoString } from "../../shared/dateUtils/dateUtils";
+import { allow } from "../../users/securityDecorator";
+import { UserRole } from "../../users/userRole";
+import { GtfsInquiryResponseDto } from "./gtfsInquiry.dto";
+import { gtfsInquiryMapper } from "./gtfsInquiry.mapper";
+import { validateGtfsInquiryRequest } from "./gtfsInquiry.validators";
 
 class GtfsInquiryController {
   @allow([UserRole.Admin, UserRole.Motor])
@@ -21,15 +21,19 @@ class GtfsInquiryController {
       return;
     }
 
-    const gtfsResponse = await gtfsInquiryMapper.toGtfsInquiryResponse(inquiryResponse);
+    const gtfsResponse =
+      gtfsInquiryMapper.toGtfsInquiryResponse(inquiryResponse);
     sendResponse(response, gtfsResponse);
   }
 }
 
-function sendResponse(response: Response, gtfsResponse?: GtfsInquiryResponseDto) {
+function sendResponse(
+  response: Response,
+  gtfsResponse?: GtfsInquiryResponseDto
+) {
   const defaultResponse = {
     validUntil: addMinutes(nowUtcIsoString(), 5),
-    options: []
+    options: [],
   };
 
   response.status(StatusCodes.OK);

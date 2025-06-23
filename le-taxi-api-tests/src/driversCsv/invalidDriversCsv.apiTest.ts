@@ -1,11 +1,14 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { assert } from 'chai';
-import { StatusCodes } from 'http-status-codes';
-import { shouldThrow } from '../shared/commonTests/testUtil';
-import { UserRole } from '../shared/commonTests/UserRole';
-import { getImmutableUser, getImmutableUserApiKey } from '../users/user.sharedFixture';
-import { getDriversCsv } from './driversCsv.apiClient';
+import { assert } from "chai";
+import { StatusCodes } from "http-status-codes";
+import { shouldThrow } from "../shared/commonTests/testUtil";
+import { UserRole } from "../shared/commonTests/UserRole";
+import {
+  getImmutableUser,
+  getImmutableUserApiKey,
+} from "../users/user.sharedFixture";
+import { getDriversCsv } from "./driversCsv.apiClient";
 
 export async function invalidDriversCsvTests(): Promise<void> {
   testDriversCsvAccessInvalid(UserRole.Stats);
@@ -20,11 +23,11 @@ function testDriversCsvAccessInvalid(role: UserRole) {
     const apiKey = await getImmutableUserApiKey(role);
     await shouldThrow(
       () => getDriversCsv(operator.email, apiKey),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          'The user has a role which has insufficient permissions to access this resource.'
+          "The user has a role which has insufficient permissions to access this resource."
         );
       }
     );

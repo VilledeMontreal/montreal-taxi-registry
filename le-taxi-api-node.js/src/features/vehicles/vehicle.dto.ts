@@ -11,12 +11,12 @@ import {
   Matches,
   MaxLength,
   MinLength,
-  NotContains
-} from 'class-validator';
-import { VehicleTypes } from './vehicle-types.enum';
+  NotContains,
+} from "class-validator";
+import { VehicleTypes } from "./vehicle-types.enum";
 
 export class VehicleRequestDto {
-  // tslint:disable: variable-name
+  // eslint-disable variable-name
   @IsOptional()
   @IsBoolean()
   public air_con: boolean;
@@ -111,16 +111,22 @@ export class VehicleRequestDto {
 
   @IsDefined({ message: `constructor should not be null or undefined` })
   @IsString({ message: `constructor must be a string` })
-  @MaxLength(255, { message: `constructor must be shorter than or equal to $constraint1 characters` })
-  @MinLength(1, { message: `constructor must be longer than or equal to $constraint1 characters` })
-  @NotContains('legacy-not-provided', { message: `constructor should not contain a $constraint1 string` })
+  @MaxLength(255, {
+    message: `constructor must be shorter than or equal to $constraint1 characters`,
+  })
+  @MinLength(1, {
+    message: `constructor must be longer than or equal to $constraint1 characters`,
+  })
+  @NotContains("legacy-not-provided", {
+    message: `constructor should not contain a $constraint1 string`,
+  })
   public manufacturer: string; // @note: replaces 'constructor' property to avoid problems with DTO validation at runtime because 'constructor' is a reserved keyword in TypeScript.
 
   @IsDefined()
   @IsString()
   @MaxLength(255)
   @MinLength(1)
-  @NotContains('legacy-not-provided')
+  @NotContains("legacy-not-provided")
   public model: string;
 
   @IsOptional()
@@ -170,7 +176,7 @@ export class VehicleRequestDto {
   public vehicle_identification_number: string;
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 export class VehicleResponseDto {
   public air_con: boolean;
   public amex_accepted: boolean;
@@ -178,7 +184,7 @@ export class VehicleResponseDto {
   public bank_check_accepted: boolean;
   public bike_accepted: boolean;
   public color: string;
-  public ['constructor']: any;
+  public ["constructor"]: any;
   public cpam_conventionne: boolean;
   public credit_card_accepted: boolean;
   public date_dernier_ct: Date;
@@ -207,7 +213,7 @@ export class VehicleResponseDto {
   public wifi: boolean;
   public vehicle_identification_number: string;
 
-  public private: boolean = false; // obsolete: keept only to avoid breaking changes
+  public private = false; // obsolete: keept only to avoid breaking changes
 }
 
 export function isLegacyLicensePlate(licence_plate: string): boolean {

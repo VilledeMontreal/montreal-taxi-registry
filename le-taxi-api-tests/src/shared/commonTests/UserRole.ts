@@ -7,5 +7,5 @@ export enum UserRole {
   Inspector = 4,
   Prefecture = 5,
   Motor = 6,
-  Stats = 7
+  Stats = 7,
 }

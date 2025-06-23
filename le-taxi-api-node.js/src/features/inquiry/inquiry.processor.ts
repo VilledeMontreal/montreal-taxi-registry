@@ -1,22 +1,25 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import booleanContains from '@turf/boolean-contains';
-import * as turf from '@turf/helpers';
-import { configs } from '../../config/configs';
-import { LatestTaxiPositionModelExtended } from '../latestTaxiPositions/latestTaxiPosition.model';
-import { latestTaxiPositionRepository } from '../latestTaxiPositions/latestTaxiPosition.repository';
-import { ICoordinates } from '../shared/coordinates/coordinates';
-import { nowUtcIsoString, toLocalDate } from '../shared/dateUtils/dateUtils';
-import { airportGeometry, downtownGeometry } from '../shared/locations/locations';
-import { osrmRepository } from '../shared/osrm/osrm.repository';
-import { userRepositoryByIdWithCaching } from '../users/user.repositoryWithCaching';
+import booleanContains from "@turf/boolean-contains";
+import * as turf from "@turf/helpers";
+import { configs } from "../../config/configs";
+import { LatestTaxiPositionModelExtended } from "../latestTaxiPositions/latestTaxiPosition.model";
+import { latestTaxiPositionRepository } from "../latestTaxiPositions/latestTaxiPosition.repository";
+import { ICoordinates } from "../shared/coordinates/coordinates";
+import { nowUtcIsoString, toLocalDate } from "../shared/dateUtils/dateUtils";
+import {
+  airportGeometry,
+  downtownGeometry,
+} from "../shared/locations/locations";
+import { osrmRepository } from "../shared/osrm/osrm.repository";
+import { userRepositoryByIdWithCaching } from "../users/user.repositoryWithCaching";
 import {
   InquiryBookingResponseData,
   InquiryRequest,
   InquiryResponse,
   InquiryResponseData,
-  InquiryTypes
-} from './inquiry.dto';
+  InquiryTypes,
+} from "./inquiry.dto";
 
 interface IEstimatePriceProperties {
   date: string;
@@ -27,7 +30,9 @@ interface IEstimatePriceProperties {
 }
 
 class InquiryProcessor {
-  public async process(inquiryRequest: InquiryRequest): Promise<InquiryResponse> {
+  public async process(
+    inquiryRequest: InquiryRequest
+  ): Promise<InquiryResponse> {
     const closestTaxiPromise = latestTaxiPositionRepository.findClosestTaxis(
       inquiryRequest.from,
       inquiryRequest.inquiryTypes,
@@ -40,16 +45,16 @@ class InquiryProcessor {
 
     const [closestTaxis, routeFromSourceToDestination] = await Promise.all([
       closestTaxiPromise,
-      routeFromSourceToDestinationPromise
+      routeFromSourceToDestinationPromise,
     ]);
 
     if (!closestTaxis.length) return null;
 
     const routesFromTaxiPositionToCustomer = await osrmRepository.getTable(
       inquiryRequest.from,
-      closestTaxis.map(closestTaxi => ({
+      closestTaxis.map((closestTaxi) => ({
         lat: closestTaxi.lat,
-        lon: closestTaxi.lon
+        lon: closestTaxi.lon,
       }))
     );
 
@@ -66,22 +71,26 @@ class InquiryProcessor {
             routesFromTaxiPositionToCustomer[0][i] +
             configs.taxiRegistryOsrmApi.estimation.durationBias +
             configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec,
-          booking
+          booking,
         } as InquiryResponseData;
       })
     );
 
     if (hasDestination) {
-      data.forEach(response => {
-        const estimatedDuration = routeFromSourceToDestination[0].legs[0].duration;
-        const estimatedDistance = routeFromSourceToDestination[0].legs[0].distance;
-        response.estimatedTravelTime = estimatedDuration + configs.taxiRegistryOsrmApi.estimation.durationBias;
+      data.forEach((response) => {
+        const estimatedDuration =
+          routeFromSourceToDestination[0].legs[0].duration;
+        const estimatedDistance =
+          routeFromSourceToDestination[0].legs[0].distance;
+        response.estimatedTravelTime =
+          estimatedDuration +
+          configs.taxiRegistryOsrmApi.estimation.durationBias;
         response.estimatedPrice = estimatePrice({
           date,
           from: inquiryRequest.from,
           to: inquiryRequest.to,
           duration: estimatedDuration,
-          distance: estimatedDistance
+          distance: estimatedDistance,
         });
       });
     }
@@ -94,36 +103,51 @@ async function prepareBooking(
   closestTaxi: LatestTaxiPositionModelExtended,
   inquiryRequest: InquiryRequest
 ): Promise<InquiryBookingResponseData> {
-  const operator = await userRepositoryByIdWithCaching.getByKey(closestTaxi.taxi.operatorId);
-  const isSpecialNeed = closestTaxi.taxi.inquiryType === InquiryTypes.SpecialNeed;
+  const operator = await userRepositoryByIdWithCaching.getByKey(
+    closestTaxi.taxi.operatorId
+  );
+  const isSpecialNeed =
+    closestTaxi.taxi.inquiryType === InquiryTypes.SpecialNeed;
 
   const phoneNumber = isSpecialNeed
     ? operator.special_need_booking_phone_number
     : operator.standard_booking_phone_number;
-  const webUrl = isSpecialNeed ? operator.special_need_booking_website_url : operator.standard_booking_website_url;
+  const webUrl = isSpecialNeed
+    ? operator.special_need_booking_website_url
+    : operator.standard_booking_website_url;
   const androidUri = isSpecialNeed
     ? operator.special_need_booking_android_deeplink_uri
     : operator.standard_booking_android_deeplink_uri;
   const iosUri = isSpecialNeed
     ? operator.special_need_booking_ios_deeplink_uri
     : operator.standard_booking_ios_deeplink_uri;
-  const queryParams = buildQueryParams(closestTaxi.taxi.inquiryType, inquiryRequest);
+  const queryParams = buildQueryParams(
+    closestTaxi.taxi.inquiryType,
+    inquiryRequest
+  );
 
   return {
     operator,
     phoneNumber,
     webUrl: webUrl && webUrl + queryParams,
     androidUri: androidUri && androidUri + queryParams,
-    iosUri: iosUri && iosUri + queryParams
+    iosUri: iosUri && iosUri + queryParams,
   };
 }
 
-function buildQueryParams(inquiryType: InquiryTypes, inquiryRequest: InquiryRequest): string {
-  const queryParams = `?service_type=${inquiryType}&pickup_latitude=${inquiryRequest.from.lat}&pickup_longitude=${
+function buildQueryParams(
+  inquiryType: InquiryTypes,
+  inquiryRequest: InquiryRequest
+): string {
+  const queryParams = `?service_type=${inquiryType}&pickup_latitude=${
+    inquiryRequest.from.lat
+  }&pickup_longitude=${
     inquiryRequest.from.lon
   }&pickup_address=${encodeURIComponent(inquiryRequest.from.address)}`;
   return inquiryRequest.to?.lat && inquiryRequest.to?.lon
-    ? `${queryParams}&dropoff_latitude=${inquiryRequest.to.lat}&dropoff_longitude=${
+    ? `${queryParams}&dropoff_latitude=${
+        inquiryRequest.to.lat
+      }&dropoff_longitude=${
         inquiryRequest.to.lon
       }&dropoff_address=${encodeURIComponent(inquiryRequest.to.address)}`
     : queryParams;
@@ -131,11 +155,11 @@ function buildQueryParams(inquiryType: InquiryTypes, inquiryRequest: InquiryRequ
 
 function estimatePrice(props: IEstimatePriceProperties): number {
   const fromPosition = turf.point([props.from.lon, props.from.lat]);
-  const downtown = turf.polygon(downtownGeometry, { name: 'downtownGeometry' });
+  const downtown = turf.polygon(downtownGeometry, { name: "downtownGeometry" });
   const isFromDowntown = booleanContains(downtown, fromPosition);
 
   const toPosition = turf.point([props.to.lon, props.to.lat]);
-  const airport = turf.polygon([airportGeometry], { name: 'airport' });
+  const airport = turf.polygon([airportGeometry], { name: "airport" });
   const isToAirport = booleanContains(airport, toPosition);
 
   const localDate = toLocalDate(props.date);

@@ -2,11 +2,18 @@
 // See LICENSE file in the project root for full license information.
 export function toQueryString(params: any) {
   const values = Object.entries(params).map(([key, value]) => {
-    if (typeof value === 'number' || typeof value === 'string' || typeof value === 'boolean') {
+    if (
+      typeof value === "number" ||
+      typeof value === "string" ||
+      typeof value === "boolean"
+    ) {
       return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
     }
-    if (Array.isArray(value)) return `${encodeURIComponent(key)}=${value.map(encodeURIComponent).join(',')}`;
-    return '';
+    if (Array.isArray(value))
+      return `${encodeURIComponent(key)}=${value
+        .map(encodeURIComponent)
+        .join(",")}`;
+    return "";
   });
-  return values?.length > 0 ? `?${values.join('&')}` : '';
+  return values?.length > 0 ? `?${values.join("&")}` : "";
 }

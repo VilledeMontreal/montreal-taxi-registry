@@ -1,10 +1,12 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { getRandomNumberBetween } from '../../shared/commonLoadTests/randomData';
-import { generatePointForLoadTest } from '../../shared/commonLoadTests/specialRegion';
+import { getRandomNumberBetween } from "../../shared/commonLoadTests/randomData";
+import { generatePointForLoadTest } from "../../shared/commonLoadTests/specialRegion";
 
-// tslint:disable-next-line: no-console
-console.log('WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!');
+// eslint-disable-next-line no-console
+console.log(
+  "WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!"
+);
 
 export function beforeGetRoute(context: any, ee: any, next: any) {
   const source = generatePointForLoadTest();

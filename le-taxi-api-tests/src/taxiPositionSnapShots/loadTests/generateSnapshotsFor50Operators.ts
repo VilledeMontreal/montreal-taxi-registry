@@ -3,8 +3,8 @@
 import {
   beforeRequestForInitialization,
   beforeRequestForTests,
-  initializeSnapshotsAndOperatorsApiKeys
-} from './generateSnapshotsCommon';
+  initializeSnapshotsAndOperatorsApiKeys,
+} from "./generateSnapshotsCommon";
 
 // We create double the amount of operators so we can test that the index expiracy
 // that occurs after 2 minutes doesn't impact the results.
@@ -12,5 +12,5 @@ initializeSnapshotsAndOperatorsApiKeys(50 * 2);
 
 module.exports = {
   beforeRequestForInitialization,
-  beforeRequestForTests
+  beforeRequestForTests,
 };

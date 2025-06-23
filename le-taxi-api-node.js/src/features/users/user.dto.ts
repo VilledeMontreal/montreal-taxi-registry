@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-// tslint:disable: max-classes-per-file
+// eslint-disable max-classes-per-file
 import {
   IsBoolean,
   IsDefined,
@@ -12,8 +12,8 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsUrl,
-  IsUUID
-} from 'class-validator';
+  IsUUID,
+} from "class-validator";
 
 const isUrlOptions = { allow_underscores: true };
 
@@ -52,7 +52,7 @@ export class UserRequestDto {
   email_technical: string;
 
   @IsOptional()
-  @IsPhoneNumber('US')
+  @IsPhoneNumber("US")
   phone_number_technical: string;
 
   @IsOptional()
@@ -60,7 +60,7 @@ export class UserRequestDto {
   website_url: string;
 
   @IsOptional()
-  @IsPhoneNumber('US')
+  @IsPhoneNumber("US")
   standard_booking_phone_number: string;
 
   @IsOptional()
@@ -108,7 +108,7 @@ export class UserRequestDto {
   minivan_booking_inquiries_starts_at: string;
 
   @IsOptional()
-  @IsPhoneNumber('US')
+  @IsPhoneNumber("US")
   special_need_booking_phone_number: string;
 
   @IsOptional()

@@ -1,19 +1,19 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { UserModel } from '../../users/user.model';
+import { UserModel } from "../../users/user.model";
 import {
   evaluateBookingMinivan,
   evaluateBookingSpecialNeed,
   evaluateBookingStandard,
   evaluatePhoneBooking,
   PlatformType,
-  TaxiType
-} from './gtfsDeepLinks.templates';
+  TaxiType,
+} from "./gtfsDeepLinks.templates";
 
 const taxiRegistryRoutes = {
-  standard: 'taxi-registry-standard',
-  minivan: 'taxi-registry-minivan',
-  specialNeed: 'taxi-registry-special-need'
+  standard: "taxi-registry-standard",
+  minivan: "taxi-registry-minivan",
+  specialNeed: "taxi-registry-special-need",
 };
 
 class GtfsDeepLinksGenerator {
@@ -46,13 +46,19 @@ function generatePhoneBooking(user: UserModel): string {
 <div>
   <h2>Phone<h2>
   <h3>Standard booking</h3>
-    ${evaluatePhoneBooking({ taxiType: TaxiType.Standard, phoneNumber: user.standard_booking_phone_number })}
+    ${evaluatePhoneBooking({
+      taxiType: TaxiType.Standard,
+      phoneNumber: user.standard_booking_phone_number,
+    })}
   <h3>Minivan booking</h3>
-    ${evaluatePhoneBooking({ taxiType: TaxiType.Minivan, phoneNumber: user.standard_booking_phone_number })}
+    ${evaluatePhoneBooking({
+      taxiType: TaxiType.Minivan,
+      phoneNumber: user.standard_booking_phone_number,
+    })}
   <h3>Special need booking</h3>
     ${evaluatePhoneBooking({
       taxiType: TaxiType.SpecialNeed,
-      phoneNumber: user.special_need_booking_phone_number
+      phoneNumber: user.special_need_booking_phone_number,
     })}
 </div>`;
 }
@@ -67,7 +73,7 @@ function generateWebBooking(user: UserModel): string {
       platformType: PlatformType.Web,
       serviceType: taxiRegistryRoutes.standard,
       bookingUrl: user.standard_booking_website_url,
-      display: !!user.standard_booking_website_url
+      display: !!user.standard_booking_website_url,
     })}
   <h3>Minivan booking</h3>
     ${evaluateBookingMinivan({
@@ -75,7 +81,7 @@ function generateWebBooking(user: UserModel): string {
       platformType: PlatformType.Web,
       serviceType: taxiRegistryRoutes.minivan,
       bookingUrl: user.standard_booking_website_url,
-      display: !!user.minivan_booking_is_available_from_web_url
+      display: !!user.minivan_booking_is_available_from_web_url,
     })}
   <h3>Special need booking</h3>
     ${evaluateBookingSpecialNeed({
@@ -84,7 +90,9 @@ function generateWebBooking(user: UserModel): string {
       serviceType: taxiRegistryRoutes.specialNeed,
       bookingUrl: user.special_need_booking_website_url,
       display: !!user.special_need_booking_website_url,
-      displayTemplate: user.standard_booking_website_url !== user.special_need_booking_website_url
+      displayTemplate:
+        user.standard_booking_website_url !==
+        user.special_need_booking_website_url,
     })}
 </div>`;
 }
@@ -100,7 +108,7 @@ function generateAndroidBooking(user: UserModel): string {
       serviceType: taxiRegistryRoutes.standard,
       bookingUrl: user.standard_booking_android_deeplink_uri,
       storeUrl: user.standard_booking_android_store_uri,
-      display: !!user.standard_booking_android_deeplink_uri
+      display: !!user.standard_booking_android_deeplink_uri,
     })}
   <h3>Minivan booking</h3>
     ${evaluateBookingMinivan({
@@ -108,7 +116,7 @@ function generateAndroidBooking(user: UserModel): string {
       platformType: PlatformType.Android,
       serviceType: taxiRegistryRoutes.minivan,
       bookingUrl: user.standard_booking_android_deeplink_uri,
-      display: !!user.minivan_booking_is_available_from_android_uri
+      display: !!user.minivan_booking_is_available_from_android_uri,
     })}
   <h3>Special need booking</h3>
   ${evaluateBookingSpecialNeed({
@@ -118,7 +126,9 @@ function generateAndroidBooking(user: UserModel): string {
     bookingUrl: user.special_need_booking_android_deeplink_uri,
     storeUrl: user.special_need_booking_android_store_uri,
     display: !!user.special_need_booking_android_deeplink_uri,
-    displayTemplate: user.standard_booking_android_deeplink_uri !== user.special_need_booking_android_deeplink_uri
+    displayTemplate:
+      user.standard_booking_android_deeplink_uri !==
+      user.special_need_booking_android_deeplink_uri,
   })}
 </div>`;
 }
@@ -134,7 +144,7 @@ function generateIosBooking(user: UserModel): string {
     serviceType: taxiRegistryRoutes.standard,
     bookingUrl: user.standard_booking_ios_deeplink_uri,
     storeUrl: user.standard_booking_ios_store_uri,
-    display: !!user.standard_booking_ios_deeplink_uri
+    display: !!user.standard_booking_ios_deeplink_uri,
   })}
   <h3>Minivan booking</h3>
   ${evaluateBookingMinivan({
@@ -142,7 +152,7 @@ function generateIosBooking(user: UserModel): string {
     platformType: PlatformType.Ios,
     serviceType: taxiRegistryRoutes.minivan,
     bookingUrl: user.standard_booking_ios_deeplink_uri,
-    display: !!user.minivan_booking_is_available_from_ios_uri
+    display: !!user.minivan_booking_is_available_from_ios_uri,
   })}
   <h3>Special need booking</h3>
   ${evaluateBookingSpecialNeed({
@@ -152,7 +162,9 @@ function generateIosBooking(user: UserModel): string {
     bookingUrl: user.special_need_booking_ios_deeplink_uri,
     storeUrl: user.special_need_booking_ios_store_uri,
     display: !!user.special_need_booking_ios_deeplink_uri,
-    displayTemplate: user.standard_booking_ios_deeplink_uri !== user.special_need_booking_ios_deeplink_uri
+    displayTemplate:
+      user.standard_booking_ios_deeplink_uri !==
+      user.special_need_booking_ios_deeplink_uri,
   })}
 </div>`;
 }

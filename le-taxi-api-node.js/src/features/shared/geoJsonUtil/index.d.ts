@@ -11,5 +11,10 @@
 //  - Delete this code
 //
 namespace GeoJSON {
-  function parse(objects: [] | object, params: object, callback?: Function): any;
+  function parse(
+    objects: [] | object,
+    params: object,
+    /* eslint-disable @typescript-eslint/no-unsafe-function-type */
+    callback?: Function
+  ): any;
 }

@@ -1,32 +1,41 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { BadRequestError } from '../errorHandling/errors';
-import { getMongoDb } from '../shared/taxiMongo/taxiMongo';
-import { postgrePool } from '../shared/taxiPostgre/taxiPostgre';
+import { BadRequestError } from "../errorHandling/errors";
+import { getMongoDb } from "../shared/taxiMongo/taxiMongo";
+import { postgrePool } from "../shared/taxiPostgre/taxiPostgre";
 
 export class TaxiPathRepository {
-  public async getTaxiPositionSnapshots(taxiId: string, utcDateMin: Date, utcDateMax: Date): Promise<any[]> {
+  public async getTaxiPositionSnapshots(
+    taxiId: string,
+    utcDateMin: Date,
+    utcDateMax: Date
+  ): Promise<any[]> {
     const mongoDb = getMongoDb();
     const taxiPositionSnapshots = mongoDb
-      .collection('taxiPositionSnapshots')
+      .collection("taxiPositionSnapshots")
       .aggregate([
         {
-          $match: { receivedAt: { $gte: new Date(utcDateMin.toISOString()), $lte: new Date(utcDateMax.toISOString()) } }
+          $match: {
+            receivedAt: {
+              $gte: new Date(utcDateMin.toISOString()),
+              $lte: new Date(utcDateMax.toISOString()),
+            },
+          },
         },
-        { $unwind: '$items' },
-        { $match: { 'items.taxi': taxiId } },
-        { $sort: { 'items.timestampUTC': 1 } },
+        { $unwind: "$items" },
+        { $match: { "items.taxi": taxiId } },
+        { $sort: { "items.timestampUTC": 1 } },
         {
           $project: {
             _id: 0,
-            lat: '$items.lat',
-            lon: '$items.lon',
-            timestampUTC: '$items.timestampUTC',
-            status: '$items.status',
-            azimuth: '$items.azimuth',
-            speed: '$items.speed'
-          }
-        }
+            lat: "$items.lat",
+            lon: "$items.lon",
+            timestampUTC: "$items.timestampUTC",
+            status: "$items.status",
+            azimuth: "$items.azimuth",
+            speed: "$items.speed",
+          },
+        },
       ])
       .toArray();
 
@@ -34,7 +43,7 @@ export class TaxiPathRepository {
   }
 
   public async getTaxiInfo(taxiId: string): Promise<any> {
-    if (!taxiId) throw new BadRequestError('taxiId missing');
+    if (!taxiId) throw new BadRequestError("taxiId missing");
     const queryResult = await postgrePool.query(
       `SELECT public.taxi.id, public.taxi.vehicle_id, public.taxi.ads_id, public.taxi.driver_id, public.taxi.rating, public.taxi.ban_begin, public.taxi.ban_end,
           public."ADS".numero, public."ADS".insee, public."ADS".vdm_vignette, public."ADS".owner_name,
@@ -55,7 +64,8 @@ export class TaxiPathRepository {
       [taxiId]
     );
 
-    if (!queryResult || !queryResult.rows || !queryResult.rows[0]) throw new BadRequestError('Unable to find taxi');
+    if (!queryResult || !queryResult.rows || !queryResult.rows[0])
+      throw new BadRequestError("Unable to find taxi");
     return queryResult.rows[0];
   }
 }

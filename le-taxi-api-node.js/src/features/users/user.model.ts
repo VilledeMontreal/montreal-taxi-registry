@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-// tslint:disable: variable-name
+// eslint-disable variable-name
 export class UserModel {
   id: string;
   email: string;
@@ -40,52 +40,58 @@ export class UserModel {
 }
 
 type BaseUserModel =
-  | 'id'
-  | 'email'
-  | 'active'
-  | 'public_id'
-  | 'confirmed_at'
-  | 'commercial_name'
-  | 'email_customer'
-  | 'email_technical'
-  | 'phone_number_technical';
+  | "id"
+  | "email"
+  | "active"
+  | "public_id"
+  | "confirmed_at"
+  | "commercial_name"
+  | "email_customer"
+  | "email_technical"
+  | "phone_number_technical";
 
 type OperatorUserModel =
-  | 'website_url'
-  | 'standard_booking_phone_number'
-  | 'standard_booking_website_url'
-  | 'standard_booking_android_deeplink_uri'
-  | 'standard_booking_android_store_uri'
-  | 'standard_booking_ios_deeplink_uri'
-  | 'standard_booking_ios_store_uri'
-  | 'standard_booking_is_promoted_to_public'
-  | 'standard_booking_inquiries_starts_at'
-  | 'minivan_booking_is_available_from_web_url'
-  | 'minivan_booking_is_available_from_android_uri'
-  | 'minivan_booking_is_available_from_ios_uri'
-  | 'minivan_booking_is_promoted_to_public'
-  | 'minivan_booking_inquiries_starts_at'
-  | 'special_need_booking_phone_number'
-  | 'special_need_booking_website_url'
-  | 'special_need_booking_android_deeplink_uri'
-  | 'special_need_booking_android_store_uri'
-  | 'special_need_booking_ios_deeplink_uri'
-  | 'special_need_booking_ios_store_uri'
-  | 'special_need_booking_is_promoted_to_public'
-  | 'special_need_booking_inquiries_starts_at';
+  | "website_url"
+  | "standard_booking_phone_number"
+  | "standard_booking_website_url"
+  | "standard_booking_android_deeplink_uri"
+  | "standard_booking_android_store_uri"
+  | "standard_booking_ios_deeplink_uri"
+  | "standard_booking_ios_store_uri"
+  | "standard_booking_is_promoted_to_public"
+  | "standard_booking_inquiries_starts_at"
+  | "minivan_booking_is_available_from_web_url"
+  | "minivan_booking_is_available_from_android_uri"
+  | "minivan_booking_is_available_from_ios_uri"
+  | "minivan_booking_is_promoted_to_public"
+  | "minivan_booking_inquiries_starts_at"
+  | "special_need_booking_phone_number"
+  | "special_need_booking_website_url"
+  | "special_need_booking_android_deeplink_uri"
+  | "special_need_booking_android_store_uri"
+  | "special_need_booking_ios_deeplink_uri"
+  | "special_need_booking_ios_store_uri"
+  | "special_need_booking_is_promoted_to_public"
+  | "special_need_booking_inquiries_starts_at";
 
-type RoleUserModel = 'role' | 'role_name';
+type RoleUserModel = "role" | "role_name";
 
-type AuthenticationUserModel = 'apikey' | 'password';
+type AuthenticationUserModel = "apikey" | "password";
 
 export type BaseUser = Pick<UserModel, BaseUserModel>;
-export type AuthenticatedUser = Pick<UserModel, BaseUserModel | RoleUserModel | AuthenticationUserModel>;
-export type PromotedOperator = Pick<UserModel, BaseUserModel | RoleUserModel | OperatorUserModel>;
+export type AuthenticatedUser = Pick<
+  UserModel,
+  BaseUserModel | RoleUserModel | AuthenticationUserModel
+>;
+export type PromotedOperator = Pick<
+  UserModel,
+  BaseUserModel | RoleUserModel | OperatorUserModel
+>;
 
 // For any custom properties populated by us
 // let typescript knows about it (thanks to declaration merging)
-// tslint:disable: interface-name
 declare global {
+  /* eslint-disable-next-line @typescript-eslint/no-namespace */
   namespace Express {
     interface Request {
       userModel: UserModel;

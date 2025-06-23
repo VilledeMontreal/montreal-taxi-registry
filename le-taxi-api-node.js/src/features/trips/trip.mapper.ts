@@ -1,10 +1,10 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { TripModel } from './trip.model';
+import { TripModel } from "./trip.model";
 
 class TripMapper {
   public toPersistanceArray(trips: TripModel[]): any[] {
-    return trips.map(trip => this.toPersistance(trip));
+    return trips.map((trip) => this.toPersistance(trip));
   }
 
   public toPersistance(trip: TripModel): any {
@@ -21,7 +21,7 @@ class TripMapper {
       coordinates: trip.coordinates,
       taxi_path: trip.path,
       confidence: trip.confidence,
-      confidence_reason: trip.confidenceReason
+      confidence_reason: trip.confidenceReason,
     };
   }
 }

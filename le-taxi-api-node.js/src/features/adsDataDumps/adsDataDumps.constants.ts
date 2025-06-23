@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 const tableName = `public."ADS"`;
-const insertDateColumn = 'added_at';
-const updateDateColumn = 'last_update_at';
+const insertDateColumn = "added_at";
+const updateDateColumn = "last_update_at";
 
 const selectAll = `
 SELECT public."ADS".id,

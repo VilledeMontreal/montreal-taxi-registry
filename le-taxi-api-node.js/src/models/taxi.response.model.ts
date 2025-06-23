@@ -15,8 +15,6 @@ export class TaxiInputModel {
 }
 
 export class TaxiReturnModel {
-  constructor() {}
-
   driver: inputDriver;
   ads: inputAds;
   status: string;
@@ -32,8 +30,6 @@ export class TaxiReturnModel {
 }
 
 export class TaxiDetailModel {
-  constructor() {}
-
   ads: inputAds;
   crowfly_distance: number;
 
@@ -133,7 +129,7 @@ export class GeoSendPosition {
   }
 
   taxi: string;
-  device: string = 'phone';
+  device = 'phone';
   operator: string;
   lat: number;
   lon: number;

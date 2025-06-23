@@ -1,5 +1,4 @@
 {
-  "extends": "./node_modules/@villedemontreal/lint-config/rules/tsconfig-base.json",
   "compilerOptions": {
     "sourceMap": true,
     "pretty": true,

@@ -1,13 +1,13 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { assert } from 'chai';
-import { StatusCodes } from 'http-status-codes';
-import { shouldThrow } from '../shared/commonTests/testUtil';
-import { UserRole } from '../shared/commonTests/UserRole';
-import { getImmutableUserApiKey } from '../users/user.sharedFixture';
-import { getGtfsDeepLinks } from './gtfsDeepLinks.apiClient';
+import { assert } from "chai";
+import { StatusCodes } from "http-status-codes";
+import { shouldThrow } from "../shared/commonTests/testUtil";
+import { UserRole } from "../shared/commonTests/UserRole";
+import { getImmutableUserApiKey } from "../users/user.sharedFixture";
+import { getGtfsDeepLinks } from "./gtfsDeepLinks.apiClient";
 
-// tslint:disable-next-line: max-func-body-length
+// eslint-disable-next-line max-lines-per-function
 export async function invalidGtfsDeepLinksTests(): Promise<void> {
   testGtfsDeepLinksAccessInvalid(UserRole.Admin);
   testGtfsDeepLinksAccessInvalid(UserRole.Motor);
@@ -23,11 +23,11 @@ function testGtfsDeepLinksAccessInvalid(role: UserRole) {
 
     await shouldThrow(
       () => getGtfsDeepLinks(apiKey),
-      err => {
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          'The user has a role which has insufficient permissions to access this resource.'
+          "The user has a role which has insufficient permissions to access this resource."
         );
       }
     );

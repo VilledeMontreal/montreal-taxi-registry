@@ -13,12 +13,12 @@
     "tsc": "npm run clean && tsc --build tsconfig.json",
     "watch": "npm run clean && tsc --watch --pretty",
     "clean": "rimraf src/**/*.js src/**/*.js.map",
-    "lint": "npm run prettier && npm run tslint",
-    "lint-fix": "npm run prettier-fix && npm run tslint-fix",
-    "prettier": "villemontreal-lint . check node prettier",
-    "prettier-fix": "villemontreal-lint . fix node prettier",
-    "tslint": "tslint -c tslint.json --project .",
-    "tslint-fix": "tslint -c tslint.json --fix --project . ",
+    "prettier": "prettier -c \"src/**/*+(.ts)\"",
+    "prettier-fix": "prettier \"src/**/*+(.ts)\" --write",
+    "eslint": "eslint --ext .ts src",
+    "eslint-fix": "eslint --fix --ext .ts src",
+    "lint": "npm run prettier && npm run eslint",
+    "lint-fix": "npm run prettier-fix && npm run eslint-fix",
     "sonar": "sh ./sonar.sh"
   },
   "dependencies": {
@@ -82,10 +82,15 @@
     "@types/pg": "8.11.6",
     "@types/request": "2.48.12",
     "@types/superagent": "8.1.7",
-    "@villedemontreal/lint-config": "1.7.7",
+    "@typescript-eslint/eslint-plugin": "8.34.1",
+    "@typescript-eslint/parser": "8.34.1",
     "chai": "4.4.1",
     "chai-http": "4.4.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-prettier": "4.2.1",
     "mocha": "10.4.0",
+    "prettier": "2.7.1",
     "rimraf": "5.0.7",
     "sonarqube-scanner": "3.5.0",
     "source-map-support": "0.5.21",
@@ -93,8 +98,7 @@
     "typescript": "5.4.5"
   },
   "peerDependencies": {
-    "js-yaml": "^3",
-    "tslint": "*"
+    "js-yaml": "^3"
   },
   "engines": {
     "node": "~20.13.0"

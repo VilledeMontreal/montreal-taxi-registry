@@ -1,10 +1,19 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { IsBoolean, IsDefined, IsEnum, IsInt, IsOptional, IsString, MaxLength, ValidateIf } from 'class-validator';
-import { OwnerTypes } from './owner-types.enum';
+import {
+  IsBoolean,
+  IsDefined,
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsString,
+  MaxLength,
+  ValidateIf,
+} from "class-validator";
+import { OwnerTypes } from "./owner-types.enum";
 
 export class AdsRequestDto {
-  // tslint:disable: variable-name
+  // eslint-disable variable-name
   @IsDefined()
   @IsString()
   @MaxLength(255)
@@ -39,16 +48,16 @@ export class AdsRequestDto {
   @IsInt()
   public vehicle_id: number;
 
-  @ValidateIf(o => isInseeHasPermitSemanticForADS(o.insee))
+  @ValidateIf((o) => isInseeHasPermitSemanticForADS(o.insee))
   @IsDefined()
   @IsString()
   @MaxLength(255)
   public vdm_vignette: string;
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 export class AdsResponseDto {
-  // tslint:disable: variable-name
+  // eslint-disable variable-name
   public insee: string;
   public numero: string;
   public owner_name: string;
@@ -60,5 +69,5 @@ export class AdsResponseDto {
 }
 
 export function isInseeHasPermitSemanticForADS(insee: string) {
-  return ['102005', '102011', '102012'].includes(insee);
+  return ["102005", "102011", "102012"].includes(insee);
 }
