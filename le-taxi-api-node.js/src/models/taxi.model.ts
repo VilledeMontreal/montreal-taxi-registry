@@ -1,8 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 export class TaxiModel {
-  constructor() {}
-
   id: string;
   added_at: string;
   added_via: string;

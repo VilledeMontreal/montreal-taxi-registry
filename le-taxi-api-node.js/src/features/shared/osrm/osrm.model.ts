@@ -10,11 +10,8 @@ export interface IOsrmLegs {
 
 export class OsrmRoute {
   legs: IOsrmLegs[];
-  distance: number = 0;
-  duration: number = 0;
+  distance = 0;
+  duration = 0;
   weight_name: string;
   weight: number;
-
-  /* tslint:disable:no-empty */
-  constructor() {}
 }

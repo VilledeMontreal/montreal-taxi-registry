@@ -4,7 +4,7 @@ import * as crypto from 'crypto';
 import { configs } from '../config/configs';
 import { AuthenticatedUser } from '../features/users/user.model';
 
-let nJwt = require("njwt");
+const nJwt = require("njwt");
 const _signingKeyForJwtCreation = getSigningKeyForJwtCreation();
 const iv = '0000000000000000';
 
@@ -21,7 +21,7 @@ class Security {
 
   decrypt(text: string): string {
     const decrypter = crypto.createDecipheriv('aes-256-cbc', configs.security.secret, iv)
-    var decipher = decrypter.update(text,'hex','utf8') + decrypter.final('utf8');
+    const decipher = decrypter.update(text,'hex','utf8') + decrypter.final('utf8');
     return decipher;
   }
 
@@ -30,14 +30,14 @@ class Security {
   }
 
   createJwt(user: AuthenticatedUser): any {
-    var claims = {
+    const claims = {
       user: user.email,
       role: user.role_name,
       apikey: user.apikey
     };
 
-    var jwt = nJwt.create(claims, _signingKeyForJwtCreation);
-    let date = new Date();
+    const jwt = nJwt.create(claims, _signingKeyForJwtCreation);
+    const date = new Date();
     jwt.setExpiration(date.setDate(date.getDate() + 1)); // 24 heures
     return jwt.compact();
   }

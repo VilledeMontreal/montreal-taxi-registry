@@ -1,17 +1,20 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { assert } from 'chai';
-import { StatusCodes } from 'http-status-codes';
+import { assert } from "chai";
+import { StatusCodes } from "http-status-codes";
 
-import { shouldThrow } from '../shared/commonTests/testUtil';
-import { UserRole } from '../shared/commonTests/UserRole';
-import { postDtoIsString } from '../shared/taxiRegistryHttp/taxiRegistryHttp';
-import { setupNewTaxi } from '../taxis/taxi.fixture';
-import { copyTaxiTemplate } from '../taxis/taxisDto.template';
-import { getImmutableUser, getImmutableUserApiKey } from '../users/user.sharedFixture';
+import { shouldThrow } from "../shared/commonTests/testUtil";
+import { UserRole } from "../shared/commonTests/UserRole";
+import { postDtoIsString } from "../shared/taxiRegistryHttp/taxiRegistryHttp";
+import { setupNewTaxi } from "../taxis/taxi.fixture";
+import { copyTaxiTemplate } from "../taxis/taxisDto.template";
+import {
+  getImmutableUser,
+  getImmutableUserApiKey,
+} from "../users/user.sharedFixture";
 
 export async function invalidJsonTests(): Promise<void> {
-  it('api-node. Should be a 400 error: Invalid json', async () => {
+  it("api-node. Should be a 400 error: Invalid json", async () => {
     const apiKey = await getImmutableUserApiKey(UserRole.Operator);
     const wrongFormatDto = `{
       "data": [
@@ -28,15 +31,15 @@ export async function invalidJsonTests(): Promise<void> {
       ]
     }`;
     await shouldThrow(
-      () => postDtoIsString('/api/vehicles/', wrongFormatDto, apiKey),
-      err => {
+      () => postDtoIsString("/api/vehicles/", wrongFormatDto, apiKey),
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, "Expected ':'");
       }
     );
   });
 
-  it('geo-taxi. Should be a 400 error: Invalid json', async () => {
+  it("geo-taxi. Should be a 400 error: Invalid json", async () => {
     const operatorUser = await getImmutableUser(UserRole.Operator);
     const taxi = await setupNewTaxi(copyTaxiTemplate(), operatorUser.apikey);
     const wrongFormatDto = `{
@@ -56,8 +59,13 @@ export async function invalidJsonTests(): Promise<void> {
       ]
     }`;
     await shouldThrow(
-      () => postDtoIsString('/api/taxi-position-snapshots/', wrongFormatDto, operatorUser.apikey),
-      err => {
+      () =>
+        postDtoIsString(
+          "/api/taxi-position-snapshots/",
+          wrongFormatDto,
+          operatorUser.apikey
+        ),
+      (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, "Unexpected token 'p'");
       }

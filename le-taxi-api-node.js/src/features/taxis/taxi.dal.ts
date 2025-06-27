@@ -1,21 +1,34 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { QueryResult } from 'pg';
-import * as shortId from 'shortid';
-import { TaxiStatus } from '../../libs/taxiStatus';
-import { BadRequestError } from '../errorHandling/errors';
-import { latestTaxiPositionRepository } from '../latestTaxiPositions/latestTaxiPosition.repository';
-import { DataOperation } from '../shared/dal/dal-operations.enum';
-import { IDalResponse } from '../shared/dal/dal-response';
-import { postgrePool } from '../shared/taxiPostgre/taxiPostgre';
-import { IPaginationQueryParams, ISqlClauses } from '../shared/ui/pagination.interfaces';
-import { UserModel } from '../users/user.model';
-import { TaxiRequestDto, TaxiResponseDto } from './taxi.dto';
+import { QueryResult } from "pg";
+import * as shortId from "shortid";
+import { TaxiStatus } from "../../libs/taxiStatus";
+import { BadRequestError } from "../errorHandling/errors";
+import { latestTaxiPositionRepository } from "../latestTaxiPositions/latestTaxiPosition.repository";
+import { DataOperation } from "../shared/dal/dal-operations.enum";
+import { IDalResponse } from "../shared/dal/dal-response";
+import { postgrePool } from "../shared/taxiPostgre/taxiPostgre";
+import {
+  IPaginationQueryParams,
+  ISqlClauses,
+} from "../shared/ui/pagination.interfaces";
+import { UserModel } from "../users/user.model";
+import { TaxiRequestDto, TaxiResponseDto } from "./taxi.dto";
 
 class TaxiDataAccessLayer {
-  public async upsertTaxi(taxiDto: TaxiRequestDto, userModel: UserModel): Promise<IDalResponse> {
-    const vehicleId: number = await this.tryGetVehicleId(taxiDto.vehicle.licence_plate, Number(userModel.id));
-    const permitId: number = await this.tryGetPermitId(taxiDto.ads.insee, taxiDto.ads.numero, Number(userModel.id));
+  public async upsertTaxi(
+    taxiDto: TaxiRequestDto,
+    userModel: UserModel
+  ): Promise<IDalResponse> {
+    const vehicleId: number = await this.tryGetVehicleId(
+      taxiDto.vehicle.licence_plate,
+      Number(userModel.id)
+    );
+    const permitId: number = await this.tryGetPermitId(
+      taxiDto.ads.insee,
+      taxiDto.ads.numero,
+      Number(userModel.id)
+    );
     const driverId: number = await this.tryGetDriverId(
       taxiDto.driver.departement,
       taxiDto.driver.professional_licence,
@@ -33,7 +46,10 @@ class TaxiDataAccessLayer {
     return dalResponse;
   }
 
-  public async updateTaxiById(taxiId: string, isTaxiPrivate: boolean | string): Promise<number> {
+  public async updateTaxiById(
+    taxiId: string,
+    isTaxiPrivate: boolean | string
+  ): Promise<number> {
     const existingTaxi = await this.findTaxi(taxiId);
     if (existingTaxi === null) {
       throw new BadRequestError(`No taxi with id '${taxiId}' found`);
@@ -47,38 +63,47 @@ class TaxiDataAccessLayer {
     `;
 
     const utcNow = new Date().toISOString();
-    const queryResult = await postgrePool.query(query, [this.toBoolean(isTaxiPrivate), utcNow, taxiId]);
+    const queryResult = await postgrePool.query(query, [
+      this.toBoolean(isTaxiPrivate),
+      utcNow,
+      taxiId,
+    ]);
 
     return queryResult.rows[0].id;
   }
 
-  public async getTaxiById(taxiId: string, userModel: UserModel = null): Promise<TaxiResponseDto> {
+  public async getTaxiById(
+    taxiId: string,
+    userModel: UserModel = null
+  ): Promise<TaxiResponseDto> {
     const queryResult = await this.findTaxi(taxiId);
     if (queryResult === null) {
       throw new BadRequestError(`Unable to find a taxi with id '${taxiId}'`);
     }
     const taxiDataRow = queryResult.rows[0];
     if (userModel !== null && Number(userModel.id) !== taxiDataRow.added_by) {
-      throw new BadRequestError(`Unable to find a taxi with id '${taxiId}' that was created by '${userModel.id}'`);
+      throw new BadRequestError(
+        `Unable to find a taxi with id '${taxiId}' that was created by '${userModel.id}'`
+      );
     }
 
     const [vehicleCharacteristics, latestTaxiPosition] = await Promise.all([
       this.getVehicleCharacteristics(taxiDataRow.vehicleDescriptionId),
-      latestTaxiPositionRepository.getLatestTaxiPositionByTaxiId(taxiId)
+      latestTaxiPositionRepository.getLatestTaxiPositionByTaxiId(taxiId),
     ]);
 
     const taxiResponseDto: TaxiResponseDto = {
       ads: {
         insee: taxiDataRow.insee,
-        numero: taxiDataRow.numero
+        numero: taxiDataRow.numero,
       },
       driver: {
         departement: taxiDataRow.departement,
-        professional_licence: taxiDataRow.professional_licence
+        professional_licence: taxiDataRow.professional_licence,
       },
       position: {
         lat: null,
-        lon: null
+        lon: null,
       },
       vehicle: {
         characteristics: vehicleCharacteristics,
@@ -87,15 +112,17 @@ class TaxiDataAccessLayer {
         licence_plate: taxiDataRow.licence_plate,
         model: taxiDataRow.model,
         nb_seats: taxiDataRow.nb_seats,
-        type_: taxiDataRow.type_
+        type_: taxiDataRow.type_,
       },
       crowfly_distance: null,
       id: taxiDataRow.id,
-      last_update: latestTaxiPosition ? latestTaxiPosition.timestampUnixTime : null,
+      last_update: latestTaxiPosition
+        ? latestTaxiPosition.timestampUnixTime
+        : null,
       operator: taxiDataRow.operator,
       private: taxiDataRow.private,
       rating: taxiDataRow.rating,
-      status: latestTaxiPosition ? latestTaxiPosition.status : TaxiStatus.Off
+      status: latestTaxiPosition ? latestTaxiPosition.status : TaxiStatus.Off,
     };
 
     return taxiResponseDto;
@@ -156,7 +183,7 @@ class TaxiDataAccessLayer {
 
     const queryResult = await postgrePool.query(query, values);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
-      throw new BadRequestError('Unable to retrieve taxi count');
+      throw new BadRequestError("Unable to retrieve taxi count");
     }
 
     return queryResult.rows[0].count;
@@ -201,19 +228,23 @@ class TaxiDataAccessLayer {
     return queryResult;
   }
 
-  private async getVehicleCharacteristics(vehicleDescriptionId: number): Promise<string[] | null> {
+  private async getVehicleCharacteristics(
+    vehicleDescriptionId: number
+  ): Promise<string[] | null> {
     const query = `
       SELECT *
       FROM public.vehicle_description
       WHERE id=$1::int
     `;
-    const queryResult: QueryResult = await postgrePool.query(query, [vehicleDescriptionId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      vehicleDescriptionId,
+    ]);
 
     const items = queryResult.rows[0];
     const characteristics: string[] = [];
 
     for (const key in items) {
-      if (typeof items[key] === 'boolean' && items[key]) {
+      if (typeof items[key] === "boolean" && items[key]) {
         characteristics.push(key);
       }
     }
@@ -224,13 +255,19 @@ class TaxiDataAccessLayer {
 
     return characteristics;
   }
-  private async tryGetVehicleId(licencePlate: string, userId: number): Promise<number> {
+  private async tryGetVehicleId(
+    licencePlate: string,
+    userId: number
+  ): Promise<number> {
     const query = `
       SELECT v.id
       FROM public.vehicle v
       WHERE v.licence_plate=$1::text AND v.added_by_user=$2::int
     `;
-    const queryResult: QueryResult = await postgrePool.query(query, [licencePlate, userId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      licencePlate,
+      userId,
+    ]);
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       throw new BadRequestError(
@@ -241,13 +278,21 @@ class TaxiDataAccessLayer {
     return queryResult.rows[0].id;
   }
 
-  private async tryGetPermitId(insee: string, numero: string, userId: number): Promise<number> {
+  private async tryGetPermitId(
+    insee: string,
+    numero: string,
+    userId: number
+  ): Promise<number> {
     const query = `
       SELECT a.id
       FROM public."ADS" a
       WHERE a.insee=$1::text AND a.numero=$2::text AND a.added_by=$3::int
     `;
-    const queryResult: QueryResult = await postgrePool.query(query, [insee, numero, userId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      insee,
+      numero,
+      userId,
+    ]);
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       throw new BadRequestError(
@@ -258,13 +303,21 @@ class TaxiDataAccessLayer {
     return queryResult.rows[0].id;
   }
 
-  private async tryGetDriverId(departement: string, professionalLicence: string, userId: number): Promise<number> {
+  private async tryGetDriverId(
+    departement: string,
+    professionalLicence: string,
+    userId: number
+  ): Promise<number> {
     const query = `
       SELECT d.id
       FROM public.driver d
       WHERE d.departement_id=$1::int AND d.professional_licence=$2::text AND d.added_by=$3::int
     `;
-    const queryResult: QueryResult = await postgrePool.query(query, [departement, professionalLicence, userId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      departement,
+      professionalLicence,
+      userId,
+    ]);
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       throw new BadRequestError(
@@ -287,23 +340,36 @@ class TaxiDataAccessLayer {
       FROM public.taxi
       WHERE vehicle_id=$1::int AND ads_id=$2::int AND driver_id=$3::int AND added_by=$4::int
     `;
-    const queryResult: QueryResult = await postgrePool.query(query, [vehicleId, permitId, driverId, userId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      vehicleId,
+      permitId,
+      driverId,
+      userId,
+    ]);
 
-    const doesTaxiExist = queryResult && queryResult.rows && queryResult.rows[0];
+    const doesTaxiExist =
+      queryResult && queryResult.rows && queryResult.rows[0];
     const responseDal: IDalResponse = doesTaxiExist
       ? {
-          entityId: await this.updateTaxiByVehiclePermitDriverOperatorCombination(
+          entityId:
+            await this.updateTaxiByVehiclePermitDriverOperatorCombination(
+              vehicleId,
+              permitId,
+              driverId,
+              userId,
+              isTaxiPrivate
+            ),
+          dataOperation: DataOperation.Update,
+        }
+      : {
+          entityId: await this.insertTaxi(
             vehicleId,
             permitId,
             driverId,
             userId,
             isTaxiPrivate
           ),
-          dataOperation: DataOperation.Update
-        }
-      : {
-          entityId: await this.insertTaxi(vehicleId, permitId, driverId, userId, isTaxiPrivate),
-          dataOperation: DataOperation.Create
+          dataOperation: DataOperation.Create,
         };
 
     return responseDal;
@@ -333,7 +399,7 @@ class TaxiDataAccessLayer {
       vehicleId,
       permitId,
       driverId,
-      userId
+      userId,
     ]);
 
     return queryResult.rows[0].id;
@@ -371,8 +437,8 @@ class TaxiDataAccessLayer {
     const utcNow = new Date().toISOString();
     const queryResult = await postgrePool.query(query, [
       utcNow,
-      'api',
-      'added_by',
+      "api",
+      "added_by",
       utcNow,
       vehicleId,
       permitId,
@@ -382,7 +448,7 @@ class TaxiDataAccessLayer {
       null,
       null,
       this.getShortId(),
-      privateKey
+      privateKey,
     ]);
 
     return queryResult.rows[0].id;
@@ -421,20 +487,27 @@ class TaxiDataAccessLayer {
     return queryResult;
   }
 
-  public async updateRatingTaxi(taxiId: string, totalRating: number): Promise<void> {
+  public async updateRatingTaxi(
+    taxiId: string,
+    totalRating: number
+  ): Promise<void> {
     const query = `
     UPDATE public.taxi
     SET last_update_at = $3::timestamp without time zone,
         rating = $2::double precision
     WHERE   id = $1::text`;
-    await postgrePool.query(query, [taxiId, totalRating, new Date().toISOString()]);
+    await postgrePool.query(query, [
+      taxiId,
+      totalRating,
+      new Date().toISOString(),
+    ]);
   }
 
   private toBoolean(privateKey: string | boolean): boolean {
-    if (typeof privateKey === 'boolean') {
+    if (typeof privateKey === "boolean") {
       return privateKey;
     }
-    if (privateKey === 'true') {
+    if (privateKey === "true") {
       return true;
     }
     return false;
@@ -442,10 +515,10 @@ class TaxiDataAccessLayer {
 }
 
 function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
-  const filters = queryParams.filter?.split('|');
-  let filterBy = '';
-  let orderBy = '';
-  let limitBy = '';
+  const filters = queryParams.filter?.split("|");
+  let filterBy = "";
+  let orderBy = "";
+  let limitBy = "";
   const values = [];
 
   if (filters?.length >= 1) {
@@ -474,7 +547,9 @@ function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
   }
 
   if (queryParams.page && queryParams.pageSize) {
-    limitBy += ` LIMIT $${values.length + 2}::int OFFSET ($${values.length + 1}::int * $${values.length + 2}::int)`;
+    limitBy += ` LIMIT $${values.length + 2}::int OFFSET ($${
+      values.length + 1
+    }::int * $${values.length + 2}::int)`;
     values.push(queryParams.page, queryParams.pageSize);
   }
 
@@ -484,20 +559,20 @@ function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
 }
 
 function buildOrderByClause(order: string): string {
-  if (!order) return 'v.licence_plate';
+  if (!order) return "v.licence_plate";
 
-  const column = order.includes('professional')
-    ? 'd.professional_licence'
-    : order.includes('first')
-    ? 'd.first_name'
-    : order.includes('last')
-    ? 'd.last_name'
-    : order.includes('vignette')
-    ? 'a.vdm_vignette'
-    : order.includes('email')
-    ? 'u.email'
-    : 'v.licence_plate';
-  const descending = order.includes('desc') ? ' DESC' : '';
+  const column = order.includes("professional")
+    ? "d.professional_licence"
+    : order.includes("first")
+    ? "d.first_name"
+    : order.includes("last")
+    ? "d.last_name"
+    : order.includes("vignette")
+    ? "a.vdm_vignette"
+    : order.includes("email")
+    ? "u.email"
+    : "v.licence_plate";
+  const descending = order.includes("desc") ? " DESC" : "";
 
   return `${column} ${descending}`;
 }

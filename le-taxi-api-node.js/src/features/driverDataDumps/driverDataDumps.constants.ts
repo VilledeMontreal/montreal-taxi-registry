@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-const tableName = 'public.driver';
-const insertDateColumn = 'public.driver.added_at';
-const updateDateColumn = 'public.driver.last_update_at';
+const tableName = "public.driver";
+const insertDateColumn = "public.driver.added_at";
+const updateDateColumn = "public.driver.last_update_at";
 
 const selectAll = `
 SELECT public.driver.added_at,

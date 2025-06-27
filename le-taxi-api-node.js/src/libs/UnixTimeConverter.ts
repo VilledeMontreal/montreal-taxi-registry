@@ -4,8 +4,6 @@ import * as moment from 'moment';
 import { isUtcIsoString } from '../features/shared/dateUtils/dateUtils';
 
 export class UnixTimeConverter {
-  constructor() {}
-
   replaceInObjectArray(arrObj: Array<any>) {
     arrObj.forEach(function(obj) {
       Object.keys(obj).forEach(function(key, index) {

@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { InquiryTypes } from '../inquiry/inquiry.dto';
-import { TaxiSummaryModel } from '../taxiSummaries/taxiSummary.model';
+import { InquiryTypes } from "../inquiry/inquiry.dto";
+import { TaxiSummaryModel } from "../taxiSummaries/taxiSummary.model";
 
 export class LatestTaxiPositionModel {
   public taxiId: string;
@@ -15,7 +15,9 @@ export class LatestTaxiPositionModel {
   public isPromoted: boolean;
 }
 
-export type TaxiSummaryModelExtended = TaxiSummaryModel & { inquiryType: InquiryTypes };
+export type TaxiSummaryModelExtended = TaxiSummaryModel & {
+  inquiryType: InquiryTypes;
+};
 export class LatestTaxiPositionModelExtended extends LatestTaxiPositionModel {
   public taxi?: TaxiSummaryModelExtended;
 }
@@ -33,5 +35,5 @@ export const latestTaxiPositionNull: LatestTaxiPositionModel = Object.freeze({
   timestampUnixTime: null,
   receivedAt: null,
   taxi: null,
-  isPromoted: null
+  isPromoted: null,
 });

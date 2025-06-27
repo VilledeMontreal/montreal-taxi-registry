@@ -6,128 +6,128 @@ export const countRealTrips = `SELECT count(*) FROM taxiestimate.real_trips rt w
 
 export const selectTestExecutionReport = [
   {
-    name: 'all_trip_duration_absolute_error_percent_avg',
+    name: "all_trip_duration_absolute_error_percent_avg",
     query: `SELECT round(avg(trip_duration_absolute_error_percent)::numeric, 2) AS all_trip_duration_absolute_error_percent_avg
-    FROM taxiestimate.estimated_trips WHERE test_execution_id = $1::int`
+    FROM taxiestimate.estimated_trips WHERE test_execution_id = $1::int`,
   },
   {
-    name: 'all_trip_duration_absolute_error_percent_max',
+    name: "all_trip_duration_absolute_error_percent_max",
     query: `SELECT round(max(trip_duration_absolute_error_percent)::numeric, 2) AS all_trip_duration_absolute_error_percent_max
-    FROM taxiestimate.estimated_trips WHERE test_execution_id = $1::int`
+    FROM taxiestimate.estimated_trips WHERE test_execution_id = $1::int`,
   },
   {
-    name: 'all_trip_duration_absolute_error_percent_stddev',
+    name: "all_trip_duration_absolute_error_percent_stddev",
     query: `SELECT round(stddev(trip_duration_absolute_error_percent)::numeric, 2) AS all_trip_duration_absolute_error_percent_stddev
-    FROM taxiestimate.estimated_trips WHERE test_execution_id = $1::int`
+    FROM taxiestimate.estimated_trips WHERE test_execution_id = $1::int`,
   },
   {
-    name: 'all_trip_duration_absolute_error_percent_p50',
+    name: "all_trip_duration_absolute_error_percent_p50",
     query: `SELECT percentile_cont(0.5) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2) AS all_trip_duration_absolute_error_percent_p50
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int`,
   },
   {
-    name: 'all_trip_duration_absolute_error_percent_p90',
+    name: "all_trip_duration_absolute_error_percent_p90",
     query: `SELECT percentile_cont(0.9) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2) AS all_trip_duration_absolute_error_percent_p90
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int`,
   },
   {
-    name: 'all_trip_duration_absolute_error_percent_p95',
+    name: "all_trip_duration_absolute_error_percent_p95",
     query: `SELECT percentile_cont(0.95) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2) AS all_trip_duration_absolute_error_percent_p95
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int`,
   },
   {
-    name: 'all_trip_duration_absolute_error_percent_p99',
+    name: "all_trip_duration_absolute_error_percent_p99",
     query: `SELECT percentile_cont(0.99) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2) AS all_trip_duration_absolute_error_percent_p99
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int`,
   },
   {
     name: `longer_than_real_trip_duration_absolute_error_percent_p50`,
     query: `SELECT percentile_cont(0.5) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2) AS longer_than_real_trip_duration_absolute_error_percent_p50
-        FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`
+        FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`,
   },
   {
     name: `longer_than_real_trip_duration_absolute_error_percent_p90`,
     query: `SELECT percentile_cont(0.9) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2) AS longer_than_real_trip_duration_absolute_error_percent_p90
-        FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`
+        FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`,
   },
   {
     name: `longer_than_real_trip_duration_absolute_error_percent_p95`,
     query: `SELECT percentile_cont(0.95) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2) AS longer_than_real_trip_duration_absolute_error_percent_p95
-        FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`
+        FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`,
   },
   {
     name: `longer_than_real_trip_duration_absolute_error_percent_p99`,
     query: `SELECT percentile_cont(0.99) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2) AS longer_than_real_trip_duration_absolute_error_percent_p99
-        FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`
+        FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`,
   },
   {
     name: `longer_than_real_trip_duration_absolute_error_percent_max`,
     query: `SELECT max(et.trip_duration_absolute_error_percent)::decimal(10,2) AS longer_than_real_trip_duration_absolute_error_percent_max
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`,
   },
   {
     name: `longer_than_real_trip_duration_absolute_error_percent_avg`,
     query: `SELECT round(avg(et.trip_duration_absolute_error_percent)::numeric, 2) AS longer_than_real_trip_duration_absolute_error_percent_avg
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`,
   },
   {
     name: `longer_than_real_trip_duration_absolute_error_percent_stddev`,
     query: `SELECT round(stddev(et.trip_duration_absolute_error_percent)::numeric, 2) AS longer_than_real_trip_duration_absolute_error_percent_stddev
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`,
   },
   {
     name: `longer_than_real_trip_count`,
     query: `SELECT count(et.trip_duration_absolute_error_percent) AS longer_than_real_trip_count
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = true`,
   },
   {
     name: `shorter_than_real_trip_duration_absolute_error_percent_p50`,
     query: `SELECT percentile_cont(0.5) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2)
     AS shorter_than_real_trip_duration_absolute_error_percent_p50
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`,
   },
   {
     name: `shorter_than_real_trip_duration_absolute_error_percent_p90`,
     query: `SELECT percentile_cont(0.90) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2)
     AS shorter_than_real_trip_duration_absolute_error_percent_p90
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`,
   },
   {
     name: `shorter_than_real_trip_duration_absolute_error_percent_p95`,
     query: `SELECT percentile_cont(0.95) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2)
     AS shorter_than_real_trip_duration_absolute_error_percent_p95
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`,
   },
   {
     name: `shorter_than_real_trip_duration_absolute_error_percent_p99`,
     query: `SELECT percentile_cont(0.99) within group (order by et.trip_duration_absolute_error_percent)::decimal(10,2)
     AS shorter_than_real_trip_duration_absolute_error_percent_p99
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`,
   },
   {
     name: `shorter_than_real_trip_duration_absolute_error_percent_max`,
     query: `SELECT max(et.trip_duration_absolute_error_percent)
     AS shorter_than_real_trip_duration_absolute_error_percent_max
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`,
   },
   {
     name: `shorter_than_real_trip_duration_absolute_error_percent_avg`,
     query: `SELECT round(avg(et.trip_duration_absolute_error_percent)::numeric, 2)
     AS shorter_than_real_trip_duration_absolute_error_percent_avg
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`,
   },
   {
     name: `shorter_than_real_trip_duration_absolute_error_percent_stddev`,
     query: `SELECT round(stddev(et.trip_duration_absolute_error_percent)::numeric, 2)
     AS shorter_than_real_trip_duration_absolute_error_percent_stddev
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`,
   },
   {
     name: `shorter_than_real_trip_count`,
     query: `SELECT count(et.trip_duration_absolute_error_percent)
     AS shorter_than_real_trip_count
-    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`
-  }
+    FROM taxiestimate.estimated_trips et WHERE test_execution_id = $1::int and et.is_longer_than_real_trip = false`,
+  },
 ];
 
 export const insertTestExecution = `

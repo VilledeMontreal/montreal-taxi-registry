@@ -2,43 +2,43 @@
 // See LICENSE file in the project root for full license information.
 const baseMenu = [
   {
-    nom: 'Carte des taxis',
-    url: 'map',
-    icon: 'map'
+    nom: "Carte des taxis",
+    url: "map",
+    icon: "map",
   },
   {
-    nom: 'Taxis',
-    url: 'taxis',
-    icon: 'local_taxi'
+    nom: "Taxis",
+    url: "taxis",
+    icon: "local_taxi",
   },
   {
-    nom: 'Véhicules',
-    url: 'vehicles',
-    icon: 'directions_car'
+    nom: "Véhicules",
+    url: "vehicles",
+    icon: "directions_car",
   },
   {
-    nom: 'Chauffeurs',
-    url: 'drivers',
-    icon: 'contacts'
-  }
+    nom: "Chauffeurs",
+    url: "drivers",
+    icon: "contacts",
+  },
 ];
 
 export const menu = {
   admin: [
     ...baseMenu,
     {
-      nom: 'Utilisateurs',
-      url: 'account',
-      icon: 'group'
-    }
+      nom: "Utilisateurs",
+      url: "account",
+      icon: "group",
+    },
   ],
   gestion: [
     ...baseMenu,
     {
-      nom: 'Utilisateurs',
-      url: 'account',
-      icon: 'group'
-    }
+      nom: "Utilisateurs",
+      url: "account",
+      icon: "group",
+    },
   ],
-  inspecteur: baseMenu
+  inspecteur: baseMenu,
 };

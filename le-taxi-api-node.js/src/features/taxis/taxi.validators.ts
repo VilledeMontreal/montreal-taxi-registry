@@ -1,16 +1,21 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { Request } from 'express';
-import { isInseeHasPermitSemanticForADS } from '../ads/ads.dto';
-import { isLegacyDepartement } from '../drivers/driver.dto';
-import { BadRequestError } from '../errorHandling/errors';
-import { convertStringToBoolean } from '../shared/typeConversions/fromString';
-import { validateRequest } from '../shared/validations/validateRequest';
-import { validateArrayLimit, validateArrayNotEmpty } from '../shared/validations/validators';
-import { isLegacyLicensePlate } from '../vehicles/vehicle.dto';
-import { DeprecatedUpdateTaxiRequestDto, TaxiRequestDto } from './taxi.dto';
+import { Request } from "express";
+import { isInseeHasPermitSemanticForADS } from "../ads/ads.dto";
+import { isLegacyDepartement } from "../drivers/driver.dto";
+import { BadRequestError } from "../errorHandling/errors";
+import { convertStringToBoolean } from "../shared/typeConversions/fromString";
+import { validateRequest } from "../shared/validations/validateRequest";
+import {
+  validateArrayLimit,
+  validateArrayNotEmpty,
+} from "../shared/validations/validators";
+import { isLegacyLicensePlate } from "../vehicles/vehicle.dto";
+import { DeprecatedUpdateTaxiRequestDto, TaxiRequestDto } from "./taxi.dto";
 
-export async function validateDeprecatedUpdateRequest(request: Request): Promise<DeprecatedUpdateTaxiRequestDto> {
+export async function validateDeprecatedUpdateRequest(
+  request: Request
+): Promise<DeprecatedUpdateTaxiRequestDto> {
   const taxis: DeprecatedUpdateTaxiRequestDto[] = request.body.data;
   validateArrayNotEmpty(taxis);
   validateArrayLimit(taxis, 1);
@@ -26,12 +31,14 @@ function coercePrivateToCorrectType(row: Record<string, any>) {
   if (!row.private) {
     row.private = false;
   }
-  if (typeof row.private === 'string') {
+  if (typeof row.private === "string") {
     row.private = convertStringToBoolean(row.private);
   }
 }
 
-export async function validateTaxiRequest(request: Request): Promise<TaxiRequestDto> {
+export async function validateTaxiRequest(
+  request: Request
+): Promise<TaxiRequestDto> {
   const taxi = await validateRequest(request, new TaxiRequestDto());
   ensureNoMixingOfADSOwnerWithLegacyEntities(taxi);
 

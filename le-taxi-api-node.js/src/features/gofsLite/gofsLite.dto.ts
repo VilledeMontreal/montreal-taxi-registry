@@ -1,20 +1,28 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { Type } from 'class-transformer';
-import { IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
-import { FeatureCollection } from 'geojson';
+import { Type } from "class-transformer";
+import {
+  IsArray,
+  IsDefined,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  Max,
+  Min,
+} from "class-validator";
+import { FeatureCollection } from "geojson";
 
-/* tslint:disable:max-classes-per-file */
+/* eslint-disable max-classes-per-file */
 /* tslint:enable:allow-snake-case-per-file */
 export enum GofsLiteSupportedLangTypes {
-  En = 'en',
-  Fr = 'fr'
+  En = "en",
+  Fr = "fr",
 }
 
 export enum GofsLiteBrandIdTypes {
-  Standard = 'taxi-registry-standard',
-  Minivan = 'taxi-registry-minivan',
-  SpecialNeed = 'taxi-registry-special-need'
+  Standard = "taxi-registry-standard",
+  Minivan = "taxi-registry-minivan",
+  SpecialNeed = "taxi-registry-special-need",
 }
 
 export class GofsLiteRealtimeBookingRequestDto {
@@ -34,6 +42,9 @@ export class GofsLiteRealtimeBookingRequestDto {
   @Type(() => Number)
   pickup_lon: number;
 
+  @Type(() => String)
+  pickup_address: string;
+
   @IsNumber()
   @Min(-90)
   @Max(90)
@@ -45,6 +56,9 @@ export class GofsLiteRealtimeBookingRequestDto {
   @Max(180)
   @Type(() => Number)
   drop_off_lon?: number;
+
+  @Type(() => String)
+  drop_off_address: string;
 
   @IsDefined()
   @IsArray()

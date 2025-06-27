@@ -1,12 +1,12 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 // Original Code from https://github.com/apburnes/random-points-on-polygon
-'use strict';
+"use strict";
 
-let extent = require('turf-extent');
-let featurecollection = require('turf-featurecollection');
-let inside = require('turf-inside');
-let random = require('turf-random');
+const extent = require("turf-extent");
+const featurecollection = require("turf-featurecollection");
+const inside = require("turf-inside");
+const random = require("turf-random");
 
 /**
  * Takes a number and a feature and {@link Polygon} or {@link MultiPolygon} and returns {@link Points} that reside inside the polygon. The polygon can
@@ -25,21 +25,33 @@ let random = require('turf-random');
  * @return {Array} || {FeatureCollection<Points>} an array or feature collection of the random points inside the polygon
  **/
 
-export function randomPointsOnPolygon(number: any, polygon: any, properties?: any, fc?: any) {
-  if (typeof properties === 'boolean') {
+export function randomPointsOnPolygon(
+  number: any,
+  polygon: any,
+  properties?: any,
+  fc?: any
+) {
+  if (typeof properties === "boolean") {
     fc = properties;
     properties = {};
   }
 
   if (number < 1) {
-    return new Error('Number must be >= 1');
+    return new Error("Number must be >= 1");
   }
 
-  if (polygon.type !== 'Feature') {
-    return new Error('Polygon parameter must be a Feature<(Polygon|MultiPolygon)>');
+  if (polygon.type !== "Feature") {
+    return new Error(
+      "Polygon parameter must be a Feature<(Polygon|MultiPolygon)>"
+    );
 
-    if (polygon.geomtry.type !== 'Polygon' || polygon.geomtry.type !== 'MutliPolygon') {
-      return new Error('Polygon parameter must be a Feature<(Polygon|MultiPolygon)>');
+    if (
+      polygon.geomtry.type !== "Polygon" ||
+      polygon.geomtry.type !== "MutliPolygon"
+    ) {
+      return new Error(
+        "Polygon parameter must be a Feature<(Polygon|MultiPolygon)>"
+      );
     }
   }
 
@@ -49,9 +61,9 @@ export function randomPointsOnPolygon(number: any, polygon: any, properties?: an
 
   properties = properties || {};
   fc = fc || false;
-  let points = [];
-  let bbox = extent(polygon);
-  let count = Math.round(parseFloat(number));
+  const points = [];
+  const bbox = extent(polygon);
+  const count = Math.round(parseFloat(number));
 
   for (let i = 0; i <= count; i++) {
     if (i === count) {
@@ -62,7 +74,7 @@ export function randomPointsOnPolygon(number: any, polygon: any, properties?: an
       return points;
     }
 
-    let point = random('point', 1, { bbox });
+    const point = random("point", 1, { bbox });
 
     if (inside(point.features[0], polygon) === false) {
       i = --i;

@@ -1,16 +1,21 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { InquiryTypes } from '../inquiry/inquiry.dto';
-import { ModelMap } from '../shared/caching/modelMap';
-import { nowUtcIsoString } from '../shared/dateUtils/dateUtils';
-import { TaxiPositionSnapshotItemRequestDto } from '../taxiPositionSnapshot/taxiPositionSnapshotItemRequest.dto';
-import { TaxiPositionSnapshotRequestDto } from '../taxiPositionSnapshot/taxiPositionSnapshotRequest.dto';
-import { TaxiSummaryModel } from '../taxiSummaries/taxiSummary.model';
-import { UserModel } from '../users/user.model';
-import { LatestTaxiPositionModel, LatestTaxiPositionModelExtended } from './latestTaxiPosition.model';
+import { InquiryTypes } from "../inquiry/inquiry.dto";
+import { ModelMap } from "../shared/caching/modelMap";
+import { nowUtcIsoString } from "../shared/dateUtils/dateUtils";
+import { TaxiPositionSnapshotItemRequestDto } from "../taxiPositionSnapshot/taxiPositionSnapshotItemRequest.dto";
+import { TaxiPositionSnapshotRequestDto } from "../taxiPositionSnapshot/taxiPositionSnapshotRequest.dto";
+import { TaxiSummaryModel } from "../taxiSummaries/taxiSummary.model";
+import { UserModel } from "../users/user.model";
+import {
+  LatestTaxiPositionModel,
+  LatestTaxiPositionModelExtended,
+} from "./latestTaxiPosition.model";
 
 class LatestTaxiPositionMapper {
-  public mongoToLatestTaxiPositionModel(mongoResult: any): LatestTaxiPositionModel {
+  public mongoToLatestTaxiPositionModel(
+    mongoResult: any
+  ): LatestTaxiPositionModel {
     if (!mongoResult) return mongoResult;
     return {
       taxiId: mongoResult._id,
@@ -20,7 +25,7 @@ class LatestTaxiPositionMapper {
       isPromoted: mongoResult.isPromoted,
       timestampUnixTime: mongoResult.timestampUnixTime,
       receivedAt: mongoResult.receivedAt,
-      taxi: mongoResult.taxi
+      taxi: mongoResult.taxi,
     };
   }
 
@@ -31,7 +36,8 @@ class LatestTaxiPositionMapper {
     const latestTaxiPositionExtended = this.mongoToLatestTaxiPositionModel(
       mongoResult
     ) as LatestTaxiPositionModelExtended;
-    if (latestTaxiPositionExtended) latestTaxiPositionExtended.taxi.inquiryType = inquiryType;
+    if (latestTaxiPositionExtended)
+      latestTaxiPositionExtended.taxi.inquiryType = inquiryType;
     return latestTaxiPositionExtended;
   }
 
@@ -40,8 +46,13 @@ class LatestTaxiPositionMapper {
     source: TaxiPositionSnapshotRequestDto,
     userModel: UserModel
   ): LatestTaxiPositionModel[] {
-    return source.items.map(item =>
-      this.toLatestTaxiPositionModel(taxiSummaryReferences, item, source.receivedAt, userModel)
+    return source.items.map((item) =>
+      this.toLatestTaxiPositionModel(
+        taxiSummaryReferences,
+        item,
+        source.receivedAt,
+        userModel
+      )
     );
   }
 
@@ -59,11 +70,17 @@ class LatestTaxiPositionMapper {
       timestampUnixTime: Number.parseInt(source.timestamp, 10),
       receivedAt,
       taxi: taxiSummaryReferences[source.taxi],
-      isPromoted: this.validatePromotion(taxiSummaryReferences[source.taxi], userModel)
+      isPromoted: this.validatePromotion(
+        taxiSummaryReferences[source.taxi],
+        userModel
+      ),
     };
   }
 
-  private validatePromotion(taxiSummary: TaxiSummaryModel, userModel: UserModel): boolean {
+  private validatePromotion(
+    taxiSummary: TaxiSummaryModel,
+    userModel: UserModel
+  ): boolean {
     const now = nowUtcIsoString();
     if (
       !taxiSummary.isMpv &&

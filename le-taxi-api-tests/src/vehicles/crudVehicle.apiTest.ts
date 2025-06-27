@@ -1,39 +1,42 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { assert } from 'chai';
-import { StatusCodes } from 'http-status-codes';
+import { assert } from "chai";
+import { StatusCodes } from "http-status-codes";
 
-import { UserRole } from '../shared/commonTests/UserRole';
-import { IVehicle } from '../shared/taxiRegistryDtos/taxiRegistryDtos';
-import { createNonImmutableUser, getImmutableUserApiKey } from '../users/user.sharedFixture';
-import { postVehicle } from './vehicle.apiClient';
-import { copyVehicleTemplate } from './vehiclesDto.template';
+import { UserRole } from "../shared/commonTests/UserRole";
+import { IVehicle } from "../shared/taxiRegistryDtos/taxiRegistryDtos";
+import {
+  createNonImmutableUser,
+  getImmutableUserApiKey,
+} from "../users/user.sharedFixture";
+import { postVehicle } from "./vehicle.apiClient";
+import { copyVehicleTemplate } from "./vehiclesDto.template";
 
-// tslint:disable-next-line: max-func-body-length
+// eslint-disable-next-line max-lines-per-function
 export async function crudVehicleTests(): Promise<void> {
   testCreateVehicleUserAccessValid(UserRole.Admin);
   testCreateVehicleUserAccessValid(UserRole.Operator);
 
-  it('Can create a vehicle directly from template', async () => {
+  it("Can create a vehicle directly from template", async () => {
     const dtoCreate = copyVehicleTemplate();
     const response = await postVehicle(dtoCreate);
     assert.strictEqual(response.status, StatusCodes.CREATED);
   });
 
-  it('Create a vehicle when optional attributes are empty', async () => {
+  it("Create a vehicle when optional attributes are empty", async () => {
     const dtoCreate = copyVehicleTemplate();
 
-    dtoCreate.data[0].color = '';
-    dtoCreate.data[0].engine = '';
-    dtoCreate.data[0].horodateur = '';
-    dtoCreate.data[0].taximetre = '';
+    dtoCreate.data[0].color = "";
+    dtoCreate.data[0].engine = "";
+    dtoCreate.data[0].horodateur = "";
+    dtoCreate.data[0].taximetre = "";
 
     const response = await postVehicle(dtoCreate);
 
     assert.strictEqual(response.status, StatusCodes.CREATED);
   });
 
-  it('Create a vehicle when optional attributes are null', async () => {
+  it("Create a vehicle when optional attributes are null", async () => {
     const dtoCreate = copyVehicleTemplate();
 
     dtoCreate.data[0].air_con = null;
@@ -73,7 +76,7 @@ export async function crudVehicleTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.CREATED);
   });
 
-  it('Create a vehicle when optional attributes are missing', async () => {
+  it("Create a vehicle when optional attributes are missing", async () => {
     const dtoCreate = copyVehicleTemplate();
 
     delete dtoCreate.data[0].air_con;
@@ -113,101 +116,124 @@ export async function crudVehicleTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.CREATED);
   });
 
-  it('Can initialize each vehicle attribute', async () => {
-    const dtoCreate = copyVehicleTemplate(x => {
+  it("Can initialize each vehicle attribute", async () => {
+    const dtoCreate = copyVehicleTemplate((x) => {
       const item = x.data[0];
-      item.date_dernier_ct = '2016-10-21';
-      item.date_validite_ct = '2019-12-22';
+      item.date_dernier_ct = "2016-10-21";
+      item.date_validite_ct = "2019-12-22";
       item.horse_power = 5.0;
       item.model_year = 2020;
-      item.type_ = 'sedan';
+      item.type_ = "sedan";
       item.nb_seats = 2;
       setAllFlags(x, true);
-      item.horodateur = 'horodateur-updated';
-      item.color = 'color-updated';
-      item.taximetre = 'taximetre-updated';
-      item.engine = 'engine-updated';
-      item.constructor = 'constructor-updated';
-      item.model = 'model-updated';
-      item.vehicle_identification_number = 'niv-updated';
+      item.horodateur = "horodateur-updated";
+      item.color = "color-updated";
+      item.taximetre = "taximetre-updated";
+      item.engine = "engine-updated";
+      item.constructor = "constructor-updated";
+      item.model = "model-updated";
+      item.vehicle_identification_number = "niv-updated";
     });
 
     const response = await postVehicle(dtoCreate);
 
     assert.strictEqual(response.status, StatusCodes.CREATED);
     const responseItem = response.body.data[0];
-    assert.strictEqual(responseItem.date_dernier_ct.substring(0, 10), '2016-10-21');
-    assert.strictEqual(responseItem.date_validite_ct.substring(0, 10), '2019-12-22');
+    assert.strictEqual(
+      responseItem.date_dernier_ct.substring(0, 10),
+      "2016-10-21"
+    );
+    assert.strictEqual(
+      responseItem.date_validite_ct.substring(0, 10),
+      "2019-12-22"
+    );
     assert.strictEqual(responseItem.horse_power, 5.0);
     assert.strictEqual(responseItem.model_year, 2020);
-    assert.strictEqual(responseItem.type_, 'sedan');
+    assert.strictEqual(responseItem.type_, "sedan");
     assert.strictEqual(responseItem.nb_seats, 2);
     checkAllFlags(response.body, true);
-    assert.strictEqual(responseItem.horodateur, 'horodateur-updated');
-    assert.strictEqual(responseItem.color, 'color-updated');
-    assert.strictEqual(responseItem.taximetre, 'taximetre-updated');
-    assert.strictEqual(responseItem.engine, 'engine-updated');
-    assert.strictEqual(responseItem.constructor, 'constructor-updated');
-    assert.strictEqual(responseItem.model, 'model-updated');
-    assert.strictEqual(responseItem.vehicle_identification_number, 'niv-updated');
+    assert.strictEqual(responseItem.horodateur, "horodateur-updated");
+    assert.strictEqual(responseItem.color, "color-updated");
+    assert.strictEqual(responseItem.taximetre, "taximetre-updated");
+    assert.strictEqual(responseItem.engine, "engine-updated");
+    assert.strictEqual(responseItem.constructor, "constructor-updated");
+    assert.strictEqual(responseItem.model, "model-updated");
+    assert.strictEqual(
+      responseItem.vehicle_identification_number,
+      "niv-updated"
+    );
   });
 
-  it('Can update each vehicle attribute', async () => {
-    const dtoCreate = copyVehicleTemplate(x => {
+  it("Can update each vehicle attribute", async () => {
+    const dtoCreate = copyVehicleTemplate((x) => {
       const item = x.data[0];
-      item.date_dernier_ct = '2016-10-21';
-      item.date_validite_ct = '2019-12-22';
+      item.date_dernier_ct = "2016-10-21";
+      item.date_validite_ct = "2019-12-22";
       item.horse_power = 5.0;
       item.model_year = 2020;
-      item.type_ = 'sedan';
+      item.type_ = "sedan";
       item.nb_seats = 2;
       setAllFlags(x, false);
     });
     const responseCreate = await postVehicle(dtoCreate);
-    const dtoUpdate = copyVehicleTemplate(x => {
+    const dtoUpdate = copyVehicleTemplate((x) => {
       const item = x.data[0];
       item.licence_plate = responseCreate.body.data[0].licence_plate;
-      item.date_dernier_ct = '2017-10-21';
-      item.date_validite_ct = '2020-12-22';
+      item.date_dernier_ct = "2017-10-21";
+      item.date_validite_ct = "2020-12-22";
       item.horse_power = 10.1;
       item.model_year = 2019;
-      item.type_ = 'mpv';
+      item.type_ = "mpv";
       item.nb_seats = 3;
       setAllFlags(x, true);
-      item.horodateur = 'horodateur-updated';
-      item.color = 'color-updated';
-      item.taximetre = 'taximetre-updated';
-      item.engine = 'engine-updated';
-      item.constructor = 'constructor-updated';
-      item.model = 'model-updated';
-      item.vehicle_identification_number = 'niv-updated';
+      item.horodateur = "horodateur-updated";
+      item.color = "color-updated";
+      item.taximetre = "taximetre-updated";
+      item.engine = "engine-updated";
+      item.constructor = "constructor-updated";
+      item.model = "model-updated";
+      item.vehicle_identification_number = "niv-updated";
     });
 
     const responseUpdate = await postVehicle(dtoUpdate);
 
     assert.strictEqual(responseUpdate.status, StatusCodes.OK);
     const responseUpdateItem = responseUpdate.body.data[0];
-    assert.strictEqual(responseUpdateItem.licence_plate, responseCreate.body.data[0].licence_plate);
-    assert.strictEqual(responseUpdateItem.date_dernier_ct.substring(0, 10), '2017-10-21');
-    assert.strictEqual(responseUpdateItem.date_validite_ct.substring(0, 10), '2020-12-22');
+    assert.strictEqual(
+      responseUpdateItem.licence_plate,
+      responseCreate.body.data[0].licence_plate
+    );
+    assert.strictEqual(
+      responseUpdateItem.date_dernier_ct.substring(0, 10),
+      "2017-10-21"
+    );
+    assert.strictEqual(
+      responseUpdateItem.date_validite_ct.substring(0, 10),
+      "2020-12-22"
+    );
     assert.strictEqual(responseUpdateItem.horse_power, 10.1);
     assert.strictEqual(responseUpdateItem.model_year, 2019);
-    assert.strictEqual(responseUpdateItem.type_, 'mpv');
+    assert.strictEqual(responseUpdateItem.type_, "mpv");
     assert.strictEqual(responseUpdateItem.nb_seats, 3);
     checkAllFlags(responseUpdate.body, true);
-    assert.strictEqual(responseUpdateItem.horodateur, 'horodateur-updated');
-    assert.strictEqual(responseUpdateItem.color, 'color-updated');
-    assert.strictEqual(responseUpdateItem.taximetre, 'taximetre-updated');
-    assert.strictEqual(responseUpdateItem.engine, 'engine-updated');
-    assert.strictEqual(responseUpdateItem.constructor, 'constructor-updated');
-    assert.strictEqual(responseUpdateItem.model, 'model-updated');
-    assert.strictEqual(responseUpdateItem.vehicle_identification_number, 'niv-updated');
+    assert.strictEqual(responseUpdateItem.horodateur, "horodateur-updated");
+    assert.strictEqual(responseUpdateItem.color, "color-updated");
+    assert.strictEqual(responseUpdateItem.taximetre, "taximetre-updated");
+    assert.strictEqual(responseUpdateItem.engine, "engine-updated");
+    assert.strictEqual(responseUpdateItem.constructor, "constructor-updated");
+    assert.strictEqual(responseUpdateItem.model, "model-updated");
+    assert.strictEqual(
+      responseUpdateItem.vehicle_identification_number,
+      "niv-updated"
+    );
   });
 
-  it('Cannot alter the vehicle of another operator', async () => {
+  it("Cannot alter the vehicle of another operator", async () => {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
     const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
-    const sameDto = copyVehicleTemplate(x => (x.data[0].licence_plate = 'same'));
+    const sameDto = copyVehicleTemplate(
+      (x) => (x.data[0].licence_plate = "same")
+    );
 
     const canCreateMine = await postVehicle(sameDto, operatorA);
     const canUpdateMine = await postVehicle(sameDto, operatorA);
@@ -226,12 +252,12 @@ export async function crudVehicleTests(): Promise<void> {
     assert.strictEqual(cannotUpdateYours.status, StatusCodes.CREATED);
   });
 
-  it('Vehicle licence plage is case sensitive', async () => {
-    const lower = copyVehicleTemplate(x => {
-      x.data[0].licence_plate = 'case';
+  it("Vehicle licence plage is case sensitive", async () => {
+    const lower = copyVehicleTemplate((x) => {
+      x.data[0].licence_plate = "case";
     });
-    const upper = copyVehicleTemplate(x => {
-      x.data[0].licence_plate = 'CASE';
+    const upper = copyVehicleTemplate((x) => {
+      x.data[0].licence_plate = "CASE";
     });
 
     const lowerResponse = await postVehicle(lower);

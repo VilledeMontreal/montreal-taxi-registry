@@ -17,7 +17,7 @@ export class TripModel {
 }
 
 export enum ConfidenceScore {
-  Low = 'low',
-  Medium = 'medium',
-  High = 'high'
+  Low = "low",
+  Medium = "medium",
+  High = "high",
 }

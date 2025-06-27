@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-const { serializeError } = require('serialize-error');
-import { StatusCodes } from 'http-status-codes';
-import * as _ from 'lodash';
+const { serializeError } = require("serialize-error");
+import { StatusCodes } from "http-status-codes";
+import * as _ from "lodash";
 
 /**
  * Represents an API error response for a specific DTO.
@@ -15,7 +15,9 @@ export interface IApiErrorResponse<TDto> {
 /**
  * Acts as a function delegate which accepts an error as parameter and returns an ApiErrorResponse<TDto>.
  */
-export type MapErrorToApiErrorResponseFn<TDto> = (error: any) => IApiErrorResponse<TDto>;
+export type MapErrorToApiErrorResponseFn<TDto> = (
+  error: any
+) => IApiErrorResponse<TDto>;
 
 /**
  * Determines the appropriate error response to return depending on the boolean value of the debug parameter.
@@ -63,7 +65,9 @@ export function injectErrorToErrorResponseIfDebug<TDto>(
  *
  * @param apiErrorResponse
  */
-export function isServerFault<TDto>(apiErrorResponse: IApiErrorResponse<TDto>): boolean {
+export function isServerFault<TDto>(
+  apiErrorResponse: IApiErrorResponse<TDto>
+): boolean {
   if (!apiErrorResponse) {
     // if the server cannot respond to the client, it's always a server fault.
     return true;

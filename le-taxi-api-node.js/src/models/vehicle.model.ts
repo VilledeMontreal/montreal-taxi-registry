@@ -1,25 +1,13 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import {
-  validate,
-  Contains,
-  IsInt,
-  Length,
-  IsEmail,
-  IsDate,
-  Min,
-  Max,
-  IsNotEmpty,
-  MaxLength,
-  MinLength,
-  IsOptional,
   IsDefined,
-  IsBoolean
+  IsInt,
+  IsNotEmpty,
+  IsOptional
 } from 'class-validator';
 
 export class VehicleModel {
-  constructor() {}
-
   @IsOptional()
   @IsInt()
   id: number;

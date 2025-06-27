@@ -1,8 +1,9 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-const tableName = 'public.vehicle_description';
-const insertDateColumn = 'public.vehicle_description.added_at';
-const updateDateColumn = 'public.vehicle_description."last_nonStatus_update_at"';
+const tableName = "public.vehicle_description";
+const insertDateColumn = "public.vehicle_description.added_at";
+const updateDateColumn =
+  'public.vehicle_description."last_nonStatus_update_at"';
 
 const selectAll = `
 SELECT

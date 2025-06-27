@@ -1,23 +1,26 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { assert } from 'chai';
-import { StatusCodes } from 'http-status-codes';
-import { UserRole } from '../shared/commonTests/UserRole';
-import { createNonImmutableUser, getImmutableUserApiKey } from '../users/user.sharedFixture';
-import { generateAutoNumeroAds, postAds } from './ads.apiClient';
+import { assert } from "chai";
+import { StatusCodes } from "http-status-codes";
+import { UserRole } from "../shared/commonTests/UserRole";
+import {
+  createNonImmutableUser,
+  getImmutableUserApiKey,
+} from "../users/user.sharedFixture";
+import { generateAutoNumeroAds, postAds } from "./ads.apiClient";
 import {
   copyAdsOwnerTemplate,
   copyAdsPermitTemplate,
   inseeWithOwnerSemanticForADS,
-  inseeWithPermitSemanticForADS
-} from './adsDto.template';
+  inseeWithPermitSemanticForADS,
+} from "./adsDto.template";
 
-// tslint:disable-next-line: max-func-body-length
+// eslint-disable-next-line max-lines-per-function
 export async function crudAdsTests(): Promise<void> {
   testCreateAdsUserAccessValid(UserRole.Admin);
   testCreateAdsUserAccessValid(UserRole.Operator);
 
-  it('Can create a ADS directly from template', async () => {
+  it("Can create a ADS directly from template", async () => {
     const adsDto = copyAdsOwnerTemplate();
     const responseAds = await postAds(adsDto);
     assert.strictEqual(responseAds.status, StatusCodes.CREATED);
@@ -27,55 +30,58 @@ export async function crudAdsTests(): Promise<void> {
     const adsDto = copyAdsPermitTemplate();
     const responseCreated = await postAds(adsDto);
 
-    const dtoAdsUpdate = copyAdsPermitTemplate(x => {
+    const dtoAdsUpdate = copyAdsPermitTemplate((x) => {
       const item = x.data[0];
       item.numero = responseCreated.body.data[0].numero;
-      item.owner_name = 'OwnerNameUpdated';
-      item.owner_type = 'individual';
+      item.owner_name = "OwnerNameUpdated";
+      item.owner_type = "individual";
       item.doublage = false;
-      item.vdm_vignette = '5555';
+      item.vdm_vignette = "5555";
     });
 
     const responseUpdate = await postAds(dtoAdsUpdate);
 
     assert.strictEqual(responseUpdate.status, StatusCodes.OK);
     const responseItem = responseUpdate.body.data[0];
-    assert.strictEqual(responseItem.owner_name, 'OwnerNameUpdated');
-    assert.strictEqual(responseItem.owner_type, 'individual');
+    assert.strictEqual(responseItem.owner_name, "OwnerNameUpdated");
+    assert.strictEqual(responseItem.owner_type, "individual");
     assert.strictEqual(responseItem.doublage, false);
-    assert.strictEqual(responseItem.vdm_vignette, '5555');
+    assert.strictEqual(responseItem.vdm_vignette, "5555");
   });
 
-  it('Can Update (or derive) Each ADS Attribute', async () => {
+  it("Can Update (or derive) Each ADS Attribute", async () => {
     const adsDto = copyAdsOwnerTemplate();
     const responseCreated = await postAds(adsDto);
 
-    const dtoAdsUpdate = copyAdsOwnerTemplate(x => {
+    const dtoAdsUpdate = copyAdsOwnerTemplate((x) => {
       const item = x.data[0];
       item.numero = responseCreated.body.data[0].numero;
-      item.owner_name = 'OwnerNameUpdated';
-      item.owner_type = 'individual';
+      item.owner_name = "OwnerNameUpdated";
+      item.owner_type = "individual";
       item.doublage = false;
-      item.vdm_vignette = 'to-be-override-by-numero';
+      item.vdm_vignette = "to-be-override-by-numero";
     });
 
     const responseUpdate = await postAds(dtoAdsUpdate);
 
     assert.strictEqual(responseUpdate.status, StatusCodes.OK);
     const responseItem = responseUpdate.body.data[0];
-    assert.strictEqual(responseItem.owner_name, 'OwnerNameUpdated');
-    assert.strictEqual(responseItem.owner_type, 'individual');
+    assert.strictEqual(responseItem.owner_name, "OwnerNameUpdated");
+    assert.strictEqual(responseItem.owner_type, "individual");
     assert.strictEqual(responseItem.doublage, false);
-    assert.strictEqual(responseItem.vdm_vignette, responseCreated.body.data[0].numero);
+    assert.strictEqual(
+      responseItem.vdm_vignette,
+      responseCreated.body.data[0].numero
+    );
   });
 
-  it('Cannot alter the ads of another operator', async () => {
+  it("Cannot alter the ads of another operator", async () => {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
     const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
 
-    const sameDto = copyAdsOwnerTemplate(x => {
+    const sameDto = copyAdsOwnerTemplate((x) => {
       x.data[0].insee = inseeWithOwnerSemanticForADS;
-      x.data[0].numero = 'same';
+      x.data[0].numero = "same";
     });
 
     const canCreateMine = await postAds(sameDto, operatorA);
@@ -95,7 +101,7 @@ export async function crudAdsTests(): Promise<void> {
     assert.strictEqual(cannotUpdateYours.status, StatusCodes.CREATED);
   });
 
-  it('Create an ADS when optional attributes are missing', async () => {
+  it("Create an ADS when optional attributes are missing", async () => {
     const dto = copyAdsOwnerTemplate();
     delete dto.data[0].doublage;
     delete dto.data[0].vehicle_id;
@@ -105,7 +111,7 @@ export async function crudAdsTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.CREATED);
   });
 
-  it('Create an ADS when optional attributes are null', async () => {
+  it("Create an ADS when optional attributes are null", async () => {
     const dto = copyAdsOwnerTemplate();
     dto.data[0].doublage = null;
     dto.data[0].vehicle_id = null;
@@ -115,7 +121,7 @@ export async function crudAdsTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.CREATED);
   });
 
-  it('Create an ADS ignoring vehicle_id', async () => {
+  it("Create an ADS ignoring vehicle_id", async () => {
     const dto = copyAdsOwnerTemplate();
     dto.data[0].vehicle_id = 0;
 
@@ -125,21 +131,21 @@ export async function crudAdsTests(): Promise<void> {
     assert.strictEqual(response.body.data[0].vehicle_id, null);
   });
 
-  it('Create an ADS when optional attributes are empty', async () => {
+  it("Create an ADS when optional attributes are empty", async () => {
     const dtoCreate = copyAdsOwnerTemplate();
-    dtoCreate.data[0].owner_name = '';
-    dtoCreate.data[0].category = '';
+    dtoCreate.data[0].owner_name = "";
+    dtoCreate.data[0].category = "";
     const response = await postAds(dtoCreate);
     assert.strictEqual(response.status, StatusCodes.CREATED);
   });
 
-  it('Create duplicate ADS when zone are different', async () => {
+  it("Create duplicate ADS when zone are different", async () => {
     const sameNumeroAds = generateAutoNumeroAds();
-    const sameDtoButZone1 = copyAdsPermitTemplate(x => {
+    const sameDtoButZone1 = copyAdsPermitTemplate((x) => {
       x.data[0].insee = inseeWithPermitSemanticForADS;
       x.data[0].numero = sameNumeroAds;
     });
-    const sameDtoButZone2 = copyAdsOwnerTemplate(x => {
+    const sameDtoButZone2 = copyAdsOwnerTemplate((x) => {
       x.data[0].insee = inseeWithOwnerSemanticForADS;
       x.data[0].numero = sameNumeroAds;
     });

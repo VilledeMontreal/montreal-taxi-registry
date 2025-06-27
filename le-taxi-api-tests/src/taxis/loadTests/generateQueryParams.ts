@@ -1,24 +1,41 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { generatePointForLoadTest } from '../../shared/commonLoadTests/specialRegion';
-import { IMotorSharedState } from './IMotorSharedState';
+import { generatePointForLoadTest } from "../../shared/commonLoadTests/specialRegion";
+import { IMotorSharedState } from "./IMotorSharedState";
 
-// tslint:disable-next-line: no-console
-console.log('WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!');
+// eslint-disable-next-line no-console
+console.log(
+  "WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!"
+);
 
-const sharedStateJson = require('fs').readFileSync('src/taxis/loadTests/motor.sharedState.json');
+const sharedStateJson = require("fs").readFileSync(
+  "src/taxis/loadTests/motor.sharedState.json"
+);
 
 export const sharedState: IMotorSharedState = JSON.parse(sharedStateJson);
 
-export function generateRealtimeBookingQueryParams(context: any, ee: any, next: any) {
+export function generateRealtimeBookingQueryParams(
+  context: any,
+  ee: any,
+  next: any
+) {
   return generateQueryParams(context, ee, next);
 }
 
-export function generateRealtimeBookingQueryParamsNoDestination(context: any, ee: any, next: any) {
+export function generateRealtimeBookingQueryParamsNoDestination(
+  context: any,
+  ee: any,
+  next: any
+) {
   return generateQueryParams(context, ee, next, false);
 }
 
-function generateQueryParams(context: any, ee: any, next: any, withDestination: boolean = true) {
+function generateQueryParams(
+  context: any,
+  ee: any,
+  next: any,
+  withDestination = true
+) {
   const pickup = generatePointForLoadTest();
   const dropoff = withDestination ? generatePointForLoadTest() : null;
   context.vars.apikey = sharedState.searchMotor.apiKey;

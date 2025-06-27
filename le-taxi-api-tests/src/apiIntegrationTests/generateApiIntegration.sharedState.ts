@@ -1,15 +1,18 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as fs from 'fs';
-import { UserRole } from '../shared/commonTests/UserRole';
-import { setupNewCustomTaxi } from '../taxis/taxi.fixture';
-import { getImmutableUser } from '../users/user.sharedFixture';
+import * as fs from "fs";
+import { UserRole } from "../shared/commonTests/UserRole";
+import { setupNewCustomTaxi } from "../taxis/taxi.fixture";
+import { getImmutableUser } from "../users/user.sharedFixture";
 
 async function generateTaxisSharedState() {
   try {
     const taxis = await createCustomisedTaxis();
-    fs.writeFileSync('src/apiIntegrationTests/apiIntegrationTests.sharedState.json', JSON.stringify(taxis));
-    // tslint:disable-next-line: no-console
+    fs.writeFileSync(
+      "src/apiIntegrationTests/apiIntegrationTests.sharedState.json",
+      JSON.stringify(taxis)
+    );
+    // eslint-disable-next-line no-console
     console.log(
       `----------------------------------------------------------------------------------------
 File src/apiIntegrationTests/apiIntegrationTests.sharedState.json has been created.
@@ -20,7 +23,7 @@ See: src/apiIntegrationTests/README.md for more information.
 ----------------------------------------------------------------------------------------`
     );
   } catch (ex) {
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     console.log(ex);
   }
 }
@@ -30,21 +33,25 @@ async function createCustomisedTaxis() {
   const operatorUser = await getImmutableUser(UserRole.Operator);
 
   const customizingValues = [
-    { specialNeedVehicle: false, type: 'sedan' },
-    { specialNeedVehicle: true, type: 'sedan' },
-    { specialNeedVehicle: true, type: 'mpv' },
-    { specialNeedVehicle: false, type: 'mpv' },
-    { specialNeedVehicle: false, type: 'sedan' },
-    { specialNeedVehicle: true, type: 'sedan' },
-    { specialNeedVehicle: true, type: 'mpv' },
-    { specialNeedVehicle: false, type: 'mpv' },
-    { specialNeedVehicle: false, type: 'sedan' }
+    { specialNeedVehicle: false, type: "sedan" },
+    { specialNeedVehicle: true, type: "sedan" },
+    { specialNeedVehicle: true, type: "mpv" },
+    { specialNeedVehicle: false, type: "mpv" },
+    { specialNeedVehicle: false, type: "sedan" },
+    { specialNeedVehicle: true, type: "sedan" },
+    { specialNeedVehicle: true, type: "mpv" },
+    { specialNeedVehicle: false, type: "mpv" },
+    { specialNeedVehicle: false, type: "sedan" },
   ];
   const taxisId = Array(customizingValues.length);
 
   await Promise.all(
     customizingValues.map(async (element, index) => {
-      const taxi = await setupNewCustomTaxi(element.specialNeedVehicle, element.type, operatorUser.apikey);
+      const taxi = await setupNewCustomTaxi(
+        element.specialNeedVehicle,
+        element.type,
+        operatorUser.apikey
+      );
       taxisId[index] = taxi.body.data[0].id;
     })
   );
@@ -53,13 +60,12 @@ async function createCustomisedTaxis() {
     customisedTaxis: taxisId,
     operator: {
       email: operatorUser.email,
-      apiKey: operatorUser.apikey
+      apiKey: operatorUser.apikey,
     },
     motor: {
-      apiKey: motorUser.apikey
-    }
+      apiKey: motorUser.apikey,
+    },
   };
 }
 
-// tslint:disable-next-line: no-floating-promises
 generateTaxisSharedState();

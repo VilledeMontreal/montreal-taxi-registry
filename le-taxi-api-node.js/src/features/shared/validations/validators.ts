@@ -1,9 +1,12 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { plainToClassFromExist } from 'class-transformer';
-import { validateOrReject, ValidationError } from 'class-validator';
-import * as _ from 'lodash';
-import { BadRequestError, MultipleIssuesError } from '../../errorHandling/errors';
+import { plainToClassFromExist } from "class-transformer";
+import { validateOrReject, ValidationError } from "class-validator";
+import * as _ from "lodash";
+import {
+  BadRequestError,
+  MultipleIssuesError,
+} from "../../errorHandling/errors";
 
 // Values specified in https://docs.mongodb.com/manual/geospatial-queries/
 export function isLatitudeValid(lat: number): boolean {
@@ -37,20 +40,25 @@ export function validateUndefined(dto: any, message: string) {
   }
 }
 
-export async function validateDtoProperties<T extends object>(dto: T, data: any) {
+export async function validateDtoProperties<T extends object>(
+  dto: T,
+  data: any
+) {
   const instance = plainToClassFromExist(dto, data);
-  await handleErrors(() => validateOrReject(instance, { skipMissingProperties: true }));
+  await handleErrors(() =>
+    validateOrReject(instance, { skipMissingProperties: true })
+  );
 }
 
 export function handleConstructorField(key: string, value: any) {
-  if (key === 'constructor') {
+  if (key === "constructor") {
     this.manufacturer = value;
     return;
   }
   return value;
 }
 
-async function handleErrors(func: () => void) {
+async function handleErrors(func: () => Promise<void>) {
   try {
     await func();
   } catch (err) {
@@ -60,28 +68,30 @@ async function handleErrors(func: () => void) {
     }
     const issues = extractErrors(validationErrors, []);
     if (issues.length === 1) {
-      throw new BadRequestError(`The object failed the validation because ${issues[0]}`);
+      throw new BadRequestError(
+        `The object failed the validation because ${issues[0]}`
+      );
     }
     throw new MultipleIssuesError(
-      'The object failed the validation because more than one of its property are invalid.',
+      "The object failed the validation because more than one of its property are invalid.",
       issues
     );
   }
 }
 
-function extractErrors(errors: ValidationError[], issues: string[], depth: number = 0) {
+function extractErrors(errors: ValidationError[], issues: string[], depth = 0) {
   if (!errors || errors.length === 0 || depth >= 10) return issues;
 
   const errToIssues = errors
-    .filter(error => error.constraints)
-    .map(error => {
+    .filter((error) => error?.constraints)
+    .map((error) => {
       const constraints = error.constraints;
       const objectKeys = Object.keys(constraints);
       return constraints[objectKeys[0]];
     });
 
   return extractErrors(
-    errors.flatMap(error => error.children),
+    errors.flatMap((error) => error?.children),
     issues.concat(...errToIssues),
     depth + 1
   );

@@ -1,9 +1,13 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { Parser } from 'json2csv';
-import { EOL } from 'os';
-import { addDays, addYears, getDateNoDash } from '../../shared/dateUtils/dateUtils';
-import { PromotedOperator } from '../../users/user.model';
+import { Parser } from "json2csv";
+import { EOL } from "os";
+import {
+  addDays,
+  addYears,
+  getDateNoDash,
+} from "../../shared/dateUtils/dateUtils";
+import { PromotedOperator } from "../../users/user.model";
 import {
   agency,
   bookingRules,
@@ -15,11 +19,11 @@ import {
   stopTimes,
   stops,
   trips,
-  vehicleCategories
-} from './gtfsFeed.constants';
-import { gtfsFeedMapper } from './gtfsFeed.mapper';
+  vehicleCategories,
+} from "./gtfsFeed.constants";
+import { gtfsFeedMapper } from "./gtfsFeed.mapper";
 
-const byteOrderMark = '\uFEFF';
+const byteOrderMark = "\uFEFF";
 
 export interface GtfsFeedGeneratorContext {
   now: string;
@@ -32,8 +36,8 @@ class GtfsFeedGenerator {
       {
         ...feedInfo,
         feed_start_date: getDateNoDash(context.now),
-        feed_end_date: getDateNoDash(addDays(context.now, 1))
-      }
+        feed_end_date: getDateNoDash(addDays(context.now, 1)),
+      },
     ];
     return jsonToCsv(data);
   }
@@ -41,13 +45,15 @@ class GtfsFeedGenerator {
   public getAgency(context: GtfsFeedGeneratorContext) {
     const data = [
       ...agency,
-      ...context.promotedOperators.flatMap(operator => gtfsFeedMapper.operatorToAgency(operator, context.now))
+      ...context.promotedOperators.flatMap((operator) =>
+        gtfsFeedMapper.operatorToAgency(operator, context.now)
+      ),
     ];
     return jsonToCsv(data);
   }
 
   public getBookingDeepLinks(context: GtfsFeedGeneratorContext) {
-    const data = context.promotedOperators.flatMap(operator =>
+    const data = context.promotedOperators.flatMap((operator) =>
       gtfsFeedMapper.operatorToBookingDeepLinks(operator, context.now)
     );
     return jsonToCsv(data.length > 0 ? data : emptyDeepLinks);
@@ -56,7 +62,9 @@ class GtfsFeedGenerator {
   public getRoutes(context: GtfsFeedGeneratorContext) {
     const data = [
       ...routes,
-      ...context.promotedOperators.flatMap(operator => gtfsFeedMapper.operatorToRoutes(operator, context.now))
+      ...context.promotedOperators.flatMap((operator) =>
+        gtfsFeedMapper.operatorToRoutes(operator, context.now)
+      ),
     ];
     return jsonToCsv(data);
   }
@@ -64,14 +72,20 @@ class GtfsFeedGenerator {
   public getTrips(context: GtfsFeedGeneratorContext) {
     const data = [
       ...trips,
-      ...context.promotedOperators.flatMap(operator => gtfsFeedMapper.operatorToTrips(operator, context.now))
+      ...context.promotedOperators.flatMap((operator) =>
+        gtfsFeedMapper.operatorToTrips(operator, context.now)
+      ),
     ];
     return jsonToCsv(data);
   }
 
   public getCalendar(context: GtfsFeedGeneratorContext) {
     const data = [
-      { ...calendar, start_date: getDateNoDash(context.now), end_date: getDateNoDash(addYears(context.now, 1)) }
+      {
+        ...calendar,
+        start_date: getDateNoDash(context.now),
+        end_date: getDateNoDash(addYears(context.now, 1)),
+      },
     ];
     return jsonToCsv(data);
   }
@@ -79,7 +93,9 @@ class GtfsFeedGenerator {
   public getBookingRules(context: GtfsFeedGeneratorContext) {
     const data = [
       ...bookingRules,
-      ...context.promotedOperators.flatMap(operator => gtfsFeedMapper.operatorToBookingRules(operator, context.now))
+      ...context.promotedOperators.flatMap((operator) =>
+        gtfsFeedMapper.operatorToBookingRules(operator, context.now)
+      ),
     ];
     return jsonToCsv(data);
   }
@@ -95,7 +111,9 @@ class GtfsFeedGenerator {
   public getStopTimes(context: GtfsFeedGeneratorContext) {
     const data = [
       ...stopTimes,
-      ...context.promotedOperators.flatMap(operator => gtfsFeedMapper.operatorToStopTimes(operator, context.now))
+      ...context.promotedOperators.flatMap((operator) =>
+        gtfsFeedMapper.operatorToStopTimes(operator, context.now)
+      ),
     ];
     return jsonToCsv(data);
   }

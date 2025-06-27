@@ -1,31 +1,47 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { QueryResult } from 'pg';
-import { departmentDataAccessLayer } from '../departments/department.dal';
-import { BadRequestError } from '../errorHandling/errors';
-import { DataOperation } from '../shared/dal/dal-operations.enum';
-import { IDalResponse } from '../shared/dal/dal-response';
-import { postgrePool } from '../shared/taxiPostgre/taxiPostgre';
-import { IPaginationQueryParams, ISqlClauses } from '../shared/ui/pagination.interfaces';
-import { EntityVerificationResult } from '../shared/validations/EntityVerificationResult';
-import { UserModel } from '../users/user.model';
-import { DriverRequestDto, DriverResponseDto } from './driver.dto';
+import { QueryResult } from "pg";
+import { departmentDataAccessLayer } from "../departments/department.dal";
+import { BadRequestError } from "../errorHandling/errors";
+import { DataOperation } from "../shared/dal/dal-operations.enum";
+import { IDalResponse } from "../shared/dal/dal-response";
+import { postgrePool } from "../shared/taxiPostgre/taxiPostgre";
+import {
+  IPaginationQueryParams,
+  ISqlClauses,
+} from "../shared/ui/pagination.interfaces";
+import { EntityVerificationResult } from "../shared/validations/EntityVerificationResult";
+import { UserModel } from "../users/user.model";
+import { DriverRequestDto, DriverResponseDto } from "./driver.dto";
 
 class DriverDataAccessLayer {
-  public async upsertDriver(driver: DriverRequestDto, user: UserModel): Promise<IDalResponse> {
-    const departmentId = await departmentDataAccessLayer.getDepartmentId(driver.departement.numero);
+  public async upsertDriver(
+    driver: DriverRequestDto,
+    user: UserModel
+  ): Promise<IDalResponse> {
+    const departmentId = await departmentDataAccessLayer.getDepartmentId(
+      driver.departement.numero
+    );
     const driverVerificationResult = await this.verifyIfDriverExists(
       driver.professional_licence,
       departmentId,
       user.id
     );
-    const persistedDriverId: IDalResponse = driverVerificationResult.entityExists
-      ? await this.updateDriver(driverVerificationResult.entityId, driver, user.id)
-      : await this.insertDriver(driver, departmentId, user.id);
+    const persistedDriverId: IDalResponse =
+      driverVerificationResult.entityExists
+        ? await this.updateDriver(
+            driverVerificationResult.entityId,
+            driver,
+            user.id
+          )
+        : await this.insertDriver(driver, departmentId, user.id);
     return persistedDriverId;
   }
 
-  public async getDriverById(driverId: string, operator?: string): Promise<DriverResponseDto> {
+  public async getDriverById(
+    driverId: string,
+    operator?: string
+  ): Promise<DriverResponseDto> {
     const select = `
         SELECT driver.id as driver_id,
                birth_date as driver_birthdate,
@@ -50,11 +66,11 @@ class DriverDataAccessLayer {
       birth_date: driverDataRow.driver_birthdate,
       departement: {
         nom: driverDataRow.departement_nom,
-        numero: driverDataRow.departement_numero
+        numero: driverDataRow.departement_numero,
       },
       first_name: driverDataRow.driver_firstname,
       last_name: driverDataRow.driver_lastname,
-      professional_licence: driverDataRow.driver_professional_licence
+      professional_licence: driverDataRow.driver_professional_licence,
     };
     return driverResponseDto;
   }
@@ -88,7 +104,7 @@ class DriverDataAccessLayer {
 
     const queryResult = await postgrePool.query(query, values);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
-      throw new BadRequestError('Unable to retrieve driver count');
+      throw new BadRequestError("Unable to retrieve driver count");
     }
 
     return queryResult.rows[0].count;
@@ -104,16 +120,24 @@ class DriverDataAccessLayer {
       FROM public.driver
       INNER JOIN public.departement dept ON driver.departement_id = dept.id
       WHERE professional_licence = $1::text AND dept.id = $2::int AND added_by = $3::int`;
-    const queryResult: QueryResult = await postgrePool.query(query, [professionalLicense, departmentId, userId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      professionalLicense,
+      departmentId,
+      userId,
+    ]);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return EntityVerificationResult.notFound();
     }
     return EntityVerificationResult.found(queryResult.rows[0].id);
   }
 
-  private async updateDriver(driverId: number, driver: DriverRequestDto, userId: string): Promise<IDalResponse> {
+  private async updateDriver(
+    driverId: number,
+    driver: DriverRequestDto,
+    userId: string
+  ): Promise<IDalResponse> {
     // NOTE: According the API documentation, we currently ignore the birth date in Quebec for privacy reason.
-    const query: string = `
+    const query = `
       UPDATE public.driver
       SET
         first_name = $3::text,
@@ -127,7 +151,7 @@ class DriverDataAccessLayer {
       userId,
       driver.first_name,
       driver.last_name,
-      new Date().toISOString()
+      new Date().toISOString(),
     ]);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
@@ -135,12 +159,16 @@ class DriverDataAccessLayer {
 
     const responseDal: IDalResponse = {
       entityId: queryResult.rows[0].id,
-      dataOperation: DataOperation.Update
+      dataOperation: DataOperation.Update,
     };
     return responseDal;
   }
 
-  private async insertDriver(driver: DriverRequestDto, departmentId: number, userId: string): Promise<IDalResponse> {
+  private async insertDriver(
+    driver: DriverRequestDto,
+    departmentId: number,
+    userId: string
+  ): Promise<IDalResponse> {
     const query = `
       INSERT INTO public.driver(added_via,
                                 source,
@@ -154,15 +182,15 @@ class DriverDataAccessLayer {
       VALUES ($1::sources_driver, $2::text, $3::date, $4::int, $5::text, $6::text, $7::text, $8::timestamp without time zone, $9::int)
       RETURNING id`;
     const queryResult: QueryResult = await postgrePool.query(query, [
-      'api',
-      'added_by',
+      "api",
+      "added_by",
       null, // NOTE: According the API documentation, we currently ignore the birth date in Quebec for privacy reason.
       departmentId,
       driver.first_name,
       driver.last_name,
       driver.professional_licence,
       new Date().toISOString(),
-      userId
+      userId,
     ]);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
@@ -171,7 +199,7 @@ class DriverDataAccessLayer {
 
     const responseDal: IDalResponse = {
       entityId: insertedDriverId,
-      dataOperation: DataOperation.Create
+      dataOperation: DataOperation.Create,
     };
 
     return responseDal;
@@ -179,10 +207,10 @@ class DriverDataAccessLayer {
 }
 
 function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
-  const filters = queryParams.filter?.split('|');
-  let filterBy = '';
-  let orderBy = '';
-  let limitBy = '';
+  const filters = queryParams.filter?.split("|");
+  let filterBy = "";
+  let orderBy = "";
+  let limitBy = "";
   const values = [];
 
   if (filters?.length >= 1) {
@@ -211,7 +239,9 @@ function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
   }
 
   if (queryParams.page && queryParams.pageSize) {
-    limitBy += ` LIMIT $${values.length + 2}::int OFFSET ($${values.length + 1}::int * $${values.length + 2}::int)`;
+    limitBy += ` LIMIT $${values.length + 2}::int OFFSET ($${
+      values.length + 1
+    }::int * $${values.length + 2}::int)`;
     values.push(queryParams.page, queryParams.pageSize);
   }
 
@@ -221,18 +251,18 @@ function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
 }
 
 function buildOrderByClause(order: string): string {
-  if (!order) return 'public.driver.professional_licence';
+  if (!order) return "public.driver.professional_licence";
 
-  const column = order.includes('last')
-    ? 'public.driver.last_name'
-    : order.includes('first')
-    ? 'public.driver.first_name'
-    : order.includes('update')
-    ? 'public.driver.last_update_at'
-    : order.includes('email')
+  const column = order.includes("last")
+    ? "public.driver.last_name"
+    : order.includes("first")
+    ? "public.driver.first_name"
+    : order.includes("update")
+    ? "public.driver.last_update_at"
+    : order.includes("email")
     ? 'public."user".email'
-    : 'public.driver.professional_licence';
-  const descending = order.includes('desc') ? ' DESC' : '';
+    : "public.driver.professional_licence";
+  const descending = order.includes("desc") ? " DESC" : "";
 
   return `${column} ${descending}`;
 }

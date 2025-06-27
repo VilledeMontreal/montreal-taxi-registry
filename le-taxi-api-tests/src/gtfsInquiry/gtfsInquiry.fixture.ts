@@ -1,19 +1,22 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { configs } from '../../config/configs';
-import { generateApiTestCoordinates } from '../shared/commonLoadTests/specialRegion';
-import { aFewSeconds } from '../shared/commonTests/testUtil';
+import { configs } from "../../config/configs";
+import { generateApiTestCoordinates } from "../shared/commonLoadTests/specialRegion";
+import { aFewSeconds } from "../shared/commonTests/testUtil";
 import {
   AssetTypes,
   ICoordinateDTO,
   IInquiryRequestDTO,
   ITaxiResponseDto,
-  IUser
-} from '../shared/taxiRegistryDtos/taxiRegistryDtos';
-import { setTaxiPosition } from '../taxiPositionSnapShots/taxiPositionSnapshots.fixture';
-import { setupNewCustomTaxi } from '../taxis/taxi.fixture';
-import { updateUser } from '../users/user.apiClient';
-import { createOperatorWithPromotion, IPromotions } from '../users/user.sharedFixture';
+  IUser,
+} from "../shared/taxiRegistryDtos/taxiRegistryDtos";
+import { setTaxiPosition } from "../taxiPositionSnapShots/taxiPositionSnapshots.fixture";
+import { setupNewCustomTaxi } from "../taxis/taxi.fixture";
+import { updateUser } from "../users/user.apiClient";
+import {
+  createOperatorWithPromotion,
+  IPromotions,
+} from "../users/user.sharedFixture";
 
 interface ITaxiPositions {
   lat?: number;
@@ -36,7 +39,7 @@ export function buildInquiryRequest(
     from: { coordinates: fromCoordinate },
     to: { coordinates: toCoordinate },
     useAssetTypes: assetTypes,
-    operators: operators?.map(operator => operator.id)
+    operators: operators?.map((operator) => operator.id),
   };
 }
 
@@ -45,7 +48,7 @@ export async function createTaxisWithPromotions(
   promotion: IPromotions = { standard: true, minivan: true, special_need: true }
 ): Promise<IUser[]> {
   return await Promise.all(
-    taxiOptions.map(async option => {
+    taxiOptions.map(async (option) => {
       const newOperator = await createOperatorWithPromotion(promotion);
       await setupTaxiFromOptions(option, newOperator.apikey);
       return newOperator;
@@ -58,22 +61,29 @@ function fillDefaultOptions(options: ITaxiOptions): ITaxiOptions {
   return {
     lat: options.lat || lat,
     lon: options.lon || lon,
-    status: options.status || 'free',
-    type: options.type || 'sedan',
-    specialNeedVehicle: options.specialNeedVehicle || false
+    status: options.status || "free",
+    type: options.type || "sedan",
+    specialNeedVehicle: options.specialNeedVehicle || false,
   };
 }
 
-export async function setupTaxiFromOptions(taxiOptions: ITaxiOptions, apikey?: string) {
+export async function setupTaxiFromOptions(
+  taxiOptions: ITaxiOptions,
+  apikey?: string
+) {
   const options = fillDefaultOptions(taxiOptions);
-  const taxi = await setupNewCustomTaxi(options.specialNeedVehicle, options.type, apikey);
+  const taxi = await setupNewCustomTaxi(
+    options.specialNeedVehicle,
+    options.type,
+    apikey
+  );
   await setTaxiPosition(
     {
       taxi: taxi.body.data[0].id,
       operator: taxi.body.data[0].operator,
       lat: options.lat,
       lon: options.lon,
-      status: options.status
+      status: options.status,
     },
     apikey
   );
@@ -81,7 +91,10 @@ export async function setupTaxiFromOptions(taxiOptions: ITaxiOptions, apikey?: s
   return taxi.body.data[0];
 }
 
-export async function demoteOperatorTaxis(operator: IUser, taxi: ITaxiResponseDto) {
+export async function demoteOperatorTaxis(
+  operator: IUser,
+  taxi: ITaxiResponseDto
+) {
   const { lat, lon } = generateApiTestCoordinates();
 
   // Demote the operator
@@ -101,7 +114,7 @@ export async function demoteOperatorTaxis(operator: IUser, taxi: ITaxiResponseDt
       operator: taxi.operator,
       lat,
       lon,
-      status: 'free'
+      status: "free",
     },
     operatorApikey
   );

@@ -41,7 +41,8 @@ function nowAsEpoch(): number {
 }
 
 function isUtcIsoString(value: string) {
-  const isoStringRegEx = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{3}Z$/;
+  const isoStringRegEx =
+    /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{3}Z$/;
   return isoStringRegEx.test(value);
 }
 
@@ -52,7 +53,7 @@ function isIsoDate(value: string) {
 
 function toUtcHumanDate(date: string) {
   const localDate = toLocalDate(date);
-  return localDate.toUTCString().replace('GMT', '-0000');
+  return localDate.toUTCString().replace("GMT", "-0000");
 }
 
 function hasTimeZone(value: string) {
@@ -66,7 +67,8 @@ function isValidDate(date: Date): boolean {
 
 function toLocalDate(date: string): Date {
   const localDate = new Date(date);
-  if (!isValidDate(localDate)) throw new Error(`Unable to convert date: ${date}`);
+  if (!isValidDate(localDate))
+    throw new Error(`Unable to convert date: ${date}`);
   return localDate;
 }
 
@@ -74,15 +76,24 @@ function durationInSeconds(startDate: string, endDate: string): number {
   return (new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000;
 }
 
-function addToDate(callback: (d: Date, n: number) => void, date: string, value: number): string {
-  if (!isUtcIsoString(date)) throw new Error(`Date must be in UtcIsoString format: ${date}`);
+function addToDate(
+  callback: (d: Date, n: number) => void,
+  date: string,
+  value: number
+): string {
+  if (!isUtcIsoString(date))
+    throw new Error(`Date must be in UtcIsoString format: ${date}`);
   const newDate = new Date(date);
   callback(newDate, value);
   return newDate.toISOString();
 }
 
 function addYears(date: string, years: number): string {
-  return addToDate((d, n) => d.setUTCFullYear(d.getUTCFullYear() + n), date, years);
+  return addToDate(
+    (d, n) => d.setUTCFullYear(d.getUTCFullYear() + n),
+    date,
+    years
+  );
 }
 
 function addMonths(date: string, months: number): string {
@@ -95,40 +106,61 @@ function addDays(date: string, days: number): string {
 
 function addHours(date: string, hours: number): string {
   return addToDate(
-    (d, n) => d.setUTCHours(d.getUTCHours() + n, d.getMinutes(), d.getSeconds(), d.getMilliseconds()),
+    (d, n) =>
+      d.setUTCHours(
+        d.getUTCHours() + n,
+        d.getMinutes(),
+        d.getSeconds(),
+        d.getMilliseconds()
+      ),
     date,
     hours
   );
 }
 
 function addMinutes(date: string, minutes: number): string {
-  return addToDate((d, n) => d.setMinutes(d.getMinutes() + n, d.getSeconds(), d.getMilliseconds()), date, minutes);
+  return addToDate(
+    (d, n) =>
+      d.setMinutes(d.getMinutes() + n, d.getSeconds(), d.getMilliseconds()),
+    date,
+    minutes
+  );
 }
 
 function addSec(date: string, sec: number): string {
-  return addToDate((d, n) => d.setSeconds(d.getSeconds() + n, d.getMilliseconds()), date, sec);
+  return addToDate(
+    (d, n) => d.setSeconds(d.getSeconds() + n, d.getMilliseconds()),
+    date,
+    sec
+  );
 }
 
 function addMS(date: string, ms: number): string {
-  return addToDate((d, n) => d.setMilliseconds(d.getMilliseconds() + n), date, ms);
+  return addToDate(
+    (d, n) => d.setMilliseconds(d.getMilliseconds() + n),
+    date,
+    ms
+  );
 }
 
 function getDate(date: string): string {
-  if (!isUtcIsoString(date)) throw new Error(`Date must be in UtcIsoString format: ${date}`);
-  return date.split('T')[0];
+  if (!isUtcIsoString(date))
+    throw new Error(`Date must be in UtcIsoString format: ${date}`);
+  return date.split("T")[0];
 }
 
 function getDateNoDash(date: string) {
-  return getDate(date).replace(/-/g, '');
+  return getDate(date).replace(/-/g, "");
 }
 
 function getTime(date: string): string {
-  if (!isUtcIsoString(date)) throw new Error(`Date must be in UtcIsoString format: ${date}`);
-  return date.split('T')[1];
+  if (!isUtcIsoString(date))
+    throw new Error(`Date must be in UtcIsoString format: ${date}`);
+  return date.split("T")[1];
 }
 
 function getTimeNoDash(date: string) {
-  return getTime(date).replace(/-/g, '');
+  return getTime(date).replace(/-/g, "");
 }
 
 export {
@@ -151,5 +183,5 @@ export {
   getDate,
   getTime,
   getDateNoDash,
-  getTimeNoDash
+  getTimeNoDash,
 };

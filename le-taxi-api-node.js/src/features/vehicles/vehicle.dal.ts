@@ -1,16 +1,22 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { QueryResult } from 'pg';
-import { BadRequestError } from '../errorHandling/errors';
-import { DataOperation } from '../shared/dal/dal-operations.enum';
-import { IDalResponse } from '../shared/dal/dal-response';
-import { postgrePool } from '../shared/taxiPostgre/taxiPostgre';
-import { IPaginationQueryParams, ISqlClauses } from '../shared/ui/pagination.interfaces';
-import { UserModel } from '../users/user.model';
-import { VehicleRequestDto, VehicleResponseDto } from './vehicle.dto';
+import { QueryResult } from "pg";
+import { BadRequestError } from "../errorHandling/errors";
+import { DataOperation } from "../shared/dal/dal-operations.enum";
+import { IDalResponse } from "../shared/dal/dal-response";
+import { postgrePool } from "../shared/taxiPostgre/taxiPostgre";
+import {
+  IPaginationQueryParams,
+  ISqlClauses,
+} from "../shared/ui/pagination.interfaces";
+import { UserModel } from "../users/user.model";
+import { VehicleRequestDto, VehicleResponseDto } from "./vehicle.dto";
 
 class VehicleDataAccessLayer {
-  public async upsertVehicle(vehicleDto: VehicleRequestDto, userModel: UserModel): Promise<IDalResponse> {
+  public async upsertVehicle(
+    vehicleDto: VehicleRequestDto,
+    userModel: UserModel
+  ): Promise<IDalResponse> {
     const persistedVehicleId: number = await this.tryCreateVehicleIfNotExists(
       vehicleDto.licence_plate,
       Number(userModel.id)
@@ -35,7 +41,10 @@ class VehicleDataAccessLayer {
     return dalResponse;
   }
 
-  public async getVehicleById(vehicleId: string, operator?: string): Promise<VehicleResponseDto> {
+  public async getVehicleById(
+    vehicleId: string,
+    operator?: string
+  ): Promise<VehicleResponseDto> {
     const select = `
       SELECT
         vd.air_con,
@@ -163,26 +172,34 @@ class VehicleDataAccessLayer {
 
     const queryResult = await postgrePool.query(query, values);
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
-      throw new BadRequestError('Unable to retrieve vehicle count');
+      throw new BadRequestError("Unable to retrieve vehicle count");
     }
 
     return queryResult.rows[0].count;
   }
 
-  private async tryCreateVehicleIfNotExists(licencePlate: string, userId: number): Promise<number> {
+  private async tryCreateVehicleIfNotExists(
+    licencePlate: string,
+    userId: number
+  ): Promise<number> {
     let query = `
       SELECT v.id
       FROM public.vehicle v
       WHERE v.licence_plate=$1::text AND v.added_by_user=$2::int
     `;
-    let queryResult: QueryResult = await postgrePool.query(query, [licencePlate, userId]);
+    let queryResult: QueryResult = await postgrePool.query(query, [
+      licencePlate,
+      userId,
+    ]);
 
     if (queryResult.rowCount === 1) {
       return queryResult.rows[0].id;
     }
 
     if (queryResult.rowCount > 1) {
-      throw new BadRequestError(`More than one vehicle was found with licence plate '${licencePlate}'`);
+      throw new BadRequestError(
+        `More than one vehicle was found with licence plate '${licencePlate}'`
+      );
     }
 
     query = `
@@ -221,7 +238,9 @@ class VehicleDataAccessLayer {
     return queryResult.rows[0].id;
   }
 
-  private async createConstructorIfNotExists(manufacturerName: string): Promise<number> {
+  private async createConstructorIfNotExists(
+    manufacturerName: string
+  ): Promise<number> {
     if (!manufacturerName) {
       return null;
     }
@@ -231,7 +250,9 @@ class VehicleDataAccessLayer {
       FROM public.constructor AS c
       WHERE c.name=$1::text
     `;
-    let queryResult: QueryResult = await postgrePool.query(query, [manufacturerName]);
+    let queryResult: QueryResult = await postgrePool.query(query, [
+      manufacturerName,
+    ]);
 
     if (queryResult.rowCount === 1) {
       return queryResult.rows[0].id;
@@ -259,7 +280,9 @@ class VehicleDataAccessLayer {
       FROM public.vehicle_description
       WHERE vehicle_id=$1::int
     `;
-    const queryResult: QueryResult = await postgrePool.query(query, [vehicleId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      vehicleId,
+    ]);
 
     let foundVehicleDescription = true;
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
@@ -267,17 +290,29 @@ class VehicleDataAccessLayer {
     }
 
     const vehicleDescriptionId: number = foundVehicleDescription
-      ? await this.updateVehicleDescription(vehicleId, modelId, constructorId, queryResult.rows, vehicleDto)
-      : await this.insertVehicleDescription(vehicleId, modelId, constructorId, vehicleDto, userModel);
+      ? await this.updateVehicleDescription(
+          vehicleId,
+          modelId,
+          constructorId,
+          queryResult.rows,
+          vehicleDto
+        )
+      : await this.insertVehicleDescription(
+          vehicleId,
+          modelId,
+          constructorId,
+          vehicleDto,
+          userModel
+        );
 
     const responseDal: IDalResponse = foundVehicleDescription
       ? {
           entityId: vehicleDescriptionId,
-          dataOperation: DataOperation.Update
+          dataOperation: DataOperation.Update,
         }
       : {
           entityId: vehicleDescriptionId,
-          dataOperation: DataOperation.Create
+          dataOperation: DataOperation.Create,
         };
 
     return responseDal;
@@ -341,7 +376,7 @@ class VehicleDataAccessLayer {
     const queryResult = await postgrePool.query(query, [
       new Date().toISOString(),
       userModel.id,
-      'api',
+      "api",
       vehicleRequestDto.air_con,
       vehicleRequestDto.amex_accepted,
       vehicleRequestDto.baby_seat,
@@ -370,14 +405,14 @@ class VehicleDataAccessLayer {
       vehicleRequestDto.nfc_cc_accepted,
       vehicleRequestDto.pet_accepted,
       vehicleRequestDto.relais,
-      'added_by',
+      "added_by",
       vehicleRequestDto.special_need_vehicle,
       vehicleRequestDto.tablet,
       vehicleRequestDto.taximetre,
       vehicleRequestDto.type_,
       vehicleId,
       vehicleRequestDto.wifi,
-      vehicleRequestDto.vehicle_identification_number
+      vehicleRequestDto.vehicle_identification_number,
     ]);
 
     return queryResult.rows[0].id;
@@ -387,22 +422,20 @@ class VehicleDataAccessLayer {
     vehicleId: number,
     modelId: number,
     constructorId: number,
-    foundVehicleDescription: QueryResult['rows'],
+    foundVehicleDescription: QueryResult["rows"],
     vehicleRequestDto: VehicleRequestDto
   ): Promise<number> {
     const keys = Object.keys(foundVehicleDescription[0]);
-    keys.forEach(key => {
-      if (typeof vehicleRequestDto[key] === 'undefined') {
+    keys.forEach((key) => {
+      if (typeof vehicleRequestDto[key] === "undefined") {
         vehicleRequestDto[key] = foundVehicleDescription[0][key];
       }
     });
 
     if (!modelId) {
-      // tslint:disable-next-line: no-parameter-reassignment
       modelId = foundVehicleDescription[0].model_id;
     }
     if (!constructorId) {
-      // tslint:disable-next-line: no-parameter-reassignment
       constructorId = foundVehicleDescription[0].constructor_id;
     }
 
@@ -483,7 +516,7 @@ class VehicleDataAccessLayer {
       vehicleRequestDto.type_,
       vehicleRequestDto.wifi,
       vehicleId,
-      vehicleRequestDto.vehicle_identification_number
+      vehicleRequestDto.vehicle_identification_number,
     ]);
 
     return queryResult.rows[0].id;
@@ -495,7 +528,9 @@ class VehicleDataAccessLayer {
       FROM public.vehicle_description
       WHERE vehicle_id=$1::int
     `;
-    const queryResult: QueryResult = await postgrePool.query(query, [vehicleId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      vehicleId,
+    ]);
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
@@ -503,13 +538,17 @@ class VehicleDataAccessLayer {
     return queryResult.rows[0].model_id;
   }
 
-  private async getConstructorIdByVehicleId(vehicleId: number): Promise<number> {
+  private async getConstructorIdByVehicleId(
+    vehicleId: number
+  ): Promise<number> {
     const query = `
       SELECT constructor_id
       FROM public.vehicle_description
       WHERE vehicle_id=$1::int
     `;
-    const queryResult: QueryResult = await postgrePool.query(query, [vehicleId]);
+    const queryResult: QueryResult = await postgrePool.query(query, [
+      vehicleId,
+    ]);
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
@@ -519,10 +558,10 @@ class VehicleDataAccessLayer {
 }
 
 function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
-  const filters = queryParams.filter?.split('|');
-  let filterBy = '';
-  let orderBy = '';
-  let limitBy = '';
+  const filters = queryParams.filter?.split("|");
+  let filterBy = "";
+  let orderBy = "";
+  let limitBy = "";
   const values = [];
 
   if (filters?.length >= 1) {
@@ -541,7 +580,9 @@ function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
   }
 
   if (queryParams.page && queryParams.pageSize) {
-    limitBy += ` LIMIT $${values.length + 2}::int OFFSET ($${values.length + 1}::int * $${values.length + 2}::int)`;
+    limitBy += ` LIMIT $${values.length + 2}::int OFFSET ($${
+      values.length + 1
+    }::int * $${values.length + 2}::int)`;
     values.push(queryParams.page, queryParams.pageSize);
   }
 
@@ -551,10 +592,10 @@ function buildSqlClauses(queryParams: IPaginationQueryParams): ISqlClauses {
 }
 
 function buildOrderByClause(order: string): string {
-  if (!order) return 'v.licence_plate';
+  if (!order) return "v.licence_plate";
 
-  const column = order.includes('email') ? 'u.email' : 'v.licence_plate';
-  const descending = order.includes('desc') ? ' DESC' : '';
+  const column = order.includes("email") ? "u.email" : "v.licence_plate";
+  const descending = order.includes("desc") ? " DESC" : "";
 
   return `${column} ${descending}`;
 }

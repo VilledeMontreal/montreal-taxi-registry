@@ -1,13 +1,13 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { assert } from 'chai';
-import { StatusCodes } from 'http-status-codes';
+import { assert } from "chai";
+import { StatusCodes } from "http-status-codes";
 
-import { UserRole } from '../shared/commonTests/UserRole';
-import { getImmutableUserApiKey } from '../users/user.sharedFixture';
-import { getGtfsDeepLinks } from './gtfsDeepLinks.apiClient';
+import { UserRole } from "../shared/commonTests/UserRole";
+import { getImmutableUserApiKey } from "../users/user.sharedFixture";
+import { getGtfsDeepLinks } from "./gtfsDeepLinks.apiClient";
 
-// tslint:disable-next-line: max-func-body-length
+// eslint-disable-next-line max-lines-per-function
 export async function crudGtfsDeepLinksTests(): Promise<void> {
   testGtfsDeepLinksAccessValid(UserRole.Operator);
 }

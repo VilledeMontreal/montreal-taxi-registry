@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as express from 'express';
-import { IApiErrorResponse, isServerFault } from './apiErrorResponse';
-const { serializeError } = require('serialize-error');
+import * as express from "express";
+import { IApiErrorResponse, isServerFault } from "./apiErrorResponse";
+const { serializeError } = require("serialize-error");
 
 /**
  * Represents a basic error log entry.
@@ -38,7 +38,9 @@ export type LogErrorFn = (errorLogEntry: IErrorLogEntry) => void;
  * Ex: if only an api key is present in the http request, you may want to lookup for the user name
  * in oder to avoid logging a secret (the api key) in case of error.
  */
-export type ResolveCurrentUserIdFromRequestFn = (request: express.Request) => string;
+export type ResolveCurrentUserIdFromRequestFn = (
+  request: express.Request
+) => string;
 
 /**
  * Use this function to create an instance of ErrorLogEntry when we're not inside an HTTP context.
@@ -46,11 +48,14 @@ export type ResolveCurrentUserIdFromRequestFn = (request: express.Request) => st
  * @param message
  * @param error
  */
-export function createNonHttpContextErrorLogEntry(message: string, error: any): IErrorLogEntry {
+export function createNonHttpContextErrorLogEntry(
+  message: string,
+  error: any
+): IErrorLogEntry {
   return {
     isServerFault: true,
     message,
-    error: serializeError(error)
+    error: serializeError(error),
   };
 }
 
@@ -77,17 +82,17 @@ export function createHttpContextErrorLogEntry<TDto>(
     currentUserId,
     apiErrorResponse,
     isServerFault: isServerFault(apiErrorResponse),
-    message: !!logMessage ? logMessage : getErrorMessage(error),
-    error: serializeError(error)
+    message: logMessage ? logMessage : getErrorMessage(error),
+    error: serializeError(error),
   };
 }
 
 function getErrorMessage(error: any): string {
-  if (typeof error === 'string') {
+  if (typeof error === "string") {
     return error;
   }
   if (error instanceof Error) {
     return error.message;
   }
-  return 'The error is not an instance of Error.';
+  return "The error is not an instance of Error.";
 }

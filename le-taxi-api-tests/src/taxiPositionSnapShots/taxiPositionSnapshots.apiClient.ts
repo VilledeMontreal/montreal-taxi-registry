@@ -1,10 +1,15 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { UserRole } from '../shared/commonTests/UserRole';
-import { postTaxiRegistry } from '../shared/taxiRegistryHttp/taxiRegistryHttp';
-import { getImmutableUserApiKey } from '../users/user.sharedFixture';
+import { UserRole } from "../shared/commonTests/UserRole";
+import { postTaxiRegistry } from "../shared/taxiRegistryHttp/taxiRegistryHttp";
+import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 
 export async function postTaxiPositionSnapshots(dto: any, apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Operator);
-  return postTaxiRegistry(`/api/taxi-position-snapshots`, dto, apiKey, defaultApiKey);
+  return postTaxiRegistry(
+    `/api/taxi-position-snapshots`,
+    dto,
+    apiKey,
+    defaultApiKey
+  );
 }

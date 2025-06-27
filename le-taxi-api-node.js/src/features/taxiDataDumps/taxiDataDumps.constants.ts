@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-const tableName = 'public.taxi';
-const insertDateColumn = 'public.taxi.added_at';
-const updateDateColumn = 'public.taxi.last_update_at';
+const tableName = "public.taxi";
+const insertDateColumn = "public.taxi.added_at";
+const updateDateColumn = "public.taxi.last_update_at";
 
 const selectAll = `
 SELECT public.taxi.added_at,

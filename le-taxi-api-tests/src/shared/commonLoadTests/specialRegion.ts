@@ -1,9 +1,9 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { ICoordinates } from '../coordinates/coordinates';
-import * as montrealPolygon from './montreal_simplified.json';
-import { getRandomNumberBetween } from './randomData';
-import { randomPointsOnPolygon } from './randomPointInPolygon';
+import { ICoordinates } from "../coordinates/coordinates";
+import * as montrealPolygon from "./montreal_simplified.json";
+import { getRandomNumberBetween } from "./randomData";
+import { randomPointsOnPolygon } from "./randomPointInPolygon";
 
 // Currently searching mongo with a maxDistance of 5000m, so the tests need to be within 5km to succeed
 // 0.025 lat and 0.05 lon roughly gives a 4.8km max distance
@@ -27,7 +27,7 @@ export function generateApiTestCoordinates(): ICoordinates {
   return { lat: generateLatForApiTest(), lon: generateLonForApiTest() };
 }
 
-export function generatePointsForLoadTest(count: number = 1): ICoordinates {
+export function generatePointsForLoadTest(count = 1): ICoordinates {
   const features = randomPointsOnPolygon(count, montrealPolygon);
   const points = features.map((feature: any) => {
     const point = feature.geometry.coordinates;

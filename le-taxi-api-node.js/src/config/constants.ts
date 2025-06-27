@@ -9,9 +9,9 @@ export class Constants {
    */
   get application() {
     return {
-      CONTAINER: 'container',
-      CODE: 'TXP',
-      DOMAIN: 'DIGITAL_SOLUTIONS'
+      CONTAINER: "container",
+      CODE: "TXP",
+      DOMAIN: "DIGITAL_SOLUTIONS",
     };
   }
 
@@ -20,18 +20,18 @@ export class Constants {
    */
   get Environments() {
     return {
-      LOCAL: 'localhost',
-      ACC: 'acceptation',
+      LOCAL: "localhost",
+      ACC: "acceptation",
       // ==========================================
       // "development" seems to be the standard Node label, not "dev".
       // The node-config library uses this :
       // https://github.com/lorenwest/node-config/wiki/Configuration-Files#default-node_env
       // ==========================================
-      DEV: 'development',
+      DEV: "development",
       // ==========================================
       // "production" seems to be the standard Node label, not "prod".
       // ==========================================
-      PROD: 'production'
+      PROD: "production",
     };
   }
 
@@ -46,9 +46,9 @@ export class Constants {
        * Do not change this :
        * https://github.com/lorenwest/node-config/wiki/Configuration-Files#default-node_env
        */
-      NODE_ENV: 'NODE_ENV',
+      NODE_ENV: "NODE_ENV",
 
-      NODE_APP_INSTANCE: 'NODE_APP_INSTANCE'
+      NODE_APP_INSTANCE: "NODE_APP_INSTANCE",
     };
   }
 
@@ -61,7 +61,7 @@ export class Constants {
    */
   get EnpointTypeRoots() {
     return {
-      API: '/api'
+      API: "/api",
     };
   }
 
@@ -70,7 +70,7 @@ export class Constants {
    */
   get apiErrors() {
     return {
-      codes: {}
+      codes: {},
     };
   }
 
@@ -79,7 +79,7 @@ export class Constants {
    */
   get cacheControl() {
     return {
-      NO_CACHE: `no-cache`
+      NO_CACHE: `no-cache`,
     };
   }
 
@@ -87,7 +87,7 @@ export class Constants {
    * Custom Http headers
    */
   get defaultResponseHeaders() {
-    return { 'Content-Type': 'application/json' };
+    return { "Content-Type": "application/json" };
   }
 
   /**
@@ -95,9 +95,9 @@ export class Constants {
    */
   get mediaTypes() {
     return {
-      GEOJSON: 'application/geo+json',
-      JSON: 'application/json',
-      PLAIN_TEXT: 'text/plain'
+      GEOJSON: "application/geo+json",
+      JSON: "application/json",
+      PLAIN_TEXT: "text/plain",
     };
   }
 
@@ -107,9 +107,9 @@ export class Constants {
   get localization() {
     return {
       locales: {
-        ENGLISH: 'en',
-        FRENCH_CANADIAN: 'fr-CA'
-      }
+        ENGLISH: "en",
+        FRENCH_CANADIAN: "fr-CA",
+      },
     };
   }
 
@@ -119,9 +119,9 @@ export class Constants {
   get osrm() {
     return {
       profile: {
-        ROUTE: 'route/v1/car',
-        TABLE: 'table/v1/driving'
-      }
+        ROUTE: "route/v1/car",
+        TABLE: "table/v1/driving",
+      },
     };
   }
 
@@ -138,27 +138,27 @@ export class Constants {
          * The type of log. Those types are specified in
          * the following "logType" section.
          */
-        LOG_TYPE: 'logType',
+        LOG_TYPE: "logType",
 
         /**
          * The version of the log type.
          */
-        LOG_TYPE_VERSION: 'logTypeVersion',
+        LOG_TYPE_VERSION: "logTypeVersion",
 
         /**
          * "Nom du composant logiciel"
          */
-        APP_NAME: 'app',
+        APP_NAME: "app",
 
         /**
          * "Version du composant logiciel"
          */
-        APP_VERSION: 'version',
+        APP_VERSION: "version",
 
         /**
          * Correlation id
          */
-        CORRELATION_ID: 'cid'
+        CORRELATION_ID: "cid",
       },
 
       /**
@@ -168,8 +168,8 @@ export class Constants {
         /**
          * The type for our Ville de Montréal logs.
          */
-        MONTREAL: 'mtl'
-      }
+        MONTREAL: "mtl",
+      },
     };
   }
 
@@ -181,9 +181,9 @@ export class Constants {
       /**
        * The npm scope of our custom libraries.
        */
-      MONTREAL_SCOPE: '@villemontreal'
+      MONTREAL_SCOPE: "@villemontreal",
     };
   }
 }
 
-export let constants: Constants = new Constants();
+export const constants: Constants = new Constants();

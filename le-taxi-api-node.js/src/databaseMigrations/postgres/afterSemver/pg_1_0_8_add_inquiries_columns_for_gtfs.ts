@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { postgrePool } from '../../../features/shared/taxiPostgre/taxiPostgre';
+import { postgrePool } from "../../../features/shared/taxiPostgre/taxiPostgre";
 
 export async function pg_1_0_8_add_inquiries_columns_for_gtfs(): Promise<void> {
   await postgrePool.query(`

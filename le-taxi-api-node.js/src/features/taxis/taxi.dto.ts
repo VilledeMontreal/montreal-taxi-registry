@@ -1,8 +1,15 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { IsBoolean, IsDefined, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsDefined,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from "class-validator";
 
-// tslint:disable: variable-name
+// eslint-disable variable-name
 class Vehicle {
   @IsDefined()
   @IsNotEmpty()
@@ -11,7 +18,7 @@ class Vehicle {
   public licence_plate: string;
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 class Driver {
   @IsDefined()
   @IsNotEmpty()
@@ -26,7 +33,7 @@ class Driver {
   public professional_licence: string;
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 class Ads {
   @IsDefined()
   @IsNotEmpty()
@@ -41,7 +48,7 @@ class Ads {
   public numero: string;
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 export class TaxiRequestDto {
   @IsDefined()
   @IsNotEmpty()
@@ -69,7 +76,7 @@ export class TaxiRequestDto {
   }
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 export class TaxiResponseDto {
   public ads: {
     insee: string;
@@ -105,7 +112,7 @@ export class TaxiResponseDto {
   public status: string;
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 export class DeprecatedUpdateTaxiRequestDto {
   public status?: string;
   public private: string | boolean;

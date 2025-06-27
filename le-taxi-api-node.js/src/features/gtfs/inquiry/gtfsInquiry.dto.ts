@@ -1,13 +1,22 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { Type } from 'class-transformer';
-import { IsArray, IsDefined, IsEnum, IsNotEmpty, IsNumber, Max, Min, ValidateNested } from 'class-validator';
+import { Type } from "class-transformer";
+import {
+  IsArray,
+  IsDefined,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  Max,
+  Min,
+  ValidateNested,
+} from "class-validator";
 
-/* tslint:disable:max-classes-per-file */
+/* eslint-disable max-classes-per-file */
 export enum GtfsAssetTypes {
-  Standard = 'taxi-registry-standard',
-  Minivan = 'taxi-registry-minivan',
-  SpecialNeed = 'taxi-registry-special-need'
+  Standard = "taxi-registry-standard",
+  Minivan = "taxi-registry-minivan",
+  SpecialNeed = "taxi-registry-special-need",
 }
 
 export class GtfsCoordinates {
@@ -42,7 +51,19 @@ export class GtfsCoordinatesNullable {
   lon?: number;
 }
 
-export class GtfsCoordinatesHolder {
+export class GtfsAddress {
+  @IsDefined()
+  @Type(() => String)
+  streetAddress: string;
+}
+
+export class GtfsAddressHolder {
+  @Type(() => GtfsAddress)
+  @ValidateNested()
+  physicalAddress?: GtfsAddress;
+}
+
+export class GtfsCoordinatesHolder extends GtfsAddressHolder {
   @IsDefined()
   @IsNotEmpty()
   @Type(() => GtfsCoordinates)
@@ -50,7 +71,7 @@ export class GtfsCoordinatesHolder {
   coordinates: GtfsCoordinates;
 }
 
-export class GtfsCoordinatesHolderNullable {
+export class GtfsCoordinatesHolderNullable extends GtfsAddressHolder {
   @Type(() => GtfsCoordinatesNullable)
   @ValidateNested()
   coordinates?: GtfsCoordinatesNullable;

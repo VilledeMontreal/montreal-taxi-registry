@@ -1,22 +1,30 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { addHours, addMS } from '../shared/dateUtils/dateUtils';
-import { logger } from '../shared/logging/logger';
-import { TripBuilder } from './trip.builder';
-import { TripModel } from './trip.model';
+import { addHours, addMS } from "../shared/dateUtils/dateUtils";
+import { logger } from "../shared/logging/logger";
+import { TripBuilder } from "./trip.builder";
+import { TripModel } from "./trip.model";
 
 export const batchDurationHours = 24;
 export const tripMaxDurationHours = 12;
 
 export interface IExtractTrips {
-  parseTaxiPositionSnapshots(tripBuilder: TripBuilder, startDate: string, endDate: string): Promise<void>;
+  parseTaxiPositionSnapshots(
+    tripBuilder: TripBuilder,
+    startDate: string,
+    endDate: string
+  ): Promise<void>;
   deleteBatch(date: string): Promise<void>;
   saveBatch(trips: TripModel[]): Promise<void>;
   persistNextBatchDate(date: string): Promise<void>;
 }
 
 export abstract class TripExtractionBase implements IExtractTrips {
-  abstract parseTaxiPositionSnapshots(tripBuilder: TripBuilder, startDate: string, endDate: string): Promise<void>;
+  abstract parseTaxiPositionSnapshots(
+    tripBuilder: TripBuilder,
+    startDate: string,
+    endDate: string
+  ): Promise<void>;
   abstract deleteBatch(date: string): Promise<void>;
   abstract saveBatch(trips: TripModel[]): Promise<void>;
   abstract persistNextBatchDate(date: string): Promise<void>;
@@ -44,8 +52,15 @@ export abstract class TripExtractionBase implements IExtractTrips {
     return tripBuilder;
   }
 
-  private async parseBatch(tripBuilder: TripBuilder, date: string): Promise<void> {
-    await this.parseTaxiPositionSnapshots(tripBuilder, this.getBatchFrom(date), this.getBatchTo(date));
+  private async parseBatch(
+    tripBuilder: TripBuilder,
+    date: string
+  ): Promise<void> {
+    await this.parseTaxiPositionSnapshots(
+      tripBuilder,
+      this.getBatchFrom(date),
+      this.getBatchTo(date)
+    );
     await this.deleteBatch(date); // delete allows for recovering from errors
     await this.saveBatch(tripBuilder.getCompletedTrips());
 
@@ -66,7 +81,9 @@ export abstract class TripExtractionBase implements IExtractTrips {
     return addMS(this.getNextBatchDate(date), -1); // inclusive boundary
   }
 
-  protected ignoreCompletedTripsFromPreviousBatch(tripBuilder: TripBuilder): void {
+  protected ignoreCompletedTripsFromPreviousBatch(
+    tripBuilder: TripBuilder
+  ): void {
     tripBuilder.deleteCompletedTrips();
   }
 }

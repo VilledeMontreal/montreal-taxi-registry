@@ -6,11 +6,11 @@ import { StatusCodes } from 'http-status-codes';
 export class CSVGenerator {
   constructor(private res: any) {}
 
-  DownloadCSV(dataRows: Array<any>, nom: string = 'fichier') {
-    let responseContent: string = '';
+  DownloadCSV(dataRows: Array<any>, nom = 'fichier') {
+    let responseContent = '';
 
     // titres
-    for (var key in dataRows[0]) {
+    for (const key in dataRows[0]) {
       if (key.indexOf('_id') < 0) {
         responseContent += key.toUpperCase() + ';';
       }
@@ -19,7 +19,7 @@ export class CSVGenerator {
     responseContent += '\r\n';
     //body
     dataRows.forEach(function(row) {
-      for (var key in row) {
+      for (const key in row) {
         if (key.indexOf('_id') < 0) {
           responseContent += row[key] + ';';
         }

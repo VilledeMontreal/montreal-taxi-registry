@@ -1,10 +1,16 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { IsDefined, IsNotEmpty, IsOptional, MaxLength, MinLength } from 'class-validator';
-import { DepartmentDto } from '../departments/department.dto';
+import {
+  IsDefined,
+  IsNotEmpty,
+  IsOptional,
+  MaxLength,
+  MinLength,
+} from "class-validator";
+import { DepartmentDto } from "../departments/department.dto";
 
 export class DriverRequestDto {
-  // tslint:disable: variable-name
+  // eslint-disable variable-name
   @IsOptional()
   public birth_date: string;
 
@@ -26,7 +32,7 @@ export class DriverRequestDto {
   public professional_licence: string;
 }
 
-// tslint:disable-next-line: max-classes-per-file
+// eslint-disable-next-line max-classes-per-file
 export class DriverResponseDto {
   public birth_date: string;
   public departement: DepartmentDto;
@@ -36,5 +42,5 @@ export class DriverResponseDto {
 }
 
 export function isLegacyDepartement(numero: string) {
-  return !!('660' === numero);
+  return !!("660" === numero);
 }

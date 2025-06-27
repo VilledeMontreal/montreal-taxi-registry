@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as GeoJSON from 'geojson';
+import * as GeoJSON from "geojson";
 
 export class TaxiPathService {
   public getPositionsFromSnapshots(snapshots: any[]) {
@@ -15,8 +15,8 @@ export class TaxiPathService {
     const geoJsonData = [...snapshots, geoLineString];
 
     return GeoJSON.parse(geoJsonData, {
-      Point: ['lat', 'lon'],
-      LineString: 'line'
+      Point: ["lat", "lon"],
+      LineString: "line",
     });
   }
 }

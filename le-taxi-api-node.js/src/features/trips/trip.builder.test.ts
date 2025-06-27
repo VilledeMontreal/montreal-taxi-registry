@@ -1,20 +1,30 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { assert } from 'chai';
-import { TaxiStatus } from '../../libs/taxiStatus';
-import { addSec, nowUtcIsoString } from '../shared/dateUtils/dateUtils';
-import { TripBuilder } from './trip.builder';
+import { assert } from "chai";
+import { TaxiStatus } from "../../libs/taxiStatus";
+import { addSec, nowUtcIsoString } from "../shared/dateUtils/dateUtils";
+import { TripBuilder } from "./trip.builder";
 
-describe('Trip builder', () => {
-  it('Should be able to extract a simple trip', () => {
+describe("Trip builder", () => {
+  it("Should be able to extract a simple trip", () => {
     const builder = new TripBuilder();
 
     const now = nowUtcIsoString();
     const scenario = [
-      { status: TaxiStatus.Free, lat: '45', lon: '-73', receivedDelta: 5 },
-      { status: TaxiStatus.Occupied, lat: '45.1', lon: '-73.1', receivedDelta: 5 }, // Trip start now + 10
-      { status: TaxiStatus.Occupied, lat: '45.2', lon: '-73.2', receivedDelta: 5 },
-      { status: TaxiStatus.Free, lat: '45.3', lon: '-73.3', receivedDelta: 5 } // Trip end now + 20
+      { status: TaxiStatus.Free, lat: "45", lon: "-73", receivedDelta: 5 },
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.1",
+        lon: "-73.1",
+        receivedDelta: 5,
+      }, // Trip start now + 10
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.2",
+        lon: "-73.2",
+        receivedDelta: 5,
+      },
+      { status: TaxiStatus.Free, lat: "45.3", lon: "-73.3", receivedDelta: 5 }, // Trip end now + 20
     ];
 
     processScenario(builder, scenario, now);
@@ -34,7 +44,7 @@ describe('Trip builder', () => {
     assert.strictEqual(trips[0].arrivalLon, -73.3);
   });
 
-  it('Should return no trips if none processed', () => {
+  it("Should return no trips if none processed", () => {
     const builder = new TripBuilder();
 
     const now = nowUtcIsoString();
@@ -46,15 +56,25 @@ describe('Trip builder', () => {
     assert.strictEqual(trips.length, 0);
   });
 
-  it('Should ignore already started trips at startup', () => {
+  it("Should ignore already started trips at startup", () => {
     const builder = new TripBuilder();
 
     const now = nowUtcIsoString();
     const scenario = [
-      { status: TaxiStatus.Occupied, lat: '45', lon: '-73', receivedDelta: 5 },
-      { status: TaxiStatus.Occupied, lat: '45.1', lon: '-73.1', receivedDelta: 5 },
-      { status: TaxiStatus.Occupied, lat: '45.2', lon: '-73.2', receivedDelta: 5 },
-      { status: TaxiStatus.Free, lat: '45.3', lon: '-73.3', receivedDelta: 5 }
+      { status: TaxiStatus.Occupied, lat: "45", lon: "-73", receivedDelta: 5 },
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.1",
+        lon: "-73.1",
+        receivedDelta: 5,
+      },
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.2",
+        lon: "-73.2",
+        receivedDelta: 5,
+      },
+      { status: TaxiStatus.Free, lat: "45.3", lon: "-73.3", receivedDelta: 5 },
     ];
 
     processScenario(builder, scenario, now);
@@ -63,15 +83,30 @@ describe('Trip builder', () => {
     assert.strictEqual(trips.length, 0);
   });
 
-  it('Should ignore trips not finished', () => {
+  it("Should ignore trips not finished", () => {
     const builder = new TripBuilder();
 
     const now = nowUtcIsoString();
     const scenario = [
-      { status: TaxiStatus.Free, lat: '45', lon: '-73', receivedDelta: 5 },
-      { status: TaxiStatus.Occupied, lat: '45.1', lon: '-73.1', receivedDelta: 5 },
-      { status: TaxiStatus.Occupied, lat: '45.2', lon: '-73.2', receivedDelta: 5 },
-      { status: TaxiStatus.Occupied, lat: '45.3', lon: '-73.3', receivedDelta: 5 }
+      { status: TaxiStatus.Free, lat: "45", lon: "-73", receivedDelta: 5 },
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.1",
+        lon: "-73.1",
+        receivedDelta: 5,
+      },
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.2",
+        lon: "-73.2",
+        receivedDelta: 5,
+      },
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.3",
+        lon: "-73.3",
+        receivedDelta: 5,
+      },
     ];
 
     processScenario(builder, scenario, now);
@@ -80,13 +115,18 @@ describe('Trip builder', () => {
     assert.strictEqual(trips.length, 0);
   });
 
-  it('Should be able to extract trips spanned over two batches', () => {
+  it("Should be able to extract trips spanned over two batches", () => {
     const builder = new TripBuilder();
 
     const nowA = nowUtcIsoString();
     const scenarioA = [
-      { status: TaxiStatus.Free, lat: '45', lon: '-73', receivedDelta: 5 },
-      { status: TaxiStatus.Occupied, lat: '45.1', lon: '-73.1', receivedDelta: 5 } // Trip start nowA + 10
+      { status: TaxiStatus.Free, lat: "45", lon: "-73", receivedDelta: 5 },
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.1",
+        lon: "-73.1",
+        receivedDelta: 5,
+      }, // Trip start nowA + 10
     ];
 
     processScenario(builder, scenarioA, nowA);
@@ -96,8 +136,13 @@ describe('Trip builder', () => {
 
     const nowB = addSec(nowA, 10);
     const scenarioB = [
-      { status: TaxiStatus.Occupied, lat: '45.2', lon: '-73.2', receivedDelta: 5 },
-      { status: TaxiStatus.Free, lat: '45.3', lon: '-73.3', receivedDelta: 5 } // Trip end nowB + 10
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.2",
+        lon: "-73.2",
+        receivedDelta: 5,
+      },
+      { status: TaxiStatus.Free, lat: "45.3", lon: "-73.3", receivedDelta: 5 }, // Trip end nowB + 10
     ];
 
     processScenario(builder, scenarioB, nowB);
@@ -113,14 +158,24 @@ describe('Trip builder', () => {
     assert.strictEqual(tripsB[0].totalDurationSeconds, totalDuration);
   });
 
-  it('Should be able to extract trips ending right between two batches', () => {
+  it("Should be able to extract trips ending right between two batches", () => {
     const builder = new TripBuilder();
 
     const nowA = nowUtcIsoString();
     const scenarioA = [
-      { status: TaxiStatus.Free, lat: '45', lon: '-73', receivedDelta: 5 },
-      { status: TaxiStatus.Occupied, lat: '45.1', lon: '-73.1', receivedDelta: 5 }, // Trip start nowA + 10
-      { status: TaxiStatus.Occupied, lat: '45.2', lon: '-73.2', receivedDelta: 5 }
+      { status: TaxiStatus.Free, lat: "45", lon: "-73", receivedDelta: 5 },
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.1",
+        lon: "-73.1",
+        receivedDelta: 5,
+      }, // Trip start nowA + 10
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.2",
+        lon: "-73.2",
+        receivedDelta: 5,
+      },
     ];
 
     processScenario(builder, scenarioA, nowA);
@@ -129,7 +184,9 @@ describe('Trip builder', () => {
     assert.strictEqual(tripsA.length, 0);
 
     const nowB = addSec(nowA, 15);
-    const scenarioB = [{ status: TaxiStatus.Free, lat: '45.3', lon: '-73.3', receivedDelta: 5 }]; // Trip end nowB + 5
+    const scenarioB = [
+      { status: TaxiStatus.Free, lat: "45.3", lon: "-73.3", receivedDelta: 5 },
+    ]; // Trip end nowB + 5
 
     processScenario(builder, scenarioB, nowB);
 
@@ -144,11 +201,13 @@ describe('Trip builder', () => {
     assert.strictEqual(tripsB[0].totalDurationSeconds, totalDuration);
   });
 
-  it('Should be able to extract trips starting right between two batches', () => {
+  it("Should be able to extract trips starting right between two batches", () => {
     const builder = new TripBuilder();
 
     const nowA = nowUtcIsoString();
-    const scenarioA = [{ status: TaxiStatus.Free, lat: '45', lon: '-73', receivedDelta: 5 }];
+    const scenarioA = [
+      { status: TaxiStatus.Free, lat: "45", lon: "-73", receivedDelta: 5 },
+    ];
 
     processScenario(builder, scenarioA, nowA);
 
@@ -157,9 +216,19 @@ describe('Trip builder', () => {
 
     const nowB = addSec(nowA, 5);
     const scenarioB = [
-      { status: TaxiStatus.Occupied, lat: '45.1', lon: '-73.1', receivedDelta: 5 }, // Trip start nowB + 5
-      { status: TaxiStatus.Occupied, lat: '45.2', lon: '-73.2', receivedDelta: 5 },
-      { status: TaxiStatus.Free, lat: '45.3', lon: '-73.3', receivedDelta: 5 } // Trip end nowB + 15
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.1",
+        lon: "-73.1",
+        receivedDelta: 5,
+      }, // Trip start nowB + 5
+      {
+        status: TaxiStatus.Occupied,
+        lat: "45.2",
+        lon: "-73.2",
+        receivedDelta: 5,
+      },
+      { status: TaxiStatus.Free, lat: "45.3", lon: "-73.3", receivedDelta: 5 }, // Trip end nowB + 15
     ];
 
     processScenario(builder, scenarioB, nowB);
@@ -178,29 +247,39 @@ describe('Trip builder', () => {
 
 function processScenario(builder: TripBuilder, scenario: any[], now: string) {
   let time = now;
-  scenario.forEach(position => {
+  scenario.forEach((position) => {
     time = addSec(time, position.receivedDelta);
-    const snapshot = getTaxiPositionSnapshot(time, position.status, position.lat, position.lon);
+    const snapshot = getTaxiPositionSnapshot(
+      time,
+      position.status,
+      position.lat,
+      position.lon
+    );
     builder.parseTaxiPositionSnapshot(snapshot);
   });
 }
 
-function getTaxiPositionSnapshot(time: string, status: string, lat: string, lon: string) {
+function getTaxiPositionSnapshot(
+  time: string,
+  status: string,
+  lat: string,
+  lon: string
+) {
   return {
     receivedAt: new Date(time),
     items: [
       {
-        taxi: 'taxi',
+        taxi: "taxi",
         lat,
         lon,
         status,
-        operator: '',
-        device: '',
-        version: '',
-        timestamp: '',
+        operator: "",
+        device: "",
+        version: "",
+        timestamp: "",
         speed: 0,
-        azimuth: 0
-      }
-    ]
+        azimuth: 0,
+      },
+    ],
   };
 }

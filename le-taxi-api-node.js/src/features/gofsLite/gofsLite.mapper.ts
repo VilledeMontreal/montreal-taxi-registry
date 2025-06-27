@@ -1,37 +1,51 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { InquiryRequest, InquiryResponse, InquiryResponseData, InquiryTypes } from '../inquiry/inquiry.dto';
+import {
+  InquiryRequest,
+  InquiryResponse,
+  InquiryResponseData,
+  InquiryTypes,
+} from "../inquiry/inquiry.dto";
 import {
   GofsLiteBrandIdTypes,
   GofsLiteRealtimeBookingDataResponseDto,
+  GofsLiteRealtimeBookingRequestDto,
   GofsLiteRealtimeBookingResponseDto,
-  GofsLiteRealtimeBookingRequestDto
-} from './gofsLite.dto';
+} from "./gofsLite.dto";
 
 class GofsLiteMapper {
-  public toInquiryRequest(gofsLiteRealtimeBookingRequest: GofsLiteRealtimeBookingRequestDto): InquiryRequest {
+  public toInquiryRequest(
+    gofsLiteRealtimeBookingRequest: GofsLiteRealtimeBookingRequestDto
+  ): InquiryRequest {
     return {
       from: {
         lat: gofsLiteRealtimeBookingRequest.pickup_lat,
-        lon: gofsLiteRealtimeBookingRequest.pickup_lon
+        lon: gofsLiteRealtimeBookingRequest.pickup_lon,
+        address: gofsLiteRealtimeBookingRequest.pickup_address,
       },
       to: {
         lat: gofsLiteRealtimeBookingRequest.drop_off_lat,
-        lon: gofsLiteRealtimeBookingRequest.drop_off_lon
+        lon: gofsLiteRealtimeBookingRequest.drop_off_lon,
+        address: gofsLiteRealtimeBookingRequest.drop_off_address,
       },
-      inquiryTypes: toInquiryTypes(gofsLiteRealtimeBookingRequest.brand_id)
+      inquiryTypes: toInquiryTypes(gofsLiteRealtimeBookingRequest.brand_id),
     };
   }
 
-  public toGofsLiteRealtimeBookingResponse(inquiryResponse: InquiryResponse): GofsLiteRealtimeBookingResponseDto {
+  public toGofsLiteRealtimeBookingResponse(
+    inquiryResponse: InquiryResponse
+  ): GofsLiteRealtimeBookingResponseDto {
     return {
-      realtime_booking: inquiryResponse.data?.map(data => toRealtimeBookingResponseData(data)) || []
+      realtime_booking:
+        inquiryResponse.data?.map((data) =>
+          toRealtimeBookingResponseData(data)
+        ) || [],
     };
   }
 }
 
 function toInquiryTypes(gofsBrandIds: GofsLiteBrandIdTypes[]): InquiryTypes[] {
-  return gofsBrandIds.map(gofsBrandId => toInquiryType(gofsBrandId));
+  return gofsBrandIds.map((gofsBrandId) => toInquiryType(gofsBrandId));
 }
 
 function toInquiryType(gofsBrandId: GofsLiteBrandIdTypes): InquiryTypes {
@@ -58,21 +72,23 @@ export function toBrandId(inquiryTypes: InquiryTypes): GofsLiteBrandIdTypes {
   }
 }
 
-function toRealtimeBookingResponseData(data: InquiryResponseData): GofsLiteRealtimeBookingDataResponseDto {
+function toRealtimeBookingResponseData(
+  data: InquiryResponseData
+): GofsLiteRealtimeBookingDataResponseDto {
   const hasDestination = !!data.estimatedTravelTime;
   const response = {
     brand_id: toBrandId(data.inquiryType),
     wait_time: data.estimatedWaitTime,
     travel_time: data.estimatedTravelTime,
     travel_cost: data.estimatedPrice,
-    travel_cost_currency: 'CAD',
+    travel_cost_currency: "CAD",
     booking_detail: {
       service_name: data.booking.operator.commercial_name,
       phone_number: data.booking.phoneNumber,
       web_uri: data.booking.webUrl,
       android_uri: data.booking.androidUri,
-      ios_uri: data.booking.iosUri
-    }
+      ios_uri: data.booking.iosUri,
+    },
   };
 
   if (!hasDestination) {

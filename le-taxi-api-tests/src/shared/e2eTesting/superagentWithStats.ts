@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-const agent = require('superagent-use')(require('superagent'));
+const agent = require("superagent-use")(require("superagent"));
 
 agent.use(computeStats);
 
@@ -9,19 +9,19 @@ function computeStats(request: any) {
   computeMaxConcurrentHttpRequest(request);
 }
 
-let totalHttpRequestCount: number = 0;
+let totalHttpRequestCount = 0;
 function computeTotalHttpRequestCount() {
   totalHttpRequestCount++;
 }
 
-let maxConcurrentHttpRequest: number = 0;
-let currentConcurrentHttpRequest: number = 0;
+let maxConcurrentHttpRequest = 0;
+let currentConcurrentHttpRequest = 0;
 function computeMaxConcurrentHttpRequest(request: any) {
   currentConcurrentHttpRequest++;
   if (currentConcurrentHttpRequest > maxConcurrentHttpRequest) {
     maxConcurrentHttpRequest = currentConcurrentHttpRequest;
   }
-  request.on('end', () => {
+  request.on("end", () => {
     currentConcurrentHttpRequest--;
   });
 }
@@ -31,7 +31,7 @@ export function getSuperagentStats() {
 }
 
 export function displaySuperagentStats() {
-  // tslint:disable-next-line: no-console
+  // eslint-disable-next-line no-console
   console.log(getSuperagentStats());
 }
 

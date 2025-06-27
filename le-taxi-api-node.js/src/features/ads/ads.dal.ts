@@ -1,15 +1,18 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { QueryResult } from 'pg';
-import { BadRequestError } from '../errorHandling/errors';
-import { DataOperation } from '../shared/dal/dal-operations.enum';
-import { IDalResponse } from '../shared/dal/dal-response';
-import { postgrePool } from '../shared/taxiPostgre/taxiPostgre';
-import { UserModel } from '../users/user.model';
-import { AdsRequestDto, AdsResponseDto } from './ads.dto';
+import { QueryResult } from "pg";
+import { BadRequestError } from "../errorHandling/errors";
+import { DataOperation } from "../shared/dal/dal-operations.enum";
+import { IDalResponse } from "../shared/dal/dal-response";
+import { postgrePool } from "../shared/taxiPostgre/taxiPostgre";
+import { UserModel } from "../users/user.model";
+import { AdsRequestDto, AdsResponseDto } from "./ads.dto";
 
 class AdsDataAccessLayer {
-  public async upsertAds(adsRequestDto: AdsRequestDto, userModel: UserModel): Promise<IDalResponse> {
+  public async upsertAds(
+    adsRequestDto: AdsRequestDto,
+    userModel: UserModel
+  ): Promise<IDalResponse> {
     const query = `
       SELECT *
       FROM public."ADS"
@@ -18,7 +21,7 @@ class AdsDataAccessLayer {
     const queryResult: QueryResult = await postgrePool.query(query, [
       adsRequestDto.insee,
       adsRequestDto.numero,
-      Number(userModel.id)
+      Number(userModel.id),
     ]);
 
     let foundAds = true;
@@ -27,24 +30,33 @@ class AdsDataAccessLayer {
     }
 
     const persistedAdsId: number = foundAds
-      ? await this.tryUpdateAds(queryResult.rows[0].id, queryResult.rows[0], adsRequestDto)
+      ? await this.tryUpdateAds(
+          queryResult.rows[0].id,
+          queryResult.rows[0],
+          adsRequestDto
+        )
       : await this.tryInsertAds(adsRequestDto, userModel);
 
     const responseDal: IDalResponse = foundAds
       ? {
           entityId: persistedAdsId,
-          dataOperation: DataOperation.Update
+          dataOperation: DataOperation.Update,
         }
       : {
           entityId: persistedAdsId,
-          dataOperation: DataOperation.Create
+          dataOperation: DataOperation.Create,
         };
 
     return responseDal;
   }
 
-  private async tryInsertAds(adsRequestDto: AdsRequestDto, userModel: UserModel): Promise<number> {
-    const zupcParentId = await this.tryGetZupcParentIByInsee(adsRequestDto.insee);
+  private async tryInsertAds(
+    adsRequestDto: AdsRequestDto,
+    userModel: UserModel
+  ): Promise<number> {
+    const zupcParentId = await this.tryGetZupcParentIByInsee(
+      adsRequestDto.insee
+    );
     const query = `
       INSERT INTO
         public."ADS" (
@@ -70,7 +82,7 @@ class AdsDataAccessLayer {
     const queryResult = await postgrePool.query(query, [
       new Date().toISOString(),
       Number(userModel.id),
-      'api',
+      "api",
       adsRequestDto.category,
       false,
       adsRequestDto.insee,
@@ -78,9 +90,9 @@ class AdsDataAccessLayer {
       adsRequestDto.numero,
       adsRequestDto.owner_name,
       adsRequestDto.owner_type,
-      'added_by',
+      "added_by",
       adsRequestDto.vdm_vignette,
-      zupcParentId
+      zupcParentId,
     ]);
     const insertedAds = queryResult.rows[0];
 
@@ -89,12 +101,12 @@ class AdsDataAccessLayer {
 
   private async tryUpdateAds(
     existingAdsId: number,
-    existingAds: QueryResult['rows'][0],
+    existingAds: QueryResult["rows"][0],
     adsRequestDto: AdsRequestDto
   ): Promise<number> {
     const keys = Object.keys(existingAds);
-    keys.forEach(key => {
-      if (typeof adsRequestDto[key] === 'undefined') {
+    keys.forEach((key) => {
+      if (typeof adsRequestDto[key] === "undefined") {
         adsRequestDto[key] = existingAds[key];
       }
     });
@@ -119,7 +131,7 @@ class AdsDataAccessLayer {
       adsRequestDto.owner_type,
       adsRequestDto.vdm_vignette,
       new Date().toISOString(),
-      existingAdsId
+      existingAdsId,
     ]);
 
     return queryResult.rows[0].id;
@@ -159,7 +171,9 @@ class AdsDataAccessLayer {
     const queryResult: QueryResult = await postgrePool.query(query, [insee]);
 
     if (queryResult.rowCount === 0) {
-      throw new BadRequestError(`Unable to find a ZUPC parent for insee: ${insee}`);
+      throw new BadRequestError(
+        `Unable to find a ZUPC parent for insee: ${insee}`
+      );
     }
 
     return queryResult.rows[0].parent_id;

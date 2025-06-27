@@ -4,17 +4,15 @@ export class EntityVerificationResult {
   public static notFound(): EntityVerificationResult {
     return {
       entityExists: false,
-      entityId: null
+      entityId: null,
     };
   }
   public static found(entityId: number): EntityVerificationResult {
     return {
       entityExists: true,
-      entityId
+      entityId,
     };
   }
   public readonly entityExists: boolean;
   public readonly entityId: number;
-
-  private constructor() {}
 }

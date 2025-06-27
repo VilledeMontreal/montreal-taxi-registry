@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
 export type InitTemplate<T> = (templateCopy: T) => void;
 export type CopyTemplate<T> = (init?: InitTemplate<T>) => T;
