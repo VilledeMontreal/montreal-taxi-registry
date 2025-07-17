@@ -51,9 +51,9 @@ export function initializeMetrics(app: core.Express) {
 }
 
 function addMetricsRoute(app: core.Express, route: string) {
-  app.get(route, (req, res, next) => {
+  app.get(route, async (req, res, next) => {
     res.writeHead(200, { "Content-Type": "text/plain" });
-    res.end(void promBundle.promClient.register.metrics());
+    res.end(await promBundle.promClient.register.metrics());
   });
 }
 
