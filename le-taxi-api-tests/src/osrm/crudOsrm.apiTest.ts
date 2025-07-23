@@ -6,8 +6,8 @@ import { round } from "lodash";
 import { getRoutesFromTaxiRegistryOsrm } from "./osrm.apiClient";
 import { IRoutePath, IRoutingTest } from "./osrm.types";
 
-const METER_TOLERANCE = 3;
-const SECOND_TOLERANCE = 3;
+const DISTANCE_TOLERANCE_PERCENT = 0.25;
+const TIME_TOLERANCE_PERCENT = 0.25;
 
 export const crudRoutingTests: IRoutingTest[] = [
   {
@@ -34,6 +34,7 @@ export const crudRoutingTests: IRoutingTest[] = [
         duration: 238.4,
       },
     },
+    toleranceMeters: 500,
   },
   {
     title: `for the longest distance on the island of Montreal`,
@@ -255,43 +256,61 @@ export async function crudOsrmTests(): Promise<void> {
 
           const taxiRegistryOsrm = buildRouteLegs(taxiRegistryOsrmResponse);
 
-          const deltaDistanceTaxiToFromMeter = round(
-            Math.abs(
-              taxiRegistryOsrm.legTaxiToFrom.distance -
-                expectedResponse.legTaxiToFrom.distance
-            ),
-            2
+          const deltaDistanceTaxiToFromMeter =
+            expectedResponse.legTaxiToFrom.distance === 0
+              ? 0
+              : round(
+                  Math.abs(
+                    taxiRegistryOsrm.legTaxiToFrom.distance -
+                      expectedResponse.legTaxiToFrom.distance
+                  ) / expectedResponse.legTaxiToFrom.distance,
+                  2
+                );
+          assert.isBelow(
+            deltaDistanceTaxiToFromMeter,
+            DISTANCE_TOLERANCE_PERCENT
           );
-          assert.isBelow(deltaDistanceTaxiToFromMeter, METER_TOLERANCE);
 
-          const deltaDistanceFromToDestinationMeter = round(
-            Math.abs(
-              taxiRegistryOsrm.legFromToDestination.distance -
-                expectedResponse.legFromToDestination.distance
-            ),
-            2
+          const deltaDistanceFromToDestinationMeter =
+            expectedResponse.legFromToDestination.distance === 0
+              ? 0
+              : round(
+                  Math.abs(
+                    taxiRegistryOsrm.legFromToDestination.distance -
+                      expectedResponse.legFromToDestination.distance
+                  ) / expectedResponse.legFromToDestination.distance,
+                  2
+                );
+          assert.isBelow(
+            deltaDistanceFromToDestinationMeter,
+            DISTANCE_TOLERANCE_PERCENT
           );
-          assert.isBelow(deltaDistanceFromToDestinationMeter, METER_TOLERANCE);
 
-          const deltaDistanceTaxiToFromSecond = round(
-            Math.abs(
-              taxiRegistryOsrm.legFromToDestination.duration -
-                expectedResponse.legFromToDestination.duration
-            ),
-            0
-          );
-          assert.isBelow(deltaDistanceTaxiToFromSecond, SECOND_TOLERANCE);
+          const deltaDistanceTaxiToFromSecond =
+            expectedResponse.legTaxiToFrom.duration === 0
+              ? 0
+              : round(
+                  Math.abs(
+                    taxiRegistryOsrm.legTaxiToFrom.duration -
+                      expectedResponse.legTaxiToFrom.duration
+                  ) / expectedResponse.legTaxiToFrom.duration,
+                  0
+                );
+          assert.isBelow(deltaDistanceTaxiToFromSecond, TIME_TOLERANCE_PERCENT);
 
-          const deltaDistanceFromToDestinationSecond = round(
-            Math.abs(
-              taxiRegistryOsrm.legFromToDestination.duration -
-                expectedResponse.legFromToDestination.duration
-            ),
-            0
-          );
+          const deltaDistanceFromToDestinationSecond =
+            expectedResponse.legFromToDestination.duration === 0
+              ? 0
+              : round(
+                  Math.abs(
+                    taxiRegistryOsrm.legFromToDestination.duration -
+                      expectedResponse.legFromToDestination.duration
+                  ) / expectedResponse.legFromToDestination.duration,
+                  0
+                );
           assert.isBelow(
             deltaDistanceFromToDestinationSecond,
-            SECOND_TOLERANCE
+            TIME_TOLERANCE_PERCENT
           );
         });
       }

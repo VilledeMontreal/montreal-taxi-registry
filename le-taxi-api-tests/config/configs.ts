@@ -92,7 +92,7 @@ export class Configs {
       rootApiKey: this.cache.get<string>('apiTests.rootApiKey'),
       rootPath: this.cache.get<string>('apiTests.rootPath'),
       user: this.cache.get<string>('apiTests.user'),
-      password: this.cache.get<string>('apiTests.password')
+      password: this.cache.get<string>('apiTests.password'),
     };
   }
 
