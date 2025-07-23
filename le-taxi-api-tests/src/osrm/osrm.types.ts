@@ -33,6 +33,8 @@ export interface IRoutingTest {
     to: ICoordinates;
   };
   expectedResponse?: IExpectedResponse;
+  toleranceMeters?: number;
+  toleranceSeconds?: number;
 }
 
 interface IExpectedResponse extends Partial<Response> {

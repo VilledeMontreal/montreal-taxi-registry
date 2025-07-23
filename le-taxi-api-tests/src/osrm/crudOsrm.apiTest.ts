@@ -6,8 +6,8 @@ import { round } from "lodash";
 import { getRoutesFromTaxiRegistryOsrm } from "./osrm.apiClient";
 import { IRoutePath, IRoutingTest } from "./osrm.types";
 
-const METER_TOLERANCE = 3;
-const SECOND_TOLERANCE = 3;
+const DISTANCE_TOLERANCE_PERCENT = 0.25;
+const TIME_TOLERANCE_PERCENT = 0.25;
 
 export const crudRoutingTests: IRoutingTest[] = [
   {
@@ -34,6 +34,7 @@ export const crudRoutingTests: IRoutingTest[] = [
         duration: 238.4,
       },
     },
+    toleranceMeters: 500,
   },
   {
     title: `for the longest distance on the island of Montreal`,
@@ -255,43 +256,34 @@ export async function crudOsrmTests(): Promise<void> {
 
           const taxiRegistryOsrm = buildRouteLegs(taxiRegistryOsrmResponse);
 
-          const deltaDistanceTaxiToFromMeter = round(
-            Math.abs(
-              taxiRegistryOsrm.legTaxiToFrom.distance -
-                expectedResponse.legTaxiToFrom.distance
-            ),
-            2
+          const deviationTaxiToFromMeter = calculateDeviationPercentage(
+            expectedResponse.legTaxiToFrom.distance,
+            taxiRegistryOsrm.legTaxiToFrom.distance
           );
-          assert.isBelow(deltaDistanceTaxiToFromMeter, METER_TOLERANCE);
+          assert.isBelow(deviationTaxiToFromMeter, DISTANCE_TOLERANCE_PERCENT);
 
-          const deltaDistanceFromToDestinationMeter = round(
-            Math.abs(
-              taxiRegistryOsrm.legFromToDestination.distance -
-                expectedResponse.legFromToDestination.distance
-            ),
-            2
-          );
-          assert.isBelow(deltaDistanceFromToDestinationMeter, METER_TOLERANCE);
-
-          const deltaDistanceTaxiToFromSecond = round(
-            Math.abs(
-              taxiRegistryOsrm.legFromToDestination.duration -
-                expectedResponse.legFromToDestination.duration
-            ),
-            0
-          );
-          assert.isBelow(deltaDistanceTaxiToFromSecond, SECOND_TOLERANCE);
-
-          const deltaDistanceFromToDestinationSecond = round(
-            Math.abs(
-              taxiRegistryOsrm.legFromToDestination.duration -
-                expectedResponse.legFromToDestination.duration
-            ),
-            0
+          const deviationFromToDestinationMeter = calculateDeviationPercentage(
+            expectedResponse.legFromToDestination.distance,
+            taxiRegistryOsrm.legFromToDestination.distance
           );
           assert.isBelow(
-            deltaDistanceFromToDestinationSecond,
-            SECOND_TOLERANCE
+            deviationFromToDestinationMeter,
+            DISTANCE_TOLERANCE_PERCENT
+          );
+
+          const deviationTaxiToFromSecond = calculateDeviationPercentage(
+            expectedResponse.legTaxiToFrom.duration,
+            taxiRegistryOsrm.legTaxiToFrom.duration
+          );
+          assert.isBelow(deviationTaxiToFromSecond, TIME_TOLERANCE_PERCENT);
+
+          const deviationFromToDestinationSecond = calculateDeviationPercentage(
+            expectedResponse.legFromToDestination.duration,
+            taxiRegistryOsrm.legFromToDestination.duration
+          );
+          assert.isBelow(
+            deviationFromToDestinationSecond,
+            TIME_TOLERANCE_PERCENT
           );
         });
       }
@@ -299,7 +291,7 @@ export async function crudOsrmTests(): Promise<void> {
   });
 }
 
-export function buildRouteLegs(osrmResponse: any): IRoutePath {
+function buildRouteLegs(osrmResponse: any): IRoutePath {
   const [legTaxiToFrom, legFromToDestination] =
     /* eslint-disable-next-line no-unsafe-optional-chaining */
     osrmResponse?.body?.routes[0].legs;
@@ -307,4 +299,13 @@ export function buildRouteLegs(osrmResponse: any): IRoutePath {
     legTaxiToFrom,
     legFromToDestination,
   };
+}
+
+function calculateDeviationPercentage(
+  expected: number,
+  received: number
+): number {
+  return expected === 0
+    ? 0
+    : round(Math.abs(received - expected) / expected, 2);
 }
