@@ -1,0 +1,9 @@
+{
+  "name": "le-taxi-osrm",
+  "version": "1.0.0",
+  "description": "This repository contain osrm-backend docker image for easy deploy on city of Montreal infrastructure.",
+  "keywords": [
+    "OSRM"
+  ],
+  "license": "ISC"
+}
