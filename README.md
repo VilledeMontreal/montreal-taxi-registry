@@ -82,6 +82,11 @@ Responsibilities:
 - Quickly access the most recent position and status of each taxi.
 - Do geospatial requests.
 
+### OSRM
+Responsibilities:
+- Uses the map of Quebec for routing
+- Estimate distance and duration of the taxi to the user and user from point A to B
+
 ### The UI (User Interface)
 Technologies: Angular, Angular Material, TypeScript
 
@@ -333,6 +338,11 @@ Responsabilités:
 - Persister l’historique des positions et statuts des taxis transmis par les opérateurs.
 - Accès rapide à la position et au statut le plus récent de chacun des taxis.
 - Effectuer des requêtes géospatiales.
+
+### OSRM
+Responsabilités:
+- Utilises la carte du Québec pour le routage
+- Estime la distance et la durée que le taxi met pour se rendre à l'utilisateur et l'utilisateur aller du point A au point B
 
 ### UI (Interface usager)
 Technologie: Angular, Angular Material, TypeScript
