@@ -3,7 +3,7 @@ ARG OSRM_IMAGE=osrm/osrm-backend:v5.25.0
 
 FROM ${OSRM_IMAGE} AS preprocessing
 
-ARG PBF_VERSION=250805
+ARG PBF_VERSION=250101
 ARG PBF_FILE=quebec-latest.osm.pbf
 ARG OSRM_FILE=quebec-latest.osrm
 
