@@ -54,7 +54,15 @@ ctx = pipeline.createContext([
         monitoring: [
             enabled: false,
             path: "/metrics"
-        ]
+        ],
+        overrides: [
+            "accept": [
+                autoScaling: [
+                    minReplicas: 1,
+                    maxReplicas: 1,
+                ],
+            ],
+        ],
     ],
     approval: [
         enable: true,

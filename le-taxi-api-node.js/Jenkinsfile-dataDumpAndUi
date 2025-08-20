@@ -61,7 +61,7 @@ ctx = pipeline.createContext([
             path: "/diagnostics/taxi/taxi-registry/v1/data-dump-and-ui-metrics"
         ],
         overrides: [
-            "dev": [
+            "accept": [
                 autoScaling: [
                     minReplicas: 1,
                     maxReplicas: 1,
