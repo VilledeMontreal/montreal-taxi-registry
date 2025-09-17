@@ -9,6 +9,7 @@ export interface ITaxiDetails {
   ban_end: any;
   bank_check_accepted: boolean;
   bike_accepted: boolean;
+  bonjour: boolean;
   color: string;
   constructor_id: number;
   cpam_conventionne: boolean;

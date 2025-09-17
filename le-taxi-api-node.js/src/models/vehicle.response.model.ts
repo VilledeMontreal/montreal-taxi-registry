@@ -26,6 +26,7 @@ export class VehicleResponseModel {
     bike_accepted?: boolean,
     pet_accepted?: boolean,
     air_con?: boolean,
+    bonjour?: boolean,
     electronic_toll?: boolean,
     gps?: boolean,
     cpam_conventionne?: boolean,
@@ -59,6 +60,7 @@ export class VehicleResponseModel {
     this.bike_accepted = bike_accepted;
     this.pet_accepted = pet_accepted;
     this.air_con = air_con;
+    this.bonjour = bonjour;
     this.electronic_toll = electronic_toll;
     this.gps = gps;
     this.cpam_conventionne = cpam_conventionne;
@@ -94,6 +96,7 @@ export class VehicleResponseModel {
   bike_accepted: boolean;
   pet_accepted: boolean;
   air_con: boolean;
+  bonjour: boolean;
   electronic_toll: boolean;
   gps: boolean;
   cpam_conventionne: boolean;

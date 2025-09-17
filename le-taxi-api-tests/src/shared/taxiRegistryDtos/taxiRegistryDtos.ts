@@ -105,6 +105,7 @@ export interface IVehicle {
     {
       id?: number;
       air_con: boolean;
+      bonjour: boolean;
       horodateur: string;
       color: string;
       date_dernier_ct: string;

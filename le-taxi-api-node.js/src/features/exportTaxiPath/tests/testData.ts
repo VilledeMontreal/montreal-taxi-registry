@@ -39,6 +39,7 @@ export const taxiInfoSample = {
   bike_accepted: false,
   pet_accepted: false,
   air_con: false,
+  bonjour: false,
   electronic_toll: false,
   gps: false,
   cpam_conventionne: false,

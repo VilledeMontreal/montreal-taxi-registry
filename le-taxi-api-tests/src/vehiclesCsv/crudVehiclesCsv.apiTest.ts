@@ -41,6 +41,7 @@ const expectedColumnNames = [
   "BIKE_ACCEPTED",
   "PET_ACCEPTED",
   "AIR_CON",
+  "BONJOUR",
   "ELECTRONIC_TOLL",
   "GPS",
   "CPAM_CONVENTIONNE",

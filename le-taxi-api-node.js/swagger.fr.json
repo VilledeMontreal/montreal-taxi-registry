@@ -6,11 +6,15 @@
   "paths": {
     "/drivers/": {
       "post": {
-        "tags": ["administrative"],
+        "tags": [
+          "administrative"
+        ],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/taxis_Driver" }
+            "schema": {
+              "$ref": "#/definitions/taxis_Driver"
+            }
           }
         },
         "parameters": [
@@ -18,7 +22,9 @@
             "required": true,
             "in": "body",
             "name": "payload",
-            "schema": { "$ref": "#/definitions/taxis_Driver_filter_id_True" }
+            "schema": {
+              "$ref": "#/definitions/taxis_Driver_filter_id_True"
+            }
           }
         ],
         "operationId": "post_drivers"
@@ -26,21 +32,31 @@
     },
     "/taxis/": {
       "post": {
-        "tags": ["taxis"],
+        "tags": [
+          "taxis"
+        ],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/taxi_model" }
+            "schema": {
+              "$ref": "#/definitions/taxi_model"
+            }
           },
-          "403": { "description": "You're not authorized to view it" },
-          "404": { "description": "Resource not found" }
+          "403": {
+            "description": "You're not authorized to view it"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
         },
         "parameters": [
           {
             "required": true,
             "in": "body",
             "name": "payload",
-            "schema": { "$ref": "#/definitions/taxi_expect" }
+            "schema": {
+              "$ref": "#/definitions/taxi_expect"
+            }
           },
           {
             "description": "An optionnal fields mask",
@@ -53,13 +69,19 @@
         "operationId": "post_taxis"
       },
       "get": {
-        "tags": ["taxis"],
+        "tags": [
+          "taxis"
+        ],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/taxi_model" }
+            "schema": {
+              "$ref": "#/definitions/taxi_model"
+            }
           },
-          "403": { "description": "You're not authorized to view it" }
+          "403": {
+            "description": "You're not authorized to view it"
+          }
         },
         "parameters": [
           {
@@ -91,21 +113,31 @@
     },
     "/ads/": {
       "post": {
-        "tags": ["administrative"],
+        "tags": [
+          "administrative"
+        ],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/taxis_ADS_True" }
+            "schema": {
+              "$ref": "#/definitions/taxis_ADS_True"
+            }
           },
-          "403": { "description": "You're not authorized to view it" },
-          "404": { "description": "Resource not found" }
+          "403": {
+            "description": "You're not authorized to view it"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
         },
         "parameters": [
           {
             "required": true,
             "in": "body",
             "name": "payload",
-            "schema": { "$ref": "#/definitions/taxis_ADS_True_filter_id_True" }
+            "schema": {
+              "$ref": "#/definitions/taxis_ADS_True_filter_id_True"
+            }
           }
         ],
         "operationId": "post_ads"
@@ -113,11 +145,15 @@
     },
     "/users/{user_id}": {
       "get": {
-        "tags": ["administrative"],
+        "tags": [
+          "administrative"
+        ],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/user" }
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
           }
         },
         "parameters": [
@@ -140,21 +176,31 @@
     },
     "/vehicles/": {
       "post": {
-        "tags": ["administrative"],
+        "tags": [
+          "administrative"
+        ],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/taxis_Vehicle" }
+            "schema": {
+              "$ref": "#/definitions/taxis_Vehicle"
+            }
           },
-          "403": { "description": "You're not authorized to view it" },
-          "404": { "description": "Resource not found" }
+          "403": {
+            "description": "You're not authorized to view it"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
         },
         "parameters": [
           {
             "required": true,
             "in": "body",
             "name": "payload",
-            "schema": { "$ref": "#/definitions/taxis_Vehicle_filter_id_True" }
+            "schema": {
+              "$ref": "#/definitions/taxis_Vehicle_filter_id_True"
+            }
           },
           {
             "description": "An optionnal fields mask",
@@ -169,14 +215,22 @@
     },
     "/taxis/{taxi_id}/": {
       "put": {
-        "tags": ["taxis"],
+        "tags": [
+          "taxis"
+        ],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": { "$ref": "#/definitions/taxi_model" }
+            "schema": {
+              "$ref": "#/definitions/taxi_model"
+            }
           },
-          "403": { "description": "You're not authorized to view it" },
-          "404": { "description": "Resource not found" }
+          "403": {
+            "description": "You're not authorized to view it"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
         },
         "parameters": [
           {
@@ -189,16 +243,24 @@
             "required": true,
             "in": "body",
             "name": "payload",
-            "schema": { "$ref": "#/definitions/taxi_put_expect" }
+            "schema": {
+              "$ref": "#/definitions/taxi_put_expect"
+            }
           }
         ],
         "operationId": "put_taxi_id"
       },
       "get": {
-        "tags": ["taxis"],
+        "tags": [
+          "taxis"
+        ],
         "responses": {
-          "403": { "description": "You're not authorized to view it" },
-          "404": { "description": "Resource not found" }
+          "403": {
+            "description": "You're not authorized to view it"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
         },
         "parameters": [
           {
@@ -227,11 +289,17 @@
     }
   ],
   "basePath": "/",
-  "produces": ["application/json", "text/html"],
+  "produces": [
+    "application/json",
+    "text/html"
+  ],
   "host": "{{ host }}",
   "definitions": {
     "departement": {
-      "required": ["nom", "numero"],
+      "required": [
+        "nom",
+        "numero"
+      ],
       "properties": {
         "nom": {
           "type": "string",
@@ -246,28 +314,42 @@
     "taxis_ADS_True": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/taxis_ADS_True_details" },
+          "items": {
+            "$ref": "#/definitions/taxis_ADS_True_details"
+          },
           "type": "array"
         }
       }
     },
     "ads_descriptor": {
       "properties": {
-        "insee": { "type": "string" },
-        "numero": { "type": "string" }
+        "insee": {
+          "type": "string"
+        },
+        "numero": {
+          "type": "string"
+        }
       }
     },
     "logo_model": {
       "properties": {
-        "format": { "type": "string" },
-        "href": { "type": "object" },
-        "size": { "type": "string" }
+        "format": {
+          "type": "string"
+        },
+        "href": {
+          "type": "object"
+        },
+        "size": {
+          "type": "string"
+        }
       }
     },
     "taxis_Vehicle": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/taxis_Vehicle_details" },
+          "items": {
+            "$ref": "#/definitions/taxis_Vehicle_details"
+          },
           "type": "array"
         }
       }
@@ -275,19 +357,27 @@
     "taxis_Vehicle_filter_id_True": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/taxis_Vehicle_filter_id_True_details" },
+          "items": {
+            "$ref": "#/definitions/taxis_Vehicle_filter_id_True_details"
+          },
           "type": "array"
         }
       }
     },
     "taxis_Driver_filter_id_True_details": {
-      "required": ["first_name", "last_name", "professional_licence"],
+      "required": [
+        "first_name",
+        "last_name",
+        "professional_licence"
+      ],
       "properties": {
         "birth_date": {
           "type": "date",
           "description": "Date de naissance (format année-mois-jour)"
         },
-        "departement": { "$ref": "#/definitions/departement" },
+        "departement": {
+          "$ref": "#/definitions/departement"
+        },
         "first_name": {
           "type": "string",
           "description": "Prénom du conducteur"
@@ -303,36 +393,63 @@
       }
     },
     "taxi_expect_details": {
-      "required": ["ads", "driver", "vehicle"],
+      "required": [
+        "ads",
+        "driver",
+        "vehicle"
+      ],
       "properties": {
         "status": {
-          "enum": ["free", "occupied", "oncoming", "off"],
+          "enum": [
+            "free",
+            "occupied",
+            "oncoming",
+            "off"
+          ],
           "type": "string",
           "example": "free"
         },
-        "ads": { "$ref": "#/definitions/ads_expect" },
-        "driver": { "$ref": "#/definitions/driver_expect" },
-        "id": { "type": "string" },
-        "vehicle": { "$ref": "#/definitions/vehicle_expect" }
+        "ads": {
+          "$ref": "#/definitions/ads_expect"
+        },
+        "driver": {
+          "$ref": "#/definitions/driver_expect"
+        },
+        "id": {
+          "type": "string"
+        },
+        "vehicle": {
+          "$ref": "#/definitions/vehicle_expect"
+        }
       }
     },
     "user_model": {
       "properties": {
         "logos": {
-          "items": { "$ref": "#/definitions/logo_model" },
+          "items": {
+            "$ref": "#/definitions/logo_model"
+          },
           "type": "array"
         },
-        "name": { "type": "string" }
+        "name": {
+          "type": "string"
+        }
       }
     },
     "taxis_Driver_details": {
-      "required": ["first_name", "last_name", "professional_licence"],
+      "required": [
+        "first_name",
+        "last_name",
+        "professional_licence"
+      ],
       "properties": {
         "birth_date": {
           "type": "date",
           "description": "Date de naissance (format année-mois-jour)"
         },
-        "departement": { "$ref": "#/definitions/departement" },
+        "departement": {
+          "$ref": "#/definitions/departement"
+        },
         "first_name": {
           "type": "string",
           "description": "Prénom du conducteur"
@@ -350,7 +467,9 @@
     "taxi_put_expect": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/api_expect_status" },
+          "items": {
+            "$ref": "#/definitions/api_expect_status"
+          },
           "type": "array",
           "maxItems": 1
         }
@@ -359,7 +478,9 @@
     "taxi_expect": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/taxi_expect_details" },
+          "items": {
+            "$ref": "#/definitions/taxi_expect_details"
+          },
           "type": "array",
           "maxItems": 1
         }
@@ -367,15 +488,26 @@
     },
     "ads_expect": {
       "properties": {
-        "insee": { "type": "string" },
-        "numero": { "type": "string" }
+        "insee": {
+          "type": "string"
+        },
+        "numero": {
+          "type": "string"
+        }
       }
     },
     "api_expect_status": {
-      "required": ["status"],
+      "required": [
+        "status"
+      ],
       "properties": {
         "status": {
-          "enum": ["free", "occupied", "oncoming", "off"],
+          "enum": [
+            "free",
+            "occupied",
+            "oncoming",
+            "off"
+          ],
           "type": "string",
           "example": "free"
         }
@@ -383,63 +515,115 @@
     },
     "coordinates_descriptor": {
       "properties": {
-        "lat": { "type": "number" },
-        "lon": { "type": "number" }
+        "lat": {
+          "type": "number"
+        },
+        "lon": {
+          "type": "number"
+        }
       }
     },
     "taxi_model": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/taxi_descriptor" },
+          "items": {
+            "$ref": "#/definitions/taxi_descriptor"
+          },
           "type": "array"
         }
       }
     },
     "taxi_descriptor": {
-      "required": ["ads", "driver", "vehicle"],
+      "required": [
+        "ads",
+        "driver",
+        "vehicle"
+      ],
       "properties": {
-        "status": { "type": "string" },
-        "rating": { "type": "number" },
-        "ads": { "$ref": "#/definitions/ads_descriptor" },
-        "driver": { "$ref": "#/definitions/driver_descriptor" },
-        "last_update": { "type": "integer" },
-        "crowfly_distance": { "type": "number" },
-        "vehicle": { "$ref": "#/definitions/vehicle_descriptor" },
-        "operator": { "type": "string" },
-        "position": { "$ref": "#/definitions/coordinates_descriptor" },
-        "id": { "type": "string" }
+        "status": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number"
+        },
+        "ads": {
+          "$ref": "#/definitions/ads_descriptor"
+        },
+        "driver": {
+          "$ref": "#/definitions/driver_descriptor"
+        },
+        "last_update": {
+          "type": "integer"
+        },
+        "crowfly_distance": {
+          "type": "number"
+        },
+        "vehicle": {
+          "$ref": "#/definitions/vehicle_descriptor"
+        },
+        "operator": {
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/definitions/coordinates_descriptor"
+        },
+        "id": {
+          "type": "string"
+        }
       }
     },
     "vehicle_descriptor": {
       "properties": {
-        "color": { "type": "string" },
+        "color": {
+          "type": "string"
+        },
         "characteristics": {
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "type": "array",
           "maxItems": 1
         },
-        "nb_seats": { "type": "integer" },
-        "constructor": { "type": "string" },
-        "model": { "type": "string" },
-        "licence_plate": { "type": "string" }
+        "nb_seats": {
+          "type": "integer"
+        },
+        "constructor": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "licence_plate": {
+          "type": "string"
+        }
       }
     },
     "taxis_Driver": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/taxis_Driver_details" },
+          "items": {
+            "$ref": "#/definitions/taxis_Driver_details"
+          },
           "type": "array"
         }
       }
     },
     "taxis_ADS_True_filter_id_True_details": {
-      "required": ["category", "insee", "numero", "owner_name", "owner_type"],
+      "required": [
+        "category",
+        "insee",
+        "numero",
+        "owner_name",
+        "owner_type"
+      ],
       "properties": {
         "category": {
           "type": "string",
           "description": ""
         },
-        "vehicle_id": { "type": "integer" },
+        "vehicle_id": {
+          "type": "integer"
+        },
         "insee": {
           "type": "string",
           "description": "Code INSEE de la commune d'attribution"
@@ -453,7 +637,10 @@
           "description": ""
         },
         "owner_type": {
-          "enum": ["company", "individual"],
+          "enum": [
+            "company",
+            "individual"
+          ],
           "type": "string",
           "description": "",
           "example": "company"
@@ -465,13 +652,21 @@
       }
     },
     "taxis_ADS_True_details": {
-      "required": ["category", "insee", "numero", "owner_name", "owner_type"],
+      "required": [
+        "category",
+        "insee",
+        "numero",
+        "owner_name",
+        "owner_type"
+      ],
       "properties": {
         "category": {
           "type": "string",
           "description": ""
         },
-        "vehicle_id": { "type": "integer" },
+        "vehicle_id": {
+          "type": "integer"
+        },
         "insee": {
           "type": "string",
           "description": "Code INSEE de la commune d'attribution"
@@ -485,7 +680,10 @@
           "description": ""
         },
         "owner_type": {
-          "enum": ["company", "individual"],
+          "enum": [
+            "company",
+            "individual"
+          ],
           "type": "string",
           "description": "",
           "example": "company"
@@ -497,9 +695,15 @@
       }
     },
     "taxis_Vehicle_filter_id_True_details": {
-      "required": ["licence_plate"],
+      "required": [
+        "licence_plate"
+      ],
       "properties": {
         "air_con": {
+          "type": "boolean",
+          "description": ""
+        },
+        "bonjour": {
           "type": "boolean",
           "description": ""
         },
@@ -608,7 +812,12 @@
           "description": ""
         },
         "type_": {
-          "enum": ["sedan", "mpv", "station_wagon", "normal"],
+          "enum": [
+            "sedan",
+            "mpv",
+            "station_wagon",
+            "normal"
+          ],
           "type": "string",
           "description": "",
           "example": "sedan"
@@ -617,32 +826,48 @@
           "type": "integer",
           "description": "Nombre de places assises disponibles pour les voyageurs"
         },
-        "constructor": { "type": "string" },
+        "constructor": {
+          "type": "string"
+        },
         "bike_accepted": {
           "type": "boolean",
           "description": ""
         },
-        "model": { "type": "string" }
+        "model": {
+          "type": "string"
+        }
       }
     },
     "user": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/user_model" },
+          "items": {
+            "$ref": "#/definitions/user_model"
+          },
           "type": "array"
         }
       }
     },
     "driver_descriptor": {
       "properties": {
-        "departement": { "type": "string" },
-        "professional_licence": { "type": "string" }
+        "departement": {
+          "type": "string"
+        },
+        "professional_licence": {
+          "type": "string"
+        }
       }
     },
     "taxis_Vehicle_details": {
-      "required": ["licence_plate"],
+      "required": [
+        "licence_plate"
+      ],
       "properties": {
         "air_con": {
+          "type": "boolean",
+          "description": ""
+        },
+        "bonjour": {
           "type": "boolean",
           "description": ""
         },
@@ -674,7 +899,9 @@
           "type": "boolean",
           "description": ""
         },
-        "id": { "type": "integer" },
+        "id": {
+          "type": "integer"
+        },
         "pet_accepted": {
           "type": "boolean",
           "description": ""
@@ -752,7 +979,12 @@
           "description": ""
         },
         "type_": {
-          "enum": ["sedan", "mpv", "station_wagon", "normal"],
+          "enum": [
+            "sedan",
+            "mpv",
+            "station_wagon",
+            "normal"
+          ],
           "type": "string",
           "description": "",
           "example": "sedan"
@@ -761,18 +993,24 @@
           "type": "integer",
           "description": "Nombre de places assises disponibles pour les voyageurs"
         },
-        "constructor": { "type": "string" },
+        "constructor": {
+          "type": "string"
+        },
         "bike_accepted": {
           "type": "boolean",
           "description": ""
         },
-        "model": { "type": "string" }
+        "model": {
+          "type": "string"
+        }
       }
     },
     "taxis_ADS_True_filter_id_True": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/taxis_ADS_True_filter_id_True_details" },
+          "items": {
+            "$ref": "#/definitions/taxis_ADS_True_filter_id_True_details"
+          },
           "type": "array"
         }
       }
@@ -780,19 +1018,33 @@
     "taxis_Driver_filter_id_True": {
       "properties": {
         "data": {
-          "items": { "$ref": "#/definitions/taxis_Driver_filter_id_True_details" },
+          "items": {
+            "$ref": "#/definitions/taxis_Driver_filter_id_True_details"
+          },
           "type": "array"
         }
       }
     },
-    "vehicle_expect": { "properties": { "licence_plate": { "type": "string" } } },
+    "vehicle_expect": {
+      "properties": {
+        "licence_plate": {
+          "type": "string"
+        }
+      }
+    },
     "driver_expect": {
       "properties": {
-        "departement": { "type": "string" },
-        "professional_licence": { "type": "string" }
+        "departement": {
+          "type": "string"
+        },
+        "professional_licence": {
+          "type": "string"
+        }
       }
     }
   },
   "swagger": "2.0",
-  "consumes": ["application/json"]
+  "consumes": [
+    "application/json"
+  ]
 }

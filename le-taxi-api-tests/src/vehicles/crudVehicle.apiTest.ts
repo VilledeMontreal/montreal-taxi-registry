@@ -44,6 +44,7 @@ export async function crudVehicleTests(): Promise<void> {
     dtoCreate.data[0].baby_seat = null;
     dtoCreate.data[0].bank_check_accepted = null;
     dtoCreate.data[0].bike_accepted = null;
+    dtoCreate.data[0].bonjour = null;
     dtoCreate.data[0].color = null;
     dtoCreate.data[0].cpam_conventionne = null;
     dtoCreate.data[0].credit_card_accepted = null;
@@ -84,6 +85,7 @@ export async function crudVehicleTests(): Promise<void> {
     delete dtoCreate.data[0].baby_seat;
     delete dtoCreate.data[0].bank_check_accepted;
     delete dtoCreate.data[0].bike_accepted;
+    delete dtoCreate.data[0].bonjour;
     delete dtoCreate.data[0].color;
     delete dtoCreate.data[0].cpam_conventionne;
     delete dtoCreate.data[0].credit_card_accepted;
@@ -273,6 +275,7 @@ export async function crudVehicleTests(): Promise<void> {
 export function setAllFlags(dto: IVehicle, value: boolean) {
   const item = dto.data[0];
   item.air_con = value;
+  item.bonjour = value;
   item.credit_card_accepted = value;
   item.electronic_toll = value;
   item.fresh_drink = value;
@@ -296,6 +299,7 @@ export function setAllFlags(dto: IVehicle, value: boolean) {
 function checkAllFlags(dto: IVehicle, value: boolean) {
   const item = dto.data[0];
   assert.strictEqual(item.air_con, value);
+  assert.strictEqual(item.bonjour, value);
   assert.strictEqual(item.credit_card_accepted, value);
   assert.strictEqual(item.electronic_toll, value);
   assert.strictEqual(item.fresh_drink, value);

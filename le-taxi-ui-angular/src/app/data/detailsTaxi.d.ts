@@ -26,6 +26,7 @@ export interface DetailsTaxi {
   baby_seat: boolean;
   bank_check_accepted: boolean;
   bike_accepted: boolean;
+  bonjour: boolean;
   credit_card_accepted: boolean;
   dvd_player: boolean;
   electronic_toll: boolean;

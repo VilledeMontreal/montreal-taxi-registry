@@ -38,6 +38,7 @@ SELECT
   public.vehicle_description.bike_accepted,
   public.vehicle_description.pet_accepted,
   public.vehicle_description.air_con,
+  public.vehicle_description.bonjour,
   public.vehicle_description.electronic_toll,
   public.vehicle_description.gps,
   public.vehicle_description.cpam_conventionne,
@@ -61,4 +62,4 @@ LEFT OUTER JOIN public."user" on public."user".id = public.vehicle_description.a
 ORDER BY id
 `;
 
-export { tableName, insertDateColumn, updateDateColumn, selectAll };
+export { insertDateColumn, selectAll, tableName, updateDateColumn };
