@@ -38,6 +38,10 @@ export class VehicleRequestDto {
   public bike_accepted: boolean;
 
   @IsOptional()
+  @IsBoolean()
+  public bonjour: boolean;
+
+  @IsOptional()
   @IsString()
   @MaxLength(255)
   public color: string;
@@ -183,6 +187,7 @@ export class VehicleResponseDto {
   public baby_seat: boolean;
   public bank_check_accepted: boolean;
   public bike_accepted: boolean;
+  public bonjour: boolean;
   public color: string;
   public ["constructor"]: any;
   public cpam_conventionne: boolean;

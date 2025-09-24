@@ -6,7 +6,9 @@
   "paths": {
     "/drivers/": {
       "post": {
-        "tags": ["administrative"],
+        "tags": [
+          "administrative"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -30,7 +32,9 @@
     },
     "/taxis/": {
       "post": {
-        "tags": ["taxis"],
+        "tags": [
+          "taxis"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -65,7 +69,9 @@
         "operationId": "post_taxis"
       },
       "get": {
-        "tags": ["taxis"],
+        "tags": [
+          "taxis"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -107,7 +113,9 @@
     },
     "/ads/": {
       "post": {
-        "tags": ["administrative"],
+        "tags": [
+          "administrative"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -137,7 +145,9 @@
     },
     "/users/{user_id}": {
       "get": {
-        "tags": ["administrative"],
+        "tags": [
+          "administrative"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -166,7 +176,9 @@
     },
     "/vehicles/": {
       "post": {
-        "tags": ["administrative"],
+        "tags": [
+          "administrative"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -203,7 +215,9 @@
     },
     "/taxis/{taxi_id}/": {
       "put": {
-        "tags": ["taxis"],
+        "tags": [
+          "taxis"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -237,7 +251,9 @@
         "operationId": "put_taxi_id"
       },
       "get": {
-        "tags": ["taxis"],
+        "tags": [
+          "taxis"
+        ],
         "responses": {
           "403": {
             "description": "You're not authorized to view it"
@@ -273,11 +289,17 @@
     }
   ],
   "basePath": "/",
-  "produces": ["application/json", "text/html"],
+  "produces": [
+    "application/json",
+    "text/html"
+  ],
   "host": "{{ host }}",
   "definitions": {
     "departement": {
-      "required": ["nom", "numero"],
+      "required": [
+        "nom",
+        "numero"
+      ],
       "properties": {
         "nom": {
           "type": "string",
@@ -343,7 +365,11 @@
       }
     },
     "taxis_Driver_filter_id_True_details": {
-      "required": ["first_name", "last_name", "professional_licence"],
+      "required": [
+        "first_name",
+        "last_name",
+        "professional_licence"
+      ],
       "properties": {
         "birth_date": {
           "type": "date",
@@ -367,10 +393,19 @@
       }
     },
     "taxi_expect_details": {
-      "required": ["ads", "driver", "vehicle"],
+      "required": [
+        "ads",
+        "driver",
+        "vehicle"
+      ],
       "properties": {
         "status": {
-          "enum": ["free", "occupied", "oncoming", "off"],
+          "enum": [
+            "free",
+            "occupied",
+            "oncoming",
+            "off"
+          ],
           "type": "string",
           "example": "free"
         },
@@ -399,7 +434,11 @@
       }
     },
     "taxis_Driver_details": {
-      "required": ["first_name", "last_name", "professional_licence"],
+      "required": [
+        "first_name",
+        "last_name",
+        "professional_licence"
+      ],
       "properties": {
         "birth_date": {
           "type": "date",
@@ -455,10 +494,17 @@
       }
     },
     "api_expect_status": {
-      "required": ["status"],
+      "required": [
+        "status"
+      ],
       "properties": {
         "status": {
-          "enum": ["free", "occupied", "oncoming", "off"],
+          "enum": [
+            "free",
+            "occupied",
+            "oncoming",
+            "off"
+          ],
           "type": "string",
           "example": "free"
         }
@@ -485,7 +531,11 @@
       }
     },
     "taxi_descriptor": {
-      "required": ["ads", "driver", "vehicle"],
+      "required": [
+        "ads",
+        "driver",
+        "vehicle"
+      ],
       "properties": {
         "status": {
           "type": "string"
@@ -556,7 +606,14 @@
       }
     },
     "taxis_ADS_True_filter_id_True_details": {
-      "required": ["category", "insee", "numero", "owner_name", "owner_type", "vdm_vignette"],
+      "required": [
+        "category",
+        "insee",
+        "numero",
+        "owner_name",
+        "owner_type",
+        "vdm_vignette"
+      ],
       "properties": {
         "category": {
           "type": "string",
@@ -578,7 +635,10 @@
           "description": ""
         },
         "owner_type": {
-          "enum": ["company", "individual"],
+          "enum": [
+            "company",
+            "individual"
+          ],
           "type": "string",
           "description": "",
           "example": "company"
@@ -594,7 +654,14 @@
       }
     },
     "taxis_ADS_True_details": {
-      "required": ["category", "insee", "numero", "owner_name", "owner_type", "vdm_vignette"],
+      "required": [
+        "category",
+        "insee",
+        "numero",
+        "owner_name",
+        "owner_type",
+        "vdm_vignette"
+      ],
       "properties": {
         "category": {
           "type": "string",
@@ -616,7 +683,10 @@
           "description": ""
         },
         "owner_type": {
-          "enum": ["company", "individual"],
+          "enum": [
+            "company",
+            "individual"
+          ],
           "type": "string",
           "description": "",
           "example": "company"
@@ -632,9 +702,15 @@
       }
     },
     "taxis_Vehicle_filter_id_True_details": {
-      "required": ["licence_plate"],
+      "required": [
+        "licence_plate"
+      ],
       "properties": {
         "air_con": {
+          "type": "boolean",
+          "description": ""
+        },
+        "bonjour": {
           "type": "boolean",
           "description": ""
         },
@@ -743,7 +819,12 @@
           "description": ""
         },
         "type_": {
-          "enum": ["sedan", "mpv", "station_wagon", "normal"],
+          "enum": [
+            "sedan",
+            "mpv",
+            "station_wagon",
+            "normal"
+          ],
           "type": "string",
           "description": "",
           "example": "sedan"
@@ -785,9 +866,15 @@
       }
     },
     "taxis_Vehicle_details": {
-      "required": ["licence_plate"],
+      "required": [
+        "licence_plate"
+      ],
       "properties": {
         "air_con": {
+          "type": "boolean",
+          "description": ""
+        },
+        "bonjour": {
           "type": "boolean",
           "description": ""
         },
@@ -899,7 +986,12 @@
           "description": ""
         },
         "type_": {
-          "enum": ["sedan", "mpv", "station_wagon", "normal"],
+          "enum": [
+            "sedan",
+            "mpv",
+            "station_wagon",
+            "normal"
+          ],
           "type": "string",
           "description": "",
           "example": "sedan"
@@ -959,5 +1051,7 @@
     }
   },
   "swagger": "2.0",
-  "consumes": ["application/json"]
+  "consumes": [
+    "application/json"
+  ]
 }

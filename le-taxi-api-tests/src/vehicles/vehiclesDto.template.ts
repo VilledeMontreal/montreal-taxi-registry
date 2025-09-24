@@ -7,6 +7,7 @@ export const copyVehicleTemplate = defineCopyTemplate<IVehicle>({
   data: [
     {
       air_con: false,
+      bonjour: false,
       horodateur: "defaultHorodateur",
       color: "defaultColor",
       date_dernier_ct: "2019-01-01",

@@ -52,6 +52,7 @@ class VehicleDataAccessLayer {
         vd.baby_seat,
         vd.bank_check_accepted,
         vd.bike_accepted,
+        vd.bonjour,
         vd.color,
         vc.name AS constructor,
         vd.cpam_conventionne,
@@ -135,6 +136,7 @@ class VehicleDataAccessLayer {
         vd.bike_accepted,
         vd.pet_accepted,
         vd.air_con,
+        vd.bonjour,
         vd.electronic_toll,
         vd.gps,
         vd.cpam_conventionne,
@@ -366,10 +368,11 @@ class VehicleDataAccessLayer {
           type_,
           vehicle_id,
           wifi,
-          vehicle_identification_number
+          vehicle_identification_number,
+          bonjour
         )
       VALUES
-        ($1::timestamp without time zone, $2::int, $3::sources, $4::boolean, $5::boolean, $6::boolean, $7::boolean, $8::boolean, $9::text, $10::int, $11::boolean, $12::boolean, $13::date, $14::date, $15::boolean, $16::boolean, $17::text, $18::boolean, $19::boolean, $20::boolean, $21::text, $22::float, $23::timestamp without time zone, $24::timestamp without time zone, $25::boolean, $26::int, $27::int, $28::int, $29::boolean, $30::boolean, $31::boolean, $32::text, $33::boolean, $34::boolean, $35::text, $36::vehicle_enum, $37::int, $38::boolean, $39::text)
+        ($1::timestamp without time zone, $2::int, $3::sources, $4::boolean, $5::boolean, $6::boolean, $7::boolean, $8::boolean, $9::text, $10::int, $11::boolean, $12::boolean, $13::date, $14::date, $15::boolean, $16::boolean, $17::text, $18::boolean, $19::boolean, $20::boolean, $21::text, $22::float, $23::timestamp without time zone, $24::timestamp without time zone, $25::boolean, $26::int, $27::int, $28::int, $29::boolean, $30::boolean, $31::boolean, $32::text, $33::boolean, $34::boolean, $35::text, $36::vehicle_enum, $37::int, $38::boolean, $39::text, $40::boolean)
       RETURNING id
     `;
 
@@ -413,6 +416,7 @@ class VehicleDataAccessLayer {
       vehicleId,
       vehicleRequestDto.wifi,
       vehicleRequestDto.vehicle_identification_number,
+      vehicleRequestDto.bonjour,
     ]);
 
     return queryResult.rows[0].id;
@@ -476,8 +480,9 @@ class VehicleDataAccessLayer {
           taximetre = $31::text,
           type_ = $32::vehicle_enum,
           wifi = $33::boolean,
-          vehicle_identification_number = $35::text
-        WHERE vehicle_id = $34::int
+          vehicle_identification_number = $34::text,
+          bonjour = $35::boolean
+        WHERE vehicle_id = $36::int
         RETURNING id
       `;
     const now = new Date().toISOString();
@@ -515,8 +520,9 @@ class VehicleDataAccessLayer {
       vehicleRequestDto.taximetre,
       vehicleRequestDto.type_,
       vehicleRequestDto.wifi,
-      vehicleId,
       vehicleRequestDto.vehicle_identification_number,
+      vehicleRequestDto.bonjour,
+      vehicleId,
     ]);
 
     return queryResult.rows[0].id;

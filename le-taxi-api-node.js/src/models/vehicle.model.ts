@@ -46,6 +46,7 @@ export class VehicleModel {
   bike_accepted: boolean;
   pet_accepted: boolean;
   air_con: boolean;
+  bonjour: boolean;
   electronic_toll: boolean;
   gps: boolean;
   cpam_conventionne: boolean;
