@@ -56,6 +56,12 @@ ctx = pipeline.createContext([
             path: "/metrics"
         ],
         overrides: [
+            "dev": [
+                autoScaling: [
+                    minReplicas: 1,
+                    maxReplicas: 1,
+                ],
+            ],
             "accept": [
                 autoScaling: [
                     minReplicas: 1,
