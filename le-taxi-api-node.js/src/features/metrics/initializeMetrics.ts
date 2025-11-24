@@ -51,6 +51,7 @@ export function initializeMetrics(app: core.Express) {
 }
 
 function addMetricsRoute(app: core.Express, route: string) {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.get(route, async (req, res, next) => {
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.end(await promBundle.promClient.register.metrics());

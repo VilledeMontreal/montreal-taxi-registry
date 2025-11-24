@@ -87,7 +87,7 @@ dataSources:
       user: secret
       password: secret
 taxiAreas:
-  openDataUrl: https://data.montreal.ca/dataset/a305bf87-97af-4f9c-9142-39e7b39f496c/resource/2d8bd708-b6a5-4e6b-88c7-0baef38c18f4/download/postestaxi.geojson
+  openDataUrl: https://donnees.montreal.ca/dataset/abeea64a-6dd8-4166-8b86-629b282b97a1/resource/c6f65256-061c-464c-8be2-a005d7307c98/download/postestaxi.geojson
 caching:
   taxisMaxAgeInSec: 86400
   usersMaxAgeInSec: 86400

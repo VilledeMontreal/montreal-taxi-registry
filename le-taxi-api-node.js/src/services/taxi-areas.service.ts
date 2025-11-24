@@ -13,10 +13,20 @@ class TaxiAreasService {
         if (error || response.statusCode !== StatusCodes.OK) {
           reject(new InternalServerError(error));
         }
-        resolve(JSON.parse(body));
+        try {
+          const cleanBody = stripBom(body);
+          resolve(JSON.parse(cleanBody));
+        }
+        catch (err) {
+          reject(new InternalServerError(err));
+        }
       });
     });
   }
+}
+
+function stripBom(str) {
+  return str.replace(/^\uFEFF/, '');
 }
 
 export const taxiAreasService = new TaxiAreasService();
