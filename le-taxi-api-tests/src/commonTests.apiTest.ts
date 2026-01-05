@@ -16,6 +16,8 @@ import { crudMapTests } from "./map/crudMap.apiTest";
 import { invalidMapTests } from "./map/invalidMap.apiTest";
 import { crudOsrmTests } from "./osrm/crudOsrm.apiTest";
 import { invalidOsrmTests } from "./osrm/invalidOsrm.apiTest";
+import { crudTaxiAreasTests } from "./taxiAreas/crudTaxiAreas.apiTest";
+import { invalidTaxiAreasTests } from "./taxiAreas/invalidTaxiAreas.apiTest";
 import { crudTaxiPositionSnapShotsTests } from "./taxiPositionSnapShots/crudTaxiPositionSnapShots.apiTest";
 import { invalidTaxiPositionSnapShotsTests } from "./taxiPositionSnapShots/invalidTaxiPositionSnapShots.apiTest";
 import { crudTaxiTests } from "./taxis/crudTaxi.apiTest";
@@ -37,6 +39,7 @@ export function commonTests() {
   crudMapTests();
   crudTaxiPositionSnapShotsTests();
   crudTaxiTests();
+  crudTaxiAreasTests();
   crudUserTests();
   crudVehicleTests();
   invalidAdsTests();
@@ -50,6 +53,7 @@ export function commonTests() {
   invalidOsrmTests();
   invalidTaxiPositionSnapShotsTests();
   invalidTaxiTests();
+  invalidTaxiAreasTests();
   invalidUserTests();
   invalidVehicleTests();
 }

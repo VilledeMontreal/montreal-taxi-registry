@@ -3,7 +3,7 @@
 import {
   defineCopyTemplate,
   defineCopyTemplateVariation,
-} from "../shared/copyTemplate/copyTemplate";
+} from "@villedemontreal/concurrent-api-tests";
 import { IAds } from "../shared/taxiRegistryDtos/taxiRegistryDtos";
 
 export const inseeWithPermitSemanticForADS = "102005";

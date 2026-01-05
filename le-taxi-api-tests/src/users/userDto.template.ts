@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import { defineCopyTemplate } from "../shared/copyTemplate/copyTemplate";
+import { defineCopyTemplate } from "@villedemontreal/concurrent-api-tests";
 import { IUser } from "../shared/taxiRegistryDtos/taxiRegistryDtos";
 
 export const copyUserTemplate = defineCopyTemplate<IUser>({

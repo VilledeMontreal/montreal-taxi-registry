@@ -11,7 +11,7 @@ import {
 
 describe("TaxiPathService TESTS", () => {
   const taxiPathService = new TaxiPathService();
-  context("convertDataToGeoJson", () => {
+  describe("convertDataToGeoJson", () => {
     it("should return data in geojson format", () => {
       const geoLineString = Object.assign(geoPositionsSample, taxiInfoSample);
       const geoJson = taxiPathService.generateGeoJson(
@@ -22,7 +22,7 @@ describe("TaxiPathService TESTS", () => {
     });
   });
 
-  context("getPositionFromData", () => {
+  describe("getPositionFromData", () => {
     it("should return positions from taxi position snapshots", () => {
       const positions =
         taxiPathService.getPositionsFromSnapshots(taxiSnapshotSample);

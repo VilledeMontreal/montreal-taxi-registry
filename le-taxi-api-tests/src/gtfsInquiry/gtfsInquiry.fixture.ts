@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { aFewSeconds } from "@villedemontreal/concurrent-api-tests";
 import { configs } from "../../config/configs";
 import { generateApiTestCoordinates } from "../shared/commonLoadTests/specialRegion";
-import { aFewSeconds } from "../shared/commonTests/testUtil";
 import {
   AssetTypes,
   ICoordinateDTO,

@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { getTestRunId } from "@villedemontreal/concurrent-api-tests";
 import { UserRole } from "../shared/commonTests/UserRole";
-import { getTestRunId } from "../shared/e2eTesting/testRunId";
 import { IAds } from "../shared/taxiRegistryDtos/taxiRegistryDtos";
 import { postTaxiRegistry } from "../shared/taxiRegistryHttp/taxiRegistryHttp";
 import { getImmutableUserApiKey } from "../users/user.sharedFixture";

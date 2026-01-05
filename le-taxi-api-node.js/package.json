@@ -6,10 +6,10 @@
   "author": "Ville de Montreal",
   "license": "ISC",
   "scripts": {
-    "start-dev": "npm run tsc && env NODE_ENV=development node -r source-map-support/register src/index.js",
     "start-localhost": "npm run tsc && env NODE_ENV=localhost node -r source-map-support/register src/index.js",
-    "test-dev": "npm run tsc && env NODE_ENV=development NODE_APP_INSTANCE=tests mocha \"src/features/**/*.test.js\" \"src/tests/**/*.test.js\" --require source-map-support/register --timeout 100000 --exit",
-    "test-localhost": "npm run tsc && env NODE_ENV=localhost NODE_APP_INSTANCE=tests mocha \"src/features/**/*.test.js\" \"src/tests/**/*.test.js\" --require source-map-support/register --timeout 100000 --exit",
+    "start-dev": "npm run tsc && env NODE_ENV=development node -r source-map-support/register src/index.js",
+    "test": "tsc && env NODE_ENV=localhost NODE_APP_INSTANCE=tests npm run launch-all-tests",
+    "launch-all-tests": "vitest --run",
     "tsc": "npm run clean && tsc --build tsconfig.json",
     "watch": "npm run clean && tsc --watch --pretty",
     "clean": "rimraf src/**/*.js src/**/*.js.map",
@@ -65,8 +65,7 @@
     "superagent": "9.0.2",
     "uuid": "9.0.1",
     "uuid4": "2.0.3",
-    "xss": "1.0.15",
-    "zlib": "1.0.5"
+    "xss": "1.0.15"
   },
   "devDependencies": {
     "@types/bunyan": "1.8.11",
@@ -77,30 +76,30 @@
     "@types/geojson": "7946.0.14",
     "@types/lodash": "4.17.4",
     "@types/lru-cache": "7.10.9",
-    "@types/mocha": "10.0.6",
     "@types/node": "20.12.12",
     "@types/pg": "8.11.6",
     "@types/request": "2.48.12",
     "@types/superagent": "8.1.7",
     "@typescript-eslint/eslint-plugin": "8.34.1",
     "@typescript-eslint/parser": "8.34.1",
+    "@villedemontreal/concurrent-api-tests": "2.0.1",
     "chai": "4.4.1",
     "chai-http": "4.4.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",
-    "mocha": "10.4.0",
     "prettier": "2.7.1",
     "rimraf": "5.0.7",
     "sonarqube-scanner": "3.5.0",
     "source-map-support": "0.5.21",
     "ts-node": "8.5.4",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "vitest": "4.0.16"
   },
   "peerDependencies": {
     "js-yaml": "^3"
   },
   "engines": {
-    "node": "~20.13.0"
+    "node": ">=22"
   }
 }

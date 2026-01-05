@@ -8,21 +8,22 @@ import {
   getImmutableUser,
   getImmutableUserApiKey,
 } from "../users/user.sharedFixture";
-import { getTaxiCsv } from "./taxiCsv.apiClient";
+import { getTaxiAreas } from "./taxiAreas.apiClient";
 
-export async function invalidTaxiCsvTests(): Promise<void> {
-  testTaxiCsvAccessInvalid(UserRole.Stats);
-  testTaxiCsvAccessInvalid(UserRole.Motor);
-  testTaxiCsvAccessInvalid(UserRole.Prefecture);
-  testTaxiCsvAccessInvalid(UserRole.Operator);
+// eslint-disable-next-line max-lines-per-function
+export async function invalidTaxiAreasTests(): Promise<void> {
+  testTaxiAreasAccessInvalid(UserRole.Operator);
+  testTaxiAreasAccessInvalid(UserRole.Stats);
+  testTaxiAreasAccessInvalid(UserRole.Motor);
+  testTaxiAreasAccessInvalid(UserRole.Prefecture);
 }
 
-function testTaxiCsvAccessInvalid(role: UserRole) {
-  it(`User with role ${UserRole[role]} should not be able to access taxi CSV file `, async () => {
+function testTaxiAreasAccessInvalid(role: UserRole) {
+  it(`User with role ${UserRole[role]} should not be able to access taxi areas `, async () => {
     const operator = await getImmutableUser(UserRole.Operator);
     const apiKey = await getImmutableUserApiKey(role);
     await shouldThrow(
-      () => getTaxiCsv(operator.email, apiKey),
+      () => getTaxiAreas(operator.email, apiKey),
       (err) => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(

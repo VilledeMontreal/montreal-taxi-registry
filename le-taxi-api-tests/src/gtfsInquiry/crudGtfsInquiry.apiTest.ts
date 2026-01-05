@@ -1,5 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { aFewSeconds } from "@villedemontreal/concurrent-api-tests";
 import { assert } from "chai";
 import { StatusCodes } from "http-status-codes";
 import { configs } from "../../config/configs";
@@ -8,7 +9,6 @@ import {
   getAirportCoordinates,
   getDowntownCoordinates,
 } from "../shared/commonLoadTests/specialRegion";
-import { aFewSeconds } from "../shared/commonTests/testUtil";
 import { UserRole } from "../shared/commonTests/UserRole";
 import { AssetTypes } from "../shared/taxiRegistryDtos/taxiRegistryDtos";
 import { createPromotedOperator, updateUser } from "../users/user.apiClient";

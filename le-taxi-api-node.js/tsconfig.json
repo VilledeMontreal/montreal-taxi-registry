@@ -7,24 +7,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "types": [
-      "mocha",
-      "node"
-    ]
+    "types": ["vitest/globals", "node"]
   },
-  "include": [
-    "src/**/*.ts",
-    "scripts/**/*.ts"
-  ],
-  "exclude": [
-    "@types",
-    "node_modules"
-  ],
+  "include": ["src/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["@types", "node_modules"],
   "paths": {
-    "*": [
-      "*",
-      "./@types/*"
-    ]
+    "*": ["*", "./@types/*"]
   },
   "rules": {
     "no-console": false

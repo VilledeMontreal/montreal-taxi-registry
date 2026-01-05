@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
+    "outDir": "dist", // To allow for coexisting with vitest compilation
+    "types": ["vitest/globals"], // To avoid importing vitest everywhere
     "sourceMap": true,
     "pretty": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "ignoreDeprecations": "5.0",
     "resolveJsonModule": true
-  }
+  },
+  "exclude": ["dist"]
 }

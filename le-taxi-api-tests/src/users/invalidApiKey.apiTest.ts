@@ -3,12 +3,10 @@
 import { assert } from "chai";
 import { StatusCodes } from "http-status-codes";
 
+import { shouldThrow } from "@villedemontreal/concurrent-api-tests";
 import { getAbsoluteUrl } from "../../config/configs";
 import { copyDriverTemplate } from "../drivers/driverDto.template";
-import {
-  getCurrentUnixTime,
-  shouldThrow,
-} from "../shared/commonTests/testUtil";
+import { getCurrentUnixTime } from "../shared/commonTests/testUtil";
 import { superagentWithStats } from "../shared/e2eTesting/superagentWithStats";
 import { copyTaxiPositionTemplate } from "../taxiPositionSnapShots/taxiPositionSnapShotsDto.template";
 

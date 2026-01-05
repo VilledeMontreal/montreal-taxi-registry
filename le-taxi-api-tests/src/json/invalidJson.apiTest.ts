@@ -3,7 +3,7 @@
 import { assert } from "chai";
 import { StatusCodes } from "http-status-codes";
 
-import { shouldThrow } from "../shared/commonTests/testUtil";
+import { shouldThrow } from "@villedemontreal/concurrent-api-tests";
 import { UserRole } from "../shared/commonTests/UserRole";
 import { postDtoIsString } from "../shared/taxiRegistryHttp/taxiRegistryHttp";
 import { setupNewTaxi } from "../taxis/taxi.fixture";

@@ -1,8 +1,11 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 /* eslint-disable */
+import {
+  aFewSeconds,
+  shouldThrow,
+} from "@villedemontreal/concurrent-api-tests";
 import { assert } from "chai";
-import { aFewSeconds, shouldThrow } from "../commonTests/testUtil";
 import { ModelMapCache } from "./modelMapCache";
 
 const cacheMaximumCapacity = 3;

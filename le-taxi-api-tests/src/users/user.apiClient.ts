@@ -1,10 +1,12 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import {
+  aFewSeconds,
+  getTestRunId,
+} from "@villedemontreal/concurrent-api-tests";
 import { v4 as uuidv4 } from "uuid";
 import { configs } from "../../config/configs";
-import { aFewSeconds } from "../shared/commonTests/testUtil";
 import { UserRole } from "../shared/commonTests/UserRole";
-import { getTestRunId } from "../shared/e2eTesting/testRunId";
 import { IUser } from "../shared/taxiRegistryDtos/taxiRegistryDtos";
 import {
   getSimpleUsingAccessToken,
