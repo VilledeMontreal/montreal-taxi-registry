@@ -6,7 +6,7 @@ class TripEstimateProcessor {
   public async process(
     sampleId: number,
     startDate: string,
-    endDate: string
+    endDate: string,
   ): Promise<void> {
     tripEstimateExtractionStrategy.setSampleId(sampleId);
     await tripEstimateExtractionStrategy.extract(startDate, endDate);

@@ -14,7 +14,7 @@ class TripController {
       configs.environment.type !== constants.Environments.DEV
     ) {
       throw new UnauthorizedError(
-        "Blocked service for this environment - feature will be completed in the future"
+        "Blocked service for this environment - feature will be completed in the future",
       );
     }
 

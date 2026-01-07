@@ -3,7 +3,7 @@
 import { Request } from "express";
 import parsePhoneNumberFromString from "libphonenumber-js";
 import { alphabets, character } from "passhelp";
-import * as uuid from "uuid4";
+import uuid from "uuid4";
 import { configs } from "../../config/configs";
 import { BadRequestError } from "../errorHandling/errors";
 import { addSec, nowUtcIsoString } from "../shared/dateUtils/dateUtils";
@@ -14,7 +14,7 @@ import { userRepository } from "./user.repository";
 import { UserRoleId } from "./userRole";
 
 export async function validateUserRequest(
-  request: Request
+  request: Request,
 ): Promise<UserRequestDto> {
   const data = request && request.body;
 
@@ -43,7 +43,7 @@ export function validateUpdateApikeyRequest(request: Request): any {
 }
 
 export function prepareDtoForInsertion(
-  userRequestDto: UserRequestDto
+  userRequestDto: UserRequestDto,
 ): UserRequestDto {
   const user = sanitizeDto(userRequestDto);
 
@@ -57,7 +57,7 @@ export function prepareDtoForInsertion(
 }
 
 export async function prepareDtoForUpdate(
-  userRequestDto: UserRequestDto
+  userRequestDto: UserRequestDto,
 ): Promise<UserRequestDto> {
   const user = sanitizeDto(userRequestDto);
   const previousUser = await userRepository.getUserById(userRequestDto.id);
@@ -67,17 +67,17 @@ export async function prepareDtoForUpdate(
 
 function updateInquiriesStartTime(
   user: UserRequestDto,
-  previousUser: UserModel = null
+  previousUser: UserModel = null,
 ): UserRequestDto {
   const startTime = addSec(
     nowUtcIsoString(),
-    configs.inquiries.promotionDelayInSec
+    configs.inquiries.promotionDelayInSec,
   );
 
   if (
     promotionStateChanged(
       user.standard_booking_is_promoted_to_public,
-      previousUser?.standard_booking_is_promoted_to_public ?? false
+      previousUser?.standard_booking_is_promoted_to_public ?? false,
     )
   ) {
     user.standard_booking_inquiries_starts_at =
@@ -87,7 +87,7 @@ function updateInquiriesStartTime(
   if (
     promotionStateChanged(
       user.minivan_booking_is_promoted_to_public,
-      previousUser?.minivan_booking_is_promoted_to_public ?? false
+      previousUser?.minivan_booking_is_promoted_to_public ?? false,
     )
   ) {
     user.minivan_booking_inquiries_starts_at =
@@ -97,7 +97,7 @@ function updateInquiriesStartTime(
   if (
     promotionStateChanged(
       user.special_need_booking_is_promoted_to_public,
-      previousUser?.special_need_booking_is_promoted_to_public ?? false
+      previousUser?.special_need_booking_is_promoted_to_public ?? false,
     )
   ) {
     user.special_need_booking_inquiries_starts_at =
@@ -115,10 +115,10 @@ function sanitizeDto(userRequestDto: UserRequestDto): UserRequestDto {
   const user = Object.assign(new UserRequestDto(), userRequestDto);
   user.phone_number_technical = parsePhoneNumber(user.phone_number_technical);
   user.standard_booking_phone_number = parsePhoneNumber(
-    user.standard_booking_phone_number
+    user.standard_booking_phone_number,
   );
   user.special_need_booking_phone_number = parsePhoneNumber(
-    user.special_need_booking_phone_number
+    user.special_need_booking_phone_number,
   );
   user.standard_booking_is_promoted_to_public =
     user.standard_booking_is_promoted_to_public ?? false;
@@ -163,7 +163,7 @@ function ensureOperatorHasWebsiteUrl(user: UserRequestDto): void {
 }
 
 function ensureMinimalInformationForPublicPromotion(
-  user: UserRequestDto
+  user: UserRequestDto,
 ): void {
   ensureStandardBookingMinimalInformation(user);
   ensureMinivanBookingMinimalInformation(user);
@@ -177,7 +177,7 @@ function ensureStandardBookingMinimalInformation(user: UserRequestDto) {
     !user.standard_booking_android_store_uri
   ) {
     throw new BadRequestError(
-      "In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)"
+      "In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)",
     );
   }
 
@@ -187,7 +187,7 @@ function ensureStandardBookingMinimalInformation(user: UserRequestDto) {
     !user.standard_booking_ios_store_uri
   ) {
     throw new BadRequestError(
-      "In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)"
+      "In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)",
     );
   }
 
@@ -203,7 +203,7 @@ function ensureStandardBookingMinimalInformation(user: UserRequestDto) {
     )
   ) {
     throw new BadRequestError(
-      "In order to promote publicly standard taxis, at least one of these means should be provided: Phone, Web, or App (Android & iOS)"
+      "In order to promote publicly standard taxis, at least one of these means should be provided: Phone, Web, or App (Android & iOS)",
     );
   }
 }
@@ -214,7 +214,7 @@ function ensureMinivanBookingMinimalInformation(user: UserRequestDto) {
     !user.standard_booking_is_promoted_to_public
   ) {
     throw new BadRequestError(
-      "In order to promote publicly minivans, standard booking must be available"
+      "In order to promote publicly minivans, standard booking must be available",
     );
   }
 
@@ -223,7 +223,7 @@ function ensureMinivanBookingMinimalInformation(user: UserRequestDto) {
     !user.standard_booking_website_url
   ) {
     throw new BadRequestError(
-      "In order to promote publicly minivans from web, standard booking from web must be available"
+      "In order to promote publicly minivans from web, standard booking from web must be available",
     );
   }
 
@@ -232,7 +232,7 @@ function ensureMinivanBookingMinimalInformation(user: UserRequestDto) {
     !user.standard_booking_android_deeplink_uri
   ) {
     throw new BadRequestError(
-      "In order to promote publicly minivans from android, standard booking from android must be available"
+      "In order to promote publicly minivans from android, standard booking from android must be available",
     );
   }
 
@@ -241,7 +241,7 @@ function ensureMinivanBookingMinimalInformation(user: UserRequestDto) {
     !user.standard_booking_ios_deeplink_uri
   ) {
     throw new BadRequestError(
-      "In order to promote publicly minivans from iOS, standard booking from iOS must be available"
+      "In order to promote publicly minivans from iOS, standard booking from iOS must be available",
     );
   }
 
@@ -255,7 +255,7 @@ function ensureMinivanBookingMinimalInformation(user: UserRequestDto) {
     )
   ) {
     throw new BadRequestError(
-      "In order to promote publicly standard minivans, at least one of these means should be provided: Phone, Web, or App (Android & iOS)"
+      "In order to promote publicly standard minivans, at least one of these means should be provided: Phone, Web, or App (Android & iOS)",
     );
   }
 }
@@ -267,7 +267,7 @@ function ensureSpecialNeedBookingMinimalInformation(user: UserRequestDto) {
     !user.special_need_booking_android_store_uri
   ) {
     throw new BadRequestError(
-      "In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)"
+      "In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)",
     );
   }
 
@@ -277,7 +277,7 @@ function ensureSpecialNeedBookingMinimalInformation(user: UserRequestDto) {
     !user.special_need_booking_ios_store_uri
   ) {
     throw new BadRequestError(
-      "In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)"
+      "In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)",
     );
   }
 
@@ -293,7 +293,7 @@ function ensureSpecialNeedBookingMinimalInformation(user: UserRequestDto) {
     )
   ) {
     throw new BadRequestError(
-      "In order to promote publicly special need taxis, at least one of these means should be provided: Phone, Web, or App (Android & iOS)"
+      "In order to promote publicly special need taxis, at least one of these means should be provided: Phone, Web, or App (Android & iOS)",
     );
   }
 }

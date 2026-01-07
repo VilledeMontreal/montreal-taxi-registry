@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import assert = require("assert");
-import * as turf from "@turf/helpers";
-import * as turfLength from "@turf/length";
+import { lineString } from "@turf/helpers";
+import turfLength from "@turf/length";
 import { TaxiStatus } from "../../libs/taxiStatus";
 import { ICoordinates } from "../shared/coordinates/coordinates";
 import { durationInSeconds } from "../shared/dateUtils/dateUtils";
@@ -34,7 +34,7 @@ export class TripParser {
 
   public parseTaxiPosition(
     taxiPosition: TaxiPositionSnapshotItemRequestDto,
-    receivedAt: string
+    receivedAt: string,
   ): void {
     assert.ok(this._taxiId === taxiPosition.taxi);
 
@@ -112,7 +112,7 @@ export class TripParser {
     if (this._lastPosition) {
       const durationSeconds = durationInSeconds(
         this._lastPositionReceivedAt,
-        receivedAt
+        receivedAt,
       );
       const distanceMeters = getDistanceInMeters([
         [this._lastPosition.lon, this._lastPosition.lat],
@@ -142,7 +142,7 @@ export class TripParser {
   private fillEndTripFields() {
     this._currentTrip.totalDurationSeconds = durationInSeconds(
       this._currentTrip.departureTime,
-      this._currentTrip.arrivalTime
+      this._currentTrip.arrivalTime,
     );
     this._currentTrip.distanceMeters = getDistanceInMeters(this._positions);
     this._currentTrip.coordinates = asMultiPoint(
@@ -150,7 +150,7 @@ export class TripParser {
         lat: this._currentTrip.departureLat,
         lon: this._currentTrip.departureLon,
       },
-      { lat: this._currentTrip.arrivalLat, lon: this._currentTrip.arrivalLon }
+      { lat: this._currentTrip.arrivalLat, lon: this._currentTrip.arrivalLon },
     );
     this._currentTrip.path = asLineString(this._positions);
     [this._currentTrip.confidence, this._currentTrip.confidenceReason] =
@@ -215,8 +215,8 @@ export class TripParser {
 function getDistanceInMeters(positions: number[][]) {
   if (positions.length < 2) return 0;
 
-  const line = turf.lineString(positions);
-  return turfLength.default(line, { units: "meters" });
+  const line = lineString(positions);
+  return turfLength(line, { units: "meters" });
 }
 
 function validateDuration(trip: TripModel, durationSeconds: number) {
@@ -229,7 +229,7 @@ function validateDuration(trip: TripModel, durationSeconds: number) {
 function validateSpeed(
   trip: TripModel,
   durationSeconds: number,
-  distanceMeters: number
+  distanceMeters: number,
 ) {
   // Speed limit to 360 km/h due to accomodate some tolerance on the position accuracy
   if (distanceMeters / durationSeconds > 100) {

@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as _ from "lodash";
+import _ from "lodash";
 import { configs } from "../../../config/configs";
 
 // Format in docker farm /api/taxi

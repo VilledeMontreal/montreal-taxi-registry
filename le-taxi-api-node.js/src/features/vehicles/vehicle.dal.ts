@@ -15,11 +15,11 @@ import { VehicleRequestDto, VehicleResponseDto } from "./vehicle.dto";
 class VehicleDataAccessLayer {
   public async upsertVehicle(
     vehicleDto: VehicleRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): Promise<IDalResponse> {
     const persistedVehicleId: number = await this.tryCreateVehicleIfNotExists(
       vehicleDto.licence_plate,
-      Number(userModel.id)
+      Number(userModel.id),
     );
     const persistedModelId: number = vehicleDto.model
       ? await this.createModelIfNotExists(vehicleDto.model)
@@ -34,7 +34,7 @@ class VehicleDataAccessLayer {
       userModel,
       persistedModelId,
       persistedConstructorId,
-      persistedVehicleId
+      persistedVehicleId,
     );
 
     dalResponse.entityId = persistedVehicleId;
@@ -43,7 +43,7 @@ class VehicleDataAccessLayer {
 
   public async getVehicleById(
     vehicleId: string,
-    operator?: string
+    operator?: string,
   ): Promise<VehicleResponseDto> {
     const select = `
       SELECT
@@ -182,7 +182,7 @@ class VehicleDataAccessLayer {
 
   private async tryCreateVehicleIfNotExists(
     licencePlate: string,
-    userId: number
+    userId: number,
   ): Promise<number> {
     let query = `
       SELECT v.id
@@ -200,7 +200,7 @@ class VehicleDataAccessLayer {
 
     if (queryResult.rowCount > 1) {
       throw new BadRequestError(
-        `More than one vehicle was found with licence plate '${licencePlate}'`
+        `More than one vehicle was found with licence plate '${licencePlate}'`,
       );
     }
 
@@ -241,7 +241,7 @@ class VehicleDataAccessLayer {
   }
 
   private async createConstructorIfNotExists(
-    manufacturerName: string
+    manufacturerName: string,
   ): Promise<number> {
     if (!manufacturerName) {
       return null;
@@ -275,7 +275,7 @@ class VehicleDataAccessLayer {
     userModel: UserModel,
     modelId: number,
     constructorId: number,
-    vehicleId: number
+    vehicleId: number,
   ): Promise<IDalResponse> {
     const query = `
       SELECT *
@@ -297,14 +297,14 @@ class VehicleDataAccessLayer {
           modelId,
           constructorId,
           queryResult.rows,
-          vehicleDto
+          vehicleDto,
         )
       : await this.insertVehicleDescription(
           vehicleId,
           modelId,
           constructorId,
           vehicleDto,
-          userModel
+          userModel,
         );
 
     const responseDal: IDalResponse = foundVehicleDescription
@@ -325,7 +325,7 @@ class VehicleDataAccessLayer {
     modelId: number,
     constructorId: number,
     vehicleRequestDto: VehicleRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): Promise<number> {
     const query = `
       INSERT INTO
@@ -427,7 +427,7 @@ class VehicleDataAccessLayer {
     modelId: number,
     constructorId: number,
     foundVehicleDescription: QueryResult["rows"],
-    vehicleRequestDto: VehicleRequestDto
+    vehicleRequestDto: VehicleRequestDto,
   ): Promise<number> {
     const keys = Object.keys(foundVehicleDescription[0]);
     keys.forEach((key) => {
@@ -545,7 +545,7 @@ class VehicleDataAccessLayer {
   }
 
   private async getConstructorIdByVehicleId(
-    vehicleId: number
+    vehicleId: number,
   ): Promise<number> {
     const query = `
       SELECT constructor_id

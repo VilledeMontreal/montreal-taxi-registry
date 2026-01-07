@@ -17,7 +17,7 @@ class TaxiDataDumpsAccessLayer {
       tableName,
       insertDateColumn,
       updateDateColumn,
-      operator
+      operator,
     );
   }
 

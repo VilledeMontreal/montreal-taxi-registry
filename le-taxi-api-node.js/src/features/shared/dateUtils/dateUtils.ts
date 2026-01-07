@@ -20,8 +20,8 @@ function asUtcIsoString(date: string): string {
       localDate.getHours(),
       localDate.getMinutes(),
       localDate.getSeconds(),
-      localDate.getMilliseconds()
-    )
+      localDate.getMilliseconds(),
+    ),
   ).toISOString();
 }
 
@@ -79,7 +79,7 @@ function durationInSeconds(startDate: string, endDate: string): number {
 function addToDate(
   callback: (d: Date, n: number) => void,
   date: string,
-  value: number
+  value: number,
 ): string {
   if (!isUtcIsoString(date))
     throw new Error(`Date must be in UtcIsoString format: ${date}`);
@@ -92,7 +92,7 @@ function addYears(date: string, years: number): string {
   return addToDate(
     (d, n) => d.setUTCFullYear(d.getUTCFullYear() + n),
     date,
-    years
+    years,
   );
 }
 
@@ -111,10 +111,10 @@ function addHours(date: string, hours: number): string {
         d.getUTCHours() + n,
         d.getMinutes(),
         d.getSeconds(),
-        d.getMilliseconds()
+        d.getMilliseconds(),
       ),
     date,
-    hours
+    hours,
   );
 }
 
@@ -123,7 +123,7 @@ function addMinutes(date: string, minutes: number): string {
     (d, n) =>
       d.setMinutes(d.getMinutes() + n, d.getSeconds(), d.getMilliseconds()),
     date,
-    minutes
+    minutes,
   );
 }
 
@@ -131,7 +131,7 @@ function addSec(date: string, sec: number): string {
   return addToDate(
     (d, n) => d.setSeconds(d.getSeconds() + n, d.getMilliseconds()),
     date,
-    sec
+    sec,
   );
 }
 
@@ -139,7 +139,7 @@ function addMS(date: string, ms: number): string {
   return addToDate(
     (d, n) => d.setMilliseconds(d.getMilliseconds() + n),
     date,
-    ms
+    ms,
   );
 }
 

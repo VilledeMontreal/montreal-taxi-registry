@@ -16,7 +16,7 @@ class LatestTaxiPositionRepository {
   public async findClosestTaxis(
     coordinate: ICoordinates,
     inquiryTypes: InquiryTypes[],
-    operators: number[] = null
+    operators: number[] = null,
   ): Promise<LatestTaxiPositionModelExtended[]> {
     const db = getMongoDb();
 
@@ -38,22 +38,22 @@ class LatestTaxiPositionRepository {
 
     const results = await Promise.all(
       filters.map((filter) =>
-        db.collection("latestTaxiPositions").findOne(filter)
-      )
+        db.collection("latestTaxiPositions").findOne(filter),
+      ),
     );
 
     return results
       .map((result, i) =>
         latestTaxiPositionMapper.mongoToLatestTaxiPositionModelExtended(
           result,
-          inquiryTypes[i]
-        )
+          inquiryTypes[i],
+        ),
       )
       .filter((result) => !!result);
   }
 
   public async getLatestTaxiPositionByTaxiId(
-    id: string
+    id: string,
   ): Promise<LatestTaxiPositionModel> {
     const db = getMongoDb();
     const result = await db
@@ -69,12 +69,12 @@ class LatestTaxiPositionRepository {
       .find({})
       .toArray();
     return results.map((result) =>
-      latestTaxiPositionMapper.mongoToLatestTaxiPositionModel(result)
+      latestTaxiPositionMapper.mongoToLatestTaxiPositionModel(result),
     );
   }
 
   public async saveLatestTaxiPositions(
-    latestTaxiPositions: LatestTaxiPositionModel[]
+    latestTaxiPositions: LatestTaxiPositionModel[],
   ): Promise<void> {
     if (latestTaxiPositions.length === 0) return;
 

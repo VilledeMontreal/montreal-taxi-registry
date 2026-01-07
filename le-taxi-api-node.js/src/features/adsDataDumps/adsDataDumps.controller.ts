@@ -21,12 +21,12 @@ class AdsDataDumpsController {
     validateEncoding(request);
 
     const lastDate = await adsDataDumpsAccessLayer.getLastDate(
-      request.query.operator as string
+      request.query.operator as string,
     );
     validateEtag(request, lastDate);
 
     const stream = await adsDataDumpsAccessLayer.getStream(
-      request.query.operator as string
+      request.query.operator as string,
     );
     response.setHeader("etag", generateEtag(lastDate));
 

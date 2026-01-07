@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import booleanContains from "@turf/boolean-contains";
-import * as turf from "@turf/helpers";
+import turf from "@turf/helpers";
 import { configs } from "../../config/configs";
 import { BadRequestError } from "../errorHandling/errors";
 import { ICoordinates } from "../shared/coordinates/coordinates";
@@ -9,7 +9,7 @@ import { airportGeometry } from "../shared/locations/locations";
 import { InquiryRequest, InquiryTypes } from "./inquiry.dto";
 
 export function validateInquiryRequest(
-  inquiryRequest: InquiryRequest
+  inquiryRequest: InquiryRequest,
 ): InquiryRequest {
   validateYulTaxiRestrictedArea(inquiryRequest.from);
   const inquiryTypes = validateInquiryTypes(inquiryRequest.inquiryTypes);
@@ -47,7 +47,7 @@ function validateYulTaxiRestrictedArea(coordinate: ICoordinates): void {
 
   if (isPointContain) {
     throw new BadRequestError(
-      "Requesting a taxi from the Montreal airport (YUL) zone is prohibited."
+      "Requesting a taxi from the Montreal airport (YUL) zone is prohibited.",
     );
   }
 }
@@ -56,7 +56,7 @@ function validateInquiryTypes(inquiryTypes: InquiryTypes[]): InquiryTypes[] {
   if (!inquiryTypes || inquiryTypes.length === 0)
     return Object.values(InquiryTypes);
   return inquiryTypes.filter(
-    (inquiryType, i) => inquiryTypes.indexOf(inquiryType) === i
+    (inquiryType, i) => inquiryTypes.indexOf(inquiryType) === i,
   );
 }
 

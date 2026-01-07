@@ -14,7 +14,7 @@ import {
 
 class LatestTaxiPositionMapper {
   public mongoToLatestTaxiPositionModel(
-    mongoResult: any
+    mongoResult: any,
   ): LatestTaxiPositionModel {
     if (!mongoResult) return mongoResult;
     return {
@@ -31,10 +31,10 @@ class LatestTaxiPositionMapper {
 
   public mongoToLatestTaxiPositionModelExtended(
     mongoResult: any,
-    inquiryType: InquiryTypes
+    inquiryType: InquiryTypes,
   ): LatestTaxiPositionModelExtended {
     const latestTaxiPositionExtended = this.mongoToLatestTaxiPositionModel(
-      mongoResult
+      mongoResult,
     ) as LatestTaxiPositionModelExtended;
     if (latestTaxiPositionExtended)
       latestTaxiPositionExtended.taxi.inquiryType = inquiryType;
@@ -44,15 +44,15 @@ class LatestTaxiPositionMapper {
   public toLatestTaxiPositionModels(
     taxiSummaryReferences: ModelMap<TaxiSummaryModel>,
     source: TaxiPositionSnapshotRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): LatestTaxiPositionModel[] {
     return source.items.map((item) =>
       this.toLatestTaxiPositionModel(
         taxiSummaryReferences,
         item,
         source.receivedAt,
-        userModel
-      )
+        userModel,
+      ),
     );
   }
 
@@ -60,7 +60,7 @@ class LatestTaxiPositionMapper {
     taxiSummaryReferences: ModelMap<TaxiSummaryModel>,
     source: TaxiPositionSnapshotItemRequestDto,
     receivedAt: Date,
-    userModel: UserModel
+    userModel: UserModel,
   ): LatestTaxiPositionModel {
     return {
       taxiId: source.taxi,
@@ -72,14 +72,14 @@ class LatestTaxiPositionMapper {
       taxi: taxiSummaryReferences[source.taxi],
       isPromoted: this.validatePromotion(
         taxiSummaryReferences[source.taxi],
-        userModel
+        userModel,
       ),
     };
   }
 
   private validatePromotion(
     taxiSummary: TaxiSummaryModel,
-    userModel: UserModel
+    userModel: UserModel,
   ): boolean {
     const now = nowUtcIsoString();
     if (

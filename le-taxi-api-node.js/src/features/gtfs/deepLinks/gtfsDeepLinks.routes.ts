@@ -14,7 +14,7 @@ export function getGtfsDeepLinksRoutes(): IHandlerRoute[] {
     {
       method: HttpMethods.GET,
       path: buildApiEndpoint(
-        "/api/current-user/gtfs-url-scheme-acceptance-test"
+        "/api/current-user/gtfs-url-scheme-acceptance-test",
       ),
       handler: gtfsDeepLinksController.getDeepLinksForCurrentUser,
     },

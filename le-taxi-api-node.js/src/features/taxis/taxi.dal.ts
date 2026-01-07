@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { QueryResult } from "pg";
-import * as shortId from "shortid";
+import shortId from "shortid";
 import { TaxiStatus } from "../../libs/taxiStatus";
 import { BadRequestError } from "../errorHandling/errors";
 import { latestTaxiPositionRepository } from "../latestTaxiPositions/latestTaxiPosition.repository";
@@ -18,21 +18,21 @@ import { TaxiRequestDto, TaxiResponseDto } from "./taxi.dto";
 class TaxiDataAccessLayer {
   public async upsertTaxi(
     taxiDto: TaxiRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): Promise<IDalResponse> {
     const vehicleId: number = await this.tryGetVehicleId(
       taxiDto.vehicle.licence_plate,
-      Number(userModel.id)
+      Number(userModel.id),
     );
     const permitId: number = await this.tryGetPermitId(
       taxiDto.ads.insee,
       taxiDto.ads.numero,
-      Number(userModel.id)
+      Number(userModel.id),
     );
     const driverId: number = await this.tryGetDriverId(
       taxiDto.driver.departement,
       taxiDto.driver.professional_licence,
-      Number(userModel.id)
+      Number(userModel.id),
     );
 
     const dalResponse = await this.createTaxiIfNotExists(
@@ -40,7 +40,7 @@ class TaxiDataAccessLayer {
       permitId,
       driverId,
       Number(userModel.id),
-      taxiDto.private
+      taxiDto.private,
     );
 
     return dalResponse;
@@ -48,7 +48,7 @@ class TaxiDataAccessLayer {
 
   public async updateTaxiById(
     taxiId: string,
-    isTaxiPrivate: boolean | string
+    isTaxiPrivate: boolean | string,
   ): Promise<number> {
     const existingTaxi = await this.findTaxi(taxiId);
     if (existingTaxi === null) {
@@ -74,7 +74,7 @@ class TaxiDataAccessLayer {
 
   public async getTaxiById(
     taxiId: string,
-    userModel: UserModel = null
+    userModel: UserModel = null,
   ): Promise<TaxiResponseDto> {
     const queryResult = await this.findTaxi(taxiId);
     if (queryResult === null) {
@@ -83,7 +83,7 @@ class TaxiDataAccessLayer {
     const taxiDataRow = queryResult.rows[0];
     if (userModel !== null && Number(userModel.id) !== taxiDataRow.added_by) {
       throw new BadRequestError(
-        `Unable to find a taxi with id '${taxiId}' that was created by '${userModel.id}'`
+        `Unable to find a taxi with id '${taxiId}' that was created by '${userModel.id}'`,
       );
     }
 
@@ -229,7 +229,7 @@ class TaxiDataAccessLayer {
   }
 
   private async getVehicleCharacteristics(
-    vehicleDescriptionId: number
+    vehicleDescriptionId: number,
   ): Promise<string[] | null> {
     const query = `
       SELECT *
@@ -257,7 +257,7 @@ class TaxiDataAccessLayer {
   }
   private async tryGetVehicleId(
     licencePlate: string,
-    userId: number
+    userId: number,
   ): Promise<number> {
     const query = `
       SELECT v.id
@@ -271,7 +271,7 @@ class TaxiDataAccessLayer {
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       throw new BadRequestError(
-        `Unable to find a vehicle with licence plate '${licencePlate}' that was created by '${userId}'`
+        `Unable to find a vehicle with licence plate '${licencePlate}' that was created by '${userId}'`,
       );
     }
 
@@ -281,7 +281,7 @@ class TaxiDataAccessLayer {
   private async tryGetPermitId(
     insee: string,
     numero: string,
-    userId: number
+    userId: number,
   ): Promise<number> {
     const query = `
       SELECT a.id
@@ -296,7 +296,7 @@ class TaxiDataAccessLayer {
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       throw new BadRequestError(
-        `Unable to find a permit with insee '${insee}' and number '${numero}' that was created by '${userId}'`
+        `Unable to find a permit with insee '${insee}' and number '${numero}' that was created by '${userId}'`,
       );
     }
 
@@ -306,7 +306,7 @@ class TaxiDataAccessLayer {
   private async tryGetDriverId(
     departement: string,
     professionalLicence: string,
-    userId: number
+    userId: number,
   ): Promise<number> {
     const query = `
       SELECT d.id
@@ -321,7 +321,7 @@ class TaxiDataAccessLayer {
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       throw new BadRequestError(
-        `Unable to find a driver with department '${departement}' and professional licence '${professionalLicence}' that was created by '${userId}'`
+        `Unable to find a driver with department '${departement}' and professional licence '${professionalLicence}' that was created by '${userId}'`,
       );
     }
 
@@ -333,7 +333,7 @@ class TaxiDataAccessLayer {
     permitId: number,
     driverId: number,
     userId: number,
-    isTaxiPrivate: boolean
+    isTaxiPrivate: boolean,
   ): Promise<IDalResponse> {
     const query = `
       SELECT *
@@ -357,7 +357,7 @@ class TaxiDataAccessLayer {
               permitId,
               driverId,
               userId,
-              isTaxiPrivate
+              isTaxiPrivate,
             ),
           dataOperation: DataOperation.Update,
         }
@@ -367,7 +367,7 @@ class TaxiDataAccessLayer {
             permitId,
             driverId,
             userId,
-            isTaxiPrivate
+            isTaxiPrivate,
           ),
           dataOperation: DataOperation.Create,
         };
@@ -384,7 +384,7 @@ class TaxiDataAccessLayer {
     permitId: number,
     driverId: number,
     userId: number,
-    isTaxiPrivate: boolean | string
+    isTaxiPrivate: boolean | string,
   ): Promise<number> {
     const query = `
       UPDATE public.taxi
@@ -410,7 +410,7 @@ class TaxiDataAccessLayer {
     permitId: number,
     driverId: number,
     userId: number,
-    privateKey: boolean
+    privateKey: boolean,
   ): Promise<string> {
     const query = `
       INSERT INTO
@@ -489,7 +489,7 @@ class TaxiDataAccessLayer {
 
   public async updateRatingTaxi(
     taxiId: string,
-    totalRating: number
+    totalRating: number,
   ): Promise<void> {
     const query = `
     UPDATE public.taxi
@@ -564,14 +564,14 @@ function buildOrderByClause(order: string): string {
   const column = order.includes("professional")
     ? "d.professional_licence"
     : order.includes("first")
-    ? "d.first_name"
-    : order.includes("last")
-    ? "d.last_name"
-    : order.includes("vignette")
-    ? "a.vdm_vignette"
-    : order.includes("email")
-    ? "u.email"
-    : "v.licence_plate";
+      ? "d.first_name"
+      : order.includes("last")
+        ? "d.last_name"
+        : order.includes("vignette")
+          ? "a.vdm_vignette"
+          : order.includes("email")
+            ? "u.email"
+            : "v.licence_plate";
   const descending = order.includes("desc") ? " DESC" : "";
 
   return `${column} ${descending}`;

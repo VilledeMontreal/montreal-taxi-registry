@@ -2,7 +2,7 @@
 // See LICENSE file in the project root for full license information.
 
 import { FeatureCollection } from "geojson";
-import * as _ from "lodash";
+import _ from "lodash";
 import { locationsGeoJson } from "../shared/locations/locations";
 import {
   GofsLiteCalendarsResponseDto,
@@ -14,7 +14,7 @@ import {
 } from "./gofsLite.dto";
 
 export function serviceBrandsFunc(
-  lang: GofsLiteSupportedLangTypes
+  lang: GofsLiteSupportedLangTypes,
 ): GofsLiteServiceBrandsResponseDto {
   return {
     service_brands: [
@@ -44,7 +44,7 @@ export function serviceBrandsFunc(
 }
 
 export function systemInformationFunc(
-  lang: GofsLiteSupportedLangTypes
+  lang: GofsLiteSupportedLangTypes,
 ): GofsLiteSystemInformationResponseDto {
   return {
     language: lang as GofsLiteSupportedLangTypes,
@@ -61,7 +61,7 @@ export function systemInformationFunc(
 }
 
 export function zonesFunc(
-  lang: GofsLiteSupportedLangTypes
+  lang: GofsLiteSupportedLangTypes,
 ): GofsLiteZoneResponseDto {
   return {
     zones:
@@ -72,7 +72,7 @@ export function zonesFunc(
 }
 
 function patchLocationsInEnglish(
-  locations: FeatureCollection
+  locations: FeatureCollection,
 ): FeatureCollection {
   const locationsEn = _.cloneDeep(locations);
   locationsEn.features[0].properties.name =

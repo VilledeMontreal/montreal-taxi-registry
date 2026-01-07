@@ -12,7 +12,6 @@ import {
   ValidateNested,
 } from "class-validator";
 
-/* eslint-disable max-classes-per-file */
 export enum GtfsAssetTypes {
   Standard = "taxi-registry-standard",
   Minivan = "taxi-registry-minivan",

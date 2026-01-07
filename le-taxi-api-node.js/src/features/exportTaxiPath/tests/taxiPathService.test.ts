@@ -16,7 +16,7 @@ describe("TaxiPathService TESTS", () => {
       const geoLineString = Object.assign(geoPositionsSample, taxiInfoSample);
       const geoJson = taxiPathService.generateGeoJson(
         geoLineString,
-        taxiSnapshotSample
+        taxiSnapshotSample,
       );
       assert.deepEqual(geoJson, expectedGeoJsonPayload);
     });

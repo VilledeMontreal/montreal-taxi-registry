@@ -2,7 +2,7 @@
 // See LICENSE file in the project root for full license information.
 import { plainToClassFromExist } from "class-transformer";
 import { validateOrReject, ValidationError } from "class-validator";
-import * as _ from "lodash";
+import _ from "lodash";
 import {
   BadRequestError,
   MultipleIssuesError,
@@ -42,11 +42,11 @@ export function validateUndefined(dto: any, message: string) {
 
 export async function validateDtoProperties<T extends object>(
   dto: T,
-  data: any
+  data: any,
 ) {
   const instance = plainToClassFromExist(dto, data);
   await handleErrors(() =>
-    validateOrReject(instance, { skipMissingProperties: true })
+    validateOrReject(instance, { skipMissingProperties: true }),
   );
 }
 
@@ -69,12 +69,12 @@ async function handleErrors(func: () => Promise<void>) {
     const issues = extractErrors(validationErrors, []);
     if (issues.length === 1) {
       throw new BadRequestError(
-        `The object failed the validation because ${issues[0]}`
+        `The object failed the validation because ${issues[0]}`,
       );
     }
     throw new MultipleIssuesError(
       "The object failed the validation because more than one of its property are invalid.",
-      issues
+      issues,
     );
   }
 }
@@ -93,6 +93,6 @@ function extractErrors(errors: ValidationError[], issues: string[], depth = 0) {
   return extractErrors(
     errors.flatMap((error) => error?.children),
     issues.concat(...errToIssues),
-    depth + 1
+    depth + 1,
   );
 }

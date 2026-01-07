@@ -21,12 +21,12 @@ class DriverDataDumpsController {
     validateEncoding(request);
 
     const lastDate = await driverDataDumpsAccessLayer.getLastDate(
-      request.query.operator as string
+      request.query.operator as string,
     );
     validateEtag(request, lastDate);
 
     const stream = await driverDataDumpsAccessLayer.getStream(
-      request.query.operator as string
+      request.query.operator as string,
     );
     response.setHeader("etag", generateEtag(lastDate));
 

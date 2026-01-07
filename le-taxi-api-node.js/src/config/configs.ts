@@ -1,8 +1,8 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as config from "config";
-import * as _ from "lodash";
-import * as path from "path";
+import config from "config";
+import _ from "lodash";
+import path from "path";
 import { ConfigCache } from "../utils/configs/configCache";
 import { constants } from "./constants";
 
@@ -13,7 +13,7 @@ for (const source of sources) {
   message += `- ${source.name}\n`;
 }
 message += `------------------------------------\n`;
-// eslint-disable-next-line no-console
+
 console.log(message);
 
 /**
@@ -42,7 +42,7 @@ export class Configs {
     this.root = path.normalize(`${__dirname}/..`);
     this.theEnvironment = config.util.getEnv(constants.EnvVariables.NODE_ENV);
     this.theEnvironmentInstance = config.util.getEnv(
-      constants.EnvVariables.NODE_APP_INSTANCE
+      constants.EnvVariables.NODE_APP_INSTANCE,
     );
     this.cache = new ConfigCache();
   }
@@ -119,7 +119,7 @@ export class Configs {
             reVal = "";
           }
           return reVal;
-        }
+        },
       ),
     };
   }
@@ -149,7 +149,7 @@ export class Configs {
           }
 
           return reVal;
-        }
+        },
       ),
 
       /**
@@ -164,7 +164,7 @@ export class Configs {
             (rawVal: string): string => {
               const reVal = rawVal;
               return _.trim(reVal, "/");
-            }
+            },
           ),
 
           ui: this.cache.get<string>(
@@ -172,7 +172,7 @@ export class Configs {
             (rawVal: string): string => {
               const reVal = rawVal;
               return _.trim(reVal, "/");
-            }
+            },
           ),
 
           editor: this.cache.get<string>(
@@ -180,7 +180,7 @@ export class Configs {
             (rawVal: string): string => {
               const reVal = rawVal;
               return _.trim(reVal, "/");
-            }
+            },
           ),
         },
         diagnostics: {
@@ -188,17 +188,17 @@ export class Configs {
           info: this.cache.get<string>("routing.routes.diagnostics.info"),
           metrics: this.cache.get<string>("routing.routes.diagnostics.metrics"),
           healthCheck: this.cache.get<string>(
-            "routing.routes.diagnostics.healthCheck"
+            "routing.routes.diagnostics.healthCheck",
           ),
           healthReport: this.cache.get<string>(
-            "routing.routes.diagnostics.healthReport"
+            "routing.routes.diagnostics.healthReport",
           ),
         },
         rootDiagnostics: {
           ping: this.cache.get<string>("routing.routes.rootDiagnostics.ping"),
           info: this.cache.get<string>("routing.routes.rootDiagnostics.info"),
           metrics: this.cache.get<string>(
-            "routing.routes.rootDiagnostics.metrics"
+            "routing.routes.rootDiagnostics.metrics",
           ),
         },
       },
@@ -218,7 +218,7 @@ export class Configs {
         username: this.cache.get<string>("dataSources.mongo.username"),
         password: this.cache.get<string>("dataSources.mongo.password"),
         defaultauthdb: this.cache.get<string>(
-          "dataSources.mongo.defaultauthdb"
+          "dataSources.mongo.defaultauthdb",
         ),
         options: this.cache.get<string>("dataSources.mongo.options"),
         poolSize: this.cache.get<number>("dataSources.mongo.poolSize"),
@@ -231,7 +231,7 @@ export class Configs {
         password: this.cache.get<string>("dataSources.postgres.password"),
         maxClient: this.cache.get<number>("dataSources.postgres.maxClient"),
         idleTimeoutMs: this.cache.get<number>(
-          "dataSources.postgres.idleTimeoutMs"
+          "dataSources.postgres.idleTimeoutMs",
         ),
       },
       taxiEstimate: {
@@ -239,19 +239,19 @@ export class Configs {
         apikey: this.cache.get<string>("dataSources.taxiEstimate.apikey"),
         postgres: {
           host: this.cache.get<string>(
-            "dataSources.taxiEstimate.postgres.host"
+            "dataSources.taxiEstimate.postgres.host",
           ),
           port: this.cache.get<number>(
-            "dataSources.taxiEstimate.postgres.port"
+            "dataSources.taxiEstimate.postgres.port",
           ),
           database: this.cache.get<string>(
-            "dataSources.taxiEstimate.postgres.database"
+            "dataSources.taxiEstimate.postgres.database",
           ),
           user: this.cache.get<string>(
-            "dataSources.taxiEstimate.postgres.user"
+            "dataSources.taxiEstimate.postgres.user",
           ),
           password: this.cache.get<string>(
-            "dataSources.taxiEstimate.postgres.password"
+            "dataSources.taxiEstimate.postgres.password",
           ),
         },
       },
@@ -275,19 +275,19 @@ export class Configs {
   get inquiries() {
     return {
       promotionDelayInSec: this.cache.get<number>(
-        "inquiries.promotionDelayInSec"
+        "inquiries.promotionDelayInSec",
       ),
       fixedDailyPriceDowntownToAirport: this.cache.get<number>(
-        "inquiries.fixedDailyPriceDowntownToAirport"
+        "inquiries.fixedDailyPriceDowntownToAirport",
       ),
       fixedNightlyPriceDowntownToAirport: this.cache.get<number>(
-        "inquiries.fixedNightlyPriceDowntownToAirport"
+        "inquiries.fixedNightlyPriceDowntownToAirport",
       ),
       searchDistance: {
         standard: this.cache.get<number>("inquiries.searchDistance.standard"),
         minivan: this.cache.get<number>("inquiries.searchDistance.minivan"),
         specialNeed: this.cache.get<number>(
-          "inquiries.searchDistance.specialNeed"
+          "inquiries.searchDistance.specialNeed",
         ),
       },
     };
@@ -302,31 +302,31 @@ export class Configs {
       domainPath: this.cache.get<string>("taxiRegistryOsrmApi.domainPath"),
       estimation: {
         requestAndDispatchInSec: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.requestAndDispatchInSec"
+          "taxiRegistryOsrmApi.estimation.requestAndDispatchInSec",
         ),
         durationBias: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.durationBias"
+          "taxiRegistryOsrmApi.estimation.durationBias",
         ),
         durationDailyRateRatio: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.durationDailyRateRatio"
+          "taxiRegistryOsrmApi.estimation.durationDailyRateRatio",
         ),
         durationNightlyRateRatio: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.durationNightlyRateRatio"
+          "taxiRegistryOsrmApi.estimation.durationNightlyRateRatio",
         ),
         distanceBias: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.distanceBias"
+          "taxiRegistryOsrmApi.estimation.distanceBias",
         ),
         distanceDailyRateRatio: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.distanceDailyRateRatio"
+          "taxiRegistryOsrmApi.estimation.distanceDailyRateRatio",
         ),
         distanceNightlyRateRatio: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.distanceNightlyRateRatio"
+          "taxiRegistryOsrmApi.estimation.distanceNightlyRateRatio",
         ),
         dailyCompensationRate: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.dailyCompensationRate"
+          "taxiRegistryOsrmApi.estimation.dailyCompensationRate",
         ),
         nightlyCompensationRate: this.cache.get<number>(
-          "taxiRegistryOsrmApi.estimation.nightlyCompensationRate"
+          "taxiRegistryOsrmApi.estimation.nightlyCompensationRate",
         ),
       },
     };

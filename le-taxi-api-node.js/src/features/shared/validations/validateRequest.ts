@@ -9,7 +9,7 @@ import {
 
 export async function validateRequest<T extends object>(
   request: Request,
-  dtoRequest: T
+  dtoRequest: T,
 ): Promise<T> {
   const data =
     request && request.body && request.body.data ? request.body.data : [];

@@ -25,7 +25,7 @@ class UsersController {
       const users = await userRepository.getUsersPaginated(
         request.query.page as string,
         request.query.pagesize as string,
-        request.query.order as string
+        request.query.order as string,
       );
       response.json(users);
     }
@@ -51,7 +51,7 @@ class UsersController {
     const userRequestDtoForInsertion = prepareDtoForInsertion(userRequestDto);
     const userModel = await userRepository.createUser(
       userRequestDtoForInsertion,
-      request.userModel
+      request.userModel,
     );
     response.status(StatusCodes.OK);
     response.json(userModel);
@@ -63,7 +63,7 @@ class UsersController {
     const userRequestDtoForUpdate = await prepareDtoForUpdate(userRequestDto);
     const userModel = await userRepository.updateUser(
       userRequestDtoForUpdate,
-      request.userModel
+      request.userModel,
     );
     response.status(StatusCodes.OK);
     response.json(userModel);

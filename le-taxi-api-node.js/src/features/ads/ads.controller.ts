@@ -14,14 +14,14 @@ class AdsController {
   public async upsertAds(request: Request, response: Response) {
     const adsRequestDto = await validateAdsRequest(
       request,
-      new AdsRequestDto()
+      new AdsRequestDto(),
     );
     const upsertedAds = await adsDataAccessLayer.upsertAds(
       adsRequestDto,
-      request.userModel
+      request.userModel,
     );
     const adsResponseDto = await adsDataAccessLayer.getAdsById(
-      Number(upsertedAds.entityId)
+      Number(upsertedAds.entityId),
     );
     /* eslint-disable @typescript-eslint/no-unused-expressions */
     upsertedAds.dataOperation === DataOperation.Create

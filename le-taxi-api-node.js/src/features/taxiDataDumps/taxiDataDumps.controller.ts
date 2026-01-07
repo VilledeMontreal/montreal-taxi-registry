@@ -21,12 +21,12 @@ class TaxiDataDumpsController {
     validateEncoding(request);
 
     const lastDate = await taxiDataDumpsAccessLayer.getLastDate(
-      request.query.operator as string
+      request.query.operator as string,
     );
     validateEtag(request, lastDate);
 
     const stream = await taxiDataDumpsAccessLayer.getStream(
-      request.query.operator as string
+      request.query.operator as string,
     );
     response.setHeader("etag", generateEtag(lastDate));
 

@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as express from "express";
+import express from "express";
 import { IApiErrorResponse, isServerFault } from "./apiErrorResponse";
 const { serializeError } = require("serialize-error");
 
@@ -39,7 +39,7 @@ export type LogErrorFn = (errorLogEntry: IErrorLogEntry) => void;
  * in oder to avoid logging a secret (the api key) in case of error.
  */
 export type ResolveCurrentUserIdFromRequestFn = (
-  request: express.Request
+  request: express.Request,
 ) => string;
 
 /**
@@ -50,7 +50,7 @@ export type ResolveCurrentUserIdFromRequestFn = (
  */
 export function createNonHttpContextErrorLogEntry(
   message: string,
-  error: any
+  error: any,
 ): IErrorLogEntry {
   return {
     isServerFault: true,
@@ -74,7 +74,7 @@ export function createHttpContextErrorLogEntry<TDto>(
   currentUserId: string,
   apiErrorResponse: IApiErrorResponse<TDto>,
   error: any,
-  logMessage?: string
+  logMessage?: string,
 ): IHttpContextErrorLogEntry<TDto> {
   return {
     httpMethod,

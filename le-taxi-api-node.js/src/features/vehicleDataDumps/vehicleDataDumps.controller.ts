@@ -21,12 +21,12 @@ class VehicleDataDumpsController {
     validateEncoding(request);
 
     const lastDate = await vehicleDataDumpsAccessLayer.getLastDate(
-      request.query.operator as string
+      request.query.operator as string,
     );
     validateEtag(request, lastDate);
 
     const stream = await vehicleDataDumpsAccessLayer.getStream(
-      request.query.operator as string
+      request.query.operator as string,
     );
     response.setHeader("etag", generateEtag(lastDate));
 

@@ -8,17 +8,17 @@ export async function pg_1_0_6_apikey_changes(): Promise<void> {
   try {
     await client.query(`BEGIN`);
     await client.query(
-      `ALTER TABLE public."user" ADD COLUMN apikey_v2 varchar(255) NULL`
+      `ALTER TABLE public."user" ADD COLUMN apikey_v2 varchar(255) NULL`,
     );
     await client.query(
       `UPDATE public."user" SET apikey_v2 = encode(encrypt_iv(apikey::bytea, $1, '0000000000000000', 'aes-cbc'), 'hex')`,
-      [configs.security.secret]
+      [configs.security.secret],
     );
     await client.query(
-      `ALTER TABLE public."user" ALTER COLUMN apikey_v2 SET NOT NULL`
+      `ALTER TABLE public."user" ALTER COLUMN apikey_v2 SET NOT NULL`,
     );
     await client.query(
-      `ALTER TABLE public."user" ALTER COLUMN apikey SET DEFAULT 'obsolete'`
+      `ALTER TABLE public."user" ALTER COLUMN apikey SET DEFAULT 'obsolete'`,
     );
     await client.query(`COMMIT`);
   } catch (e) {
@@ -30,6 +30,6 @@ export async function pg_1_0_6_apikey_changes(): Promise<void> {
   }
 
   await postgrePool.query(
-    `ALTER TABLE public."user" ADD COLUMN password_v2 varchar(255) NULL;`
+    `ALTER TABLE public."user" ADD COLUMN password_v2 varchar(255) NULL;`,
   );
 }

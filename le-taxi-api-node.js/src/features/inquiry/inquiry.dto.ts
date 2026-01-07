@@ -4,7 +4,6 @@
 import { ICoordinates } from "../shared/coordinates/coordinates";
 import { UserModel } from "../users/user.model";
 
-/* eslint-disable max-classes-per-file */
 export enum InquiryTypes {
   Standard = "standard",
   Minivan = "minivan",

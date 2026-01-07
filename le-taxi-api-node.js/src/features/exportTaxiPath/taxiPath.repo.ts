@@ -8,7 +8,7 @@ export class TaxiPathRepository {
   public async getTaxiPositionSnapshots(
     taxiId: string,
     utcDateMin: Date,
-    utcDateMax: Date
+    utcDateMax: Date,
   ): Promise<any[]> {
     const mongoDb = getMongoDb();
     const taxiPositionSnapshots = mongoDb
@@ -61,7 +61,7 @@ export class TaxiPathRepository {
               left outer join public.vehicle on public.taxi.vehicle_id = public.vehicle.id
               left outer join public.driver on public.taxi.driver_id = public.driver.id
         WHERE public.taxi.id = $1::text`,
-      [taxiId]
+      [taxiId],
     );
 
     if (!queryResult || !queryResult.rows || !queryResult.rows[0])

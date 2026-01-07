@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as assert from "assert";
+import assert from "assert";
 import { QueryResult } from "pg";
 import { security } from "../../libs/security";
 import { BadRequestError, UnauthorizedError } from "../errorHandling/errors";
@@ -35,7 +35,7 @@ class UserRepository {
     }
     assert.ok(
       queryResult.rowCount === 0 || queryResult.rowCount === 1,
-      "More than one user was found with the same id."
+      "More than one user was found with the same id.",
     );
     return queryResult.rows[0];
   }
@@ -50,7 +50,7 @@ class UserRepository {
     }
     assert.ok(
       queryResult.rowCount === 0 || queryResult.rowCount === 1,
-      "More than one user was found with the same api key."
+      "More than one user was found with the same api key.",
     );
     return queryResult.rows[0];
   }
@@ -58,7 +58,7 @@ class UserRepository {
   public async getPromotedOperators(): Promise<UserModel[]> {
     const queryResult = await postgrePool.query<UserModel>(
       getPromotedOperators,
-      [UserRole.Operator, nowUtcIsoString()]
+      [UserRole.Operator, nowUtcIsoString()],
     );
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
@@ -67,11 +67,11 @@ class UserRepository {
   }
 
   public async getUserForAuthentication(
-    email: string
+    email: string,
   ): Promise<AuthenticatedUser> {
     const queryResult: QueryResult = await postgrePool.query<UserModel>(
       getUserForAuthentication,
-      [email]
+      [email],
     );
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
@@ -82,7 +82,7 @@ class UserRepository {
   public async getUsersByRole(role: UserRole): Promise<BaseUser[]> {
     const queryResult: QueryResult = await postgrePool.query<UserModel>(
       getUsersByRole,
-      [role]
+      [role],
     );
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) {
       return null;
@@ -93,7 +93,7 @@ class UserRepository {
   public async getUsersPaginated(
     pageNumber: string = null,
     pageSize: string = null,
-    order: string = null
+    order: string = null,
   ): Promise<UserModel[]> {
     const orderByClause = translateOrderByClause(order);
     const query = getUsersPaginated.replace("%ORDER_BY_CLAUSE%", orderByClause);
@@ -122,7 +122,7 @@ class UserRepository {
 
   public async createUser(
     userRequestDto: UserRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): Promise<UserModel> {
     const passwordCipher = security.encrypt(userRequestDto.password);
     const apikeyCipher = security.encrypt(userRequestDto.apikey);
@@ -131,7 +131,7 @@ class UserRepository {
         JSON.stringify(userRequestDto),
         passwordCipher,
         apikeyCipher,
-      ])
+      ]),
     );
 
     if (!queryResult || !queryResult.rows) return null;
@@ -147,13 +147,13 @@ class UserRepository {
 
   public async updateUser(
     userRequestDto: UserRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): Promise<UserModel> {
     const queryResult = await executeQueryAndHandleDuplicate(() =>
       postgrePool.query(updateUser, [
         JSON.stringify(userRequestDto),
         userRequestDto.id,
-      ])
+      ]),
     );
     if (!queryResult || !queryResult.rows || !queryResult.rows[0]) return null;
 
@@ -168,7 +168,7 @@ class UserRepository {
 
   public async updatePassword(
     userId: string,
-    password: string
+    password: string,
   ): Promise<UserModel> {
     const cipher = security.encrypt(password);
     await postgrePool.query(updatePassword, [userId, cipher]);
@@ -179,7 +179,7 @@ class UserRepository {
 
   public async updateApikey(
     userId: string,
-    apikey: string
+    apikey: string,
   ): Promise<UserModel> {
     const cipher = security.encrypt(apikey);
     await postgrePool.query(updateApikey, [userId, cipher]);
@@ -191,7 +191,7 @@ class UserRepository {
   private async setUserRole(
     userId: string,
     role: number,
-    originalRole: number
+    originalRole: number,
   ): Promise<void> {
     const canChangeUserRole = await this.canChangeUserRole(role, originalRole);
     if (!canChangeUserRole)
@@ -207,12 +207,12 @@ class UserRepository {
 
   private async canChangeUserRole(
     desiredRole: number,
-    originalRole: number
+    originalRole: number,
   ): Promise<boolean> {
     const roles = await this.getRoles();
     const desiredRoleName = roles.find((role) => role.id === desiredRole)?.name;
     const originalRoleName = roles.find(
-      (role) => role.id === originalRole
+      (role) => role.id === originalRole,
     )?.name;
 
     if (!desiredRoleName || !originalRoleName) return false;
@@ -231,15 +231,15 @@ function translateOrderByClause(order: string): string {
   const column = order.includes("role")
     ? "r.name"
     : order.includes("commercial")
-    ? "u.commercial_name"
-    : "u.email";
+      ? "u.commercial_name"
+      : "u.email";
   const direction = order.includes("desc") ? " DESC" : " ASC";
 
   return `ORDER BY ${column} ${direction}`;
 }
 
 async function executeQueryAndHandleDuplicate(
-  query: () => Promise<QueryResult>
+  query: () => Promise<QueryResult>,
 ) {
   try {
     return await query();

@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as _ from "lodash";
+import _ from "lodash";
 import { QueryResult } from "pg";
 import { ModelMap } from "../shared/caching/modelMap";
 import { postgrePool } from "../shared/taxiPostgre/taxiPostgre";
@@ -8,7 +8,7 @@ import { TaxiSummaryModel } from "./taxiSummary.model";
 
 export class TaxiSummaryRepository {
   public async getTaxiSummaryByIds(
-    ids: string[]
+    ids: string[],
   ): Promise<ModelMap<TaxiSummaryModel>> {
     const query = `
     SELECT t.id "id",
@@ -24,7 +24,7 @@ export class TaxiSummaryRepository {
     `;
     const queryResult: QueryResult<TaxiSummaryModel> = await postgrePool.query(
       query,
-      [ids]
+      [ids],
     );
 
     return _.keyBy(queryResult?.rows, "id");

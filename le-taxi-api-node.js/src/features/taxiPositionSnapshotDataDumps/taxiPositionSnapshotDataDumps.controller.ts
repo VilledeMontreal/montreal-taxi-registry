@@ -16,13 +16,13 @@ class TaxiPositionSnapshotDataDumpsController {
   @allow([UserRole.Admin, UserRole.Manager, UserRole.Stats])
   public async getTaxiPositionSnapshotDataDumps(
     request: Request,
-    response: Response
+    response: Response,
   ) {
     validateEncoding(request);
     const dateRange = validateSnapshotRange(request);
     const stream = taxiPositionSnapshotDataDumpsAccessLayer.getStream(
       new Date(dateRange.startDate),
-      new Date(dateRange.endDate)
+      new Date(dateRange.endDate),
     );
 
     const open = `{ "id": "${dateRange.endDate}", "items": [`;
@@ -30,7 +30,7 @@ class TaxiPositionSnapshotDataDumpsController {
     await pipelineAsync(
       stream,
       stringify(open, ",", close),
-      response.type("json")
+      response.type("json"),
     );
   }
 }

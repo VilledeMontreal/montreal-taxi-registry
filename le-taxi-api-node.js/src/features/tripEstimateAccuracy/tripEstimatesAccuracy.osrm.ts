@@ -6,11 +6,11 @@ import { EstimatedTrip, RealTrip } from "../tripEstimates/tripEstimate.model";
 
 export async function estimateWithOsrm(
   realTrip: RealTrip,
-  testExecutionId: number
+  testExecutionId: number,
 ): Promise<EstimatedTrip> {
   const [route] = await osrmRepository.getRoutes(
     { lat: realTrip.departure_lat, lon: realTrip.departure_lon },
-    { lat: realTrip.arrival_lat, lon: realTrip.arrival_lon }
+    { lat: realTrip.arrival_lat, lon: realTrip.arrival_lon },
   );
 
   return {
@@ -18,7 +18,7 @@ export async function estimateWithOsrm(
     test_execution_id: testExecutionId,
     estimated_arrival_time: estimateArrivalTime(
       new Date(realTrip.departure_time),
-      route.duration
+      route.duration,
     ),
     // !!! Important !!!
     // route.distance can be used to perform stats analysis on distance with the same query used
@@ -33,18 +33,18 @@ export async function estimateWithOsrm(
     estimated_trip_duration_seconds: Math.round(route.duration),
     trip_duration_absolute_error_percent: calculateErrorPercent(
       realTrip.duration_seconds,
-      route.duration
+      route.duration,
     ),
     is_longer_than_real_trip: isLongerThanRealTrip(
       realTrip.duration_seconds,
-      route.duration
+      route.duration,
     ),
   };
 }
 
 function calculateErrorPercent(
   realTripDuration: number,
-  estimatedTripDuration: number
+  estimatedTripDuration: number,
 ): number {
   const HUNDRED = 100;
 
@@ -60,14 +60,14 @@ function calculateErrorPercent(
 
 function estimateArrivalTime(
   departureTime: Date,
-  routeDurationSec: number
+  routeDurationSec: number,
 ): string {
   return addSec(departureTime.toISOString(), routeDurationSec);
 }
 
 function isLongerThanRealTrip(
   realTripDuration: number,
-  estimatedTripDuration: number
+  estimatedTripDuration: number,
 ): boolean {
   return estimatedTripDuration > realTripDuration;
 }

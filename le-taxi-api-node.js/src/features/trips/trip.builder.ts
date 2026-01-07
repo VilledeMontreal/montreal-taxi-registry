@@ -10,13 +10,13 @@ export class TripBuilder {
   private _tripParserByTaxiId: { [key: string]: TripParser } = {};
 
   public parseTaxiPositionSnapshot(
-    taxiPositionSnapshot: TaxiPositionSnapshotRequestDto
+    taxiPositionSnapshot: TaxiPositionSnapshotRequestDto,
   ): void {
     taxiPositionSnapshot.items.forEach((taxiPosition) =>
       this.parseTaxiPosition(
         taxiPosition,
-        taxiPositionSnapshot.receivedAt.toISOString()
-      )
+        taxiPositionSnapshot.receivedAt.toISOString(),
+      ),
     );
   }
 
@@ -28,29 +28,29 @@ export class TripBuilder {
       .sort(
         (a, b) =>
           new Date(a.departureTime).getTime() -
-          new Date(b.departureTime).getTime()
+          new Date(b.departureTime).getTime(),
       );
   }
 
   public deleteCompletedTrips(): void {
     Object.values(this._tripParserByTaxiId).forEach((tripBuilder) =>
-      tripBuilder.deleteCompletedTrips()
+      tripBuilder.deleteCompletedTrips(),
     );
   }
 
   private parseTaxiPosition(
     taxiPosition: TaxiPositionSnapshotItemRequestDto,
-    receivedAt: string
+    receivedAt: string,
   ): void {
     if (!this._tripParserByTaxiId[taxiPosition.taxi]) {
       this._tripParserByTaxiId[taxiPosition.taxi] = new TripParser(
-        taxiPosition.taxi
+        taxiPosition.taxi,
       );
     }
 
     this._tripParserByTaxiId[taxiPosition.taxi].parseTaxiPosition(
       taxiPosition,
-      receivedAt
+      receivedAt,
     );
   }
 }

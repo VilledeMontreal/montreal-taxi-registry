@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as assert from "assert";
-import * as Cookies from "cookies";
+import assert from "assert";
+import Cookies from "cookies";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { security } from "../../libs/security";
@@ -18,7 +18,7 @@ let _secretJwtKey = null;
 export function initializeAuthorizationViaCookies(secretJwtKey: string) {
   assert.ok(
     secretJwtKey,
-    "A secretJwtKey is required for allowing authorization via cookies."
+    "A secretJwtKey is required for allowing authorization via cookies.",
   );
   _secretJwtKey = secretJwtKey;
 }
@@ -27,16 +27,16 @@ export function allow(allowedRoles: UserRole[] | string[]) {
   return (
     _target: any,
     _propertyKey: string,
-    descriptor: PropertyDescriptor
+    descriptor: PropertyDescriptor,
   ) => {
     const originalMethod = descriptor.value;
     assert.ok(
       typeof originalMethod === "function",
-      "The allow annotation can only be used on functions."
+      "The allow annotation can only be used on functions.",
     );
     assert.ok(
       allowedRoles && allowedRoles.length > 0,
-      "At least one role must by allowed by the decorator @allow"
+      "At least one role must by allowed by the decorator @allow",
     );
 
     descriptor.value = async function (
@@ -71,7 +71,7 @@ export function allow(allowedRoles: UserRole[] | string[]) {
       }
 
       throw new UnauthorizedError(
-        "API key is missing or invalid. Specify a valid API key in X-API-KEY request header."
+        "API key is missing or invalid. Specify a valid API key in X-API-KEY request header.",
       );
     };
   };
@@ -87,7 +87,7 @@ export function allow(allowedRoles: UserRole[] | string[]) {
   function ensureUserExists(user: UserModel) {
     if (!user) {
       throw new UnauthorizedError(
-        "API key is missing or invalid. Specify a valid API key in X-API-KEY request header."
+        "API key is missing or invalid. Specify a valid API key in X-API-KEY request header.",
       );
     }
   }
@@ -101,7 +101,7 @@ export function allow(allowedRoles: UserRole[] | string[]) {
   function ensureUserIsAllowed(user: UserModel) {
     if (!isUserAllowed(user)) {
       throw new UnauthorizedError(
-        "The user has a role which has insufficient permissions to access this resource."
+        "The user has a role which has insufficient permissions to access this resource.",
       );
     }
   }

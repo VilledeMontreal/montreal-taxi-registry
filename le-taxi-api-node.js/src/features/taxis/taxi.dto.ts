@@ -18,7 +18,6 @@ class Vehicle {
   public licence_plate: string;
 }
 
-// eslint-disable-next-line max-classes-per-file
 class Driver {
   @IsDefined()
   @IsNotEmpty()
@@ -33,7 +32,6 @@ class Driver {
   public professional_licence: string;
 }
 
-// eslint-disable-next-line max-classes-per-file
 class Ads {
   @IsDefined()
   @IsNotEmpty()
@@ -48,7 +46,6 @@ class Ads {
   public numero: string;
 }
 
-// eslint-disable-next-line max-classes-per-file
 export class TaxiRequestDto {
   @IsDefined()
   @IsNotEmpty()
@@ -76,7 +73,6 @@ export class TaxiRequestDto {
   }
 }
 
-// eslint-disable-next-line max-classes-per-file
 export class TaxiResponseDto {
   public ads: {
     insee: string;
@@ -112,7 +108,6 @@ export class TaxiResponseDto {
   public status: string;
 }
 
-// eslint-disable-next-line max-classes-per-file
 export class DeprecatedUpdateTaxiRequestDto {
   public status?: string;
   public private: string | boolean;

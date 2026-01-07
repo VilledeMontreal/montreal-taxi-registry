@@ -1,10 +1,10 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as bodyParser from "body-parser";
-import * as cors from "cors";
+import bodyParser from "body-parser";
+import cors from "cors";
 import "es6-shim";
-import * as express from "express";
-import * as fs from "fs";
+import express from "express";
+import fs from "fs";
 import { types } from "pg";
 import "reflect-metadata";
 import { configs } from "./config/configs";
@@ -30,7 +30,6 @@ import {
 } from "./models/route.model";
 import { getAbsoluteUrl } from "./utils/configs/system";
 
-require("express-async-errors");
 declare let require: any;
 
 const compression = require("compression");
@@ -57,7 +56,6 @@ async function startServer() {
     credentials: true,
   };
 
-  app.options("*", cors(corsOptions));
   app.use(cors(corsOptions));
 
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -80,7 +78,7 @@ async function startServer() {
       if (req.body.data[param] instanceof Object) {
         for (const propertyName in req.body.data[param]) {
           const securedParam: string = xss(
-            "" + req.body.data[param][propertyName]
+            "" + req.body.data[param][propertyName],
           );
           if ("" + req.body.data[param][propertyName] !== "" + securedParam) {
             throw new UnauthorizedError("XSS body protection");
@@ -96,7 +94,7 @@ async function startServer() {
     next();
   });
 
-  app.get("*/:test", function (req, res, next) {
+  app.get("/:test", function (req, res, next) {
     if (req.params.test) {
       const securedParam: string = xss("" + req.params.test);
       if ("" + req.params.test !== "" + securedParam) {
@@ -125,7 +123,7 @@ async function startServer() {
     internalServerErrorResponse,
     logErrorLogEntry,
     isDebuggingErrorsEnabled(),
-    (request) => request?.userModel?.email
+    (request) => request?.userModel?.email,
   );
 
   initializeAuthorizationViaCookies(getSigningKeyForJwtCreation());
@@ -155,7 +153,7 @@ export function addRoutes(app: express.Express, apiRoutes: IHandlerRoute[]) {
     app[httpMethodToExpressMethodName(route.method)](
       route.path,
       middlewares,
-      route.handler
+      route.handler,
     );
   }
 }

@@ -20,7 +20,7 @@ import {
 
 class GtfsInquiryMapper {
   public toInquiryRequest(
-    gtfsInquiryRequest: GtfsInquiryRequestDto
+    gtfsInquiryRequest: GtfsInquiryRequestDto,
   ): InquiryRequest {
     return {
       from: {
@@ -39,7 +39,7 @@ class GtfsInquiryMapper {
   }
 
   public toGtfsInquiryResponse(
-    inquiryResponse: InquiryResponse
+    inquiryResponse: InquiryResponse,
   ): GtfsInquiryResponseDto {
     const now =
       inquiryResponse?.data?.length > 0
@@ -49,7 +49,7 @@ class GtfsInquiryMapper {
       validUntil: addMinutes(now, 5),
       options:
         inquiryResponse.data?.map((data) =>
-          toInquiryResponseOptions(data, now)
+          toInquiryResponseOptions(data, now),
         ) || [],
     };
   }
@@ -85,7 +85,7 @@ export function toAssetType(inquiryTypes: InquiryTypes): GtfsAssetTypes {
 
 function toInquiryResponseOptions(
   data: InquiryResponseData,
-  now: string
+  now: string,
 ): GtfsInquiryResponseOptionsDto {
   const hasDestination = !!data.estimatedTravelTime;
   const departureTime = addSec(now, data.estimatedWaitTime);

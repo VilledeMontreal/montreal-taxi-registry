@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as _ from "lodash";
+import _ from "lodash";
 import { IHandlerRoute } from "../models/route.model";
 import { getAdsRoutes } from "./ads/ads.routes";
 import { getAdsDataDumpsRoutes } from "./adsDataDumps/adsDataDumps.routes";
@@ -48,7 +48,7 @@ export function getFeaturesRoutes(): IHandlerRoute[] {
     getVehicleDataDumpsRoutes(),
     getVehiclesRoutes(),
     // GeoServer
-    getTaxiPositionSnapshotRoutes()
+    getTaxiPositionSnapshotRoutes(),
   );
 }
 

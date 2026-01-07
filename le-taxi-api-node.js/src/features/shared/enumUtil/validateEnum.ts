@@ -2,7 +2,7 @@
 // See LICENSE file in the project root for full license information.
 export function isInEnum<T extends object>(
   value: string,
-  enumType: T
+  enumType: T,
 ): boolean {
   return Object.values(enumType).includes(value);
 }
@@ -10,13 +10,13 @@ export function isInEnum<T extends object>(
 export function ensureIsInEnum<T extends object>(
   valueIdentifier: string,
   value: string,
-  enumType: T
+  enumType: T,
 ): void {
   if (!isInEnum(value, enumType)) {
     throw new Error(
       `${valueIdentifier} (value: ${value}) must be one of these values: (${enumValuesToString(
-        enumType
-      )})`
+        enumType,
+      )})`,
     );
   }
 }

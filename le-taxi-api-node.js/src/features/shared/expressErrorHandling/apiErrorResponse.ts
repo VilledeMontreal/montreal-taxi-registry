@@ -2,7 +2,7 @@
 // See LICENSE file in the project root for full license information.
 const { serializeError } = require("serialize-error");
 import { StatusCodes } from "http-status-codes";
-import * as _ from "lodash";
+import _ from "lodash";
 
 /**
  * Represents an API error response for a specific DTO.
@@ -16,7 +16,7 @@ export interface IApiErrorResponse<TDto> {
  * Acts as a function delegate which accepts an error as parameter and returns an ApiErrorResponse<TDto>.
  */
 export type MapErrorToApiErrorResponseFn<TDto> = (
-  error: any
+  error: any,
 ) => IApiErrorResponse<TDto>;
 
 /**
@@ -30,7 +30,7 @@ export type MapErrorToApiErrorResponseFn<TDto> = (
 export function getContextSensitiveErrorResponse<TDto>(
   apiErrorResponse: IApiErrorResponse<TDto>,
   internalServerErrorResponse: IApiErrorResponse<TDto>,
-  debug: boolean
+  debug: boolean,
 ): IApiErrorResponse<TDto> {
   if (!debug && isServerFault(apiErrorResponse)) {
     return internalServerErrorResponse;
@@ -48,7 +48,7 @@ export function getContextSensitiveErrorResponse<TDto>(
 export function injectErrorToErrorResponseIfDebug<TDto>(
   debug: boolean,
   error: any,
-  apiErrorResponse: IApiErrorResponse<TDto>
+  apiErrorResponse: IApiErrorResponse<TDto>,
 ): TDto {
   if (!debug) {
     return apiErrorResponse.errorDto;
@@ -66,7 +66,7 @@ export function injectErrorToErrorResponseIfDebug<TDto>(
  * @param apiErrorResponse
  */
 export function isServerFault<TDto>(
-  apiErrorResponse: IApiErrorResponse<TDto>
+  apiErrorResponse: IApiErrorResponse<TDto>,
 ): boolean {
   if (!apiErrorResponse) {
     // if the server cannot respond to the client, it's always a server fault.

@@ -20,7 +20,7 @@ class TaxisController {
     const taxiId = request.params.id;
     const taxiResponseDto = await taxiDataAccessLayer.getTaxiById(
       taxiId,
-      request.userModel
+      request.userModel,
     );
     ok(response, taxiResponseDto);
   }
@@ -30,10 +30,10 @@ class TaxisController {
     const taxiRequestDto = await validateTaxiRequest(request);
     const upsertedTaxi = await taxiDataAccessLayer.upsertTaxi(
       taxiRequestDto,
-      request.userModel
+      request.userModel,
     );
     const taxiResponseDto = await taxiDataAccessLayer.getTaxiById(
-      upsertedTaxi.entityId.toString()
+      upsertedTaxi.entityId.toString(),
     );
     /* eslint-disable @typescript-eslint/no-unused-expressions */
     upsertedTaxi.dataOperation === DataOperation.Create
@@ -48,7 +48,7 @@ class TaxisController {
     await taxiDataAccessLayer.updateTaxiById(taxiId, taxiRequestDto.private);
     const taxiResponseDto = await taxiDataAccessLayer.getTaxiById(
       taxiId,
-      request.userModel
+      request.userModel,
     );
     ok(response, taxiResponseDto);
   }

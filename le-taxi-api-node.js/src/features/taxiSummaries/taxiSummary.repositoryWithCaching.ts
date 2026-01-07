@@ -6,5 +6,5 @@ import { taxiSummaryRepository } from "./taxiSummary.repository";
 
 export const taxiSummaryRepositoryWithCaching =
   ModelMapCache.createFromMany<TaxiSummaryModel>((keys) =>
-    taxiSummaryRepository.getTaxiSummaryByIds(keys)
+    taxiSummaryRepository.getTaxiSummaryByIds(keys),
   );

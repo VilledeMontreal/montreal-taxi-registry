@@ -14,7 +14,7 @@ import { TaxiPositionSnapshotRequestDto } from "./taxiPositionSnapshotRequest.dt
 
 export function validateTaxiPositionSnapshot(
   taxiPositionSnapshot: any,
-  currentUser: UserModel
+  currentUser: UserModel,
 ): void {
   const validationErrorMessages: string[] = [];
   const isInvalidSnapshotJsonFormat =
@@ -23,35 +23,35 @@ export function validateTaxiPositionSnapshot(
     taxiPositionSnapshot.items.length === 0;
   if (isInvalidSnapshotJsonFormat) {
     validationErrorMessages.push(
-      "the taxi position snapshot is not in a valid JSON format"
+      "the taxi position snapshot is not in a valid JSON format",
     );
   } else {
     taxiPositionSnapshot.items.forEach((snapshot: any) => {
       validationErrorMessages.push(
-        ...validateTaxiPositionSnapShotItem(snapshot, currentUser)
+        ...validateTaxiPositionSnapShotItem(snapshot, currentUser),
       );
     });
   }
   if (validationErrorMessages.length) {
     throw validationErrorMessages.length === 1
       ? new BadRequestError(
-          `The validation failed for this taxi position snapshot because: ${validationErrorMessages[0]}.`
+          `The validation failed for this taxi position snapshot because: ${validationErrorMessages[0]}.`,
         )
       : new MultipleIssuesError(
           "Multiple validation errors were found for this taxi position snapshot.",
-          validationErrorMessages
+          validationErrorMessages,
         );
   }
 }
 
 function validateTaxiPositionSnapShotItem(
   snapshotItem: TaxiPositionSnapshotItemRequestDto,
-  currentUser: UserModel
+  currentUser: UserModel,
 ): string[] {
   const validationErrorMessages: string[] = [];
   if (!hasValidOperator(snapshotItem.operator, currentUser)) {
     validationErrorMessages.push(
-      "the operator is either missing or has an invalid API key"
+      "the operator is either missing or has an invalid API key",
     );
   }
   if (!snapshotItem.taxi) {
@@ -80,12 +80,12 @@ function validateTaxiPositionSnapShotItem(
   }
   if (!isTimestampValid(snapshotItem.timestamp)) {
     validationErrorMessages.push(
-      "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future"
+      "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future",
     );
   }
   if (!snapshotItem.speed || isNaN(snapshotItem.speed)) {
     validationErrorMessages.push(
-      "the speed attribute is mandatory and must be a number"
+      "the speed attribute is mandatory and must be a number",
     );
   }
   if (!isNumber(snapshotItem.azimuth)) {
@@ -101,17 +101,17 @@ function validateTaxiPositionSnapShotItem(
 
 export async function validateTaxiOwnership(
   taxiPositionSnapshot: TaxiPositionSnapshotRequestDto,
-  operatorId: string
+  operatorId: string,
 ) {
   const taxiSummaries = await taxiSummaryRepositoryWithCaching.getByKeys(
-    taxiPositionSnapshot.items.map((item) => item.taxi)
+    taxiPositionSnapshot.items.map((item) => item.taxi),
   );
   const hasUnknownTaxi = taxiPositionSnapshot.items.some(
-    (snapshot) => taxiSummaries && !taxiSummaries[snapshot.taxi]
+    (snapshot) => taxiSummaries && !taxiSummaries[snapshot.taxi],
   );
   if (hasUnknownTaxi) {
     throw new BadRequestError(
-      `The validation failed for this taxi position snapshot because: some taxis are not existing in the system`
+      `The validation failed for this taxi position snapshot because: some taxis are not existing in the system`,
     );
   }
 
@@ -119,11 +119,11 @@ export async function validateTaxiOwnership(
     (snapshot) =>
       taxiSummaries &&
       taxiSummaries[snapshot.taxi] &&
-      taxiSummaries[snapshot.taxi].operatorId !== operatorId
+      taxiSummaries[snapshot.taxi].operatorId !== operatorId,
   );
   if (hasWrongOwner) {
     throw new BadRequestError(
-      `The validation failed for this taxi position snapshot because: some taxis do not belong to the operator`
+      `The validation failed for this taxi position snapshot because: some taxis do not belong to the operator`,
     );
   }
 }

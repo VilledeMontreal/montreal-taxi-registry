@@ -17,14 +17,14 @@ class DriversController {
   public async upsertDrivers(request: Request, response: Response) {
     const driverRequestDto = await validateRequest(
       request,
-      new DriverRequestDto()
+      new DriverRequestDto(),
     );
     const upsertedDriver = await driverDataAccessLayer.upsertDriver(
       driverRequestDto,
-      request.userModel
+      request.userModel,
     );
     const driverResponseDto = await driverDataAccessLayer.getDriverById(
-      upsertedDriver.entityId as string
+      upsertedDriver.entityId as string,
     );
     /* eslint-disable @typescript-eslint/no-unused-expressions */
     upsertedDriver.dataOperation === DataOperation.Create
@@ -39,7 +39,7 @@ class DriversController {
     if (driverId) {
       const driver = await driverDataAccessLayer.getDriverById(
         driverId,
-        operator
+        operator,
       );
       response.status(StatusCodes.OK);
       response.json(driver);

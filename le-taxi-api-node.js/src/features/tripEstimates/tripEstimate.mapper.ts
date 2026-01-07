@@ -5,7 +5,7 @@ import { TripModel } from "../trips/trip.model";
 class TripEstimateMapper {
   public toTaxiEstimatePersistanceArray(
     sampleId: number,
-    trips: TripModel[]
+    trips: TripModel[],
   ): any[] {
     return trips.map((trip) => this.toTaxiEstimatePersistance(sampleId, trip));
   }

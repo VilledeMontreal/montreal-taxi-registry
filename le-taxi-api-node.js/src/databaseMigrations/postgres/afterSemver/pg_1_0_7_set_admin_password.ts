@@ -5,7 +5,7 @@ import { configs } from "../../../config/configs";
 import { postgrePool } from "../../../features/shared/taxiPostgre/taxiPostgre";
 
 export async function pg_1_0_7_set_admin_password(
-  options: string
+  options: string,
 ): Promise<void> {
   await postgrePool.query(
     `
@@ -13,6 +13,6 @@ export async function pg_1_0_7_set_admin_password(
   SET password_v2 = $1
   WHERE email = $2;
 `,
-    [options, configs.security.adminUser]
+    [options, configs.security.adminUser],
   );
 }
