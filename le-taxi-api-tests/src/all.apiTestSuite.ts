@@ -1,21 +1,16 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { getTestRunId } from "@villedemontreal/concurrent-api-tests";
 import { commonTests } from "./commonTests.apiTest";
 import { dataDumpsTests } from "./dataDumps.apiTest";
-import { limitTestConcurrency } from "./shared/e2eTesting/limitTestConcurrency";
 import { displaySuperagentStats } from "./shared/e2eTesting/superagentWithStats";
-import { getTestLabel } from "./shared/e2eTesting/testRunId";
 
-const parallel = require("mocha.parallel");
+console.log(`All tests ${getTestRunId()} (Testing time: +/-2 minutes)`);
 
-limitTestConcurrency();
+// Try to process longer tests first
+dataDumpsTests();
+commonTests();
 
-parallel(getTestLabel("All tests", "2 minutes"), () => {
-  // Try to process longer tests first
-  dataDumpsTests();
-  commonTests();
-});
-
-after(() => {
+afterAll(() => {
   displaySuperagentStats();
 });

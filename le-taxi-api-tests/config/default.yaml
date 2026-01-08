@@ -4,7 +4,7 @@
 apiTests:
   env: localhost
   rootApiKey:
-  user: 
+  user:
   password:
   rootPath: http://localhost:8099
 environment:
@@ -12,8 +12,6 @@ environment:
 #==========================================
 # End to End testing
 #==========================================
-e2eTesting:
-  maxTestConcurrency: 30
 inquiries:
   delayToExceedPromotion: 0
   fixedDailyPriceDowntownToAirport: 49.45 # Airport day fixed rate + compensation

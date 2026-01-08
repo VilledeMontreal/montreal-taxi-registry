@@ -4,7 +4,7 @@ import { assert } from "chai";
 import { TaxiPathController } from "../taxiPath.controller";
 
 describe("TaxiPathController TESTS", () => {
-  context("validateQuery", () => {
+  describe("validateQuery", () => {
     it("should throw an error if missing parameters", () => {
       assert.throws(() => {
         TaxiPathController.validateDateQuery(undefined, undefined);

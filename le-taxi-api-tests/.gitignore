@@ -27,6 +27,7 @@ node_modules
 /log
 logs
 
+/dist
 /test-*
 /src/test.ts
 /temp

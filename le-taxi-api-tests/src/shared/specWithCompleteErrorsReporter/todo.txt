@@ -1,6 +1,0 @@
-Todo:
-- apply the same extend approach as https://github.com/MediaComem/mocha-api-errors
-- same test approach as https://github.com/MediaComem/mocha-api-errors
-- thanks https://github.com/MediaComem/mocha-api-errors
-- publish an npm package mocha-unexpected-errors
-- add foreach default logger

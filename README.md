@@ -9,9 +9,11 @@
 The Taxi Registry was created specifically for the City of Montréal. This is not a generic product that can easily be adapted to another city.
 
 ## Description
+
 In 2018, the City of Montréal and the BTM officially launched the Taxi Registry, an ambitious technological project. This innovative platform gathers real-time data on the location and availability of the taxis in service, with the fundamental aim of better positioning taxis as part of the urban transportation supply. The extremely valuable data from the Registry can contribute to good decision-making on personal mobility and implementing sustainable transportation solutions.
 
 The Taxi Registry of the Ville de Montréal has two mains goals:
+
 - Provide data and metrics about the taxi industry
 - Open up new markets for the taxi industry
 
@@ -28,14 +30,17 @@ At the beginning, the Taxi Registry was forked from [Le.Taxi](https://le.taxi). 
 ## Players
 
 ### Operators
+
 The taxi owners must interact with the Taxi Registry by way of a permitted operator. The [Operator's Guide ](http://www.registretaximontreal.ca/documentation-technique/)(Guide des opérateurs) details how to integrate a Taxi Dispatch System from an operator with the Taxi Registry.
 
 Responsibilities:
+
 - Update contextual data (vehicle information, drivers, etc.) every 24 hours.
 - Allow the taxi owner to conform to their legal obligation. Thus, the operators must transmit the position and status of every taxi every 5 second.
 - Allow the taxi drivers to receive ride requests from the Taxi Registry.
 
 ### General public
+
 Every person (citizen, tourists, etc.) willing to electronically request a taxi in Montréal.
 
 It is out of the scope of the Taxi Registry to directly interact with the general public, this responsibility is delegated to the search engines. The search engines (e.g., [Transit](http://www.registretaximontreal.ca/documentation-technique/), [Chrono](http://www.registretaximontreal.ca/documentation-technique/)) are responsible of the development and use of the mobile application allowing the general public to request a trip from the closest taxi. The mobile applications do not communicate directly with the Taxi Registry, they are doing so through the search engines servers approved by the BTM.
@@ -43,9 +48,11 @@ It is out of the scope of the Taxi Registry to directly interact with the genera
 The Taxi Registry handles every search engine user as an anonymous user, in order to protect the general public privacy.
 
 ### Montréal Taxi Bureau (BTM)
+
 The [BTM is the promoter of the Taxi Registry](http://www.registretaximontreal.ca/). As part of its dual mandate of supervision and development, the BTM is responsible for improving taxi transportation services in the city by improving the skills of drivers, their safety and that of users. The BTM is therefore managing structuring projects for the modernization of the taxi industry and developing various initiatives that will benefit both the industry and the City of Montréal.
 
 Responsibilities:
+
 - Validate the contextual data sent by the operators (vehicle informations, drivers, etc.).
 - Analyze the contextual data when needed.
 - Identify the status and location of all the taxis registered in Montréal.
@@ -53,17 +60,21 @@ Responsibilities:
 - Handle the Taxi Registry user base (Analysis tools, operators, search engines).
 
 ### Partnership
+
 The taxi industry's data is restricted to only a few partners that are clearly identified.
 
 Responsibilities:
+
 - Periodically extract taxi registry data in order to do statistical studies.
 
 ## Components
 
 ### API
+
 Technologies: Node.js, Express, TypeScript
 
 Responsibilities:
+
 - Receive the positions and status of all the taxis every 5 seconds.
 - Manage contextual data (vehicle information, drivers, etc.).
 - Support every user interface action.
@@ -72,27 +83,35 @@ Responsibilities:
 The server to server authentication (e.g., search engine to API Node.js) is done using an api key over HTTPS and the user to server authentication is token based over HTTPS.
 
 ### PostgeSQL database
+
 Responsibilities:
+
 - Persist contextual data (vehicle information, drivers, etc.).
 - Persist users' profiles (Operators, Search engines, Partners and BTM users).
 
 ### Mongo database
+
 Responsibilities:
+
 - Persist position history and status that are transmitted by the operators.
 - Quickly access the most recent position and status of each taxi.
 - Do geospatial requests.
 
 ### OSRM
+
 Responsibilities:
+
 - Uses the map of Quebec for routing
 - Estimate distance and duration of the taxi to the user and user from point A to B
 
 ### The UI (User Interface)
+
 Technologies: Angular, Angular Material, TypeScript
 
 The user interface is exclusively for internal use by the BTM.
 
 Responsibilities:
+
 - Display contextual data (vehicle information, drivers, etc.).
 - Export anonymized contextual data as csv.
 - Display live positioning of taxis on a map.
@@ -108,6 +127,7 @@ For a more in-depth description or each attribute, please refer to the [Operator
 ![Data Model](./assets/data-model.svg)
 
 ### User (Utilisateur)
+
 Properties: name, email, api key, etc.
 
 There are several user profiles: operator, search engine, external partner, BTM inspector and admin.
@@ -117,30 +137,37 @@ The Taxi Registry's data are partitioned by operator. The data from an operator 
 Some owners (a new trend) are dealing with several operators (regular or drivers solutions providers) in order to receive taxi fares from several operators, thus receiving more fares. In this case, the data is submitted independently by each operator. For instance, in the Taxi Registry, the driver submitted by the operator A is a distinct driver from the driver submitted by the operator B even if they are actually one in reality.
 
 ### Driver (Chauffeur)
+
 Properties: driver's license, name, etc.
 
 ### Vehicule (Véhicule)
+
 Properties: licence plate, vehicle features, etc.
 
 ### ADS (Propriétaire du véhicule)
+
 Properties: CTQ file number, name, etc.
 ADS is a term inherited by Le.Taxi that refers to a parking permission - Autorisation De Stationner (ADS). Before [Bill 17](https://www.transports.gouv.qc.ca/fr/entreprises-partenaires/trpa/Pages/trpa.aspx), Ads was representing a taxi owner permit. Since the [Bill 17](https://www.transports.gouv.qc.ca/fr/entreprises-partenaires/trpa/Pages/trpa.aspx), ADS is now representing the taxi owner himself, since the information on the owner permit is not relevant anymore.
 
 ### Taxi
+
 A taxi is defined by the relation between a driver, a vehicle, an owner and an operator.
 
 If any member of the association changes, then it is a different taxi.
 For instance:
+
 - Two drivers driving the same vehicle alternatively
 - A vehicle being sold to a new owner
 - A new licence plate is issued to the vehicle
 - The owner is dealing with a new operator
 
 ### TaxiPosition
+
 Properties: lon, lat, status, speed, etc.
 The position for a taxi and other information that must be transmitted to the Taxi Registry every 5 seconds.
 
 ### TaxiPositionSnapshot
+
 The operators must send the positions from all their taxis to the Taxi Registry as a batch. Each batch contains the taxi positions from one operator at a given time.
 
 ## Build
@@ -178,10 +205,10 @@ To create the user `<admin-user>`, you can tweak the script [Postgres 1.0.7](./l
 ## Testing
 
 ### API Tests
-Technologies: Node.js, Mocha, Chai, TypeScript
 
-The behavior of the taxi registry is mainly checked using API tests. These tests are using the [mocha-concurrent-api-tests](
-https://github.com/VilledeMontreal/mocha-concurrent-api-tests/blob/master/lib/README.md#mocha-concurrent-api-tests) library and the approach described in [Concurrent API Tests](https://stle-code.medium.com/concurrent-api-tests-d84f7a29f0dc?source=friends_link&sk=843339381eaf77195f8522449c907550), in order to have reliable, maintainable and fast tests to run.
+Technologies: Node.js, Vitest, Chai, TypeScript
+
+The behavior of the taxi registry is mainly checked using API tests. These tests are using the [@villedemontreal/concurrent-api-tests](https://github.com/VilledeMontreal/concurrent-api-tests) library and the approach described in [Concurrent API Tests](https://stle-code.medium.com/concurrent-api-tests-d84f7a29f0dc?source=friends_link&sk=843339381eaf77195f8522449c907550), in order to have reliable, maintainable and fast tests to run.
 
 From the directory `./le-taxi-api-tests`:
 
@@ -194,7 +221,8 @@ To Execute, run `npm run all-tests-localhost`.
 Note: The Node.js API must be running to execute the API tests.
 
 ### Integration Tests (legacy)
-Technologies: Node.js, Mocha, Chai, TypeScript
+
+Technologies: Node.js, Vitest, Chai, TypeScript
 
 Unit tests allow us to validate the behavior of a few functions that would otherwise be difficult to test using the API; such as caches of date utils functions.
 
@@ -209,13 +237,14 @@ Then, from the directory `./le-taxi-api-node.js`:
 To execute, run `npm run test-localhost`.
 
 ### Load Tests
+
 Technologies: Node.js, Artillery, TypeScript
 
 The load tests allows us to validate that we can support the expected load on the two most critical functions of the Registry, that is positions ingest and taxi search.
 
 From the directory `./le-taxi-api-tests`:
 
-To install, run  `npm install`.
+To install, run `npm install`.
 
 #### For the taxi positions ingest
 
@@ -223,6 +252,7 @@ In order to run the load tests, some taxis must be generated in advance. You can
 Note that this process can take several minutes. Once done, you will be able to run the load tests at will.
 
 To run the load tests for the taxi position ingest, run:
+
 - `npm run load-test-position-snapshots-with-25-operators-200-taxis` to simulate 300 000 positions in 5 minutes.
 - `npm run load-test-position-snapshots-with-50-operators-200-taxis` to simulate 600 000 positions in 5 minutes.
 
@@ -231,6 +261,7 @@ To run the load tests for the taxi position ingest, run:
 First run `npm run load-test-generate-shared-state` to prepare to run tests.
 
 In order to run the load tests for the taxi search, you should run the taxi position ingest first so that taxi are available during the test, then:
+
 - `npm run load-test-300-inquiry` to simulate 300 requêtes in 5 minutes.
 - `npm run load-test-1200-inquiry` to simulate 1200 requêtes in 5 minutes.
 
@@ -252,7 +283,7 @@ Participation in this poject is governed by the [Code of Conduct](CODE_OF_CONDUC
 
 The Taxi Registry team from the Ville de Montréal wants to thank the project [Le.Taxi](https://le.taxi) and the [associated source code](https://github.com/openmaraude) which was a great inspiration.
 
-______________________
+---
 
 ([English](#english-version))
 
@@ -265,9 +296,11 @@ ______________________
 Le Registre des taxis a été conçu spécifiquement pour la Ville de Montréal. Ce n’est pas un produit générique pouvant s'implanter automatiquement à une autre ville.
 
 ## Description
+
 En 2018, la Ville de Montréal et le BTM lançaient officiellement le Registre des taxis, un ambitieux projet technologique. Cette plateforme innovante collecte des données en temps réel sur la localisation et la disponibilité des taxis en service, avec pour objectif fondamental de mieux positionner les taxis dans l'offre de transport urbain. Les données extrêmement précieuses du Registre peuvent contribuer à une bonne prise de décision sur la mobilité personnelle et à la mise en œuvre de solutions de transport durable.
 
 Le Registre des taxis de Montréal a deux principaux objectifs:
+
 - Recueillir des données et des métriques sur l’industrie du taxi
 - Ouvrir de nouveaux marchés à l'industrie du taxi
 
@@ -284,14 +317,17 @@ Au départ, le Registre des taxis était basé sur [Le.Taxi](https://le.taxi). L
 ## Acteurs
 
 ### Opérateur
+
 Les propriétaires de taxis doivent interagir avec le Registre des taxis via un opérateur autorisé. Le [guide de l'opérateur](http://www.registretaximontreal.ca/documentation-technique/) décrit en détail comment intégrer le système de répartition assisté par ordinateur (RAO) d'un opérateur avec le Registre des taxis.
 
 Responsabilités:
+
 - Mettre à jour les données contextuelles (information sur véhicules, chauffeurs, etc.) toutes les 24 heures.
 - Permettre aux propriétaires de taxi de se conformer à leur obligation légale. Pour ce faire, les opérateurs doivent transmettre la position et le statut de l’ensemble des taxis avec lesquels ils font affaire toutes les 5 secondes.
 - Permettre aux chauffeurs de taxi de recevoir des demandes à partir du Registre des taxis.
 
 ### Grand public
+
 Toutes personnes (citoyens, touristes, etc.) désirant demander électroniquement un taxi à Montréal.
 
 Il est hors du mandat du Registre des taxis d’interagir directement avec le grand public, cette responsabilité est déléguée aux moteurs de recherche. Les moteurs de recherche (ex: [Transit](http://www.registretaximontreal.ca/documentation-technique/), [Chrono](http://www.registretaximontreal.ca/documentation-technique/)) sont responsables du développement et de l’exploitation des applications mobiles permettant au grand public de demander une course avec le taxi le plus près. Les applications mobiles ne communiquent pas directement avec le Registre des taxis, elles le font via les serveurs des moteurs de recherche approuvés par le BTM.
@@ -299,6 +335,7 @@ Il est hors du mandat du Registre des taxis d’interagir directement avec le gr
 Le Registre des taxis traite tous les utilisateurs d’un moteur de recherche comme un utilisateur anonyme, afin de protéger la vie privée du grand public.
 
 ### Le Bureau du Taxi de Montréal (BTM)
+
 Le [BTM est le promoteur du Registre des taxis](http://www.registretaximontreal.ca/). Dans le cadre de son double mandat d’encadrement et de développement, le BTM détient notamment le mandat de bonifier les services de transport par taxi de la métropole en améliorant les compétences des chauffeurs, leur sécurité ainsi que celle des usagers. Ainsi, le BTM pilote des projets de modernisation structurants pour l’industrie du taxi et développe différentes initiatives porteuses tant pour l’industrie que pour la Ville de Montréal.
 
 Responsabilités:
@@ -310,17 +347,21 @@ Responsabilités:
 - Gérer les utilisateurs du Registre des taxis (Opérateurs, moteurs de recherche et organisation partenaire).
 
 ### Organisation partenaire
+
 L’ouverture des données du Registre des taxis est restreinte à certaines organisations partenaires bien identifiées.
 
 Responsabilités:
+
 - Extraire périodiquement les données du Registre des taxis, afin d'effectuer des études statistiques.
 
 ## Composantes
 
 ### API
+
 Technologie: Node.js, Express, TypeScript
 
 Responsabilités:
+
 - Recevoir la position et le statut de l’ensemble des taxis toutes les 5 secondes.
 - Gestion des données contextuelles (information sur véhicules, chauffeurs, etc.).
 - Supporter l’ensemble des opérations de l’interface usager.
@@ -329,27 +370,35 @@ Responsabilités:
 L’authentification de serveur à serveur (ex: moteur de recherche vers API Node.js) s’effectue via api key sur HTTPS et l’authentification utilisateur à serveur s’effectue via token sur HTTPS.
 
 ### Base de données PostgreSQL
+
 Responsabilités:
+
 - Persister les données contextuelles (information sur véhicules, chauffeurs, etc.).
 - Persister les profils utilisateurs (Opérateurs, Moteurs de recherche, Organisations partenaires et utilisateur BTM).
 
 ### Base de données Mongo
+
 Responsabilités:
+
 - Persister l’historique des positions et statuts des taxis transmis par les opérateurs.
 - Accès rapide à la position et au statut le plus récent de chacun des taxis.
 - Effectuer des requêtes géospatiales.
 
 ### OSRM
+
 Responsabilités:
+
 - Utilises la carte du Québec pour le routage
 - Estime la distance et la durée que le taxi met pour se rendre à l'utilisateur et l'utilisateur aller du point A au point B
 
 ### UI (Interface usager)
+
 Technologie: Angular, Angular Material, TypeScript
 
 L'interface usager est exclusivement pour un usage interne par le Bureau du Taxi de Montréal.
 
 Responsabilités:
+
 - Visualisation des données contextuelles (information sur véhicules, chauffeurs, etc.).
 - Export les données contextuelles anonymisées en csv.
 - Suivi des taxis en temps réel sur une carte.
@@ -365,6 +414,7 @@ Pour une description exhaustive de chaque attribut traité par le Registre des t
 ![Data Model](./assets/data-model.svg)
 
 ### User (Utilisateur)
+
 Attributs: nom, courriel, api key, etc.
 
 Il existe plusieurs profils d’utilisateurs: opérateur, moteur de recherche, partenaire externe, inspecteur BTM et admin.
@@ -374,30 +424,37 @@ Les données du Registre des taxis sont partitionnées par opérateur. Les donn�
 Certains propriétaires (une nouvelle tendance) font affaire avec plusieurs opérateurs (traditionnels ou fournisseurs de solutions chauffeurs) afin d’obtenir des courses de la part de plusieurs opérateurs et ainsi obtenir plus de courses. Dans ce cas, les données sont soumises de manière autonome par chacun des opérateurs. Par exemple, dans le Registre des taxis, le chauffeur soumis par l’opérateur A est un chauffeur distinct du chauffeur soumis par l’opérateur B même s’il s’agit du même chauffeur dans la réalité.
 
 ### Driver (Chauffeur)
+
 Attributs: numéro de permis de conduire, nom, etc.
 
 ### Vehicule (Véhicule)
+
 Attributs: plaque d’immatriculation, caractéristiques du véhicule, etc.
 
 ### Ads (Propriétaire du véhicule)
+
 Attributs: numéro de dossier CTQ, nom, etc.
 Ads est un terme hérité de Le.Taxi qui signifie: Autorisation De Stationner (ADS). Avant la [Loi 17](https://www.transports.gouv.qc.ca/fr/entreprises-partenaires/trpa/Pages/trpa.aspx), Ads représentait un permis de propriétaire de taxi. Depuis la [Loi 17](https://www.transports.gouv.qc.ca/fr/entreprises-partenaires/trpa/Pages/trpa.aspx), Ads représente le propriétaire en tant que tel, car l’information sur le permis de propriétaire n’est plus pertinente.
 
 ### Taxi
+
 Un taxi représente l’association entre un chauffeur, un véhicule, un propriétaire et un opérateur.
 
 Lorsqu’une de ces associations change, il ne s’agit plus du même taxi.
 Par exemple:
+
 - Deux chauffeurs conduisent le même véhicule à tour de rôle
 - Un véhicule est vendu à un nouveau propriétaire
 - Le véhicule change de plaque
 - Le propriétaire fait affaire avec un nouvel opérateur
 
 ### TaxiPosition (Position d’un taxi)
+
 Attributs: lon, lat, statut, vitesse, etc.
 La position d’un taxi et d’autres informations doivent être transmises au Registre des taxis à chaque cinq secondes.
 
 ### TaxiPositionSnapshot (Lot de position de taxis)
+
 Les opérateurs doivent transmettre les positions de tous les taxis au Registre des taxis en lot. Chaque lot contient les positions des taxis d’un opérateur à un instant donné.
 
 ## Bâtir
@@ -435,10 +492,10 @@ Pour créer un utilisateur `<admin-user>`, il est possible de s'inspirer du scri
 ## Tester
 
 ### Tests d'API
-Technologie: Node.js, Mocha, Chai, TypeScript
 
-Le bon fonctionnement du Registre des taxis est principalement vérifié à l'aide de tests d'API. Ces tests utilisent la librairie [mocha-concurrent-api-tests](
-https://github.com/VilledeMontreal/mocha-concurrent-api-tests/blob/master/lib/README.md#mocha-concurrent-api-tests) et l'approche décrite dans [Concurrent API Tests](https://stle-code.medium.com/concurrent-api-tests-d84f7a29f0dc?source=friends_link&sk=843339381eaf77195f8522449c907550), afin d'obtenir des tests fiables, maintenables et rapides à exécuter.
+Technologie: Node.js, Vitest, Chai, TypeScript
+
+Le bon fonctionnement du Registre des taxis est principalement vérifié à l'aide de tests d'API. Ces tests utilisent la librairie [@villedemontreal/concurrent-api-tests](https://github.com/VilledeMontreal/concurrent-api-tests) et l'approche décrite dans [Concurrent API Tests](https://stle-code.medium.com/concurrent-api-tests-d84f7a29f0dc?source=friends_link&sk=843339381eaf77195f8522449c907550), afin d'obtenir des tests fiables, maintenables et rapides à exécuter.
 
 Depuis le répertoire `./le-taxi-api-tests`:
 
@@ -451,7 +508,8 @@ Pour exécuter, lancer `npm run all-tests-localhost`.
 Note: L'Api Node.js doit être en train d'exécuter pour lancer les tests d'API.
 
 ### Tests d'intégration (legacy)
-Technologie: Node.js, Mocha, Chai, TypeScript
+
+Technologie: Node.js, Vitest, Chai, TypeScript
 
 Les tests unitaires permettent de valider le comportement de certaines fonctions qu'il serait difficile de tester via l'API; comme par exemple des caches ou les fonctions utilitaires de manipulation de dates.
 
@@ -466,6 +524,7 @@ Ensuite, depuis le répertoire `./le-taxi-api-node.js`:
 Pour exécuter, lancer `npm run test-localhost`.
 
 ### Tests de charge
+
 Technologie: Node.js, Artillery, TypeScript
 
 Les tests de charge permettent de valider la charge attendue sur les deux fonctions les plus critiques du Registre, l'ingestion de positions de taxis et la recherche de taxis.
@@ -479,6 +538,7 @@ Pour installer, lancer la commande `npm install`.
 Afin de pouvoir exécuter les tests de charges, des taxis ont besoin d'être générés en avance. Cela se fait via la commande `npm run load-test-position-snapshots-generate-shared-state`. À noter que cette commande peut prendre plusieurs minutes. Une fois complétée, vous pourrez exécuter les tests de charge à l'envie.
 
 Pour exécuter les tests de charge pour l'ingestion des positions de taxis, lancer:
+
 - `npm run load-test-position-snapshots-with-25-operators-200-taxis` pour simuler 300 000 positions en 5 minutes.
 - `npm run load-test-position-snapshots-with-50-operators-200-taxis` pour simuler 600 000 positions en 5 minutes.
 
@@ -487,6 +547,7 @@ Pour exécuter les tests de charge pour l'ingestion des positions de taxis, lanc
 Lancer au préalable la commande `npm run load-test-generate-shared-state` afin de préparer à l'exécution des tests.
 
 Pour exécuter les tests de charge pour la recherche de taxis, il faut dans un premier temps exécuter les tests d'ingestion de positions afin d'avoir des taxis disponibles pendant le test, puis:
+
 - `npm run load-test-300-inquiry` pour simuler 300 requêtes en 5 minutes.
 - `npm run load-test-1200-inquiry` pour simuler 1200 requêtes en 5 minutes.
 

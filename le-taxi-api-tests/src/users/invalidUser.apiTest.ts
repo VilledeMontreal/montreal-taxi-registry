@@ -1,9 +1,9 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
+import { shouldThrow } from "@villedemontreal/concurrent-api-tests";
 import { assert } from "chai";
 import { StatusCodes } from "http-status-codes";
 import { v4 as uuidv4 } from "uuid";
-import { shouldThrow } from "../shared/commonTests/testUtil";
 import { UserRole } from "../shared/commonTests/UserRole";
 import {
   createUser,

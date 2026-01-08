@@ -1,9 +1,9 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as config from 'config';
-import * as path from 'path';
-import { ConfigCache } from './configCache';
-import { constants } from './constants';
+import * as config from "config";
+import * as path from "path";
+import { ConfigCache } from "./configCache";
+import { constants } from "./constants";
 
 /**
  * Configurations for the application.
@@ -30,7 +30,9 @@ export class Configs {
   private constructor() {
     this.root = path.normalize(`${__dirname}/..`);
     this.theEnvironment = config.util.getEnv(constants.EnvVariables.NODE_ENV);
-    this.theEnvironmentInstance = config.util.getEnv(constants.EnvVariables.NODE_APP_INSTANCE);
+    this.theEnvironmentInstance = config.util.getEnv(
+      constants.EnvVariables.NODE_APP_INSTANCE
+    );
     this.cache = new ConfigCache();
   }
 
@@ -54,21 +56,13 @@ export class Configs {
         : this.theEnvironment,
       type: this.theEnvironment,
       instance: this.theEnvironmentInstance,
-      isLocal: this.cache.get<boolean>('environment.isLocal'),
+      isLocal: this.cache.get<boolean>("environment.isLocal"),
       isDev: this.theEnvironment === constants.Environments.DEV,
       isLocalOrDev:
-        this.cache.get<boolean>('environment.isLocal') || this.theEnvironment === constants.Environments.DEV,
+        this.cache.get<boolean>("environment.isLocal") ||
+        this.theEnvironment === constants.Environments.DEV,
       isAcc: this.theEnvironment === constants.Environments.ACC,
-      isProd: this.theEnvironment === constants.Environments.PROD
-    };
-  }
-
-  /**
-   * End To End testing informations
-   */
-  get e2eTesting() {
-    return {
-      maxTestConcurrency: this.cache.get<number>('e2eTesting.maxTestConcurrency')
+      isProd: this.theEnvironment === constants.Environments.PROD,
     };
   }
 
@@ -78,9 +72,13 @@ export class Configs {
   get loadTesting() {
     return {
       snapshots: {
-        runWithTaxiExpiration: this.cache.get<number>('loadTesting.snapshots.runWithTaxiExpiration'),
-        numberOfOperators: this.cache.get<number>('loadTesting.snapshots.numberOfOperators')
-      }
+        runWithTaxiExpiration: this.cache.get<number>(
+          "loadTesting.snapshots.runWithTaxiExpiration"
+        ),
+        numberOfOperators: this.cache.get<number>(
+          "loadTesting.snapshots.numberOfOperators"
+        ),
+      },
     };
   }
 
@@ -89,10 +87,10 @@ export class Configs {
    */
   get apiTests() {
     return {
-      rootApiKey: this.cache.get<string>('apiTests.rootApiKey'),
-      rootPath: this.cache.get<string>('apiTests.rootPath'),
-      user: this.cache.get<string>('apiTests.user'),
-      password: this.cache.get<string>('apiTests.password')
+      rootApiKey: this.cache.get<string>("apiTests.rootApiKey"),
+      rootPath: this.cache.get<string>("apiTests.rootPath"),
+      user: this.cache.get<string>("apiTests.user"),
+      password: this.cache.get<string>("apiTests.password"),
     };
   }
 
@@ -101,9 +99,15 @@ export class Configs {
    */
   get inquiries() {
     return {
-      delayToExceedPromotion: this.cache.get<number>('inquiries.delayToExceedPromotion'),
-      fixedDailyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedDailyPriceDowntownToAirport'),
-      fixedNightlyPriceDowntownToAirport: this.cache.get<number>('inquiries.fixedNightlyPriceDowntownToAirport')
+      delayToExceedPromotion: this.cache.get<number>(
+        "inquiries.delayToExceedPromotion"
+      ),
+      fixedDailyPriceDowntownToAirport: this.cache.get<number>(
+        "inquiries.fixedDailyPriceDowntownToAirport"
+      ),
+      fixedNightlyPriceDowntownToAirport: this.cache.get<number>(
+        "inquiries.fixedNightlyPriceDowntownToAirport"
+      ),
     };
   }
 
@@ -112,7 +116,9 @@ export class Configs {
    */
   get caching() {
     return {
-      delayToExceedUsersCache: this.cache.get<number>('caching.delayToExceedUsersCache')
+      delayToExceedUsersCache: this.cache.get<number>(
+        "caching.delayToExceedUsersCache"
+      ),
     };
   }
 
@@ -121,17 +127,21 @@ export class Configs {
    */
   get taxiRegistryOsrmApi() {
     return {
-      base: this.cache.get<string>('taxiRegistryOsrmApi.base'),
-      domainPath: this.cache.get<string>('taxiRegistryOsrmApi.domainPath'),
+      base: this.cache.get<string>("taxiRegistryOsrmApi.base"),
+      domainPath: this.cache.get<string>("taxiRegistryOsrmApi.domainPath"),
       estimation: {
-        durationBias: this.cache.get<number>('taxiRegistryOsrmApi.estimation.durationBias'),
-        requestAndDispatchInSec: this.cache.get<number>('taxiRegistryOsrmApi.estimation.requestAndDispatchInSec')
-      }
+        durationBias: this.cache.get<number>(
+          "taxiRegistryOsrmApi.estimation.durationBias"
+        ),
+        requestAndDispatchInSec: this.cache.get<number>(
+          "taxiRegistryOsrmApi.estimation.requestAndDispatchInSec"
+        ),
+      },
     };
   }
 }
 
-export let configs: Configs = Configs.instance;
+export const configs: Configs = Configs.instance;
 
 export function getAbsoluteUrl(relative: string): string {
   return `${configs.apiTests.rootPath}${relative}`;
