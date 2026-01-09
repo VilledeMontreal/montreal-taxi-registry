@@ -47,3 +47,4 @@ fsmDiagram.dot
 
 *.mjs
 !eslint.config.mjs
+tsconfig.tsbuildinfo

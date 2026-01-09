@@ -7,7 +7,7 @@ import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 export async function getRoleDataDump(
   operator: string,
   apiKey?: string,
-  eTag?: string
+  eTag?: string,
 ) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Stats);
   const queryParams = operator ? `operator=${operator}` : "";
@@ -16,6 +16,6 @@ export async function getRoleDataDump(
     apiKey,
     defaultApiKey,
     eTag,
-    true
+    true,
   );
 }

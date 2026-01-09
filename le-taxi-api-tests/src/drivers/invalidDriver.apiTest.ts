@@ -8,7 +8,6 @@ import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 import { postDriver } from "./driver.apiClient";
 import { copyDriverTemplate } from "./driverDto.template";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidDriverTests(): Promise<void> {
   testCreateDriverUserAccessInvalid(UserRole.Motor);
   testCreateDriverUserAccessInvalid(UserRole.Inspector);
@@ -24,9 +23,9 @@ export async function invalidDriverTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The array should not be empty"
+          "The array should not be empty",
         );
-      }
+      },
     );
   });
 
@@ -44,9 +43,9 @@ export async function invalidDriverTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The array reached its limit of 1 items"
+          "The array reached its limit of 1 items",
         );
-      }
+      },
     );
   });
 
@@ -61,9 +60,9 @@ export async function invalidDriverTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because professional_licence must be longer than or equal to 4 characters"
+          "The object failed the validation because professional_licence must be longer than or equal to 4 characters",
         );
-      }
+      },
     );
   });
 
@@ -78,9 +77,9 @@ export async function invalidDriverTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because first_name should not be null or undefined"
+          "The object failed the validation because first_name should not be null or undefined",
         );
-      }
+      },
     );
   });
 
@@ -95,9 +94,9 @@ export async function invalidDriverTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `Department with number '0' was not found. Either make sure the department exists or use the default department number '1000' instead.`
+          `Department with number '0' was not found. Either make sure the department exists or use the default department number '1000' instead.`,
         );
-      }
+      },
     );
   });
 
@@ -112,9 +111,9 @@ export async function invalidDriverTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because last_name should not be null or undefined"
+          "The object failed the validation because last_name should not be null or undefined",
         );
-      }
+      },
     );
   });
 
@@ -128,9 +127,9 @@ export async function invalidDriverTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because professional_licence should not be null or undefined"
+          "The object failed the validation because professional_licence should not be null or undefined",
         );
-      }
+      },
     );
   });
 
@@ -143,9 +142,9 @@ export async function invalidDriverTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The array should not be empty"
+          "The array should not be empty",
         );
-      }
+      },
     );
   });
 }
@@ -161,9 +160,9 @@ function testCreateDriverUserAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

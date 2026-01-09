@@ -29,7 +29,7 @@ export function randomPointsOnPolygon(
   number: any,
   polygon: any,
   properties?: any,
-  fc?: any
+  fc?: any,
 ) {
   if (typeof properties === "boolean") {
     fc = properties;
@@ -42,7 +42,7 @@ export function randomPointsOnPolygon(
 
   if (polygon.type !== "Feature") {
     return new Error(
-      "Polygon parameter must be a Feature<(Polygon|MultiPolygon)>"
+      "Polygon parameter must be a Feature<(Polygon|MultiPolygon)>",
     );
 
     if (
@@ -50,7 +50,7 @@ export function randomPointsOnPolygon(
       polygon.geomtry.type !== "MutliPolygon"
     ) {
       return new Error(
-        "Polygon parameter must be a Feature<(Polygon|MultiPolygon)>"
+        "Polygon parameter must be a Feature<(Polygon|MultiPolygon)>",
       );
     }
   }

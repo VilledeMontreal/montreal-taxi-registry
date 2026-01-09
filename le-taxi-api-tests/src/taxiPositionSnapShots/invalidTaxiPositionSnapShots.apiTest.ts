@@ -8,7 +8,6 @@ import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 import { postTaxiPositionSnapshots } from "./taxiPositionSnapshots.apiClient";
 import { getValidTaxiPositionSnapshotDtoAndApikey } from "./taxiPositionSnapshots.fixture";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
   testCreateTaxiPositionSnapShotsUserAccessInvalid(UserRole.Admin);
   testCreateTaxiPositionSnapShotsUserAccessInvalid(UserRole.Motor);
@@ -29,9 +28,9 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `some taxis are not existing in the system`
+          `some taxis are not existing in the system`,
         );
-      }
+      },
     );
   });
 
@@ -50,9 +49,9 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `some taxis do not belong to the operator`
+          `some taxis do not belong to the operator`,
         );
-      }
+      },
     );
   });
 
@@ -67,9 +66,9 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "taxi position snapshot is not in a valid JSON format"
+          "taxi position snapshot is not in a valid JSON format",
         );
-      }
+      },
     );
   });
 
@@ -90,12 +89,12 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
       () => postTaxiPositionSnapshots(dtoTaxiPositionSnapShot, apiKey),
       (err) => {
         const errorDetailsArray = err.response.body.error.details.map(
-          (detail: any) => detail.message
+          (detail: any) => detail.message,
         );
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "Multiple validation errors were found for this taxi position snapshot"
+          "Multiple validation errors were found for this taxi position snapshot",
         );
         assert.include(errorDetailsArray, "the latitude is not valid");
         assert.include(errorDetailsArray, "the longitude is not valid");
@@ -104,19 +103,19 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
         assert.include(errorDetailsArray, "the status is not valid");
         assert.include(
           errorDetailsArray,
-          "the speed attribute is mandatory and must be a number"
+          "the speed attribute is mandatory and must be a number",
         );
         assert.include(errorDetailsArray, "the azimuth is not valid");
         assert.include(errorDetailsArray, "the version is not valid");
         assert.include(
           errorDetailsArray,
-          "the operator is either missing or has an invalid API key"
+          "the operator is either missing or has an invalid API key",
         );
         assert.include(
           errorDetailsArray,
-          "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future"
+          "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future",
         );
-      }
+      },
     );
   });
 
@@ -134,30 +133,30 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
       () => postTaxiPositionSnapshots(dtoTaxiPositionSnapShot, apiKey),
       (err) => {
         const errorDetailsArray = err.response.body.error.details.map(
-          (detail: any) => detail.message
+          (detail: any) => detail.message,
         );
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "Multiple validation errors were found for this taxi position snapshot"
+          "Multiple validation errors were found for this taxi position snapshot",
         );
         assert.include(errorDetailsArray, "the latitude is not valid");
         assert.include(errorDetailsArray, "the longitude is not valid");
         assert.include(errorDetailsArray, "the status is not valid");
         assert.include(
           errorDetailsArray,
-          "the speed attribute is mandatory and must be a number"
+          "the speed attribute is mandatory and must be a number",
         );
         assert.include(errorDetailsArray, "the version is not valid");
         assert.include(
           errorDetailsArray,
-          "the operator is either missing or has an invalid API key"
+          "the operator is either missing or has an invalid API key",
         );
         assert.include(
           errorDetailsArray,
-          "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future"
+          "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future",
         );
-      }
+      },
     );
   });
 
@@ -191,18 +190,18 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         const errorDetailsArray = err.response.body.error.details.map(
-          (detail: any) => detail.message
+          (detail: any) => detail.message,
         );
 
         const latitudeInvalid = errorDetailsArray.filter(
-          (e: string) => e.indexOf("latitude is not valid") !== -1
+          (e: string) => e.indexOf("latitude is not valid") !== -1,
         );
         assert.strictEqual(latitudeInvalid.length, 7);
         const longitudeInvalid = errorDetailsArray.filter(
-          (e: string) => e.indexOf("longitude is not valid") !== -1
+          (e: string) => e.indexOf("longitude is not valid") !== -1,
         );
         assert.strictEqual(longitudeInvalid.length, 7);
-      }
+      },
     );
   });
 
@@ -221,18 +220,18 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         const errorDetailsArray = err.response.body.error.details.map(
-          (detail: any) => detail.message
+          (detail: any) => detail.message,
         );
 
         const latitudeOOB = errorDetailsArray.filter(
-          (e: string) => e.indexOf("latitude is out of bounds") !== -1
+          (e: string) => e.indexOf("latitude is out of bounds") !== -1,
         );
         assert.strictEqual(latitudeOOB.length, 2);
         const longitudeOOB = errorDetailsArray.filter(
-          (e: string) => e.indexOf("longitude is out of bounds") !== -1
+          (e: string) => e.indexOf("longitude is out of bounds") !== -1,
         );
         assert.strictEqual(longitudeOOB.length, 2);
-      }
+      },
     );
   });
 
@@ -253,14 +252,14 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         const errorDetailsArray = err.response.body.error.details.map(
-          (detail: any) => detail.message
+          (detail: any) => detail.message,
         );
 
         const azimuthInvalid = errorDetailsArray.filter(
-          (e: string) => e.indexOf("azimuth is not valid") !== -1
+          (e: string) => e.indexOf("azimuth is not valid") !== -1,
         );
         assert.strictEqual(azimuthInvalid.length, 7);
-      }
+      },
     );
   });
 
@@ -279,14 +278,14 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         const errorDetailsArray = err.response.body.error.details.map(
-          (detail: any) => detail.message
+          (detail: any) => detail.message,
         );
 
         const azimuthOOB = errorDetailsArray.filter(
-          (e: string) => e.indexOf("azimuth is out of bounds") !== -1
+          (e: string) => e.indexOf("azimuth is out of bounds") !== -1,
         );
         assert.strictEqual(azimuthOOB.length, 2);
-      }
+      },
     );
   });
 
@@ -300,9 +299,9 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future"
+          "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future",
         );
-      }
+      },
     );
   });
 
@@ -316,9 +315,9 @@ export async function invalidTaxiPositionSnapShotsTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future"
+          "the timestamp must be in a valid UTC format, no older than a minute from the time the request was sent and not set in the future",
         );
-      }
+      },
     );
   });
 }
@@ -335,9 +334,9 @@ function testCreateTaxiPositionSnapShotsUserAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

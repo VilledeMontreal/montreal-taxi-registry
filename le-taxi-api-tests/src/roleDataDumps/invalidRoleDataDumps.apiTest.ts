@@ -10,7 +10,6 @@ import {
 } from "../users/user.sharedFixture";
 import { getRoleDataDump } from "./roleDataDumps.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidRoleDataDumpsTests(): Promise<void> {
   testRoleDataDumpsAccessInvalid(UserRole.Operator);
   testRoleDataDumpsAccessInvalid(UserRole.Inspector);
@@ -28,9 +27,9 @@ function testRoleDataDumpsAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

@@ -11,7 +11,6 @@ import {
   getTaxiPositionSnapshotDataDump,
 } from "./taxiPositionSnapshotDataDumps.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudTaxiPositionSnapshotDataDumpsTests(): Promise<void> {
   testTaxiPositionSnapshotDataDumpsAccessValid(UserRole.Admin);
   testTaxiPositionSnapshotDataDumpsAccessValid(UserRole.Manager);
@@ -23,13 +22,13 @@ export async function crudTaxiPositionSnapshotDataDumpsTests(): Promise<void> {
     assert.strictEqual(taxiResponse.status, StatusCodes.CREATED);
 
     const responseDataDump = await getTaxiPositionSnapshotDataDump(
-      getCurrentTaxiPositionTimestamp()
+      getCurrentTaxiPositionTimestamp(),
     );
     assert.strictEqual(responseDataDump.status, StatusCodes.OK);
 
     const taxiId = taxiResponse.body.data[0].id;
     const found = responseDataDump.body.items.some((snapshot: any) =>
-      snapshot.items.some((position: any) => position.taxi === taxiId)
+      snapshot.items.some((position: any) => position.taxi === taxiId),
     );
 
     assert.strictEqual(found, true);
@@ -41,13 +40,13 @@ export async function crudTaxiPositionSnapshotDataDumpsTests(): Promise<void> {
     assert.strictEqual(taxiResponse.status, StatusCodes.CREATED);
 
     const responseDataDump = await getTaxiPositionSnapshotDataDump(
-      getCurrentTaxiPositionTimestamp()
+      getCurrentTaxiPositionTimestamp(),
     );
     assert.strictEqual(responseDataDump.status, StatusCodes.OK);
 
     const taxiId = taxiResponse.body.data[0].id;
     const found = responseDataDump.body.items.some((snapshot: any) =>
-      snapshot.items.some((position: any) => position.taxi === taxiId)
+      snapshot.items.some((position: any) => position.taxi === taxiId),
     );
 
     assert.strictEqual(found, false);
@@ -59,7 +58,7 @@ function testTaxiPositionSnapshotDataDumpsAccessValid(role: UserRole) {
     const apiKey = await getImmutableUserApiKey(role);
     const responseDataDump = await getTaxiPositionSnapshotDataDump(
       getCurrentTaxiPositionTimestamp(),
-      apiKey
+      apiKey,
     );
     assert.strictEqual(responseDataDump.status, StatusCodes.OK);
   });

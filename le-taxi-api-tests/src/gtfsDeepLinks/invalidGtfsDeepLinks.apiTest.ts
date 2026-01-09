@@ -7,7 +7,6 @@ import { UserRole } from "../shared/commonTests/UserRole";
 import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 import { getGtfsDeepLinks } from "./gtfsDeepLinks.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidGtfsDeepLinksTests(): Promise<void> {
   testGtfsDeepLinksAccessInvalid(UserRole.Admin);
   testGtfsDeepLinksAccessInvalid(UserRole.Motor);
@@ -27,9 +26,9 @@ function testGtfsDeepLinksAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

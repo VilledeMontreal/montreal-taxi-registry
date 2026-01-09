@@ -14,7 +14,7 @@ async function generateTaxisSharedState() {
     const taxis = await createTaxisToLoad();
     fs.writeFileSync(
       "src/taxiPositionSnapShots/loadTests/taxi.sharedState.json",
-      JSON.stringify(taxis)
+      JSON.stringify(taxis),
     );
   } catch (ex) {
     console.log(ex);
@@ -25,7 +25,7 @@ async function createTaxisToLoad(): Promise<ITaxiToLoad> {
   const users = await createUsersToLoadTests();
 
   const items = await Promise.all(
-    users.map((user) => createTaxisForUser(user))
+    users.map((user) => createTaxisForUser(user)),
   );
   return {
     items,
@@ -57,7 +57,10 @@ async function createTaxisForUser(user: IUser) {
 async function createUsersToLoadTests() {
   const promotions = { standard: true, minivan: true, special_need: true };
   return await Promise.all(
-    lodash.times(100, async () => await createOperatorWithPromotion(promotions))
+    lodash.times(
+      100,
+      async () => await createOperatorWithPromotion(promotions),
+    ),
   );
 }
 

@@ -7,7 +7,6 @@ import { UserRole } from "../shared/commonTests/UserRole";
 import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 import { getGtfsDeepLinks } from "./gtfsDeepLinks.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudGtfsDeepLinksTests(): Promise<void> {
   testGtfsDeepLinksAccessValid(UserRole.Operator);
 }

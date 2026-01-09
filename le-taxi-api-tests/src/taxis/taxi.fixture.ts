@@ -15,7 +15,7 @@ import { copyTaxiTemplate } from "./taxisDto.template";
 
 export async function setupNewTaxiId(
   dtoTaxi: ITaxi,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<any> {
   const response = await setupNewTaxi(dtoTaxi, apiKey);
   return response.body.data[0].id;
@@ -23,7 +23,7 @@ export async function setupNewTaxiId(
 
 export async function setupNewTaxi(
   dtoTaxi: ITaxi,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<any> {
   const [driver, vehicle, ads] = await Promise.all([
     createDriver(apiKey),
@@ -36,7 +36,7 @@ export async function setupNewTaxi(
 export async function setupNewCustomTaxi(
   specialNeedVehicle = false,
   type = "sedan",
-  apiKey?: string
+  apiKey?: string,
 ) {
   const [driver, vehicle, ads] = await Promise.all([
     createDriver(apiKey),
@@ -48,7 +48,7 @@ export async function setupNewCustomTaxi(
 
 async function createTaxi(
   triplet: { ads: any; driver: any; vehicle: any; taxi: ITaxi },
-  apiKey?: string
+  apiKey?: string,
 ) {
   const { ads, driver, vehicle, taxi } = triplet;
 
@@ -66,7 +66,7 @@ async function createTaxi(
 async function createCustomVehicle(
   specialNeedVehicle = false,
   type = "sedan",
-  apiKey?: string
+  apiKey?: string,
 ) {
   return createVehicle(apiKey, (x) => {
     x.data[0].fresh_drink = true;
@@ -78,7 +78,7 @@ async function createCustomVehicle(
 
 export async function initTaxiReferencesWithOwnerSemanticForADS(
   dtoTaxi: ITaxi,
-  apiKey?: string
+  apiKey?: string,
 ) {
   await Promise.all([
     postDriver(
@@ -87,27 +87,27 @@ export async function initTaxiReferencesWithOwnerSemanticForADS(
         x.data[0].professional_licence =
           dtoTaxi.data[0].driver.professional_licence;
       }),
-      apiKey
+      apiKey,
     ),
     postVehicle(
       copyVehicleTemplate((x) => {
         x.data[0].licence_plate = dtoTaxi.data[0].vehicle.licence_plate;
       }),
-      apiKey
+      apiKey,
     ),
     postAds(
       copyAdsOwnerTemplate((x) => {
         x.data[0].insee = dtoTaxi.data[0].ads.insee;
         x.data[0].numero = dtoTaxi.data[0].ads.numero;
       }),
-      apiKey
+      apiKey,
     ),
   ]);
 }
 
 export async function initTaxiReferencesWithPermitSemanticForADS(
   dtoTaxi: ITaxi,
-  apiKey?: string
+  apiKey?: string,
 ) {
   await Promise.all([
     postDriver(
@@ -116,20 +116,20 @@ export async function initTaxiReferencesWithPermitSemanticForADS(
         x.data[0].professional_licence =
           dtoTaxi.data[0].driver.professional_licence;
       }),
-      apiKey
+      apiKey,
     ),
     postVehicle(
       copyVehicleTemplate((x) => {
         x.data[0].licence_plate = dtoTaxi.data[0].vehicle.licence_plate;
       }),
-      apiKey
+      apiKey,
     ),
     postAds(
       copyAdsPermitTemplate((x) => {
         x.data[0].insee = dtoTaxi.data[0].ads.insee;
         x.data[0].numero = dtoTaxi.data[0].ads.numero;
       }),
-      apiKey
+      apiKey,
     ),
   ]);
 }

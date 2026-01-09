@@ -10,6 +10,6 @@ export async function postTaxiPositionSnapshots(dto: any, apiKey?: string) {
     `/api/taxi-position-snapshots`,
     dto,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }

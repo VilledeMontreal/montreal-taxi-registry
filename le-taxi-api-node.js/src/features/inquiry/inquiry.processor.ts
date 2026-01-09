@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import booleanContains from "@turf/boolean-contains";
-import turf from "@turf/helpers";
+import * as turf from "@turf/helpers";
 import { configs } from "../../config/configs";
 import { LatestTaxiPositionModelExtended } from "../latestTaxiPositions/latestTaxiPosition.model";
 import { latestTaxiPositionRepository } from "../latestTaxiPositions/latestTaxiPosition.repository";
@@ -31,12 +31,12 @@ interface IEstimatePriceProperties {
 
 class InquiryProcessor {
   public async process(
-    inquiryRequest: InquiryRequest,
+    inquiryRequest: InquiryRequest
   ): Promise<InquiryResponse> {
     const closestTaxiPromise = latestTaxiPositionRepository.findClosestTaxis(
       inquiryRequest.from,
       inquiryRequest.inquiryTypes,
-      inquiryRequest.operators,
+      inquiryRequest.operators
     );
     const hasDestination = !!(inquiryRequest.to?.lat && inquiryRequest.to?.lon);
     const routeFromSourceToDestinationPromise = hasDestination
@@ -55,7 +55,7 @@ class InquiryProcessor {
       closestTaxis.map((closestTaxi) => ({
         lat: closestTaxi.lat,
         lon: closestTaxi.lon,
-      })),
+      }))
     );
 
     const date = nowUtcIsoString();
@@ -73,7 +73,7 @@ class InquiryProcessor {
             configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec,
           booking,
         } as InquiryResponseData;
-      }),
+      })
     );
 
     if (hasDestination) {
@@ -101,10 +101,10 @@ class InquiryProcessor {
 
 async function prepareBooking(
   closestTaxi: LatestTaxiPositionModelExtended,
-  inquiryRequest: InquiryRequest,
+  inquiryRequest: InquiryRequest
 ): Promise<InquiryBookingResponseData> {
   const operator = await userRepositoryByIdWithCaching.getByKey(
-    closestTaxi.taxi.operatorId,
+    closestTaxi.taxi.operatorId
   );
   const isSpecialNeed =
     closestTaxi.taxi.inquiryType === InquiryTypes.SpecialNeed;
@@ -123,7 +123,7 @@ async function prepareBooking(
     : operator.standard_booking_ios_deeplink_uri;
   const queryParams = buildQueryParams(
     closestTaxi.taxi.inquiryType,
-    inquiryRequest,
+    inquiryRequest
   );
 
   return {
@@ -137,7 +137,7 @@ async function prepareBooking(
 
 function buildQueryParams(
   inquiryType: InquiryTypes,
-  inquiryRequest: InquiryRequest,
+  inquiryRequest: InquiryRequest
 ): string {
   const queryParams = `?service_type=${inquiryType}&pickup_latitude=${
     inquiryRequest.from.lat

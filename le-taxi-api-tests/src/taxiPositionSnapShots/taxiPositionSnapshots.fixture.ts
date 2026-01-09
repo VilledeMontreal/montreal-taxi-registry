@@ -18,7 +18,7 @@ import {
 
 export async function getValidTaxiPositionSnapshotDtoAndApikey(
   role: UserRole,
-  itemCount = 1
+  itemCount = 1,
 ): Promise<[ITaxiPositionSnapShots, string]> {
   const userDto = copyUserTemplate((x) => {
     x.role = role;
@@ -44,8 +44,8 @@ export async function getValidTaxiPositionSnapshotDtoAndApikey(
         x.timestamp = timestamp;
         x.taxi = taxiId;
         x.operator = operatorEmail;
-      })
-    )
+      }),
+    ),
   );
 
   return [dtoTaxiPositionSnapShot, apiKey];
@@ -67,7 +67,7 @@ export async function createTaxiWithStatus(status: string, apiKey: string) {
 
 export async function setTaxiPosition(
   snapshot: Partial<ITaxiPositionSnapShotItem>,
-  apiKey?: string
+  apiKey?: string,
 ) {
   const dtoUpdateTaxiPosition = copyTaxiPositionTemplate((x) => {
     x.items[0].taxi = snapshot.taxi;

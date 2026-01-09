@@ -247,46 +247,46 @@ export async function crudOsrmTests(): Promise<void> {
           const taxiRegistryOsrmResponse = await getRoutesFromTaxiRegistryOsrm(
             closestTaxi,
             from,
-            to
+            to,
           );
           assert.equal(
             taxiRegistryOsrmResponse.status,
-            expectedResponse.statusCode
+            expectedResponse.statusCode,
           );
 
           const taxiRegistryOsrm = buildRouteLegs(taxiRegistryOsrmResponse);
 
           const deviationTaxiToFromMeter = calculateDeviationPercentage(
             expectedResponse.legTaxiToFrom.distance,
-            taxiRegistryOsrm.legTaxiToFrom.distance
+            taxiRegistryOsrm.legTaxiToFrom.distance,
           );
           assert.isBelow(deviationTaxiToFromMeter, DISTANCE_TOLERANCE_PERCENT);
 
           const deviationFromToDestinationMeter = calculateDeviationPercentage(
             expectedResponse.legFromToDestination.distance,
-            taxiRegistryOsrm.legFromToDestination.distance
+            taxiRegistryOsrm.legFromToDestination.distance,
           );
           assert.isBelow(
             deviationFromToDestinationMeter,
-            DISTANCE_TOLERANCE_PERCENT
+            DISTANCE_TOLERANCE_PERCENT,
           );
 
           const deviationTaxiToFromSecond = calculateDeviationPercentage(
             expectedResponse.legTaxiToFrom.duration,
-            taxiRegistryOsrm.legTaxiToFrom.duration
+            taxiRegistryOsrm.legTaxiToFrom.duration,
           );
           assert.isBelow(deviationTaxiToFromSecond, TIME_TOLERANCE_PERCENT);
 
           const deviationFromToDestinationSecond = calculateDeviationPercentage(
             expectedResponse.legFromToDestination.duration,
-            taxiRegistryOsrm.legFromToDestination.duration
+            taxiRegistryOsrm.legFromToDestination.duration,
           );
           assert.isBelow(
             deviationFromToDestinationSecond,
-            TIME_TOLERANCE_PERCENT
+            TIME_TOLERANCE_PERCENT,
           );
         });
-      }
+      },
     );
   });
 }
@@ -303,7 +303,7 @@ function buildRouteLegs(osrmResponse: any): IRoutePath {
 
 function calculateDeviationPercentage(
   expected: number,
-  received: number
+  received: number,
 ): number {
   return expected === 0
     ? 0

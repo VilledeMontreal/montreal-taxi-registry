@@ -44,7 +44,6 @@ import {
   copyTaxiTemplate,
 } from "./taxisDto.template";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudTaxiTests(): Promise<void> {
   testCreateTaxiUserAccessValid(UserRole.Admin);
   testCreateTaxiUserAccessValid(UserRole.Operator);
@@ -106,17 +105,17 @@ export async function crudTaxiTests(): Promise<void> {
     assert.strictEqual(canUpdateMine.status, StatusCodes.OK);
     assert.strictEqual(
       canCreateMine.body.data[0].id,
-      canUpdateMine.body.data[0].id
+      canUpdateMine.body.data[0].id,
     );
     assert.strictEqual(cannotUpdateYours.status, StatusCodes.CREATED);
     assert.strictEqual(butStillCanUpdateMine.status, StatusCodes.OK);
     assert.strictEqual(
       cannotUpdateYours.body.data[0].id,
-      butStillCanUpdateMine.body.data[0].id
+      butStillCanUpdateMine.body.data[0].id,
     );
     assert.notEqual(
       canCreateMine.body.data[0].id,
-      cannotUpdateYours.body.data[0].id
+      cannotUpdateYours.body.data[0].id,
     );
   });
 
@@ -267,14 +266,14 @@ export async function crudTaxiTests(): Promise<void> {
     assert.strictEqual(taxiResponseItem.vehicle.model, "model-updated");
     assert.strictEqual(
       taxiResponseItem.vehicle.constructor,
-      "constructor-updated"
+      "constructor-updated",
     );
     assert.strictEqual(taxiResponseItem.vehicle.color, "color-updated");
     assert.strictEqual(taxiResponseItem.vehicle.nb_seats, 3);
     assert.lengthOf(taxiResponseItem.vehicle.characteristics, 4);
     assert.include(
       taxiResponseItem.vehicle.characteristics,
-      "credit_card_accepted"
+      "credit_card_accepted",
     );
     assert.include(taxiResponseItem.vehicle.characteristics, "luxury");
     assert.include(taxiResponseItem.vehicle.characteristics, "wifi");
@@ -355,14 +354,14 @@ export async function crudTaxiTests(): Promise<void> {
     const taxiId = await setupNewTaxiId(postDto);
 
     const putDto1 = copyPutTaxiRequestTemplate(
-      (x) => (x.data[0].status = "free")
+      (x) => (x.data[0].status = "free"),
     );
     await putTaxi(putDto1, taxiId);
     const getResponse1 = await getTaxiById(taxiId);
     assert.notEqual(getResponse1.body.data[0].status, "free");
 
     const putDto2 = copyPutTaxiRequestTemplate(
-      (x) => (x.data[0].status = "oncoming")
+      (x) => (x.data[0].status = "oncoming"),
     );
     await putTaxi(putDto2, taxiId);
     const getResponse2 = await getTaxiById(taxiId);
@@ -481,24 +480,24 @@ export async function crudTaxiTests(): Promise<void> {
       x.data[0].ads.insee = sameInsee;
     });
     await initTaxiReferencesWithPermitSemanticForADS(
-      firstDeptWithLicenseReuseDto
+      firstDeptWithLicenseReuseDto,
     );
     await initTaxiReferencesWithPermitSemanticForADS(
-      secondDeptWithLicenseReuseDto
+      secondDeptWithLicenseReuseDto,
     );
 
     const canUseLicenseFor1stTime = await postTaxi(
-      firstDeptWithLicenseReuseDto
+      firstDeptWithLicenseReuseDto,
     );
     const canReuseLicenseFor2ndTime = await postTaxi(
-      secondDeptWithLicenseReuseDto
+      secondDeptWithLicenseReuseDto,
     );
 
     assert.strictEqual(canUseLicenseFor1stTime.status, StatusCodes.CREATED);
     assert.strictEqual(canReuseLicenseFor2ndTime.status, StatusCodes.CREATED);
     assert.notStrictEqual(
       canUseLicenseFor1stTime.body.data[0].id,
-      canReuseLicenseFor2ndTime.body.data[0].id
+      canReuseLicenseFor2ndTime.body.data[0].id,
     );
   });
 
@@ -525,10 +524,10 @@ export async function crudTaxiTests(): Promise<void> {
       x.data[0].ads.insee = secondZone;
     });
     await initTaxiReferencesWithPermitSemanticForADS(
-      firstZoneWithLicenseReuseDto
+      firstZoneWithLicenseReuseDto,
     );
     await initTaxiReferencesWithOwnerSemanticForADS(
-      secondZoneWithLicenseReuseDto
+      secondZoneWithLicenseReuseDto,
     );
 
     const canUseForZone1 = await postTaxi(firstZoneWithLicenseReuseDto);
@@ -538,7 +537,7 @@ export async function crudTaxiTests(): Promise<void> {
     assert.strictEqual(canReuseForZone2.status, StatusCodes.CREATED);
     assert.notStrictEqual(
       canUseForZone1.body.data[0].id,
-      canReuseForZone2.body.data[0].id
+      canReuseForZone2.body.data[0].id,
     );
   });
 

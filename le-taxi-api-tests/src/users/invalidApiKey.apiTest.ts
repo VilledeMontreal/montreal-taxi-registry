@@ -10,7 +10,6 @@ import { getCurrentUnixTime } from "../shared/commonTests/testUtil";
 import { superagentWithStats } from "../shared/e2eTesting/superagentWithStats";
 import { copyTaxiPositionTemplate } from "../taxiPositionSnapShots/taxiPositionSnapShotsDto.template";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidApiKeyTests(): Promise<void> {
   it("Api node: an api key that does not exist should return 401", async () => {
     await shouldThrow(
@@ -19,9 +18,9 @@ export async function invalidApiKeyTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(
           err.response.body.error.message,
-          "API key is missing or invalid"
+          "API key is missing or invalid",
         );
-      }
+      },
     );
   });
 
@@ -32,9 +31,9 @@ export async function invalidApiKeyTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(
           err.response.body.error.message,
-          "API key is missing or invalid"
+          "API key is missing or invalid",
         );
-      }
+      },
     );
   });
 
@@ -45,9 +44,9 @@ export async function invalidApiKeyTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(
           err.response.body.error.message,
-          "API key is missing or invalid"
+          "API key is missing or invalid",
         );
-      }
+      },
     );
   });
 
@@ -58,9 +57,9 @@ export async function invalidApiKeyTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(
           err.response.body.error.message,
-          "API key is missing or invalid"
+          "API key is missing or invalid",
         );
-      }
+      },
     );
   });
 
@@ -70,7 +69,7 @@ export async function invalidApiKeyTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(err.response.body.error.message, "API key is missing");
-      }
+      },
     );
   });
 
@@ -80,7 +79,7 @@ export async function invalidApiKeyTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(err.response.body.error.message, "API key is missing");
-      }
+      },
     );
   });
 }
@@ -104,7 +103,7 @@ async function checkApiWithoutApikey() {
 
 async function checkGeoServerWithApikey(apiKey: string) {
   const dto = copyTaxiPositionTemplate(
-    (x) => (x.items[0].timestamp = getCurrentUnixTime())
+    (x) => (x.items[0].timestamp = getCurrentUnixTime()),
   );
   await superagentWithStats
     .post(getAbsoluteUrl("/api/taxi-position-snapshots"))
@@ -115,7 +114,7 @@ async function checkGeoServerWithApikey(apiKey: string) {
 
 async function checkGeoServerWithoutApikey() {
   const dto = copyTaxiPositionTemplate(
-    (x) => (x.items[0].timestamp = getCurrentUnixTime())
+    (x) => (x.items[0].timestamp = getCurrentUnixTime()),
   );
   await superagentWithStats
     .post(getAbsoluteUrl("/api/taxi-position-snapshots"))

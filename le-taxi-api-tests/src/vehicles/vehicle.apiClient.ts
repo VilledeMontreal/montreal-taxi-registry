@@ -8,7 +8,7 @@ import { copyVehicleTemplate } from "./vehiclesDto.template";
 
 export async function createVehicle(
   apiKey?: string,
-  dto?: (x: IVehicle) => void
+  dto?: (x: IVehicle) => void,
 ): Promise<IVehicle> {
   const dtoCreateVehicle = copyVehicleTemplate(dto);
   const { body } = await postVehicle(dtoCreateVehicle, apiKey);
@@ -25,7 +25,7 @@ export async function postVehicle(dto: IVehicle, apiKey?: string) {
     "/api/vehicles/",
     dto,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
   return response;
 }

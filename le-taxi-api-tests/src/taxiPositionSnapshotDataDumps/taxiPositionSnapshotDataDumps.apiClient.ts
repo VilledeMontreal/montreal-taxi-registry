@@ -8,7 +8,7 @@ const tenMinutesInMs = 1000 * 60 * 10;
 
 export async function getTaxiPositionSnapshotDataDump(
   timeStamp: string,
-  apiKey?: string
+  apiKey?: string,
 ) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Stats);
   return await getTaxiRegistry(
@@ -16,7 +16,7 @@ export async function getTaxiPositionSnapshotDataDump(
     apiKey,
     defaultApiKey,
     null,
-    true
+    true,
   );
 }
 

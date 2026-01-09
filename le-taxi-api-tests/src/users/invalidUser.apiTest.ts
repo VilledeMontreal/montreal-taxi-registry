@@ -44,7 +44,7 @@ export async function invalidUserTests(): Promise<void> {
         }),
       (err) => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
-      }
+      },
     );
   });
 
@@ -60,9 +60,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "Operators must be provided with a public_id"
+          "Operators must be provided with a public_id",
         );
-      }
+      },
     );
   });
 
@@ -84,9 +84,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "Operator public_id must be unique"
+          "Operator public_id must be unique",
         );
-      }
+      },
     );
   });
 
@@ -105,9 +105,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "Operators must be provided with a public_id"
+          "Operators must be provided with a public_id",
         );
-      }
+      },
     );
   });
 
@@ -123,9 +123,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "The object failed the validation because public_id must be a UUID"
+          "The object failed the validation because public_id must be a UUID",
         );
-      }
+      },
     );
   });
 
@@ -141,9 +141,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "Operators must be provided with a website_url"
+          "Operators must be provided with a website_url",
         );
-      }
+      },
     );
   });
 
@@ -162,9 +162,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "Operators must be provided with a website_url"
+          "Operators must be provided with a website_url",
         );
-      }
+      },
     );
   });
 
@@ -180,9 +180,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "The object failed the validation because website_url must be an URL address"
+          "The object failed the validation because website_url must be an URL address",
         );
-      }
+      },
     );
   });
 
@@ -201,9 +201,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "In order to promote publicly standard taxis, at least one of these means should be provided: Phone, Web, or App (Android & iOS)"
+          "In order to promote publicly standard taxis, at least one of these means should be provided: Phone, Web, or App (Android & iOS)",
         );
-      }
+      },
     );
   });
 
@@ -224,9 +224,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "In order to promote publicly standard minivans, at least one of these means should be provided: Phone, Web, or App (Android & iOS)"
+          "In order to promote publicly standard minivans, at least one of these means should be provided: Phone, Web, or App (Android & iOS)",
         );
-      }
+      },
     );
   });
 
@@ -246,9 +246,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "In order to promote publicly minivans, standard booking must be available"
+          "In order to promote publicly minivans, standard booking must be available",
         );
-      }
+      },
     );
   });
 
@@ -267,9 +267,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "In order to promote publicly special need taxis, at least one of these means should be provided: Phone, Web, or App (Android & iOS)"
+          "In order to promote publicly special need taxis, at least one of these means should be provided: Phone, Web, or App (Android & iOS)",
         );
-      }
+      },
     );
   });
 
@@ -292,9 +292,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)"
+          "In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)",
         );
-      }
+      },
     );
   });
 
@@ -317,9 +317,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)"
+          "In order to promote publicly standard taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)",
         );
-      }
+      },
     );
   });
 
@@ -342,9 +342,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)"
+          "In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)",
         );
-      }
+      },
     );
   });
 
@@ -367,9 +367,9 @@ export async function invalidUserTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)"
+          "In order to promote publicly special need taxis, store uri is mandatory when deep link uri is provided for App (Android & iOS)",
         );
-      }
+      },
     );
   });
 }
@@ -384,9 +384,9 @@ function testCreateAccountUserAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }
@@ -405,9 +405,9 @@ function testChangeApikeyAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }
@@ -426,9 +426,9 @@ function testChangePasswordAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

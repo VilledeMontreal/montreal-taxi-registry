@@ -10,6 +10,6 @@ export async function getVehiclesCsv(operator: string, apiKey?: string) {
   return getTaxiAttachedCsv(
     "/api/legacy-web/vehicles/csv" + (queryParams ? `?${queryParams}` : ""),
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }

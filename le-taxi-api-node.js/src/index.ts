@@ -1,6 +1,5 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import bodyParser from "body-parser";
 import cors from "cors";
 import "es6-shim";
 import express from "express";
@@ -58,8 +57,8 @@ async function startServer() {
 
   app.use(cors(corsOptions));
 
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json({ limit: "100mb", reviver: handleConstructorField }));
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json({ limit: "100mb", reviver: handleConstructorField }));
 
   // xss security
   app.use(function (req, res, next) {
@@ -74,11 +73,11 @@ async function startServer() {
     }
 
     // post, put
-    for (const param in req.body.data) {
+    for (const param in req.body?.data) {
       if (req.body.data[param] instanceof Object) {
         for (const propertyName in req.body.data[param]) {
           const securedParam: string = xss(
-            "" + req.body.data[param][propertyName],
+            "" + req.body.data[param][propertyName]
           );
           if ("" + req.body.data[param][propertyName] !== "" + securedParam) {
             throw new UnauthorizedError("XSS body protection");
@@ -123,7 +122,7 @@ async function startServer() {
     internalServerErrorResponse,
     logErrorLogEntry,
     isDebuggingErrorsEnabled(),
-    (request) => request?.userModel?.email,
+    (request) => request?.userModel?.email
   );
 
   initializeAuthorizationViaCookies(getSigningKeyForJwtCreation());
@@ -153,7 +152,7 @@ export function addRoutes(app: express.Express, apiRoutes: IHandlerRoute[]) {
     app[httpMethodToExpressMethodName(route.method)](
       route.path,
       middlewares,
-      route.handler,
+      route.handler
     );
   }
 }

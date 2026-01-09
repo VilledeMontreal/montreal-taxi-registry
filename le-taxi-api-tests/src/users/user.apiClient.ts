@@ -29,7 +29,7 @@ export async function createPromotedOperator(dto: IUser, apiKey?: string) {
     "/api/legacy-web/users",
     dto,
     apiKey,
-    rootApiKey
+    rootApiKey,
   );
   await aFewSeconds(configs.inquiries.delayToExceedPromotion);
   return userResponse.body;
@@ -44,7 +44,7 @@ export async function createUser(dto: IUser, apiKey?: string) {
     "/api/legacy-web/users",
     dto,
     apiKey,
-    rootApiKey
+    rootApiKey,
   );
   return userResponse.body;
 }
@@ -54,7 +54,7 @@ export async function updateUser(dto: IUser, apiKey?: string) {
     "/api/legacy-web/users",
     dto,
     apiKey,
-    rootApiKey
+    rootApiKey,
   );
   return userResponse.body;
 }
@@ -63,7 +63,7 @@ export async function getUser(id: string, apiKey?: string): Promise<IUser> {
   const userResponse = await getTaxiRegistry(
     `/api/legacy-web/users?id=${id}`,
     apiKey,
-    rootApiKey
+    rootApiKey,
   );
   return userResponse.body[0];
 }
@@ -83,7 +83,7 @@ export async function login(dto?: any): Promise<any> {
 export async function getLoginUserinfo(accessToken?: string): Promise<any> {
   const userResponse = await getSimpleUsingAccessToken(
     "/api/legacy-web/login/userinfo",
-    accessToken
+    accessToken,
   );
   return userResponse;
 }
@@ -112,7 +112,7 @@ async function putAccountApikey(dto: any, apiKey?: string) {
     "/api/legacy-web/users/apikey",
     dto,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }
 
@@ -122,6 +122,6 @@ async function putAccountPassword(dto: any, apiKey?: string) {
     "/api/legacy-web/users/password",
     dto,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }

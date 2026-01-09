@@ -9,6 +9,6 @@ export async function getLatestTaxiPositions(apiKey?: string) {
   return await getTaxiRegistry(
     "/api/legacy-web/taxi-positions",
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }

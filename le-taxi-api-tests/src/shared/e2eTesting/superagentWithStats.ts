@@ -31,7 +31,6 @@ export function getSuperagentStats() {
 }
 
 export function displaySuperagentStats() {
-  // eslint-disable-next-line no-console
   console.log(getSuperagentStats());
 }
 

@@ -9,7 +9,6 @@ import { copyTaxiTemplate } from "../taxis/taxisDto.template";
 import { createNonImmutableUser } from "../users/user.sharedFixture";
 import { getTaxiData, getTaxiOperators, getTaxiSearch } from "./map.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudMapTests(): Promise<void> {
   it("Can retrieve taxi-operators from map controller", async () => {
     const operator = await createNonImmutableUser(UserRole.Operator);
@@ -18,7 +17,7 @@ export async function crudMapTests(): Promise<void> {
     assert.strictEqual(taxiOperatorsResponse.status, StatusCodes.OK);
 
     const matchingOperators = taxiOperatorsResponse.body.filter(
-      (o: any) => o.name === operator.email
+      (o: any) => o.name === operator.email,
     );
     assert.strictEqual(matchingOperators.length, 1);
   });
@@ -40,7 +39,7 @@ export async function crudMapTests(): Promise<void> {
     const newTaxi = taxiResponse.body.data[0];
 
     const taxiSearchResponse = await getTaxiSearch(
-      newTaxi.vehicle.licence_plate
+      newTaxi.vehicle.licence_plate,
     );
     assert.strictEqual(taxiSearchResponse.status, StatusCodes.OK);
   });
@@ -52,7 +51,7 @@ export async function crudMapTests(): Promise<void> {
     const newTaxi = taxiResponse.body.data[0];
 
     const taxiSearchResponse = await getTaxiSearch(
-      newTaxi.driver.professional_licence
+      newTaxi.driver.professional_licence,
     );
     assert.strictEqual(taxiSearchResponse.status, StatusCodes.OK);
   });

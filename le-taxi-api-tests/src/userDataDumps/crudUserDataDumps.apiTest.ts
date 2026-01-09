@@ -10,7 +10,6 @@ import {
 } from "../users/user.sharedFixture";
 import { getUserDataDump } from "./userDataDumps.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudUserDataDumpsTests(): Promise<void> {
   testUserDataDumpsAccessValid(UserRole.Stats);
   testUserDataDumpsAccessValid(UserRole.Admin);

@@ -36,7 +36,7 @@ export async function crudDriverTests(): Promise<void> {
     assert.strictEqual(responseCreate.body.data[0].first_name, "initialName");
     assert.strictEqual(
       responseCreate.body.data[0].last_name,
-      "initialLastName"
+      "initialLastName",
     );
     assert.strictEqual(responseCreate.body.data[0].departement.nom, "Québec");
     assert.strictEqual(responseCreate.body.data[0].departement.numero, "1000");
@@ -57,11 +57,11 @@ export async function crudDriverTests(): Promise<void> {
 
     assert.strictEqual(
       responseUpdate.body.data[0].first_name,
-      "updatedFirstName"
+      "updatedFirstName",
     );
     assert.strictEqual(
       responseUpdate.body.data[0].last_name,
-      "updatedLastName"
+      "updatedLastName",
     );
   });
 
@@ -69,7 +69,7 @@ export async function crudDriverTests(): Promise<void> {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
     const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
     const sameDto = copyDriverTemplate(
-      (x) => (x.data[0].professional_licence = "same")
+      (x) => (x.data[0].professional_licence = "same"),
     );
 
     const canCreateMine = await postDriver(sameDto, operatorA);
@@ -105,7 +105,7 @@ export async function crudDriverTests(): Promise<void> {
 
   it("Cannot persist a driver birthdate", async () => {
     const dtoCreate = copyDriverTemplate(
-      (x) => (x.data[0].birth_date = new Date("2007-07-07"))
+      (x) => (x.data[0].birth_date = new Date("2007-07-07")),
     );
 
     const createResponse = await postDriver(dtoCreate);
@@ -113,14 +113,14 @@ export async function crudDriverTests(): Promise<void> {
     assert.strictEqual(createResponse.status, StatusCodes.CREATED);
     assert.isNull(
       createResponse.body.data[0].birth_date,
-      "cannot persist birthdate on create"
+      "cannot persist birthdate on create",
     );
 
     const updateResponse = await postDriver(dtoCreate);
     assert.strictEqual(updateResponse.status, StatusCodes.OK);
     assert.isNull(
       updateResponse.body.data[0].birth_date,
-      "cannot persist birthdate on create"
+      "cannot persist birthdate on create",
     );
   });
 

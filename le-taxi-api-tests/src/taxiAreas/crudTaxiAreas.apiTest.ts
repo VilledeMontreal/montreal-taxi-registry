@@ -10,7 +10,6 @@ import {
 } from "../users/user.sharedFixture";
 import { getTaxiAreas } from "./taxiAreas.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudTaxiAreasTests(): Promise<void> {
   testTaxiAreasAccessValid(UserRole.Inspector);
   testTaxiAreasAccessValid(UserRole.Admin);

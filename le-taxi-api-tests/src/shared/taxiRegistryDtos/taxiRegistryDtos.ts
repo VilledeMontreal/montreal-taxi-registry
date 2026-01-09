@@ -11,7 +11,7 @@ export interface IDriver {
       first_name: string;
       last_name: string;
       professional_licence: string;
-    }
+    },
   ];
 }
 
@@ -72,7 +72,7 @@ export interface ITaxi {
       };
       status: string;
       private: boolean;
-    }
+    },
   ];
 }
 
@@ -81,7 +81,7 @@ export interface IPutTaxiRequest {
     {
       status: string;
       private: boolean;
-    }
+    },
   ];
 }
 
@@ -138,7 +138,7 @@ export interface IVehicle {
       bike_accepted: boolean;
       model: string;
       vehicle_identification_number: string;
-    }
+    },
   ];
 }
 
@@ -164,7 +164,7 @@ export interface ITaxiUpdate {
     {
       status: string;
       private: boolean;
-    }
+    },
   ];
 }
 
@@ -173,7 +173,7 @@ export interface ITaxiReset {
     {
       status: string;
       private: boolean;
-    }
+    },
   ];
 }
 

@@ -11,7 +11,6 @@ import {
 } from "../users/user.sharedFixture";
 import { getVehicleDataDump } from "./vehicleDataDumps.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidVehicleDataDumpsTests(): Promise<void> {
   testVehicleDataDumpsAccessInvalid(UserRole.Operator);
   testVehicleDataDumpsAccessInvalid(UserRole.Inspector);
@@ -29,11 +28,11 @@ export async function invalidVehicleDataDumpsTests(): Promise<void> {
         getVehicleDataDump(
           newOperator.email,
           null,
-          dataDumpResponse.get("etag")
+          dataDumpResponse.get("etag"),
         ),
       (err) => {
         assert.strictEqual(err.status, StatusCodes.NOT_MODIFIED);
-      }
+      },
     );
   });
 }
@@ -48,9 +47,9 @@ function testVehicleDataDumpsAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

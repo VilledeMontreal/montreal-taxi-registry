@@ -11,7 +11,7 @@ export function getTaxiPositionSnapshotDataDumpsRoutes(): IHandlerRoute[] {
       // to route to /api/data-dumps/taxi-positions when no date is provided.
       // Using a question mark will allow to reach that endpoint with an undefined date
       method: HttpMethods.GET,
-      path: buildApiEndpoint("/api/data-dumps/taxi-positions/:date"),
+      path: buildApiEndpoint("/api/data-dumps/taxi-positions/{:date}"),
       handler:
         taxiPositionSnapshotDataDumpsController.getTaxiPositionSnapshotDataDumps,
     },

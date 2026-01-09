@@ -13,7 +13,6 @@ import {
 } from "../users/user.sharedFixture";
 import { getTaxiDataDump } from "./taxiDataDumps.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudTaxiDataDumpsTests(): Promise<void> {
   testTaxiDataDumpsAccessValid(UserRole.Admin);
   testTaxiDataDumpsAccessValid(UserRole.Manager);
@@ -49,7 +48,7 @@ export async function crudTaxiDataDumpsTests(): Promise<void> {
     const dataDumpResponseWithEtag = await getTaxiDataDump(
       newOperator.email,
       null,
-      dataDumpResponse.get("etag")
+      dataDumpResponse.get("etag"),
     );
     assert.strictEqual(dataDumpResponseWithEtag.status, StatusCodes.OK);
   });

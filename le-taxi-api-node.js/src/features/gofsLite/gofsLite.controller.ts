@@ -30,10 +30,10 @@ const API_PREFIX = "/api/gofs-lite/1/";
 class GofsLiteController {
   @allow([UserRole.Admin, UserRole.Motor])
   public async getFeeds(request: Request, response: Response) {
-    const feeds = request.app._router.stack
+    const feeds = request.app.router.stack
       .filter((layer) => layer?.route?.path?.includes(API_PREFIX))
       .map((layer) =>
-        layer.route.path.substring(layer.route.path.indexOf(API_PREFIX)),
+        layer.route.path.substring(layer.route.path.indexOf(API_PREFIX))
       );
     sendResponse(
       response,
@@ -41,7 +41,7 @@ class GofsLiteController {
         en: { feeds: buildFeed(feeds, "en") },
         fr: { feeds: buildFeed(feeds, "fr") },
       },
-      24 * 60 * 60,
+      24 * 60 * 60
     );
   }
 
@@ -95,7 +95,7 @@ class GofsLiteController {
 
 function buildFeed(
   feeds: string[],
-  lang: string,
+  lang: string
 ): GofsLiteFeedDetailResponseDto[] {
   return feeds.map((feed) => ({
     name: feed.substring(feed.lastIndexOf("/") + 1).replace(".json", ""),
@@ -105,7 +105,7 @@ function buildFeed(
 
 function wrapResponse(
   response: GofsLiteDataResponseDto,
-  ttl?: number,
+  ttl?: number
 ): GofsLiteResponseDto {
   return {
     last_updated: nowAsEpoch(),
@@ -118,7 +118,7 @@ function wrapResponse(
 function sendResponse(
   response: Response,
   gofsData?: GofsLiteDataResponseDto,
-  ttl?: number,
+  ttl?: number
 ) {
   response.status(StatusCodes.OK);
   response.json(wrapResponse(gofsData, ttl));
