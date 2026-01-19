@@ -12,19 +12,19 @@ import {
 import { gofsLiteMapper } from "./gofsLite.mapper";
 
 export async function validateGofsLiteRealtimeBookingRequest(
-  request: Request
+  request: Request,
 ): Promise<InquiryRequest> {
   const brandId = request.query.brand_id as string;
   const brandIdArray = brandId?.length > 0 ? brandId.split(",") : [];
   const requestDto = { ...request.query, brand_id: brandIdArray };
   await validateDtoProperties(
     new GofsLiteRealtimeBookingRequestDto(),
-    requestDto
+    requestDto,
   );
   return validateInquiryRequest(
     gofsLiteMapper.toInquiryRequest(
-      requestDto as GofsLiteRealtimeBookingRequestDto
-    )
+      requestDto as GofsLiteRealtimeBookingRequestDto,
+    ),
   );
 }
 
@@ -32,11 +32,11 @@ export function validateLang(request: Request): GofsLiteSupportedLangTypes {
   const lang = request.params.lang.toLowerCase();
   if (
     !Object.values(GofsLiteSupportedLangTypes).includes(
-      lang as GofsLiteSupportedLangTypes
+      lang as GofsLiteSupportedLangTypes,
     )
   ) {
     throw new BadRequestError(
-      "Unsupported lang requested. Only fr/en available"
+      "Unsupported lang requested. Only fr/en available",
     );
   }
   return lang as GofsLiteSupportedLangTypes;

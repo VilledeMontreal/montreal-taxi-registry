@@ -9,7 +9,7 @@ import { superagentWithStats } from "../shared/e2eTesting/superagentWithStats";
 export async function getRoutesFromTaxiRegistryOsrm(
   closestTaxi: ICoordinates,
   from: ICoordinates,
-  to: ICoordinates
+  to: ICoordinates,
 ): Promise<Response> {
   const { base, domainPath } = configs.taxiRegistryOsrmApi;
 

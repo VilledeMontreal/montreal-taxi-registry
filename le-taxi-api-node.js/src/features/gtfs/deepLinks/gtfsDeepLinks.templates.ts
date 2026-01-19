@@ -90,7 +90,7 @@ export function evaluateBookingMinivan(opts: IDeepLinkBookingOptions): string {
 }
 
 export function evaluateBookingSpecialNeed(
-  opts: IDeepLinkBookingOptions
+  opts: IDeepLinkBookingOptions,
 ): string {
   if (!opts.display) return serviceUnavailable;
 
@@ -151,7 +151,7 @@ function cityHallToEightyQueen(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     cityHall,
-    eightyQueen
+    eightyQueen,
   );
   return `
 <div>Can book a ${opts.taxiType} with the ${opts.platformType}:</div>
@@ -177,7 +177,7 @@ function eightyQueenToCityHall(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     eightyQueen,
-    cityHall
+    cityHall,
   );
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to another Montreal address (City Hall) with the ${opts.platformType}:</div>
@@ -190,7 +190,7 @@ function eightyQueenToAirport(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     eightyQueen,
-    airport
+    airport,
   );
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to the airport with the ${opts.platformType}:</div>
@@ -203,7 +203,7 @@ function eightyQueenToOldLongueil(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     eightyQueen,
-    oldLongueuil
+    oldLongueuil,
   );
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to an address in the ARTM zone (Old Longueuil) with the ${opts.platformType}:</div>
@@ -216,7 +216,7 @@ function eightyQueenToMiddleOfAngrignonParc(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     eightyQueen,
-    middleOfAngrignonParc
+    middleOfAngrignonParc,
   );
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to a Montreal location without an address (middle of Angrignon Parc) with the ${opts.platformType}:</div>
@@ -229,7 +229,7 @@ function middleOfAngrignonParcToEightyQueen(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     middleOfAngrignonParc,
-    eightyQueen
+    eightyQueen,
   );
   return `
 <div>Can book a ${opts.taxiType} from a Montreal location without address (middle of Angrignon Parc) to a Montreal address (80 Queen) with the ${opts.platformType}:</div>
@@ -242,7 +242,7 @@ function eightyQueenToInvalidLocation(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     eightyQueen,
-    invalidLocation
+    invalidLocation,
   );
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to an unspecified location (null) with the ${opts.platformType}:</div>
@@ -255,7 +255,7 @@ function invalidLocationToInvalidLocation(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     invalidLocation,
-    invalidLocation
+    invalidLocation,
   );
   return `
 <div>Can book a ${opts.taxiType} from an unspecified location (null) to an unspecified location (null) with the ${opts.platformType}:</div>
@@ -268,7 +268,7 @@ function invalidLocationToEightyQueen(opts: IDeepLinkBookingOptions) {
     opts.bookingUrl,
     opts.serviceType,
     invalidLocation,
-    eightyQueen
+    eightyQueen,
   );
   return `
 <div>Can book a ${opts.taxiType} from a unspecified location (null) to a Montreal address (80 Queen) with the ${opts.platformType}:</div>
@@ -277,13 +277,13 @@ function invalidLocationToEightyQueen(opts: IDeepLinkBookingOptions) {
 }
 
 function middleOfSaintLawrenceTomiddleOfSaintLawrenceOther(
-  opts: IDeepLinkBookingOptions
+  opts: IDeepLinkBookingOptions,
 ) {
   const link = buildDeepLink(
     opts.bookingUrl,
     opts.serviceType,
     middleOfSaintLawrence,
-    middleOfSaintLawrenceOther
+    middleOfSaintLawrenceOther,
   );
   return `
 <div>The ${opts.platformType} tolerates booking a ${opts.taxiType} from an erroneous location (middle of Saint Lawrence) to an erroneous location (other middle of Saint Lawrence):</div>
@@ -295,13 +295,11 @@ function buildDeepLink(
   baseUrl: string,
   serviceType: string,
   pickup: ICoordinatesWithAddress,
-  dropoff?: ICoordinatesWithAddress
+  dropoff?: ICoordinatesWithAddress,
 ): string {
   const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${
     pickup.lat
-  }&pickup_longitude=${pickup.lon}&pickup_address=${encodeURIComponent(
-    pickup.address
-  )}`;
+  }&pickup_longitude=${pickup.lon}&pickup_address=${encodeURIComponent(pickup.address)}`;
   return dropoff
     ? `${deepLink}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${
         dropoff.lon

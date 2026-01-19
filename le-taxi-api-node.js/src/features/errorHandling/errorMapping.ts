@@ -6,7 +6,7 @@ import { IApiError, IApiErrorBody } from "./apiErrorDto";
 import { internalServerErrorResponse } from "./internalServerErrorResponse";
 
 export function mapErrorToApiErrorResponse(
-  error: any
+  error: any,
 ): IApiErrorResponse<IApiErrorBody> {
   if (error.tag === "MultipleIssuesError") {
     const details: IApiError[] = error.issues.map((issue) => ({
@@ -29,7 +29,7 @@ export function mapErrorToApiErrorResponse(
 function createApiErrorResponse(
   httpStatusCode: number,
   message: string,
-  details?: IApiError[]
+  details?: IApiError[],
 ): IApiErrorResponse<IApiErrorBody> {
   const result: IApiErrorResponse<IApiErrorBody> = {
     httpStatusCode,

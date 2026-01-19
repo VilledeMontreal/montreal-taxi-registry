@@ -29,7 +29,7 @@ class GtfsInquiryController {
 
 function sendResponse(
   response: Response,
-  gtfsResponse?: GtfsInquiryResponseDto
+  gtfsResponse?: GtfsInquiryResponseDto,
 ) {
   const defaultResponse = {
     validUntil: addMinutes(nowUtcIsoString(), 5),

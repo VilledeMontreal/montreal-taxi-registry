@@ -22,11 +22,11 @@ class GtfsDeepLinksController {
   @allow([UserRole.Operator])
   public async getDeepLinksForCurrentUser(
     request: Request,
-    response: Response
+    response: Response,
   ) {
     validateUserForDeepLinks(request.userModel);
     const template = gtfsDeepLinksGenerator.generateDeepLinksPage(
-      request.userModel
+      request.userModel,
     );
     sendHtml(response, template);
   }

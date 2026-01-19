@@ -14,7 +14,7 @@ export async function getRealtimeBooking(params: string, apiKey?: string) {
   return await getTaxiRegistry(
     `/api/gofs-lite/1/en/realtime_booking${params}`,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }
 
@@ -23,7 +23,7 @@ export async function getServiceBrands(apiKey?: string) {
   return await getTaxiRegistry(
     "/api/gofs-lite/1/en/service_brands.json",
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }
 
@@ -32,7 +32,7 @@ export async function getSystemInformation(apiKey?: string) {
   return await getTaxiRegistry(
     "/api/gofs-lite/1/en/system_information.json",
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }
 
@@ -41,7 +41,7 @@ export async function getZones(apiKey?: string) {
   return await getTaxiRegistry(
     "/api/gofs-lite/1/en/zones.json",
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }
 
@@ -50,7 +50,7 @@ export async function getOperatingRules(apiKey?: string) {
   return await getTaxiRegistry(
     "/api/gofs-lite/1/en/operating_rules.json",
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }
 
@@ -59,6 +59,6 @@ export async function getCalendars(apiKey?: string) {
   return await getTaxiRegistry(
     "/api/gofs-lite/1/en/calendars.json",
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }

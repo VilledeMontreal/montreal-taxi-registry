@@ -7,5 +7,5 @@ import { TaxiResponseDto } from "./taxi.dto";
 // Careful when using this cache not to leak more data than needed through the endpoints.
 export const taxiDataAccessLayerWithCaching =
   ModelMapCache.createFromSingle<TaxiResponseDto>(
-    async (key) => await taxiDataAccessLayer.getTaxiById(key)
+    async (key) => await taxiDataAccessLayer.getTaxiById(key),
   );

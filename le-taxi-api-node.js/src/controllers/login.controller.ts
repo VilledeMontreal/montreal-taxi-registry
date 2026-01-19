@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as Cookies from 'cookies';
+import Cookies from 'cookies';
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { constants } from '../config/constants';
@@ -48,11 +48,16 @@ export class controller {
         .getUserForAuthentication(username) // In our case, the user's email is the username.
         .then(function (user: AuthenticatedUser) {
           if (!user) {
-            throw new UnauthorizedError('No user was found with this username. Verify the username and try again.');
+            throw new UnauthorizedError(
+              'No user was found with this username. Verify the username and try again.',
+            );
           }
           if (security.check(password, user['password'])) {
             const token = security.createJwt(user);
-            new Cookies(request, response).set('access_token', token, { maxAge: 60 * 60 * 24 * 1000, httpOnly: true });
+            new Cookies(request, response).set('access_token', token, {
+              maxAge: 60 * 60 * 24 * 1000,
+              httpOnly: true,
+            });
             response.writeHead(StatusCodes.OK);
             response.end();
           } else {

@@ -7,7 +7,7 @@ import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 export async function getTaxiAreas(
   operator: string,
   apiKey?: string,
-  eTag?: string
+  eTag?: string,
 ) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Inspector);
   const queryParams = operator ? `operator=${operator}` : "";
@@ -16,6 +16,6 @@ export async function getTaxiAreas(
     apiKey,
     defaultApiKey,
     eTag,
-    true
+    true,
   );
 }

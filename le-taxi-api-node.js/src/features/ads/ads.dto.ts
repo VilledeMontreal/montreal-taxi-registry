@@ -55,7 +55,6 @@ export class AdsRequestDto {
   public vdm_vignette: string;
 }
 
-// eslint-disable-next-line max-classes-per-file
 export class AdsResponseDto {
   // eslint-disable variable-name
   public insee: string;

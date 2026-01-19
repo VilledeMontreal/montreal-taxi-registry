@@ -5,7 +5,6 @@ import { assert } from "chai";
 import { StatusCodes } from "http-status-codes";
 import { getTaxiData, getTaxiSearch } from "./map.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidMapTests(): Promise<void> {
   it("Should throw a 400 error when no idTaxi passed to taxi-data from map controller", async () => {
     await shouldThrow(
@@ -13,7 +12,7 @@ export async function invalidMapTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(err.response.body.error.message, "idTaxi missing");
-      }
+      },
     );
   });
 
@@ -24,9 +23,9 @@ export async function invalidMapTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "missing parameters"
+          "missing parameters",
         );
-      }
+      },
     );
   });
 }

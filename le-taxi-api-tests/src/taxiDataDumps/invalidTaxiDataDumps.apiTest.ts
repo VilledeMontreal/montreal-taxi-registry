@@ -13,7 +13,6 @@ import {
 } from "../users/user.sharedFixture";
 import { getTaxiDataDump } from "./taxiDataDumps.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidTaxiDataDumpsTests(): Promise<void> {
   testTaxiDataDumpsAccessInvalid(UserRole.Operator);
   testTaxiDataDumpsAccessInvalid(UserRole.Inspector);
@@ -34,7 +33,7 @@ export async function invalidTaxiDataDumpsTests(): Promise<void> {
     await shouldThrow(
       () =>
         getTaxiDataDump(newOperator.email, null, dataDumpResponse.get("etag")),
-      (err) => assert.strictEqual(err.status, StatusCodes.NOT_MODIFIED)
+      (err) => assert.strictEqual(err.status, StatusCodes.NOT_MODIFIED),
     );
   });
 }
@@ -49,9 +48,9 @@ function testTaxiDataDumpsAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

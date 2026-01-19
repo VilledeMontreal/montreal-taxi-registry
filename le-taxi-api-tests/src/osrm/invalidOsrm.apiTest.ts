@@ -49,11 +49,11 @@ export async function invalidOsrmTests(): Promise<void> {
             assert.strictEqual(err.status, expectedResponse.statusCode);
             assert.strictEqual(
               err.response.body.message,
-              expectedResponse.message
+              expectedResponse.message,
             );
-          }
+          },
         );
       });
-    }
+    },
   );
 }

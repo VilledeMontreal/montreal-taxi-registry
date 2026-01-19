@@ -15,7 +15,7 @@ import {
 
 class GofsLiteMapper {
   public toInquiryRequest(
-    gofsLiteRealtimeBookingRequest: GofsLiteRealtimeBookingRequestDto
+    gofsLiteRealtimeBookingRequest: GofsLiteRealtimeBookingRequestDto,
   ): InquiryRequest {
     return {
       from: {
@@ -33,12 +33,12 @@ class GofsLiteMapper {
   }
 
   public toGofsLiteRealtimeBookingResponse(
-    inquiryResponse: InquiryResponse
+    inquiryResponse: InquiryResponse,
   ): GofsLiteRealtimeBookingResponseDto {
     return {
       realtime_booking:
         inquiryResponse.data?.map((data) =>
-          toRealtimeBookingResponseData(data)
+          toRealtimeBookingResponseData(data),
         ) || [],
     };
   }
@@ -73,7 +73,7 @@ export function toBrandId(inquiryTypes: InquiryTypes): GofsLiteBrandIdTypes {
 }
 
 function toRealtimeBookingResponseData(
-  data: InquiryResponseData
+  data: InquiryResponseData,
 ): GofsLiteRealtimeBookingDataResponseDto {
   const hasDestination = !!data.estimatedTravelTime;
   const response = {

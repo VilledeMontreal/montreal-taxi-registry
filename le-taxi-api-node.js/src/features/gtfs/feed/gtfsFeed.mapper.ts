@@ -13,7 +13,7 @@ import {
 class GtfsFeedMapper {
   public operatorToAgency(
     operator: PromotedOperator,
-    now: string
+    now: string,
   ): GtfsAgencyDto[] {
     return distribute({
       operator,
@@ -26,7 +26,7 @@ class GtfsFeedMapper {
 
   public operatorToBookingDeepLinks(
     operator: PromotedOperator,
-    now: string
+    now: string,
   ): GtfsBookingDeepLinksDto[] {
     return distribute({
       operator,
@@ -39,7 +39,7 @@ class GtfsFeedMapper {
 
   public operatorToRoutes(
     operator: PromotedOperator,
-    now: string
+    now: string,
   ): GtfsRoutesDto[] {
     return distribute({
       operator,
@@ -52,7 +52,7 @@ class GtfsFeedMapper {
 
   public operatorToTrips(
     operator: PromotedOperator,
-    now: string
+    now: string,
   ): GtfsTripsDto[] {
     return distribute({
       operator,
@@ -65,7 +65,7 @@ class GtfsFeedMapper {
 
   public operatorToBookingRules(
     operator: PromotedOperator,
-    now: string
+    now: string,
   ): GtfsBookingRulesDto[] {
     return distribute({
       operator,
@@ -78,7 +78,7 @@ class GtfsFeedMapper {
 
   public operatorToStopTimes(
     operator: PromotedOperator,
-    now: string
+    now: string,
   ): GtfsStopTimesDto[] {
     return distribute({
       operator,
@@ -147,7 +147,7 @@ function specialNeedAgency(operator: UserModel): GtfsAgencyDto[] {
 }
 
 function standardBookingDeepLinks(
-  operator: UserModel
+  operator: UserModel,
 ): GtfsBookingDeepLinksDto[] {
   return [
     {
@@ -160,7 +160,7 @@ function standardBookingDeepLinks(
 }
 
 function minivanBookingDeepLinks(
-  operator: UserModel
+  operator: UserModel,
 ): GtfsBookingDeepLinksDto[] {
   return [
     {
@@ -173,7 +173,7 @@ function minivanBookingDeepLinks(
 }
 
 function specialNeedBookingDeepLinks(
-  operator: UserModel
+  operator: UserModel,
 ): GtfsBookingDeepLinksDto[] {
   return [
     {

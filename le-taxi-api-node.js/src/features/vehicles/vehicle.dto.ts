@@ -180,7 +180,6 @@ export class VehicleRequestDto {
   public vehicle_identification_number: string;
 }
 
-// eslint-disable-next-line max-classes-per-file
 export class VehicleResponseDto {
   public air_con: boolean;
   public amex_accepted: boolean;

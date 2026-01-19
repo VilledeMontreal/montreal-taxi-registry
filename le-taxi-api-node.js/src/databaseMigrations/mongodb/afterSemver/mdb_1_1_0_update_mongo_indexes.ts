@@ -13,7 +13,7 @@ export async function mdb_1_1_0_update_mongo_indexes(): Promise<void> {
     .collection("latestTaxiPositions")
     .createIndex(
       { receivedAt: 1 },
-      { name: "expiration", expireAfterSeconds: 120 }
+      { name: "expiration", expireAfterSeconds: 120 },
     );
 
   // Create location index for standard taxis
@@ -22,7 +22,7 @@ export async function mdb_1_1_0_update_mongo_indexes(): Promise<void> {
     {
       name: "locationStandard",
       partialFilterExpression: { "taxi.isSpecialNeedVehicle": false },
-    }
+    },
   );
 
   // Create location index for minivans taxis
@@ -34,7 +34,7 @@ export async function mdb_1_1_0_update_mongo_indexes(): Promise<void> {
         "taxi.isMpv": true,
         "taxi.isSpecialNeedVehicle": false,
       },
-    }
+    },
   );
 
   // Create location index for special need taxis
@@ -43,6 +43,6 @@ export async function mdb_1_1_0_update_mongo_indexes(): Promise<void> {
     {
       name: "locationSpecialNeed",
       partialFilterExpression: { "taxi.isSpecialNeedVehicle": true },
-    }
+    },
   );
 }

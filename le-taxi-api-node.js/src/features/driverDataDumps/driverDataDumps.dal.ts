@@ -17,7 +17,7 @@ class DriverDataDumpsAccessLayer {
       tableName,
       insertDateColumn,
       updateDateColumn,
-      operator
+      operator,
     );
   }
 

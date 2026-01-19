@@ -17,7 +17,7 @@ class AdsDataDumpsAccessLayer {
       tableName,
       insertDateColumn,
       updateDateColumn,
-      operator
+      operator,
     );
   }
 

@@ -6,13 +6,12 @@ import { generatePointsForLoadTest } from "../../shared/commonLoadTests/specialR
 import { getCurrentUnixTime } from "../../shared/commonTests/testUtil";
 import { copyTaxiPositionSnapShotItemTemplate } from "../taxiPositionSnapShotsDto.template";
 
-// eslint-disable-next-line no-console
 console.log(
-  "WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!"
+  "WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!",
 );
 
 const taxiSharedStateJson = require("fs").readFileSync(
-  "src/taxiPositionSnapShots/loadTests/taxi.sharedState.json"
+  "src/taxiPositionSnapShots/loadTests/taxi.sharedState.json",
 );
 
 export let sharedStateForInitialization: any[] = null;
@@ -23,7 +22,7 @@ export function beforeRequestForInitialization(
   requestParams: any,
   context: any,
   ee: any,
-  next: any
+  next: any,
 ) {
   if (configs.loadTesting.snapshots.runWithTaxiExpiration) {
     return beforeRequest(
@@ -31,7 +30,7 @@ export function beforeRequestForInitialization(
       requestParams,
       context,
       ee,
-      next
+      next,
     );
   }
   return next();
@@ -41,11 +40,11 @@ export function beforeRequestForTests(
   requestParams: any,
   context: any,
   ee: any,
-  next: any
+  next: any,
 ) {
   const sliced = sharedStateForTests.slice(
     0,
-    configs.loadTesting.snapshots.numberOfOperators
+    configs.loadTesting.snapshots.numberOfOperators,
   );
   return beforeRequest(sliced, requestParams, context, ee, next);
 }
@@ -55,7 +54,7 @@ function beforeRequest(
   requestParams: any,
   context: any,
   ee: any,
-  next: any
+  next: any,
 ) {
   if (currentOperatorIndex % sharedState.length === 0) {
     currentOperatorIndex = 0;
@@ -63,17 +62,17 @@ function beforeRequest(
   const currentOperatorShareState = sharedState[currentOperatorIndex];
   context.vars.operatorApikey = currentOperatorShareState.operator.apikey;
   requestParams.json = generateTaxiPositionSnapshotsPayload(
-    currentOperatorShareState
+    currentOperatorShareState,
   );
   currentOperatorIndex++;
   return next();
 }
 
 function generateTaxiPositionSnapshotsPayload(
-  currentOperatorShareState: any
+  currentOperatorShareState: any,
 ): any {
   const points = generatePointsForLoadTest(
-    currentOperatorShareState.taxi.length
+    currentOperatorShareState.taxi.length,
   );
   const items = currentOperatorShareState.taxi.map((taxi: any, i: number) =>
     copyTaxiPositionSnapShotItemTemplate((taxiPositionSnapShotItem) => {
@@ -87,7 +86,7 @@ function generateTaxiPositionSnapshotsPayload(
       taxiPositionSnapShotItem.lat = points[i].lat;
       taxiPositionSnapShotItem.lon = points[i].lon;
       taxiPositionSnapShotItem.timestamp = getCurrentUnixTime();
-    })
+    }),
   );
 
   return {
@@ -96,15 +95,15 @@ function generateTaxiPositionSnapshotsPayload(
 }
 
 export function initializeSnapshotsAndOperatorsApiKeys(
-  maxOperatorCount: number
+  maxOperatorCount: number,
 ) {
   const sharedState = JSON.parse(taxiSharedStateJson);
   const halfOperatorCount = maxOperatorCount / 2;
   sharedStateForInitialization = sharedState.items.filter(
-    (element: any, index: any) => index < halfOperatorCount
+    (element: any, index: any) => index < halfOperatorCount,
   );
   sharedStateForTests = sharedState.items.filter(
     (element: any, index: any) =>
-      index >= halfOperatorCount && index < maxOperatorCount
+      index >= halfOperatorCount && index < maxOperatorCount,
   );
 }

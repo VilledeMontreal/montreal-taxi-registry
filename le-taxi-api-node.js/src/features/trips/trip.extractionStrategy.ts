@@ -19,7 +19,7 @@ class TripExtractionStrategy extends TripExtractionBase {
   public async parseTaxiPositionSnapshots(
     tripBuilder: TripBuilder,
     from: string,
-    to: string
+    to: string,
   ): Promise<void> {
     const mongoDb = getMongoDb();
     const cursor = mongoDb
@@ -27,7 +27,7 @@ class TripExtractionStrategy extends TripExtractionBase {
       .find({ receivedAt: { $gte: new Date(from), $lte: new Date(to) } })
       .sort({ receivedAt: 1 }); // Collection MUST have an index on the field receivedAt
     await cursor.forEach((taxiPositionSnapshot) =>
-      tripBuilder.parseTaxiPositionSnapshot(taxiPositionSnapshot)
+      tripBuilder.parseTaxiPositionSnapshot(taxiPositionSnapshot),
     );
   }
 

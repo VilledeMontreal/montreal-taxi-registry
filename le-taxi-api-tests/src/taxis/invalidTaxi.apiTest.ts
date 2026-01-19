@@ -20,7 +20,6 @@ import {
 } from "./taxi.fixture";
 import { copyTaxiTemplate } from "./taxisDto.template";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidTaxiTests(): Promise<void> {
   testCreateTaxiUserAccessInvalid(UserRole.Motor);
   testCreateTaxiUserAccessInvalid(UserRole.Inspector);
@@ -35,9 +34,9 @@ export async function invalidTaxiTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "The array should not be empty"
+          "The array should not be empty",
         );
-      }
+      },
     );
   });
 
@@ -55,9 +54,9 @@ export async function invalidTaxiTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "The array reached its limit of 1 items"
+          "The array reached its limit of 1 items",
         );
-      }
+      },
     );
   });
 
@@ -83,9 +82,9 @@ export async function invalidTaxiTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "Unable to find a permit with insee"
+          "Unable to find a permit with insee",
         );
-      }
+      },
     );
   });
 
@@ -111,9 +110,9 @@ export async function invalidTaxiTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "Unable to find a permit with insee"
+          "Unable to find a permit with insee",
         );
-      }
+      },
     );
   });
 
@@ -139,9 +138,9 @@ export async function invalidTaxiTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "Unable to find a vehicle with licence plate"
+          "Unable to find a vehicle with licence plate",
         );
-      }
+      },
     );
   });
 
@@ -167,9 +166,9 @@ export async function invalidTaxiTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "Unable to find a driver with department"
+          "Unable to find a driver with department",
         );
-      }
+      },
     );
   });
 
@@ -188,10 +187,10 @@ export async function invalidTaxiTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "Unable to find a taxi with id"
+          "Unable to find a taxi with id",
         );
         assert.include(err.response.body.error.message, "that was created by");
-      }
+      },
     );
   });
 
@@ -211,7 +210,7 @@ export async function invalidTaxiTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, "bill 17");
-      }
+      },
     );
   });
 
@@ -228,7 +227,7 @@ export async function invalidTaxiTests(): Promise<void> {
     });
     await initTaxiReferencesWithOwnerSemanticForADS(
       attempt1ToMixLegacyLicencePlateForNewTaxi,
-      apiKeyValidUser
+      apiKeyValidUser,
     );
     await shouldThrow(
       () =>
@@ -236,7 +235,7 @@ export async function invalidTaxiTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, "bill 17");
-      }
+      },
     );
 
     const legacyLicencePlate2 = "t987654321";
@@ -249,7 +248,7 @@ export async function invalidTaxiTests(): Promise<void> {
     });
     await initTaxiReferencesWithOwnerSemanticForADS(
       attempt2ToMixLegacyLicencePlateForNewTaxi,
-      apiKeyValidUser
+      apiKeyValidUser,
     );
     await shouldThrow(
       () =>
@@ -257,7 +256,7 @@ export async function invalidTaxiTests(): Promise<void> {
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(err.response.body.error.message, "bill 17");
-      }
+      },
     );
   });
 }
@@ -273,9 +272,9 @@ function testCreateTaxiUserAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

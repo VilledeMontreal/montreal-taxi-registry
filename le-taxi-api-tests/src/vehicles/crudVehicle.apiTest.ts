@@ -12,7 +12,6 @@ import {
 import { postVehicle } from "./vehicle.apiClient";
 import { copyVehicleTemplate } from "./vehiclesDto.template";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudVehicleTests(): Promise<void> {
   testCreateVehicleUserAccessValid(UserRole.Admin);
   testCreateVehicleUserAccessValid(UserRole.Operator);
@@ -143,11 +142,11 @@ export async function crudVehicleTests(): Promise<void> {
     const responseItem = response.body.data[0];
     assert.strictEqual(
       responseItem.date_dernier_ct.substring(0, 10),
-      "2016-10-21"
+      "2016-10-21",
     );
     assert.strictEqual(
       responseItem.date_validite_ct.substring(0, 10),
-      "2019-12-22"
+      "2019-12-22",
     );
     assert.strictEqual(responseItem.horse_power, 5.0);
     assert.strictEqual(responseItem.model_year, 2020);
@@ -162,7 +161,7 @@ export async function crudVehicleTests(): Promise<void> {
     assert.strictEqual(responseItem.model, "model-updated");
     assert.strictEqual(
       responseItem.vehicle_identification_number,
-      "niv-updated"
+      "niv-updated",
     );
   });
 
@@ -203,15 +202,15 @@ export async function crudVehicleTests(): Promise<void> {
     const responseUpdateItem = responseUpdate.body.data[0];
     assert.strictEqual(
       responseUpdateItem.licence_plate,
-      responseCreate.body.data[0].licence_plate
+      responseCreate.body.data[0].licence_plate,
     );
     assert.strictEqual(
       responseUpdateItem.date_dernier_ct.substring(0, 10),
-      "2017-10-21"
+      "2017-10-21",
     );
     assert.strictEqual(
       responseUpdateItem.date_validite_ct.substring(0, 10),
-      "2020-12-22"
+      "2020-12-22",
     );
     assert.strictEqual(responseUpdateItem.horse_power, 10.1);
     assert.strictEqual(responseUpdateItem.model_year, 2019);
@@ -226,7 +225,7 @@ export async function crudVehicleTests(): Promise<void> {
     assert.strictEqual(responseUpdateItem.model, "model-updated");
     assert.strictEqual(
       responseUpdateItem.vehicle_identification_number,
-      "niv-updated"
+      "niv-updated",
     );
   });
 
@@ -234,7 +233,7 @@ export async function crudVehicleTests(): Promise<void> {
     const operatorA = await getImmutableUserApiKey(UserRole.Operator);
     const operatorB = (await createNonImmutableUser(UserRole.Operator)).apikey;
     const sameDto = copyVehicleTemplate(
-      (x) => (x.data[0].licence_plate = "same")
+      (x) => (x.data[0].licence_plate = "same"),
     );
 
     const canCreateMine = await postVehicle(sameDto, operatorA);

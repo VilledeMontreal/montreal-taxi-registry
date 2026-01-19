@@ -46,7 +46,7 @@ class GtfsFeedGenerator {
     const data = [
       ...agency,
       ...context.promotedOperators.flatMap((operator) =>
-        gtfsFeedMapper.operatorToAgency(operator, context.now)
+        gtfsFeedMapper.operatorToAgency(operator, context.now),
       ),
     ];
     return jsonToCsv(data);
@@ -54,7 +54,7 @@ class GtfsFeedGenerator {
 
   public getBookingDeepLinks(context: GtfsFeedGeneratorContext) {
     const data = context.promotedOperators.flatMap((operator) =>
-      gtfsFeedMapper.operatorToBookingDeepLinks(operator, context.now)
+      gtfsFeedMapper.operatorToBookingDeepLinks(operator, context.now),
     );
     return jsonToCsv(data.length > 0 ? data : emptyDeepLinks);
   }
@@ -63,7 +63,7 @@ class GtfsFeedGenerator {
     const data = [
       ...routes,
       ...context.promotedOperators.flatMap((operator) =>
-        gtfsFeedMapper.operatorToRoutes(operator, context.now)
+        gtfsFeedMapper.operatorToRoutes(operator, context.now),
       ),
     ];
     return jsonToCsv(data);
@@ -73,7 +73,7 @@ class GtfsFeedGenerator {
     const data = [
       ...trips,
       ...context.promotedOperators.flatMap((operator) =>
-        gtfsFeedMapper.operatorToTrips(operator, context.now)
+        gtfsFeedMapper.operatorToTrips(operator, context.now),
       ),
     ];
     return jsonToCsv(data);
@@ -94,7 +94,7 @@ class GtfsFeedGenerator {
     const data = [
       ...bookingRules,
       ...context.promotedOperators.flatMap((operator) =>
-        gtfsFeedMapper.operatorToBookingRules(operator, context.now)
+        gtfsFeedMapper.operatorToBookingRules(operator, context.now),
       ),
     ];
     return jsonToCsv(data);
@@ -112,7 +112,7 @@ class GtfsFeedGenerator {
     const data = [
       ...stopTimes,
       ...context.promotedOperators.flatMap((operator) =>
-        gtfsFeedMapper.operatorToStopTimes(operator, context.now)
+        gtfsFeedMapper.operatorToStopTimes(operator, context.now),
       ),
     ];
     return jsonToCsv(data);

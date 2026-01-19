@@ -14,7 +14,7 @@ import { isLegacyLicensePlate } from "../vehicles/vehicle.dto";
 import { DeprecatedUpdateTaxiRequestDto, TaxiRequestDto } from "./taxi.dto";
 
 export async function validateDeprecatedUpdateRequest(
-  request: Request
+  request: Request,
 ): Promise<DeprecatedUpdateTaxiRequestDto> {
   const taxis: DeprecatedUpdateTaxiRequestDto[] = request.body.data;
   validateArrayNotEmpty(taxis);
@@ -37,7 +37,7 @@ function coercePrivateToCorrectType(row: Record<string, any>) {
 }
 
 export async function validateTaxiRequest(
-  request: Request
+  request: Request,
 ): Promise<TaxiRequestDto> {
   const taxi = await validateRequest(request, new TaxiRequestDto());
   ensureNoMixingOfADSOwnerWithLegacyEntities(taxi);
@@ -52,13 +52,13 @@ function ensureNoMixingOfADSOwnerWithLegacyEntities(row: TaxiRequestDto) {
 
   if (isLegacyDepartement(row?.driver?.departement)) {
     throw new BadRequestError(
-      `Once the owner (${row?.ads?.numero}) is compliant with bill 17, the driver${row?.driver.professional_licence} must also be compliant.`
+      `Once the owner (${row?.ads?.numero}) is compliant with bill 17, the driver${row?.driver.professional_licence} must also be compliant.`,
     );
   }
 
   if (isLegacyLicensePlate(row?.vehicle?.licence_plate)) {
     throw new BadRequestError(
-      `Once the owner (${row?.ads?.numero}) is compliant with bill 17, the vehicle (${row?.vehicle?.licence_plate}) must also be compliant.`
+      `Once the owner (${row?.ads?.numero}) is compliant with bill 17, the vehicle (${row?.vehicle?.licence_plate}) must also be compliant.`,
     );
   }
 }

@@ -9,7 +9,7 @@ export async function getTaxiOperators(apiKey?: string) {
   return await getTaxiRegistry(
     "/api/legacy-web/taxi-operators",
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }
 
@@ -19,24 +19,24 @@ export async function getTaxiData(idTaxi?: string, apiKey?: string) {
   return await getTaxiRegistry(
     "/api/legacy-web/taxi-data" + (queryParams ? `?${queryParams}` : ""),
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }
 
 export async function getTaxiSearch(
   licencePlate?: string,
   professionalLicence?: string,
-  apiKey?: string
+  apiKey?: string,
 ) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Inspector);
   const queryParams = licencePlate
     ? `licencePlate=${licencePlate}`
     : professionalLicence
-    ? `professionalLicence=${professionalLicence}`
-    : "";
+      ? `professionalLicence=${professionalLicence}`
+      : "";
   return await getTaxiRegistry(
     "/api/legacy-web/taxi-search" + (queryParams ? `?${queryParams}` : ""),
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
 }

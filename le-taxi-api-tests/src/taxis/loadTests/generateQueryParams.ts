@@ -3,13 +3,12 @@
 import { generatePointForLoadTest } from "../../shared/commonLoadTests/specialRegion";
 import { IMotorSharedState } from "./IMotorSharedState";
 
-// eslint-disable-next-line no-console
 console.log(
-  "WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!"
+  "WARNING: ALL LOAD TESTS MUST BE EXECUTED WITH A SINGLE REPLICA PER DEPLOYMENT!",
 );
 
 const sharedStateJson = require("fs").readFileSync(
-  "src/taxis/loadTests/motor.sharedState.json"
+  "src/taxis/loadTests/motor.sharedState.json",
 );
 
 export const sharedState: IMotorSharedState = JSON.parse(sharedStateJson);
@@ -17,7 +16,7 @@ export const sharedState: IMotorSharedState = JSON.parse(sharedStateJson);
 export function generateRealtimeBookingQueryParams(
   context: any,
   ee: any,
-  next: any
+  next: any,
 ) {
   return generateQueryParams(context, ee, next);
 }
@@ -25,7 +24,7 @@ export function generateRealtimeBookingQueryParams(
 export function generateRealtimeBookingQueryParamsNoDestination(
   context: any,
   ee: any,
-  next: any
+  next: any,
 ) {
   return generateQueryParams(context, ee, next, false);
 }
@@ -34,7 +33,7 @@ function generateQueryParams(
   context: any,
   ee: any,
   next: any,
-  withDestination = true
+  withDestination = true,
 ) {
   const pickup = generatePointForLoadTest();
   const dropoff = withDestination ? generatePointForLoadTest() : null;

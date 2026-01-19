@@ -22,14 +22,14 @@ class TripEstimateExtractionStrategy extends TripExtractionBase {
   public async parseTaxiPositionSnapshots(
     tripBuilder: TripBuilder,
     from: string,
-    to: string
+    to: string,
   ): Promise<void> {
     let time = from;
     do {
       time = addMinutes(time, 10);
       const snapshots = await fetchTaxiPositions(time);
       snapshots.forEach((snapshot) =>
-        tripBuilder.parseTaxiPositionSnapshot(snapshot)
+        tripBuilder.parseTaxiPositionSnapshot(snapshot),
       );
     } while (time < to);
   }
@@ -53,8 +53,8 @@ class TripEstimateExtractionStrategy extends TripExtractionBase {
         JSON.stringify(
           tripEstimateMapper.toTaxiEstimatePersistanceArray(
             this._sampleId,
-            trips
-          )
+            trips,
+          ),
         ),
       ]);
     }
@@ -70,7 +70,7 @@ class TripEstimateExtractionStrategy extends TripExtractionBase {
 }
 
 async function fetchTaxiPositions(
-  date: string
+  date: string,
 ): Promise<TaxiPositionSnapshotRequestDto[]> {
   const host = configs.dataSources.taxiEstimate.host;
   const apikey = configs.dataSources.taxiEstimate.apikey;
@@ -80,13 +80,13 @@ async function fetchTaxiPositions(
     .set("X-API-KEY", apikey)
     .set("Accept-Encoding", "GZIP");
   const snapshots = response.body.items.map((item) =>
-    toTaxiPositionSnapshotRequest(item)
+    toTaxiPositionSnapshotRequest(item),
   ) as TaxiPositionSnapshotRequestDto[];
   return snapshots.sort(sortByDateFunc());
 }
 
 function toTaxiPositionSnapshotRequest(
-  item: any
+  item: any,
 ): TaxiPositionSnapshotRequestDto {
   item.receivedAt = new Date(item.receivedAt);
   return item;

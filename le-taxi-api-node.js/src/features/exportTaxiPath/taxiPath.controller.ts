@@ -2,7 +2,7 @@
 // See LICENSE file in the project root for full license information.
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import * as moment from "moment";
+import moment from "moment";
 import { constants } from "../../config/constants";
 import { BadRequestError } from "../errorHandling/errors";
 import { allow } from "../users/securityDecorator";
@@ -13,17 +13,17 @@ import { TaxiPathService } from "./taxiPath.service";
 export class TaxiPathController {
   public static validateDateQuery(
     fromDateQuery: string,
-    toDateQuery: string
+    toDateQuery: string,
   ): { minDate: Date; maxDate: Date } {
     if (!fromDateQuery) {
       throw new BadRequestError(
-        "Missing parameters. Required parameter missing: fromDate"
+        "Missing parameters. Required parameter missing: fromDate",
       );
     }
 
     if (!toDateQuery) {
       throw new BadRequestError(
-        "Missing parameters. Required parameter missing: toDate"
+        "Missing parameters. Required parameter missing: toDate",
       );
     }
 
@@ -32,7 +32,7 @@ export class TaxiPathController {
 
     if (!moment(minDate).isValid() || !moment(maxDate).isValid()) {
       throw new BadRequestError(
-        "Invalid date value. Ex:YYYY-MM-DDThh:mm:ss.nnnZ"
+        "Invalid date value. Ex:YYYY-MM-DDThh:mm:ss.nnnZ",
       );
     }
 
@@ -41,19 +41,19 @@ export class TaxiPathController {
       maxDate.toISOString() !== toDateQuery
     ) {
       throw new BadRequestError(
-        "Invalid date format. Ex:YYYY-MM-DDThh:mm:ss.nnnZ"
+        "Invalid date format. Ex:YYYY-MM-DDThh:mm:ss.nnnZ",
       );
     }
 
     if (minDate > maxDate) {
       throw new BadRequestError(
-        "Invalid dates. fromDate has to be before toDate"
+        "Invalid dates. fromDate has to be before toDate",
       );
     }
 
     if ((maxDate.getTime() - minDate.getTime()) / 36e5 > 8) {
       throw new BadRequestError(
-        "Invalid dates. Difference between dates must be smaller than 8 hours"
+        "Invalid dates. Difference between dates must be smaller than 8 hours",
       );
     }
 
@@ -64,11 +64,11 @@ export class TaxiPathController {
   public async exportTaxiPath(
     { params: { id }, query: { fromDate, toDate } }: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ) {
     const validatedDates = TaxiPathController.validateDateQuery(
       fromDate as string,
-      toDate as string
+      toDate as string,
     );
 
     const taxiPathRepository = new TaxiPathRepository();
@@ -84,19 +84,19 @@ export class TaxiPathController {
     const taxiSnapshots = await taxiPathRepository.getTaxiPositionSnapshots(
       id,
       validatedDates.minDate,
-      validatedDates.maxDate
+      validatedDates.maxDate,
     );
 
     const taxiPathService = new TaxiPathService();
 
     const geoLineString = Object.assign(
       { line: taxiPathService.getPositionsFromSnapshots(taxiSnapshots) },
-      taxiInformation
+      taxiInformation,
     );
 
     const geoJson = taxiPathService.generateGeoJson(
       geoLineString,
-      taxiSnapshots
+      taxiSnapshots,
     );
 
     res.set(constants.defaultResponseHeaders);

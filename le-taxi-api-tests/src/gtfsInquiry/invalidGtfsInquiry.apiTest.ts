@@ -29,20 +29,20 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "more than one of its property are invalid"
+          "more than one of its property are invalid",
         );
         const errorDetailsArray = err.response.body.error.details.map(
-          (detail: any) => detail.message
+          (detail: any) => detail.message,
         );
         assert.include(
           errorDetailsArray,
-          "from should not be null or undefined"
+          "from should not be null or undefined",
         );
         assert.include(
           errorDetailsArray,
-          "useAssetTypes should not be null or undefined"
+          "useAssetTypes should not be null or undefined",
         );
-      }
+      },
     );
   });
 
@@ -58,9 +58,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "coordinates should not be null or undefined"
+          "coordinates should not be null or undefined",
         );
-      }
+      },
     );
   });
 
@@ -76,20 +76,20 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "more than one of its property are invalid"
+          "more than one of its property are invalid",
         );
         const errorDetailsArray = err.response.body.error.details.map(
-          (detail: any) => detail.message
+          (detail: any) => detail.message,
         );
         assert.include(
           errorDetailsArray,
-          "lat should not be null or undefined"
+          "lat should not be null or undefined",
         );
         assert.include(
           errorDetailsArray,
-          "lon should not be null or undefined"
+          "lon should not be null or undefined",
         );
-      }
+      },
     );
   });
 
@@ -115,9 +115,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because lat must not be greater than 90"
+          "The object failed the validation because lat must not be greater than 90",
         );
-      }
+      },
     );
 
     await shouldThrow(
@@ -141,9 +141,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because lon must not be greater than 180"
+          "The object failed the validation because lon must not be greater than 180",
         );
-      }
+      },
     );
 
     await shouldThrow(
@@ -167,9 +167,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because lat must not be greater than 90"
+          "The object failed the validation because lat must not be greater than 90",
         );
-      }
+      },
     );
 
     await shouldThrow(
@@ -193,9 +193,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because lon must not be greater than 180"
+          "The object failed the validation because lon must not be greater than 180",
         );
-      }
+      },
     );
   });
 
@@ -216,9 +216,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `lat should not be null or undefined`
+          `lat should not be null or undefined`,
         );
-      }
+      },
     );
 
     await shouldThrow(
@@ -237,9 +237,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `lon should not be null or undefined`
+          `lon should not be null or undefined`,
         );
-      }
+      },
     );
   });
 
@@ -262,9 +262,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `The object failed the validation because lat must not be greater than 90`
+          `The object failed the validation because lat must not be greater than 90`,
         );
-      }
+      },
     );
 
     await shouldThrow(
@@ -283,9 +283,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `The object failed the validation because lon must not be greater than 180`
+          `The object failed the validation because lon must not be greater than 180`,
         );
-      }
+      },
     );
 
     await shouldThrow(
@@ -306,9 +306,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `The object failed the validation because lat must not be less than -90`
+          `The object failed the validation because lat must not be less than -90`,
         );
-      }
+      },
     );
 
     await shouldThrow(
@@ -327,9 +327,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          `The object failed the validation because lon must not be less than -180`
+          `The object failed the validation because lon must not be less than -180`,
         );
-      }
+      },
     );
   });
 
@@ -355,9 +355,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "each value in useAssetTypes must be a valid enum value"
+          "each value in useAssetTypes must be a valid enum value",
         );
-      }
+      },
     );
   });
 
@@ -383,9 +383,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "each value in useAssetTypes must be a valid enum value"
+          "each value in useAssetTypes must be a valid enum value",
         );
-      }
+      },
     );
   });
 
@@ -412,9 +412,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because nested property physicalAddress must be either object or array"
+          "The object failed the validation because nested property physicalAddress must be either object or array",
         );
-      }
+      },
     );
   });
 
@@ -441,9 +441,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "The object failed the validation because streetAddress should not be null or undefined"
+          "The object failed the validation because streetAddress should not be null or undefined",
         );
-      }
+      },
     );
   });
 
@@ -465,9 +465,9 @@ export async function invalidGtfsInquiryTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "Requesting a taxi from the Montreal airport (YUL) zone is prohibited."
+          "Requesting a taxi from the Montreal airport (YUL) zone is prohibited.",
         );
-      }
+      },
     );
   });
 }
@@ -497,9 +497,9 @@ function testInvalidAccessToInquiryEndpoint(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.include(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

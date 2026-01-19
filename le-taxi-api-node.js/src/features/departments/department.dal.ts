@@ -20,7 +20,7 @@ class DepartmentDataAccessLayer {
       !queryResult.rows[0].id
     ) {
       throw new BadRequestError(
-        `Department with number '${departementNumero}' was not found. Either make sure the department exists or use the default department number '1000' instead.`
+        `Department with number '${departementNumero}' was not found. Either make sure the department exists or use the default department number '1000' instead.`,
       );
     }
     return queryResult.rows[0].id;

@@ -14,7 +14,6 @@ import { postVehicle } from "../vehicles/vehicle.apiClient";
 import { copyVehicleTemplate } from "../vehicles/vehiclesDto.template";
 import { getVehicleDataDump } from "./vehicleDataDumps.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudVehicleDataDumpsTests(): Promise<void> {
   testVehicleDataDumpsAccessValid(UserRole.Admin);
   testVehicleDataDumpsAccessValid(UserRole.Manager);
@@ -47,7 +46,7 @@ export async function crudVehicleDataDumpsTests(): Promise<void> {
     const dataDumpResponseWithEtag = await getVehicleDataDump(
       newOperator.email,
       null,
-      dataDumpResponse.get("etag")
+      dataDumpResponse.get("etag"),
     );
     assert.strictEqual(dataDumpResponseWithEtag.status, StatusCodes.OK);
   });

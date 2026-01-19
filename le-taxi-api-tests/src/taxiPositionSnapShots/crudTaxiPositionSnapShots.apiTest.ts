@@ -15,7 +15,7 @@ export async function crudTaxiPositionSnapShotsTests(): Promise<void> {
       await getValidTaxiPositionSnapshotDtoAndApikey(UserRole.Operator);
     const response = await postTaxiPositionSnapshots(
       dtoTaxiPositionSnapShot,
-      apiKey
+      apiKey,
     );
 
     assert.strictEqual(response.status, StatusCodes.OK);
@@ -45,7 +45,7 @@ export async function crudTaxiPositionSnapShotsTests(): Promise<void> {
 
     const response = await postTaxiPositionSnapshots(
       dtoTaxiPositionSnapShot,
-      apiKey
+      apiKey,
     );
 
     assert.strictEqual(response.status, StatusCodes.OK);
@@ -63,7 +63,7 @@ export async function crudTaxiPositionSnapShotsTests(): Promise<void> {
 
     const response = await postTaxiPositionSnapshots(
       dtoTaxiPositionSnapShot,
-      apiKey
+      apiKey,
     );
 
     assert.strictEqual(response.status, StatusCodes.OK);
@@ -82,7 +82,7 @@ export async function crudTaxiPositionSnapShotsTests(): Promise<void> {
 
     const response = await postTaxiPositionSnapshots(
       dtoTaxiPositionSnapShot,
-      apiKey
+      apiKey,
     );
 
     assert.strictEqual(response.status, StatusCodes.OK);
@@ -97,7 +97,7 @@ export async function crudTaxiPositionSnapShotsTests(): Promise<void> {
 
     const response = await postTaxiPositionSnapshots(
       dtoTaxiPositionSnapShot,
-      apiKey
+      apiKey,
     );
 
     assert.strictEqual(response.status, StatusCodes.OK);
@@ -110,7 +110,7 @@ function testCreatePositionSnapshotsUserAccessValid(role: UserRole) {
       await getValidTaxiPositionSnapshotDtoAndApikey(role);
     const response = await postTaxiPositionSnapshots(
       dtoTaxiPositionSnapShot,
-      apiKey
+      apiKey,
     );
     assert.strictEqual(response.status, StatusCodes.OK);
   });

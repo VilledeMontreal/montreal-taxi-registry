@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as assert from "assert";
+import assert from "assert";
 import { Db, MongoClient } from "mongodb";
 import { configs } from "../../../config/configs";
 
@@ -33,7 +33,7 @@ function buildMongoConnectionString(): string {
 export function getMongoDb() {
   assert.ok(
     db,
-    `no instance of db mongo. Does connectToMongoDb() have been called ??`
+    `no instance of db mongo. Does connectToMongoDb() have been called ??`,
   );
   return db;
 }

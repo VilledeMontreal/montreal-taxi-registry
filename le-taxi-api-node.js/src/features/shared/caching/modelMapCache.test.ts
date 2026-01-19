@@ -65,7 +65,7 @@ describe("ModelMapCache cache", () => {
       {
         maxCapacity: cacheMaximumCapacity,
         maxAge: cacheExpirationInSeconds * 1000,
-      }
+      },
     );
 
     const number = await mockRepoWithCaching.getByKey("number");
@@ -118,7 +118,7 @@ describe("ModelMapCache cache", () => {
       async () => {
         await mockRepoWithCaching.getByKeys(["one", "two", "three"]);
       },
-      (err) => assert.match(err, /fed by a single accessor/)
+      (err) => assert.match(err, /fed by a single accessor/),
     );
   });
 
@@ -189,7 +189,7 @@ describe("ModelMapCache cache", () => {
       {
         maxCapacity: cacheMaximumCapacity,
         maxAge: expirationForTestInSec * 1000,
-      }
+      },
     );
 
     const one = await mockRepoWithCaching.getByKey("one");
@@ -232,7 +232,7 @@ describe("ModelMapCache cache", () => {
       async () => {
         await mockRepoWithCaching.getByKey("one");
       },
-      (err) => assert.match(err, /Bang!/)
+      (err) => assert.match(err, /Bang!/),
     );
   });
 });
@@ -247,7 +247,7 @@ function buildMockRepoWithSingleCaching(mockRepo: { [id: string]: number }) {
     {
       maxCapacity: cacheMaximumCapacity,
       maxAge: cacheExpirationInSeconds * 1000,
-    }
+    },
   );
 }
 
@@ -263,7 +263,7 @@ function buildMockRepoWithManyCaching(mockRepo: { [id: string]: number }) {
     {
       maxCapacity: cacheMaximumCapacity,
       maxAge: cacheExpirationInSeconds * 1000,
-    }
+    },
   );
 }
 
@@ -277,6 +277,6 @@ function buildMockRepoWithErrorCaching(mockRepo: { [id: string]: number }) {
     {
       maxCapacity: cacheMaximumCapacity,
       maxAge: cacheExpirationInSeconds * 1000,
-    }
+    },
   );
 }

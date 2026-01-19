@@ -11,7 +11,7 @@ import { AdsRequestDto, AdsResponseDto } from "./ads.dto";
 class AdsDataAccessLayer {
   public async upsertAds(
     adsRequestDto: AdsRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): Promise<IDalResponse> {
     const query = `
       SELECT *
@@ -33,7 +33,7 @@ class AdsDataAccessLayer {
       ? await this.tryUpdateAds(
           queryResult.rows[0].id,
           queryResult.rows[0],
-          adsRequestDto
+          adsRequestDto,
         )
       : await this.tryInsertAds(adsRequestDto, userModel);
 
@@ -52,10 +52,10 @@ class AdsDataAccessLayer {
 
   private async tryInsertAds(
     adsRequestDto: AdsRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): Promise<number> {
     const zupcParentId = await this.tryGetZupcParentIByInsee(
-      adsRequestDto.insee
+      adsRequestDto.insee,
     );
     const query = `
       INSERT INTO
@@ -102,7 +102,7 @@ class AdsDataAccessLayer {
   private async tryUpdateAds(
     existingAdsId: number,
     existingAds: QueryResult["rows"][0],
-    adsRequestDto: AdsRequestDto
+    adsRequestDto: AdsRequestDto,
   ): Promise<number> {
     const keys = Object.keys(existingAds);
     keys.forEach((key) => {
@@ -172,7 +172,7 @@ class AdsDataAccessLayer {
 
     if (queryResult.rowCount === 0) {
       throw new BadRequestError(
-        `Unable to find a ZUPC parent for insee: ${insee}`
+        `Unable to find a ZUPC parent for insee: ${insee}`,
       );
     }
 

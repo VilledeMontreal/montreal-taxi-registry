@@ -9,7 +9,7 @@ import {
 import { VehicleRequestDto } from "./vehicle.dto";
 
 export async function validateRequest(
-  request: Request
+  request: Request,
 ): Promise<VehicleRequestDto> {
   const requestJsonData = request.body.data;
   validateArrayNotEmpty(requestJsonData);

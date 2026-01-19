@@ -15,7 +15,6 @@ import {
 } from "../users/user.sharedFixture";
 import { getLatestTaxiPositions } from "./latestTaxiPosition.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudLatestTaxiPositionTests(): Promise<void> {
   testLatestTaxiPositionsAccessValid(UserRole.Admin);
   testLatestTaxiPositionsAccessValid(UserRole.Manager);
@@ -41,7 +40,7 @@ export async function crudLatestTaxiPositionTests(): Promise<void> {
 
     response = await postTaxiPositionSnapshots(
       dtoTaxiPosition,
-      newOperator.apikey
+      newOperator.apikey,
     );
     assert.strictEqual(response.status, StatusCodes.OK);
 
@@ -49,7 +48,7 @@ export async function crudLatestTaxiPositionTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.OK);
 
     const features = response.body.features.filter(
-      (feature: any) => feature.properties.taxi.operatorId === newOperator.id
+      (feature: any) => feature.properties.taxi.operatorId === newOperator.id,
     );
 
     assert.strictEqual(features.length, 1);

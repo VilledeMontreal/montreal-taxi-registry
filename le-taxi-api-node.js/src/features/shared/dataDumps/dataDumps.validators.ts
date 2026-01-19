@@ -20,7 +20,7 @@ function validateDate(request: Request): string {
     return toUtcIsoString(request.params.date);
   } catch (e) {
     throw new BadRequestError(
-      "Invalid date format received. Ex:YYYY-MM-DDThh:mm:ss.nnnZ"
+      "Invalid date format received. Ex:YYYY-MM-DDThh:mm:ss.nnnZ",
     );
   }
 }
@@ -28,7 +28,7 @@ function validateDate(request: Request): string {
 function validateEncoding(request: Request): Request {
   if (request.header("accept-encoding")?.toLowerCase() !== "gzip") {
     throw new BadRequestError(
-      `Invalid header. 'Accept-Encoding' header must be set to 'gzip'`
+      `Invalid header. 'Accept-Encoding' header must be set to 'gzip'`,
     );
   }
   return request;

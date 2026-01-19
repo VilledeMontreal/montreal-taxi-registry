@@ -1,10 +1,9 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as bodyParser from "body-parser";
-import * as cors from "cors";
+import cors from "cors";
 import "es6-shim";
-import * as express from "express";
-import * as fs from "fs";
+import express from "express";
+import fs from "fs";
 import { types } from "pg";
 import "reflect-metadata";
 import { configs } from "./config/configs";
@@ -30,7 +29,6 @@ import {
 } from "./models/route.model";
 import { getAbsoluteUrl } from "./utils/configs/system";
 
-require("express-async-errors");
 declare let require: any;
 
 const compression = require("compression");
@@ -57,11 +55,10 @@ async function startServer() {
     credentials: true,
   };
 
-  app.options("*", cors(corsOptions));
   app.use(cors(corsOptions));
 
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json({ limit: "100mb", reviver: handleConstructorField }));
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json({ limit: "100mb", reviver: handleConstructorField }));
 
   // xss security
   app.use(function (req, res, next) {
@@ -76,7 +73,7 @@ async function startServer() {
     }
 
     // post, put
-    for (const param in req.body.data) {
+    for (const param in req.body?.data) {
       if (req.body.data[param] instanceof Object) {
         for (const propertyName in req.body.data[param]) {
           const securedParam: string = xss(
@@ -96,7 +93,7 @@ async function startServer() {
     next();
   });
 
-  app.get("*/:test", function (req, res, next) {
+  app.get("/:test", function (req, res, next) {
     if (req.params.test) {
       const securedParam: string = xss("" + req.params.test);
       if ("" + req.params.test !== "" + securedParam) {

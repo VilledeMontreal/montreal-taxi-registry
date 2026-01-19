@@ -9,7 +9,6 @@ import { setAllFlags } from "./crudVehicle.apiTest";
 import { postVehicle } from "./vehicle.apiClient";
 import { copyVehicleTemplate } from "./vehiclesDto.template";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidVehicleTests(): Promise<void> {
   testCreateVehicleUserAccessInvalid(UserRole.Motor);
   testCreateVehicleUserAccessInvalid(UserRole.Inspector);
@@ -26,9 +25,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "The array should not be empty"
+          "The array should not be empty",
         );
-      }
+      },
     );
   });
 
@@ -46,9 +45,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "The array reached its limit of 1 items"
+          "The array reached its limit of 1 items",
         );
-      }
+      },
     );
   });
 
@@ -61,7 +60,7 @@ export async function invalidVehicleTests(): Promise<void> {
       () => postVehicle(dtoCreate),
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-      }
+      },
     );
   });
 
@@ -76,9 +75,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "date_dernier_ct must match"
+          "date_dernier_ct must match",
         );
-      }
+      },
     );
   });
 
@@ -93,9 +92,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "date_validite_ct must match"
+          "date_validite_ct must match",
         );
-      }
+      },
     );
   });
 
@@ -109,9 +108,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.include(
           err.response.body.error.message,
-          "licence_plate should not be null or undefined"
+          "licence_plate should not be null or undefined",
         );
-      }
+      },
     );
   });
 
@@ -125,9 +124,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          `The object failed the validation because constructor must be longer than or equal to 1 characters`
+          `The object failed the validation because constructor must be longer than or equal to 1 characters`,
         );
-      }
+      },
     );
   });
 
@@ -141,9 +140,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          `The object failed the validation because constructor should not be null or undefined`
+          `The object failed the validation because constructor should not be null or undefined`,
         );
-      }
+      },
     );
   });
 
@@ -157,9 +156,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          `The object failed the validation because model must be longer than or equal to 1 characters`
+          `The object failed the validation because model must be longer than or equal to 1 characters`,
         );
-      }
+      },
     );
   });
 
@@ -173,9 +172,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          `The object failed the validation because model should not be null or undefined`
+          `The object failed the validation because model should not be null or undefined`,
         );
-      }
+      },
     );
   });
 
@@ -207,9 +206,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          `The object failed the validation because model should not be null or undefined`
+          `The object failed the validation because model should not be null or undefined`,
         );
-      }
+      },
     );
   });
 
@@ -223,9 +222,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          `The object failed the validation because constructor should not contain a legacy-not-provided string`
+          `The object failed the validation because constructor should not contain a legacy-not-provided string`,
         );
-      }
+      },
     );
   });
 
@@ -239,9 +238,9 @@ export async function invalidVehicleTests(): Promise<void> {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
         assert.strictEqual(
           err.response.body.error.message,
-          "The object failed the validation because model should not contain a legacy-not-provided string"
+          "The object failed the validation because model should not contain a legacy-not-provided string",
         );
-      }
+      },
     );
   });
 }
@@ -257,9 +256,9 @@ function testCreateVehicleUserAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

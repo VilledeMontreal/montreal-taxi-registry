@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { Request, Response } from "express";
-import * as GeoJSON from "geojson";
+import GeoJSON from "geojson";
 import { StatusCodes } from "http-status-codes";
 import { latestTaxiPositionRepository } from "../latestTaxiPositions/latestTaxiPosition.repository";
 import { allow } from "../users/securityDecorator";
@@ -15,7 +15,7 @@ class MapController {
 
     response.status(StatusCodes.OK);
     response.json(
-      GeoJSON.parse(latestTaxiPositions, { Point: ["lat", "lon"] })
+      GeoJSON.parse(latestTaxiPositions, { Point: ["lat", "lon"] }),
     );
   }
 }

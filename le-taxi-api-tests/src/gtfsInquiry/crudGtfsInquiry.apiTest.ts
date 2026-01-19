@@ -39,7 +39,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -54,7 +54,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       null,
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -70,13 +70,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         standard: true,
         minivan: false,
         special_need: false,
-      }
+      },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -92,13 +92,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         standard: false,
         minivan: false,
         special_need: false,
-      }
+      },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -114,13 +114,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         standard: true,
         minivan: true,
         special_need: false,
-      }
+      },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Mpv],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -136,13 +136,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         standard: true,
         minivan: false,
         special_need: true,
-      }
+      },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Mpv],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -158,13 +158,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         standard: true,
         minivan: true,
         special_need: false,
-      }
+      },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -180,13 +180,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         standard: true,
         minivan: false,
         special_need: true,
-      }
+      },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -204,13 +204,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
           specialNeedVehicle: true,
         },
       ],
-      { standard: false, minivan: false, special_need: true }
+      { standard: false, minivan: false, special_need: true },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.SpecialNeed],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -228,13 +228,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
           specialNeedVehicle: true,
         },
       ],
-      { standard: false, minivan: false, special_need: true }
+      { standard: false, minivan: false, special_need: true },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.SpecialNeed],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -252,13 +252,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
           specialNeedVehicle: true,
         },
       ],
-      { standard: true, minivan: true, special_need: false }
+      { standard: true, minivan: true, special_need: false },
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.SpecialNeed],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -275,7 +275,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -294,7 +294,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.isBoolean(inquiryResponse.body.options[0].pricing.estimated);
     assert.isNumber(inquiryResponse.body.options[0].pricing.parts[0].amount);
     assert.isString(
-      inquiryResponse.body.options[0].pricing.parts[0].currencyCode
+      inquiryResponse.body.options[0].pricing.parts[0].currencyCode,
     );
     assert.isNumber(inquiryResponse.body.options[0].estimatedWaitTime);
     assert.isNumber(inquiryResponse.body.options[0].estimatedTravelTime);
@@ -308,7 +308,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
     assert.match(
       inquiryResponse.body.options[0].booking.phoneNumber,
-      new RegExp(`\\+1[0-9]{10}`)
+      new RegExp(`\\+1[0-9]{10}`),
     );
   });
 
@@ -331,39 +331,39 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       null,
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     requiredDeeplinksParameters.forEach((param) => {
       assert.isTrue(
-        inquiryResponse.body.options[0].booking.webUrl.includes(param)
+        inquiryResponse.body.options[0].booking.webUrl.includes(param),
       );
       assert.isFalse(
         inquiryResponse.body.options[0].booking.webUrl.includes(
-          unwantedDeeplinksParameters
-        )
+          unwantedDeeplinksParameters,
+        ),
       );
     });
     requiredDeeplinksParameters.forEach((param) => {
       assert.isTrue(
-        inquiryResponse.body.options[0].booking.androidUri.includes(param)
+        inquiryResponse.body.options[0].booking.androidUri.includes(param),
       );
       assert.isFalse(
         inquiryResponse.body.options[0].booking.androidUri.includes(
-          unwantedDeeplinksParameters
-        )
+          unwantedDeeplinksParameters,
+        ),
       );
     });
     requiredDeeplinksParameters.forEach((param) => {
       assert.isTrue(
-        inquiryResponse.body.options[0].booking.iosUri.includes(param)
+        inquiryResponse.body.options[0].booking.iosUri.includes(param),
       );
       assert.isFalse(
         inquiryResponse.body.options[0].booking.iosUri.includes(
-          unwantedDeeplinksParameters
-        )
+          unwantedDeeplinksParameters,
+        ),
       );
     });
   });
@@ -385,27 +385,27 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     requiredDeeplinksParameters.forEach((param) =>
       assert.isTrue(
-        inquiryResponse.body.options[0].booking.webUrl.includes(param)
-      )
+        inquiryResponse.body.options[0].booking.webUrl.includes(param),
+      ),
     );
 
     requiredDeeplinksParameters.forEach((param) =>
       assert.isTrue(
-        inquiryResponse.body.options[0].booking.androidUri.includes(param)
-      )
+        inquiryResponse.body.options[0].booking.androidUri.includes(param),
+      ),
     );
 
     requiredDeeplinksParameters.forEach((param) =>
       assert.isTrue(
-        inquiryResponse.body.options[0].booking.iosUri.includes(param)
-      )
+        inquiryResponse.body.options[0].booking.iosUri.includes(param),
+      ),
     );
   });
 
@@ -421,7 +421,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     inquiryRequest.from.physicalAddress = { streetAddress: pickupAddress };
     inquiryRequest.to.physicalAddress = { streetAddress: dropoffAddress };
@@ -430,37 +430,39 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.strictEqual(
       inquiryResponse.body.options[0].from.physicalAddress.streetAddress,
-      pickupAddress
+      pickupAddress,
     );
     assert.strictEqual(
       inquiryResponse.body.options[0].to.physicalAddress.streetAddress,
-      dropoffAddress
+      dropoffAddress,
     );
 
     const encodedPickup = `pickup_address=${encodeURIComponent(pickupAddress)}`;
     const encodedDropoff = `dropoff_address=${encodeURIComponent(
-      dropoffAddress
+      dropoffAddress,
     )}`;
 
     assert.isTrue(
-      inquiryResponse.body.options[0].booking.webUrl.includes(encodedPickup)
+      inquiryResponse.body.options[0].booking.webUrl.includes(encodedPickup),
     );
     assert.isTrue(
-      inquiryResponse.body.options[0].booking.webUrl.includes(encodedDropoff)
-    );
-    assert.isTrue(
-      inquiryResponse.body.options[0].booking.androidUri.includes(encodedPickup)
+      inquiryResponse.body.options[0].booking.webUrl.includes(encodedDropoff),
     );
     assert.isTrue(
       inquiryResponse.body.options[0].booking.androidUri.includes(
-        encodedDropoff
-      )
+        encodedPickup,
+      ),
     );
     assert.isTrue(
-      inquiryResponse.body.options[0].booking.iosUri.includes(encodedPickup)
+      inquiryResponse.body.options[0].booking.androidUri.includes(
+        encodedDropoff,
+      ),
     );
     assert.isTrue(
-      inquiryResponse.body.options[0].booking.iosUri.includes(encodedDropoff)
+      inquiryResponse.body.options[0].booking.iosUri.includes(encodedPickup),
+    );
+    assert.isTrue(
+      inquiryResponse.body.options[0].booking.iosUri.includes(encodedDropoff),
     );
   });
 
@@ -475,14 +477,14 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const newOperator = await createPromotedOperator(userDto);
     await setupTaxiFromOptions(
       { ...generateApiTestCoordinates(), type: "sedan" },
-      newOperator.apikey
+      newOperator.apikey,
     );
 
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      [newOperator]
+      [newOperator],
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -507,7 +509,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal, AssetTypes.SpecialNeed],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
@@ -527,7 +529,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal, AssetTypes.Normal, AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
@@ -549,7 +551,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
@@ -562,16 +564,16 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     ]);
     const now = new Date();
     const validUntilLow = new Date(
-      now.getTime() + 4.5 * 60 * 1000
+      now.getTime() + 4.5 * 60 * 1000,
     ).toISOString();
     const validUntilHigh = new Date(
-      now.getTime() + 5.5 * 60 * 1000
+      now.getTime() + 5.5 * 60 * 1000,
     ).toISOString();
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -594,8 +596,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         { lat, lon },
         generateApiTestCoordinates(),
         [AssetTypes.Normal],
-        operators
-      )
+        operators,
+      ),
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -604,7 +606,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.OK);
     assert.strictEqual(
       closestOperator.id,
-      operators[expectedTaxiIndex].public_id
+      operators[expectedTaxiIndex].public_id,
     );
   });
 
@@ -621,8 +623,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         { lat, lon },
         generateApiTestCoordinates(),
         [AssetTypes.Normal],
-        operators
-      )
+        operators,
+      ),
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -631,7 +633,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.OK);
     assert.strictEqual(
       closestOperator.id,
-      operators[expectedTaxiIndex].public_id
+      operators[expectedTaxiIndex].public_id,
     );
   });
 
@@ -648,8 +650,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         { lat, lon },
         generateApiTestCoordinates(),
         [AssetTypes.SpecialNeed],
-        operators
-      )
+        operators,
+      ),
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -658,7 +660,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.OK);
     assert.strictEqual(
       closestOperator.id,
-      operators[expectedTaxiIndex].public_id
+      operators[expectedTaxiIndex].public_id,
     );
   });
 
@@ -677,8 +679,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         { lat, lon },
         generateApiTestCoordinates(),
         [AssetTypes.Mpv],
-        operators
-      )
+        operators,
+      ),
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -687,7 +689,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.OK);
     assert.strictEqual(
       closestOperator.id,
-      operators[expectedTaxiIndex].public_id
+      operators[expectedTaxiIndex].public_id,
     );
   });
 
@@ -703,8 +705,8 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         { lat, lon },
         generateApiTestCoordinates(),
         [AssetTypes.Normal],
-        operators
-      )
+        operators,
+      ),
     );
 
     const closestOperator = response.body.options[0].booking.agency;
@@ -713,7 +715,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     assert.strictEqual(response.status, StatusCodes.OK);
     assert.strictEqual(
       closestOperator.id,
-      operators[expectedTaxiIndex].public_id
+      operators[expectedTaxiIndex].public_id,
     );
   });
 
@@ -724,7 +726,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
-      [AssetTypes.Normal]
+      [AssetTypes.Normal],
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -748,31 +750,31 @@ export async function crudGtfsInquiryTests(): Promise<void> {
         configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec) *
         1000;
     const departureTimeLow = new Date(
-      departureTime - fiveSecondsInMillis
+      departureTime - fiveSecondsInMillis,
     ).toISOString();
     const departureTimeHigh = new Date(
-      departureTime + fiveSecondsInMillis
+      departureTime + fiveSecondsInMillis,
     ).toISOString();
     const arrivalTime =
       departureTime +
       configs.taxiRegistryOsrmApi.estimation.durationBias * 1000;
     const arrivalTimeLow = new Date(
-      arrivalTime - fiveSecondsInMillis
+      arrivalTime - fiveSecondsInMillis,
     ).toISOString();
     const arrivalTimeHigh = new Date(
-      arrivalTime + fiveSecondsInMillis
+      arrivalTime + fiveSecondsInMillis,
     ).toISOString();
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
     assert.isTrue(
-      inquiryResponse.body.options[0].departureTime > departureTimeLow
+      inquiryResponse.body.options[0].departureTime > departureTimeLow,
     );
     assert.isTrue(
-      inquiryResponse.body.options[0].departureTime < departureTimeHigh
+      inquiryResponse.body.options[0].departureTime < departureTimeHigh,
     );
     assert.isTrue(inquiryResponse.body.options[0].arrivalTime > arrivalTimeLow);
     assert.isTrue(
-      inquiryResponse.body.options[0].arrivalTime < arrivalTimeHigh
+      inquiryResponse.body.options[0].arrivalTime < arrivalTimeHigh,
     );
   });
 
@@ -785,7 +787,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const inquiryRequest = buildInquiryRequest(
       downtownCoordinates,
       airportCoordinates,
-      [AssetTypes.Normal]
+      [AssetTypes.Normal],
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -795,7 +797,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const dailyPrice = configs.inquiries.fixedDailyPriceDowntownToAirport;
     const nightlyPrice = configs.inquiries.fixedNightlyPriceDowntownToAirport;
     assert.isTrue(
-      estimatedPrice === dailyPrice || estimatedPrice === nightlyPrice
+      estimatedPrice === dailyPrice || estimatedPrice === nightlyPrice,
     );
   });
 
@@ -808,7 +810,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const inquiryRequest = buildInquiryRequest(
       downtownCoordinates,
       southShoreCoordinates,
-      [AssetTypes.Normal]
+      [AssetTypes.Normal],
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -845,7 +847,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat, lon },
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -865,7 +867,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat, lon },
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -877,13 +879,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const promotions = { standard: true, minivan: false, special_need: false };
     const operators = await createTaxisWithPromotions(
       [{ ...generateApiTestCoordinates(), type: "mpv" }],
-      promotions
+      promotions,
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Mpv],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -895,13 +897,13 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const promotions = { standard: true, minivan: false, special_need: false };
     const operators = await createTaxisWithPromotions(
       [{ ...generateApiTestCoordinates(), type: "mpv" }],
-      promotions
+      promotions,
     );
     const inquiryRequest = buildInquiryRequest(
       generateApiTestCoordinates(),
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -923,7 +925,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat, lon },
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -938,7 +940,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const newOperator = await createOperatorWithPromotion(promotions);
     const taxi = await setupTaxiFromOptions(
       { lat: lat + 0.0001, lon },
-      newOperator.apikey
+      newOperator.apikey,
     );
 
     const inquiryRequest = {
@@ -965,7 +967,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const newOperator = await createOperatorWithPromotion(promotions);
     const taxi = await setupTaxiFromOptions(
       { lat: lat + 0.0001, lon, type: "mpv" },
-      newOperator.apikey
+      newOperator.apikey,
     );
 
     const inquiryRequest = {
@@ -991,7 +993,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     const newOperator = await createOperatorWithPromotion(promotions);
     const taxi = await setupTaxiFromOptions(
       { lat: lat + 0.0001, lon, specialNeedVehicle: true },
-      newOperator.apikey
+      newOperator.apikey,
     );
 
     const inquiryRequest = {
@@ -1032,7 +1034,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
       { lat, lon },
       generateApiTestCoordinates(),
       [AssetTypes.Normal],
-      operators
+      operators,
     );
     const inquiryResponse = await postGtfsInquiry(inquiryRequest);
 
@@ -1105,9 +1107,9 @@ function testInquiryUserAccessValid(role: UserRole) {
         generateApiTestCoordinates(),
         generateApiTestCoordinates(),
         [AssetTypes.Normal],
-        operators
+        operators,
       ),
-      apiKey
+      apiKey,
     );
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);

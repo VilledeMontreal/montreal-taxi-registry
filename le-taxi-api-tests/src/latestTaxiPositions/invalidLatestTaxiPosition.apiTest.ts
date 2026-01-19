@@ -7,7 +7,6 @@ import { UserRole } from "../shared/commonTests/UserRole";
 import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 import { getLatestTaxiPositions } from "./latestTaxiPosition.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function invalidLatestTaxiPositionTests(): Promise<void> {
   testLatestTaxiPositionsAccessInvalid(UserRole.Motor);
   testLatestTaxiPositionsAccessInvalid(UserRole.Operator);
@@ -24,9 +23,9 @@ function testLatestTaxiPositionsAccessInvalid(role: UserRole) {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(
           err.response.body.error.message,
-          "The user has a role which has insufficient permissions to access this resource."
+          "The user has a role which has insufficient permissions to access this resource.",
         );
-      }
+      },
     );
   });
 }

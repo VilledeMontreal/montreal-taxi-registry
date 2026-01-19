@@ -8,7 +8,7 @@ import { copyDriverTemplate } from "./driverDto.template";
 
 export async function createDriver(
   apiKey?: string,
-  dto?: (x: IDriver) => void
+  dto?: (x: IDriver) => void,
 ) {
   const dtoCreateDriver = copyDriverTemplate(dto);
   const responseDriver = await postDriver(dtoCreateDriver, apiKey);

@@ -15,7 +15,7 @@ describe("TaxiPathController TESTS", () => {
       assert.throws(() => {
         TaxiPathController.validateDateQuery(
           undefined,
-          "2019-04-19T12:20:00.000Z"
+          "2019-04-19T12:20:00.000Z",
         );
       }, "missing: fromDate");
     });
@@ -24,7 +24,7 @@ describe("TaxiPathController TESTS", () => {
       assert.throws(() => {
         TaxiPathController.validateDateQuery(
           "2019-04-19T12:20:00.000Z",
-          undefined
+          undefined,
         );
       }, "missing: toDate");
     });
@@ -33,7 +33,7 @@ describe("TaxiPathController TESTS", () => {
       assert.throws(() => {
         TaxiPathController.validateDateQuery(
           "2019-05-05",
-          "2019-04-19T12:20:00.000Z"
+          "2019-04-19T12:20:00.000Z",
         );
       }, "Invalid date format");
     });
@@ -42,7 +42,7 @@ describe("TaxiPathController TESTS", () => {
       assert.throws(() => {
         TaxiPathController.validateDateQuery(
           "2019-04-19T14:20:00.000Z",
-          "2019-04-19T12:20:00.000Z"
+          "2019-04-19T12:20:00.000Z",
         );
       }, "Invalid dates");
     });
@@ -51,7 +51,7 @@ describe("TaxiPathController TESTS", () => {
       assert.throws(() => {
         TaxiPathController.validateDateQuery(
           "2019-04-19T12:20:00.000Z",
-          "2019-04-19T22:20:00.000Z"
+          "2019-04-19T22:20:00.000Z",
         );
       }, "Difference between dates");
     });
@@ -60,7 +60,7 @@ describe("TaxiPathController TESTS", () => {
       assert.doesNotThrow(() => {
         TaxiPathController.validateDateQuery(
           "2019-04-19T12:00:00.000Z",
-          "2019-04-19T20:00:00.000Z"
+          "2019-04-19T20:00:00.000Z",
         );
       }, "Should not throw if difference between dates is 8 hours");
     });

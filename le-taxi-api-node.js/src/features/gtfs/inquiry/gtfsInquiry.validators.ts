@@ -8,10 +8,10 @@ import { GtfsInquiryRequestDto } from "./gtfsInquiry.dto";
 import { gtfsInquiryMapper } from "./gtfsInquiry.mapper";
 
 export async function validateGtfsInquiryRequest(
-  request: Request
+  request: Request,
 ): Promise<InquiryRequest> {
   await validateDtoProperties(new GtfsInquiryRequestDto(), request.body);
   return validateInquiryRequest(
-    gtfsInquiryMapper.toInquiryRequest(request.body as GtfsInquiryRequestDto)
+    gtfsInquiryMapper.toInquiryRequest(request.body as GtfsInquiryRequestDto),
   );
 }

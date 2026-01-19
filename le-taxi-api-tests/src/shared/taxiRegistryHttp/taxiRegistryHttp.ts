@@ -15,7 +15,7 @@ export async function postSimple<T extends object>(path: string, dto: T) {
 
 export async function getSimpleUsingAccessToken(
   path: string,
-  accessToken: string
+  accessToken: string,
 ) {
   const httpCall = superagentWithStats
     .get(getAbsoluteUrl(path))
@@ -28,7 +28,7 @@ export async function getSimpleUsingAccessToken(
 export async function postDtoIsString(
   path: string,
   dto: string,
-  apiKey: string
+  apiKey: string,
 ) {
   const httpOperationFunc = superagentWithStats
     .post(getAbsoluteUrl(path))
@@ -42,7 +42,7 @@ export async function postTaxiRegistry<T extends object>(
   path: string,
   dto: T,
   apiKey: string,
-  defaultApiKey: string
+  defaultApiKey: string,
 ) {
   const httpOperationFunc = superagentWithStats
     .post(getAbsoluteUrl(path))
@@ -50,7 +50,7 @@ export async function postTaxiRegistry<T extends object>(
   const response = await setDefaultHeaders(
     httpOperationFunc,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
   patchResponse(response);
   return response;
@@ -61,7 +61,7 @@ export async function getTaxiRegistry(
   apiKey: string,
   defaultApiKey: string,
   eTag: string = null,
-  requestCompression = false
+  requestCompression = false,
 ) {
   const httpOperationFunc = superagentWithStats.get(getAbsoluteUrl(path));
   const response = await setDefaultHeaders(
@@ -69,7 +69,7 @@ export async function getTaxiRegistry(
     apiKey,
     defaultApiKey,
     eTag,
-    requestCompression
+    requestCompression,
   );
   patchResponse(response);
   return response;
@@ -78,13 +78,13 @@ export async function getTaxiRegistry(
 export async function getTaxiAttachedCsv(
   path: string,
   apiKey: string,
-  defaultApiKey: string
+  defaultApiKey: string,
 ) {
   const httpOperationFunc = superagentWithStats.get(getAbsoluteUrl(path));
   const response = await setDefaultHeaders(
     httpOperationFunc,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
   return response;
 }
@@ -93,7 +93,7 @@ export async function putTaxiRegistry<T extends object>(
   path: string,
   dto: T,
   apiKey: string,
-  defaultApiKey: string
+  defaultApiKey: string,
 ) {
   const httpOperationFunc = superagentWithStats
     .put(getAbsoluteUrl(path))
@@ -101,7 +101,7 @@ export async function putTaxiRegistry<T extends object>(
   const response = await setDefaultHeaders(
     httpOperationFunc,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
   patchResponse(response);
   return response;
@@ -112,7 +112,7 @@ async function setDefaultHeaders(
   apiKey: string,
   defaultApiKey: string,
   eTag?: string,
-  requestCompression?: boolean
+  requestCompression?: boolean,
 ) {
   const apiKeyOrDefault = apiKey ? apiKey : defaultApiKey;
   assert.ok(apiKeyOrDefault, "an api key (explicit or default) is required");
@@ -146,15 +146,15 @@ export async function downloadFile(
   path: string,
   fileName: string,
   apiKey: string,
-  defaultApiKey: string
+  defaultApiKey: string,
 ) {
   const httpOperationFunc = superagentWithStats.get(
-    getAbsoluteUrl(path + fileName)
+    getAbsoluteUrl(path + fileName),
   );
   const response = await setDefaultHeaders(
     httpOperationFunc,
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
   return response;
 }

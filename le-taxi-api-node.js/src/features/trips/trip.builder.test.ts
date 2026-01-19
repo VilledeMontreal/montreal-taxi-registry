@@ -253,7 +253,7 @@ function processScenario(builder: TripBuilder, scenario: any[], now: string) {
       time,
       position.status,
       position.lat,
-      position.lon
+      position.lon,
     );
     builder.parseTaxiPositionSnapshot(snapshot);
   });
@@ -263,7 +263,7 @@ function getTaxiPositionSnapshot(
   time: string,
   status: string,
   lat: string,
-  lon: string
+  lon: string,
 ) {
   return {
     receivedAt: new Date(time),

@@ -67,7 +67,10 @@ export async function invalidJsonTests(): Promise<void> {
         ),
       (err) => {
         assert.strictEqual(err.status, StatusCodes.BAD_REQUEST);
-        assert.include(err.response.body.error.message, "Unexpected token 'p'");
+        assert.include(
+          err.response.body.error.message,
+          "Expected \':\' after property name"
+        );
       }
     );
   });

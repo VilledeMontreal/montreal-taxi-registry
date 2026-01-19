@@ -32,7 +32,6 @@ export class DriverRequestDto {
   public professional_licence: string;
 }
 
-// eslint-disable-next-line max-classes-per-file
 export class DriverResponseDto {
   public birth_date: string;
   public departement: DepartmentDto;

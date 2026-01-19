@@ -1,7 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as express from "express";
-import * as core from "express-serve-static-core";
+import express from "express";
+import core from "express-serve-static-core";
 import {
   getContextSensitiveErrorResponse,
   IApiErrorResponse,
@@ -26,14 +26,14 @@ import {
  * @param resolveCurrentUserIdFromRequestFn (optional)
  */
 export function initializeExpressErrorHandlingModule_OnlyAfterAllRoutesHaveBeenDefined<
-  TDto
+  TDto,
 >(
   app: core.Express,
   mapErrorToApiErrorResponse: MapErrorToApiErrorResponseFn<TDto>,
   internalServerError: IApiErrorResponse<TDto>,
   logErrorAction: LogErrorFn,
   debug?: boolean,
-  resolveCurrentUserIdFromRequestFn?: ResolveCurrentUserIdFromRequestFn
+  resolveCurrentUserIdFromRequestFn?: ResolveCurrentUserIdFromRequestFn,
 ) {
   ensureExpressErrorHandlingModuleInitializedOnlyOnce();
   required("app", app);
@@ -52,11 +52,11 @@ export function initializeExpressErrorHandlingModule_OnlyAfterAllRoutesHaveBeenD
     err: any,
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction
+    next: express.NextFunction,
   ): void {
     const currentUserId = resolveCurrentUserIdFromRequestWithErrorHandling(
       resolveCurrentUserIdFromRequestFn,
-      req
+      req,
     );
     try {
       const safeApiErrorResponse = getSafeApiErrorResponse();
@@ -65,7 +65,7 @@ export function initializeExpressErrorHandlingModule_OnlyAfterAllRoutesHaveBeenD
       logErrorAndWriteResponse(
         logWithConsoleAsLastResort,
         internalServerError,
-        errorDuringErrorHanlding
+        errorDuringErrorHanlding,
       );
     }
 
@@ -78,7 +78,7 @@ export function initializeExpressErrorHandlingModule_OnlyAfterAllRoutesHaveBeenD
       return getContextSensitiveErrorResponse(
         apiErrorResponse,
         internalServerError,
-        debug
+        debug,
       );
     }
 
@@ -86,7 +86,7 @@ export function initializeExpressErrorHandlingModule_OnlyAfterAllRoutesHaveBeenD
       logError: LogErrorFn,
       apiErrorResponse: IApiErrorResponse<TDto>,
       error: any,
-      message?: string
+      message?: string,
     ) {
       const httpContextErrorLogEntry = createHttpContextErrorLogEntry(
         req.method,
@@ -94,7 +94,7 @@ export function initializeExpressErrorHandlingModule_OnlyAfterAllRoutesHaveBeenD
         currentUserId,
         apiErrorResponse,
         err,
-        message
+        message,
       );
       logError(httpContextErrorLogEntry);
       if (apiErrorResponse) {
@@ -103,7 +103,7 @@ export function initializeExpressErrorHandlingModule_OnlyAfterAllRoutesHaveBeenD
         const dto = injectErrorToErrorResponseIfDebug(
           debug,
           error,
-          apiErrorResponse
+          apiErrorResponse,
         );
         res.send(dto);
       }
@@ -115,7 +115,7 @@ function registerUnhandledRejectionHandler(logError: LogErrorFn) {
   process.on("unhandledRejection", (reason: any) => {
     const nonHttpContextErrorLogEntry = createNonHttpContextErrorLogEntry(
       "unhandledRejection. If a fire and forget function call was really intended, consider using defineFireAndForget for proper error handling.",
-      reason
+      reason,
     );
     logError(nonHttpContextErrorLogEntry);
   });
@@ -131,7 +131,7 @@ function registerUncaughtExceptionHandler(logErrorAction: LogErrorFn) {
     try {
       const nonHttpContextErrorLogEntry = createNonHttpContextErrorLogEntry(
         "A fatal error occured.",
-        error
+        error,
       );
       logErrorAction(nonHttpContextErrorLogEntry);
     } finally {
@@ -142,7 +142,7 @@ function registerUncaughtExceptionHandler(logErrorAction: LogErrorFn) {
 
 function logWithConsoleAsLastResort(logEntry: IErrorLogEntry): void {
   const logEntryAsString = JSON.stringify(logEntry, null, 0);
-  // eslint-disable-next-line no-console
+
   console.error(logEntryAsString);
 }
 
@@ -156,7 +156,7 @@ let isModuleInitialized = false;
 function ensureExpressErrorHandlingModuleInitializedOnlyOnce() {
   if (isModuleInitialized) {
     throw new Error(
-      "The Express Error Handling module must be initialized only once. Make sure that you're not calling the initialize method more than once."
+      "The Express Error Handling module must be initialized only once. Make sure that you're not calling the initialize method more than once.",
     );
   }
 }
@@ -166,7 +166,7 @@ export function defineFireAndForget(logErrorAction: LogErrorFn) {
     action().catch((error) => {
       const errorLogEntry = createNonHttpContextErrorLogEntry(
         "An unexpected error occured in a fire and forget context",
-        error
+        error,
       );
       logErrorAction(errorLogEntry);
     });
@@ -174,7 +174,7 @@ export function defineFireAndForget(logErrorAction: LogErrorFn) {
 }
 
 export function defineStartServerWithErrorHandling(
-  startServer: () => Promise<any>
+  startServer: () => Promise<any>,
 ) {
   return async () => {
     try {
@@ -189,7 +189,7 @@ export function defineStartServerWithErrorHandling(
 function logStartupError(err: any): void {
   const logEntry = createNonHttpContextErrorLogEntry(
     "Error starting the application.",
-    err
+    err,
   );
 
   // cannot depends on logErrorAction for startup error
@@ -199,7 +199,7 @@ function logStartupError(err: any): void {
 
 function resolveCurrentUserIdFromRequestWithErrorHandling(
   resolveCurrentUserIdFromRequestFn: ResolveCurrentUserIdFromRequestFn,
-  req: express.Request
+  req: express.Request,
 ) {
   if (!resolveCurrentUserIdFromRequestFn) {
     return null;
@@ -209,7 +209,7 @@ function resolveCurrentUserIdFromRequestWithErrorHandling(
   } catch (err) {
     const logEntry = createNonHttpContextErrorLogEntry(
       "Error while resolving the current user id from the request.",
-      err
+      err,
     );
 
     logWithConsoleAsLastResort(logEntry);

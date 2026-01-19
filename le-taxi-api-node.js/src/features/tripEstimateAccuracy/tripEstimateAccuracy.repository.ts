@@ -36,7 +36,7 @@ class TaxiEstimateAccuracyRepository {
       }
     } catch (error) {
       throw new Error(
-        `Error selecting id: ${testExecutionId} from table test_executions in database taxiestimate, error: ${error}`
+        `Error selecting id: ${testExecutionId} from table test_executions in database taxiestimate, error: ${error}`,
       );
     }
 
@@ -44,24 +44,24 @@ class TaxiEstimateAccuracyRepository {
       const createdAt = new Date();
       const responseInsertedTestExecution = await taxiEstimatePostgrePool.query(
         insertTestExecution,
-        [sampleId, estimatedWith, createdAt, createdBy]
+        [sampleId, estimatedWith, createdAt, createdBy],
       );
       handleEmptyResponse(responseInsertedTestExecution);
 
       return (responseInsertedTestExecution.rows[0] as any).id;
     } catch (error) {
       throw new Error(
-        `Error inserting test execution into database taxiestimate, error: ${error}`
+        `Error inserting test execution into database taxiestimate, error: ${error}`,
       );
     }
   }
 
   public async insertEstimatedTrips(
-    estimatedTrips: EstimatedTrip[]
+    estimatedTrips: EstimatedTrip[],
   ): Promise<void> {
     try {
       const estimatedTripsId = estimatedTrips.map(
-        ({ real_trip_id }) => real_trip_id
+        ({ real_trip_id }) => real_trip_id,
       );
       const deleteInsertedEstimatedTrips = `DELETE FROM taxiestimate.estimated_trips WHERE id IN (${estimatedTripsId})`;
 
@@ -71,43 +71,43 @@ class TaxiEstimateAccuracyRepository {
       ]);
     } catch (error) {
       throw new Error(
-        `Error inserting estimated trips into database taxiestimate, error: ${error}`
+        `Error inserting estimated trips into database taxiestimate, error: ${error}`,
       );
     }
   }
 
   public async insertTestExecutionReport(
-    testExecutionReport: TestExecutionReport
+    testExecutionReport: TestExecutionReport,
   ): Promise<TestExecutionReport> {
     try {
       const response = await taxiEstimatePostgrePool.query(
         insertTestExecutionReport,
-        [JSON.stringify([testExecutionReport])]
+        [JSON.stringify([testExecutionReport])],
       );
       handleEmptyResponse(response);
 
       return response.rows[0];
     } catch (error) {
       throw new Error(
-        `Error inserting test execution report into database taxiestimate, error: ${error}`
+        `Error inserting test execution report into database taxiestimate, error: ${error}`,
       );
     }
   }
 
   public async getEstimatedTripsCount(
-    testExecutionId: number
+    testExecutionId: number,
   ): Promise<number> {
     try {
       const response = await taxiEstimatePostgrePool.query(
         countDistinctRealTripIdByTestExecutionId,
-        [testExecutionId]
+        [testExecutionId],
       );
       handleEmptyResponse(response);
 
       return +response.rows[0].count;
     } catch (error) {
       throw new Error(
-        `Error getting estimated trips count from database taxiestimate, error: ${error}`
+        `Error getting estimated trips count from database taxiestimate, error: ${error}`,
       );
     }
   }
@@ -115,7 +115,7 @@ class TaxiEstimateAccuracyRepository {
   public async getRealTripsBatch(
     sampleId: number,
     offset: number,
-    limit: number
+    limit: number,
   ): Promise<RealTrip[]> {
     try {
       const selectRealTrips = `SELECT * FROM taxiestimate.real_trips rt where sample_id = $1::int ORDER BY id OFFSET $2::int LIMIT $3::int;`;
@@ -130,7 +130,7 @@ class TaxiEstimateAccuracyRepository {
       return response.rows;
     } catch (error) {
       throw new Error(
-        `Error getting real trips batch from database taxiestimate, error: ${error}`
+        `Error getting real trips batch from database taxiestimate, error: ${error}`,
       );
     }
   }
@@ -138,7 +138,7 @@ class TaxiEstimateAccuracyRepository {
   public async getTestExecutionReport(
     { id, sample_id, created_at, created_by, estimated_with }: TestExecution,
     allTripCount: number,
-    errorCount: number
+    errorCount: number,
   ): Promise<TestExecutionReport> {
     const testExecutionReport: Partial<TestExecutionReport> = {
       test_execution_id: id,
@@ -152,24 +152,24 @@ class TaxiEstimateAccuracyRepository {
     try {
       const results = await Promise.all(
         selectTestExecutionReport.map(({ query }) =>
-          taxiEstimatePostgrePool.query(query, [id])
-        )
+          taxiEstimatePostgrePool.query(query, [id]),
+        ),
       );
       results.forEach(({ rows: [row] }) =>
-        this.assignRowToTestExecutionReport(row, testExecutionReport)
+        this.assignRowToTestExecutionReport(row, testExecutionReport),
       );
 
       return testExecutionReport as TestExecutionReport;
     } catch (error) {
       throw new Error(
-        `Error getting test execution report statistics from database taxiestimate, error: ${error}`
+        `Error getting test execution report statistics from database taxiestimate, error: ${error}`,
       );
     }
   }
 
   private assignRowToTestExecutionReport(
     row: any,
-    testExecutionReport: Partial<TestExecutionReport>
+    testExecutionReport: Partial<TestExecutionReport>,
   ) {
     const [[key, value]] = Object.entries(row);
     testExecutionReport[`${key}`] = Number(value);
@@ -185,7 +185,7 @@ class TaxiEstimateAccuracyRepository {
       return +response.rows[0].count;
     } catch (error) {
       throw new Error(
-        `Error getting real trips count from database taxiestimate, error: ${error}`
+        `Error getting real trips count from database taxiestimate, error: ${error}`,
       );
     }
   }

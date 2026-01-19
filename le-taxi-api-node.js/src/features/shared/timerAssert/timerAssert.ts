@@ -27,7 +27,7 @@ export class TimerAssert {
     assert.isBelow(
       this.durationMs,
       expected,
-      "Duration (ms) is not below the expected value."
+      "Duration (ms) is not below the expected value.",
     );
   }
 

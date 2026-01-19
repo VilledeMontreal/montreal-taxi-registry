@@ -74,7 +74,7 @@ export async function crudVehiclesCsvTests(): Promise<void> {
     }
 
     assert.isTrue(
-      areColumnNamesIdentical(expectedColumnNames, responseColumnNames)
+      areColumnNamesIdentical(expectedColumnNames, responseColumnNames),
     );
   });
 }

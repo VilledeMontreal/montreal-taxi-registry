@@ -2,7 +2,7 @@
 // See LICENSE file in the project root for full license information.
 import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import * as promClient from "prom-client";
+import promClient from "prom-client";
 import { allow } from "../users/securityDecorator";
 import { UserRole } from "../users/userRole";
 import { taxiPositionSnapshotService } from "./taxiPositionSnapshot.service";
@@ -25,7 +25,7 @@ class TaxiPositionSnapshotController {
     await validateTaxiOwnership(taxiPositionSnapshot, req.userModel.id);
     await taxiPositionSnapshotService.addTaxiPositionSnapshotInMongoDb(
       taxiPositionSnapshot,
-      req.userModel
+      req.userModel,
     );
     counter.labels(req.body.items[0].operator).inc(req.body.items.length);
     res.status(StatusCodes.OK);

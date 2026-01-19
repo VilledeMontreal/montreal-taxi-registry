@@ -28,3 +28,7 @@ logs
 /.vs/slnx.sqlite
 fsmDiagram.dot
 *sharedState.json
+
+*.mjs
+!eslint.config.mjs
+tsconfig.tsbuildinfo

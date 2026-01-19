@@ -7,7 +7,7 @@ import pgQueryStream = require("pg-query-stream");
 async function getDateFromSql(
   table: string,
   column: string,
-  operator?: string
+  operator?: string,
 ) {
   const result = operator
     ? await queryDateWithOperator(table, column, operator)
@@ -21,7 +21,7 @@ async function getLastDate(
   table: string,
   insertColumn: string,
   updateColumn: string,
-  operator?: string
+  operator?: string,
 ): Promise<string> {
   const insertDate = await getDateFromSql(table, insertColumn, operator);
   const udpateDate = await getDateFromSql(table, updateColumn, operator);
@@ -31,7 +31,7 @@ async function getLastDate(
 
 async function buildDataDumpStream(
   selectAll: string,
-  operator?: string
+  operator?: string,
 ): Promise<any> {
   const client = await postgrePool.connect();
 
@@ -46,7 +46,7 @@ async function buildDataDumpStream(
 
 async function queryDate(
   table: string,
-  column: string
+  column: string,
 ): Promise<QueryResult<any>> {
   const query = `SELECT max(${column}) as lastDate FROM ${table}`;
   return await postgrePool.query(query);
@@ -55,7 +55,7 @@ async function queryDate(
 async function queryDateWithOperator(
   table: string,
   column: string,
-  operator: string
+  operator: string,
 ): Promise<QueryResult<any>> {
   const query = `SELECT max(${column}) as lastDate FROM ${table}
     JOIN public."user" on ${table}.added_by = public."user".id WHERE public."user".email = $1::text`;

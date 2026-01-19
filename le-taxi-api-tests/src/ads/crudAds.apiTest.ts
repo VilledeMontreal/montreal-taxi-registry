@@ -15,7 +15,6 @@ import {
   inseeWithPermitSemanticForADS,
 } from "./adsDto.template";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudAdsTests(): Promise<void> {
   testCreateAdsUserAccessValid(UserRole.Admin);
   testCreateAdsUserAccessValid(UserRole.Operator);
@@ -71,7 +70,7 @@ export async function crudAdsTests(): Promise<void> {
     assert.strictEqual(responseItem.doublage, false);
     assert.strictEqual(
       responseItem.vdm_vignette,
-      responseCreated.body.data[0].numero
+      responseCreated.body.data[0].numero,
     );
   });
 

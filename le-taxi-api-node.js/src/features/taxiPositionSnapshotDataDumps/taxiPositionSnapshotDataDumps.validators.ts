@@ -21,7 +21,7 @@ function validateInterval(date: string): string {
     )
   ) {
     throw new BadRequestError(
-      `Invalid date. Must be set to a ${intervalMinute} minutes intervale. Ex 2017-01-01T12:${intervalMinute}:00Z`
+      `Invalid date. Must be set to a ${intervalMinute} minutes intervale. Ex 2017-01-01T12:${intervalMinute}:00Z`,
     );
   }
   return date;

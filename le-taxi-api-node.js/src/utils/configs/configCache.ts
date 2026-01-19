@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as config from "config";
+import config from "config";
 
 export class ConfigCache {
   private cache: Map<string, any> = new Map<string, any>();
@@ -58,7 +58,7 @@ export class ConfigCache {
   protected getOrDynamic<T>(
     key: string,
     isDynamic: boolean,
-    transformer?: (rawVal?: T) => T
+    transformer?: (rawVal?: T) => T,
   ): T {
     let configElement: T;
 

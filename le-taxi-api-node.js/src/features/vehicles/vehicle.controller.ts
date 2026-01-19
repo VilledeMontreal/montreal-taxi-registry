@@ -17,10 +17,10 @@ class VehiclesController {
     const vehicleRequestDto = await validateRequest(request);
     const upsertedVehicle = await vehicleDataAccessLayer.upsertVehicle(
       vehicleRequestDto,
-      request.userModel
+      request.userModel,
     );
     const vehicleResponseDto = await vehicleDataAccessLayer.getVehicleById(
-      upsertedVehicle.entityId as string
+      upsertedVehicle.entityId as string,
     );
     /* eslint-disable @typescript-eslint/no-unused-expressions */
     upsertedVehicle.dataOperation === DataOperation.Create
@@ -35,7 +35,7 @@ class VehiclesController {
     if (vehicleId) {
       const vehicle = await vehicleDataAccessLayer.getVehicleById(
         vehicleId,
-        operator
+        operator,
       );
       response.status(StatusCodes.OK);
       response.json(vehicle);

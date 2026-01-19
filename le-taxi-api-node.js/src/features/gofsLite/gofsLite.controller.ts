@@ -30,7 +30,7 @@ const API_PREFIX = "/api/gofs-lite/1/";
 class GofsLiteController {
   @allow([UserRole.Admin, UserRole.Motor])
   public async getFeeds(request: Request, response: Response) {
-    const feeds = request.app._router.stack
+    const feeds = request.app.router.stack
       .filter((layer) => layer?.route?.path?.includes(API_PREFIX))
       .map((layer) =>
         layer.route.path.substring(layer.route.path.indexOf(API_PREFIX))
@@ -48,9 +48,8 @@ class GofsLiteController {
   @allow([UserRole.Admin, UserRole.Motor])
   public async getRealtimeBooking(request: Request, response: Response) {
     validateLang(request);
-    const inquiryRequest = await validateGofsLiteRealtimeBookingRequest(
-      request
-    );
+    const inquiryRequest =
+      await validateGofsLiteRealtimeBookingRequest(request);
     const inquiryResponse = await inquiryProcessor.process(inquiryRequest);
 
     if (!inquiryResponse) {

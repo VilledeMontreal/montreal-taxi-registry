@@ -15,7 +15,7 @@ async function generateMotorSharedState() {
 
   fs.writeFileSync(
     "src/taxis/loadTests/motor.sharedState.json",
-    JSON.stringify(sharedState)
+    JSON.stringify(sharedState),
   );
 }
 

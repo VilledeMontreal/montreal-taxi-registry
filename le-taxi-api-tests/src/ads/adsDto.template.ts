@@ -32,5 +32,5 @@ export const copyAdsPermitTemplate = defineCopyTemplateVariation(
     const item = items.data[0];
     item.insee = inseeWithPermitSemanticForADS;
     item.vdm_vignette = "9999";
-  }
+  },
 );

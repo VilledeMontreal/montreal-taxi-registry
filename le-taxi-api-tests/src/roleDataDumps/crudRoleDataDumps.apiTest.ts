@@ -10,7 +10,6 @@ import {
 } from "../users/user.sharedFixture";
 import { getRoleDataDump } from "./roleDataDumps.apiClient";
 
-// eslint-disable-next-line max-lines-per-function
 export async function crudRoleDataDumpsTests(): Promise<void> {
   testRoleDataDumpsAccessValid(UserRole.Stats);
   testRoleDataDumpsAccessValid(UserRole.Admin);

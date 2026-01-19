@@ -15,18 +15,18 @@ const BATCH_SIZE = 200;
 
 class TripEstimateAccuracyProcessor {
   public async process(
-    estimationArguments: EstimationArguments
+    estimationArguments: EstimationArguments,
   ): Promise<TestExecutionReport> {
     estimationArguments.testExecutionId =
       await taxiEstimateAccuracyRepository.insertTestExecution(
-        estimationArguments
+        estimationArguments,
       );
 
     const realTripsCount = await this.estimateTaxiTrips(estimationArguments);
 
     const estimatedTripsCount =
       await taxiEstimateAccuracyRepository.getEstimatedTripsCount(
-        estimationArguments.testExecutionId
+        estimationArguments.testExecutionId,
       );
     logger.info(`Total estimated trips count inserted: ${estimatedTripsCount}`);
 
@@ -36,7 +36,7 @@ class TripEstimateAccuracyProcessor {
     return await this.generateTestExecutionReport(
       testExecution,
       realTripsCount,
-      estimatedTripsCount - realTripsCount
+      estimatedTripsCount - realTripsCount,
     );
   }
 
@@ -46,7 +46,7 @@ class TripEstimateAccuracyProcessor {
   }: EstimationArguments): Promise<number> {
     const estimationCount =
       await taxiEstimateAccuracyRepository.getEstimatedTripsCount(
-        testExecutionId
+        testExecutionId,
       );
     const realTripsCount =
       await taxiEstimateAccuracyRepository.getRealTripsCount(sampleId);
@@ -59,7 +59,7 @@ class TripEstimateAccuracyProcessor {
         estimationCount + i * BATCH_SIZE,
         BATCH_SIZE,
         sampleId,
-        testExecutionId
+        testExecutionId,
       );
     }
     timer.stop();
@@ -67,7 +67,7 @@ class TripEstimateAccuracyProcessor {
     logger.info(
       `Duration to process ${
         realTripsCount - estimationCount
-      } realTrips: ${Math.trunc(timer.durationMs / 1000)} (sec)`
+      } realTrips: ${Math.trunc(timer.durationMs / 1000)} (sec)`,
     );
 
     return realTripsCount;
@@ -77,42 +77,40 @@ class TripEstimateAccuracyProcessor {
     offset: number,
     batchSize: number,
     sampleId: number,
-    testExecutionId: number
+    testExecutionId: number,
   ): Promise<void> {
     const subRealTrips = await taxiEstimateAccuracyRepository.getRealTripsBatch(
       sampleId,
       offset,
-      batchSize
+      batchSize,
     );
 
     const estimatedTripPromises = subRealTrips.map((realTrip) =>
-      estimateWithOsrm(realTrip, testExecutionId)
+      estimateWithOsrm(realTrip, testExecutionId),
     );
     const estimatedTripPromisesWithTimeout = this.wrapWithTimeout(
       estimatedTripPromises,
-      10000
+      10000,
     );
 
     const estimatedTripsBatch = await Promise.all(
-      estimatedTripPromisesWithTimeout
+      estimatedTripPromisesWithTimeout,
     );
 
     await taxiEstimateAccuracyRepository.insertEstimatedTrips(
-      estimatedTripsBatch
+      estimatedTripsBatch,
     );
 
     logger.info(
       `Test execution id: ${testExecutionId} processed batch [${
         estimatedTripsBatch[0].real_trip_id
-      }, ${
-        estimatedTripsBatch[estimatedTripsBatch.length - 1].real_trip_id
-      }] real_trip_id.`
+      }, ${estimatedTripsBatch[estimatedTripsBatch.length - 1].real_trip_id}] real_trip_id.`,
     );
   }
 
   private wrapWithTimeout<T>(
     promises: Promise<T>[],
-    timeoutInMs: number
+    timeoutInMs: number,
   ): Promise<T>[] {
     return promises.map((promise) => {
       const waitForSeconds = new Promise<T>((resolve, reject) => {
@@ -130,17 +128,17 @@ class TripEstimateAccuracyProcessor {
   protected async generateTestExecutionReport(
     testExecution: TestExecution,
     realTripsCount: number,
-    errorCount: number
+    errorCount: number,
   ): Promise<TestExecutionReport> {
     const testExecutionReport =
       await taxiEstimateAccuracyRepository.getTestExecutionReport(
         testExecution,
         realTripsCount,
-        errorCount
+        errorCount,
       );
 
     return await taxiEstimateAccuracyRepository.insertTestExecutionReport(
-      testExecutionReport
+      testExecutionReport,
     );
   }
 }

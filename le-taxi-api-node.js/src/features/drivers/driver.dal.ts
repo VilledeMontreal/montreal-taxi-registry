@@ -17,22 +17,22 @@ import { DriverRequestDto, DriverResponseDto } from "./driver.dto";
 class DriverDataAccessLayer {
   public async upsertDriver(
     driver: DriverRequestDto,
-    user: UserModel
+    user: UserModel,
   ): Promise<IDalResponse> {
     const departmentId = await departmentDataAccessLayer.getDepartmentId(
-      driver.departement.numero
+      driver.departement.numero,
     );
     const driverVerificationResult = await this.verifyIfDriverExists(
       driver.professional_licence,
       departmentId,
-      user.id
+      user.id,
     );
     const persistedDriverId: IDalResponse =
       driverVerificationResult.entityExists
         ? await this.updateDriver(
             driverVerificationResult.entityId,
             driver,
-            user.id
+            user.id,
           )
         : await this.insertDriver(driver, departmentId, user.id);
     return persistedDriverId;
@@ -40,7 +40,7 @@ class DriverDataAccessLayer {
 
   public async getDriverById(
     driverId: string,
-    operator?: string
+    operator?: string,
   ): Promise<DriverResponseDto> {
     const select = `
         SELECT driver.id as driver_id,
@@ -113,7 +113,7 @@ class DriverDataAccessLayer {
   private async verifyIfDriverExists(
     professionalLicense: string,
     departmentId: number,
-    userId: string
+    userId: string,
   ): Promise<EntityVerificationResult> {
     const query = `
       SELECT driver.id
@@ -134,7 +134,7 @@ class DriverDataAccessLayer {
   private async updateDriver(
     driverId: number,
     driver: DriverRequestDto,
-    userId: string
+    userId: string,
   ): Promise<IDalResponse> {
     // NOTE: According the API documentation, we currently ignore the birth date in Quebec for privacy reason.
     const query = `
@@ -167,7 +167,7 @@ class DriverDataAccessLayer {
   private async insertDriver(
     driver: DriverRequestDto,
     departmentId: number,
-    userId: string
+    userId: string,
   ): Promise<IDalResponse> {
     const query = `
       INSERT INTO public.driver(added_via,
@@ -256,12 +256,12 @@ function buildOrderByClause(order: string): string {
   const column = order.includes("last")
     ? "public.driver.last_name"
     : order.includes("first")
-    ? "public.driver.first_name"
-    : order.includes("update")
-    ? "public.driver.last_update_at"
-    : order.includes("email")
-    ? 'public."user".email'
-    : "public.driver.professional_licence";
+      ? "public.driver.first_name"
+      : order.includes("update")
+        ? "public.driver.last_update_at"
+        : order.includes("email")
+          ? 'public."user".email'
+          : "public.driver.professional_licence";
   const descending = order.includes("desc") ? " DESC" : "";
 
   return `${column} ${descending}`;

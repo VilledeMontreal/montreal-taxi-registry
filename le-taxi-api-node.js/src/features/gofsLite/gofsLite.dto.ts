@@ -12,7 +12,6 @@ import {
 } from "class-validator";
 import { FeatureCollection } from "geojson";
 
-/* eslint-disable max-classes-per-file */
 /* tslint:enable:allow-snake-case-per-file */
 export enum GofsLiteSupportedLangTypes {
   En = "en",

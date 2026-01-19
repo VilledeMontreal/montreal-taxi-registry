@@ -33,7 +33,7 @@ export function buildInquiryRequest(
   fromCoordinate: ICoordinateDTO,
   toCoordinate: ICoordinateDTO,
   assetTypes: AssetTypes[],
-  operators?: IUser[]
+  operators?: IUser[],
 ): IInquiryRequestDTO {
   return {
     from: { coordinates: fromCoordinate },
@@ -45,14 +45,18 @@ export function buildInquiryRequest(
 
 export async function createTaxisWithPromotions(
   taxiOptions: ITaxiOptions[],
-  promotion: IPromotions = { standard: true, minivan: true, special_need: true }
+  promotion: IPromotions = {
+    standard: true,
+    minivan: true,
+    special_need: true,
+  },
 ): Promise<IUser[]> {
   return await Promise.all(
     taxiOptions.map(async (option) => {
       const newOperator = await createOperatorWithPromotion(promotion);
       await setupTaxiFromOptions(option, newOperator.apikey);
       return newOperator;
-    })
+    }),
   );
 }
 
@@ -69,13 +73,13 @@ function fillDefaultOptions(options: ITaxiOptions): ITaxiOptions {
 
 export async function setupTaxiFromOptions(
   taxiOptions: ITaxiOptions,
-  apikey?: string
+  apikey?: string,
 ) {
   const options = fillDefaultOptions(taxiOptions);
   const taxi = await setupNewCustomTaxi(
     options.specialNeedVehicle,
     options.type,
-    apikey
+    apikey,
   );
   await setTaxiPosition(
     {
@@ -85,7 +89,7 @@ export async function setupTaxiFromOptions(
       lon: options.lon,
       status: options.status,
     },
-    apikey
+    apikey,
   );
 
   return taxi.body.data[0];
@@ -93,7 +97,7 @@ export async function setupTaxiFromOptions(
 
 export async function demoteOperatorTaxis(
   operator: IUser,
-  taxi: ITaxiResponseDto
+  taxi: ITaxiResponseDto,
 ) {
   const { lat, lon } = generateApiTestCoordinates();
 
@@ -116,6 +120,6 @@ export async function demoteOperatorTaxis(
       lon,
       status: "free",
     },
-    operatorApikey
+    operatorApikey,
   );
 }

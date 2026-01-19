@@ -6,7 +6,7 @@ import { AdsRequestDto, isInseeHasPermitSemanticForADS } from "./ads.dto";
 
 export async function validateAdsRequest(
   request: Request,
-  dtoRequest: AdsRequestDto
+  dtoRequest: AdsRequestDto,
 ): Promise<any> {
   const requestValid = await validateRequest(request, dtoRequest);
   if (isInseeHasPermitSemanticForADS(requestValid.insee)) {

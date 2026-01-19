@@ -17,7 +17,7 @@ class VehicleDataDumpsAccessLayer {
       tableName,
       insertDateColumn,
       updateDateColumn,
-      operator
+      operator,
     );
   }
 

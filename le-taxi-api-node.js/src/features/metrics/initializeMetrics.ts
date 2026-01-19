@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as core from "express-serve-static-core";
+import core from "express-serve-static-core";
 import { configs } from "../../config/configs";
 import { buildDiagnosticsEndpoint } from "../shared/utils/apiUtils";
 
@@ -37,12 +37,12 @@ export function initializeMetrics(app: core.Express) {
 
   addMetricsRoute(
     app,
-    buildDiagnosticsEndpoint("/v1/operator-and-motor-metrics")
+    buildDiagnosticsEndpoint("/v1/operator-and-motor-metrics"),
   );
   addMetricsRoute(app, buildDiagnosticsEndpoint("/v1/geo-server-metrics"));
   addMetricsRoute(
     app,
-    buildDiagnosticsEndpoint("/v1/data-dump-and-ui-metrics")
+    buildDiagnosticsEndpoint("/v1/data-dump-and-ui-metrics"),
   );
 
   addPingRoute(app, buildDiagnosticsEndpoint("/v1/operator-and-motor-ping"));
@@ -51,7 +51,6 @@ export function initializeMetrics(app: core.Express) {
 }
 
 function addMetricsRoute(app: core.Express, route: string) {
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.get(route, async (req, res, next) => {
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.end(await promBundle.promClient.register.metrics());

@@ -54,7 +54,6 @@ export class InternalServerError extends CustomError {
   }
 }
 
-// eslint-disable-next-line max-classes-per-file
 export class MultipleIssuesError extends CustomError {
   public readonly issues: string[];
   public get tag(): string {

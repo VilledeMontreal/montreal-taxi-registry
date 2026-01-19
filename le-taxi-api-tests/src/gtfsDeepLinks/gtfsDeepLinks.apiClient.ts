@@ -10,7 +10,7 @@ export async function getGtfsDeepLinks(apiKey?: string) {
     "/api/current-user/gtfs-url-scheme-acceptance-test",
     "",
     apiKey,
-    defaultApiKey
+    defaultApiKey,
   );
   return response;
 }

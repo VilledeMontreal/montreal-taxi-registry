@@ -1,6 +1,6 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
-import * as moment from "moment";
+import moment from "moment";
 import { latestTaxiPositionMapper } from "../latestTaxiPositions/latestTaxiPosition.mapper";
 import { latestTaxiPositionRepository } from "../latestTaxiPositions/latestTaxiPosition.repository";
 import * as mongoUtilities from "../shared/taxiMongo/taxiMongo";
@@ -12,7 +12,7 @@ import { TaxiPositionSnapshotRequestDto } from "./taxiPositionSnapshotRequest.dt
 class TaxiPositionSnapshotService {
   public async addTaxiPositionSnapshotInMongoDb(
     taxiPositionSnapshot: TaxiPositionSnapshotRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ): Promise<void> {
     taxiPositionSnapshot.receivedAt = moment.utc().toDate();
     taxiPositionSnapshot.items.forEach((item: any) => {
@@ -32,31 +32,31 @@ class TaxiPositionSnapshotService {
 
   private async persistIndexInMongoDb(
     taxiPositionSnapshot: TaxiPositionSnapshotRequestDto,
-    userModel: UserModel
+    userModel: UserModel,
   ) {
     const taxiSummaryReferences =
       await taxiSummaryRepositoryWithCaching.getByKeys(
-        taxiPositionSnapshot.items.map((item) => item.taxi)
+        taxiPositionSnapshot.items.map((item) => item.taxi),
       );
     const latestTaxiPosition =
       latestTaxiPositionMapper.toLatestTaxiPositionModels(
         taxiSummaryReferences,
         taxiPositionSnapshot,
-        userModel
+        userModel,
       );
     await latestTaxiPositionRepository.saveLatestTaxiPositions(
-      latestTaxiPosition
+      latestTaxiPosition,
     );
   }
 
   private async persistHistoryInMongoDb(
-    taxiPositionSnapshot: TaxiPositionSnapshotRequestDto
+    taxiPositionSnapshot: TaxiPositionSnapshotRequestDto,
   ): Promise<void> {
     const db = mongoUtilities.getMongoDb();
 
     const taxiPositionSnapshotToPersist: TaxiPositionSnapshotRequestDto = {
       items: taxiPositionSnapshot.items.filter(
-        (snapshot) => snapshot.status !== TaxiStatus.Off
+        (snapshot) => snapshot.status !== TaxiStatus.Off,
       ),
       receivedAt: taxiPositionSnapshot.receivedAt,
     };

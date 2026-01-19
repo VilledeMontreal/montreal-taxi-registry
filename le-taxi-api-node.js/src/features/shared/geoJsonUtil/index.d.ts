@@ -15,6 +15,6 @@ namespace GeoJSON {
     objects: [] | object,
     params: object,
     /* eslint-disable @typescript-eslint/no-unsafe-function-type */
-    callback?: Function
+    callback?: Function,
   ): any;
 }

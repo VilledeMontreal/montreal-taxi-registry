@@ -10,9 +10,9 @@ async function generateTaxisSharedState() {
     const taxis = await createCustomisedTaxis();
     fs.writeFileSync(
       "src/apiIntegrationTests/apiIntegrationTests.sharedState.json",
-      JSON.stringify(taxis)
+      JSON.stringify(taxis),
     );
-    // eslint-disable-next-line no-console
+
     console.log(
       `----------------------------------------------------------------------------------------
 File src/apiIntegrationTests/apiIntegrationTests.sharedState.json has been created.
@@ -20,10 +20,9 @@ Copy above file to: le-taxi-api-node.js src/tests/integration-tests/
 Or command line (assuming a git clone of le-taxi-api-tests and le-taxi-api-node.js done in current dir):
 cp ../le-taxi-api-tests/src/apiIntegrationTests/apiIntegrationTests.sharedState.json ../le-taxi-api-node.js/src/tests/integration-tests/.
 See: src/apiIntegrationTests/README.md for more information.
-----------------------------------------------------------------------------------------`
+----------------------------------------------------------------------------------------`,
     );
   } catch (ex) {
-    // eslint-disable-next-line no-console
     console.log(ex);
   }
 }
@@ -50,10 +49,10 @@ async function createCustomisedTaxis() {
       const taxi = await setupNewCustomTaxi(
         element.specialNeedVehicle,
         element.type,
-        operatorUser.apikey
+        operatorUser.apikey,
       );
       taxisId[index] = taxi.body.data[0].id;
-    })
+    }),
   );
 
   return {

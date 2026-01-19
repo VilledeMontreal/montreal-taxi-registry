@@ -12,7 +12,7 @@ export interface IExtractTrips {
   parseTaxiPositionSnapshots(
     tripBuilder: TripBuilder,
     startDate: string,
-    endDate: string
+    endDate: string,
   ): Promise<void>;
   deleteBatch(date: string): Promise<void>;
   saveBatch(trips: TripModel[]): Promise<void>;
@@ -23,7 +23,7 @@ export abstract class TripExtractionBase implements IExtractTrips {
   abstract parseTaxiPositionSnapshots(
     tripBuilder: TripBuilder,
     startDate: string,
-    endDate: string
+    endDate: string,
   ): Promise<void>;
   abstract deleteBatch(date: string): Promise<void>;
   abstract saveBatch(trips: TripModel[]): Promise<void>;
@@ -47,19 +47,19 @@ export abstract class TripExtractionBase implements IExtractTrips {
     await this.parseTaxiPositionSnapshots(
       tripBuilder,
       addHours(this.getBatchFrom(date), -tripMaxDurationHours),
-      this.getBatchFrom(date)
+      this.getBatchFrom(date),
     );
     return tripBuilder;
   }
 
   private async parseBatch(
     tripBuilder: TripBuilder,
-    date: string
+    date: string,
   ): Promise<void> {
     await this.parseTaxiPositionSnapshots(
       tripBuilder,
       this.getBatchFrom(date),
-      this.getBatchTo(date)
+      this.getBatchTo(date),
     );
     await this.deleteBatch(date); // delete allows for recovering from errors
     await this.saveBatch(tripBuilder.getCompletedTrips());
@@ -82,7 +82,7 @@ export abstract class TripExtractionBase implements IExtractTrips {
   }
 
   protected ignoreCompletedTripsFromPreviousBatch(
-    tripBuilder: TripBuilder
+    tripBuilder: TripBuilder,
   ): void {
     tripBuilder.deleteCompletedTrips();
   }
