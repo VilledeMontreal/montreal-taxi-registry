@@ -1,6 +1,6 @@
 config:
   target: "https://taximtl.accept.ville.montreal.qc.ca"
-  processor: "./generateSnapshotsFor50Operators.js"
+  processor: "../../../dist/src/taxiPositionSnapShots/loadTests/generateSnapshotsFor50Operators.js"
   http:
     pool: 20
     timeout: 5

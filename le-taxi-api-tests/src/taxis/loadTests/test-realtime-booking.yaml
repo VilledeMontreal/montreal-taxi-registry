@@ -1,6 +1,6 @@
 config:
   target: "https://taximtl.accept.ville.montreal.qc.ca"
-  processor: "./generateQueryParams.js"
+  processor: "../../../dist/src/taxis/loadTests/generateQueryParams.js"
   http:
     pool: 100
     timeout: 35

@@ -1,6 +1,6 @@
 config:
   target: "https://api.accept.interne.montreal.ca/api/taxi/taxi-registry-osrm"
-  processor: "./generateOsrmPayload.js"
+  processor: "../../../dist/src/osrm/loadTests/generateOsrmPayload.js"
   http:
     pool: 1000
     timeout: 35
