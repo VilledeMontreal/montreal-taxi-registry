@@ -13,18 +13,18 @@ import {
 import { FeatureCollection } from "geojson";
 
 /* tslint:enable:allow-snake-case-per-file */
-export enum GofsLiteSupportedLangTypes {
+export enum GofsSupportedLangTypes {
   En = "en",
   Fr = "fr",
 }
 
-export enum GofsLiteBrandIdTypes {
+export enum GofsBrandIdTypes {
   Standard = "taxi-registry-standard",
   Minivan = "taxi-registry-minivan",
   SpecialNeed = "taxi-registry-special-need",
 }
 
-export class GofsLiteRealtimeBookingRequestDto {
+export class GofsRealtimeBookingRequestDto {
   @IsDefined()
   @IsNotEmpty()
   @IsNumber()
@@ -61,12 +61,12 @@ export class GofsLiteRealtimeBookingRequestDto {
 
   @IsDefined()
   @IsArray()
-  @IsEnum(GofsLiteBrandIdTypes, { each: true })
-  brand_id: GofsLiteBrandIdTypes[];
+  @IsEnum(GofsBrandIdTypes, { each: true })
+  brand_id: GofsBrandIdTypes[];
 }
 
-export class GofsLiteRealtimeBookingDataResponseDto {
-  brand_id: GofsLiteBrandIdTypes;
+export class GofsRealtimeBookingDataResponseDto {
+  brand_id: GofsBrandIdTypes;
   wait_time: number;
   travel_time: number;
   travel_cost: number;
@@ -80,80 +80,80 @@ export class GofsLiteRealtimeBookingDataResponseDto {
   };
 }
 
-export class GofsLiteRealtimeBookingResponseDto {
-  realtime_booking: GofsLiteRealtimeBookingDataResponseDto[];
+export class GofsRealtimeBookingResponseDto {
+  realtime_booking: GofsRealtimeBookingDataResponseDto[];
 }
 
-export class GofsLiteFeedDetailResponseDto {
+export class GofsFeedDetailResponseDto {
   name: string;
   url: string;
 }
 
-export class GofsLiteFeedResponseDto {
+export class GofsFeedResponseDto {
   en: {
-    feeds: GofsLiteFeedDetailResponseDto[];
+    feeds: GofsFeedDetailResponseDto[];
   };
   fr: {
-    feeds: GofsLiteFeedDetailResponseDto[];
+    feeds: GofsFeedDetailResponseDto[];
   };
 }
 
-export class GofsLiteServiceBrandsDetailResponseDto {
+export class GofsServiceBrandsDetailResponseDto {
   brand_id: string;
   brand_name: string;
 }
 
-export class GofsLiteServiceBrandsResponseDto {
-  service_brands: GofsLiteServiceBrandsDetailResponseDto[];
+export class GofsServiceBrandsResponseDto {
+  service_brands: GofsServiceBrandsDetailResponseDto[];
 }
 
-export class GofsLiteSystemInformationResponseDto {
+export class GofsSystemInformationResponseDto {
   language: string;
   timezone: string;
   name: string;
   short_name: string;
 }
 
-export class GofsLiteZoneResponseDto {
+export class GofsZoneResponseDto {
   zones: FeatureCollection;
 }
 
-export class GofsLiteOperatingRulesDetailsDto {
+export class GofsOperatingRulesDetailsDto {
   from_zone_id: string;
   to_zone_id: string;
   calendars: string[];
   vehicle_type_id: string[];
 }
 
-export class GofsLiteOperatingRulesResponseDto {
-  operating_rules: GofsLiteOperatingRulesDetailsDto[];
+export class GofsOperatingRulesResponseDto {
+  operating_rules: GofsOperatingRulesDetailsDto[];
 }
 
-export class GofsLiteCalendarsDetailsResponseDto {
+export class GofsCalendarsDetailsResponseDto {
   calendar_id: string;
   start_date: string;
   end_date: string;
 }
 
-export class GofsLiteCalendarsResponseDto {
-  calendars: GofsLiteCalendarsDetailsResponseDto[];
+export class GofsCalendarsResponseDto {
+  calendars: GofsCalendarsDetailsResponseDto[];
 }
 
-export class GofsLiteResponseDto {
+export class GofsResponseDto {
   last_updated: number;
   ttl: number;
   version: string;
-  data: GofsLiteDataResponseDto;
+  data: GofsDataResponseDto;
 }
 
-type GofsLiteEmptyDataResponseDto = [];
+type GofsEmptyDataResponseDto = [];
 
-export type GofsLiteDataResponseDto =
-  | GofsLiteRealtimeBookingResponseDto
-  | GofsLiteFeedResponseDto
-  | GofsLiteServiceBrandsResponseDto
-  | GofsLiteSystemInformationResponseDto
-  | GofsLiteZoneResponseDto
-  | GofsLiteOperatingRulesResponseDto
-  | GofsLiteCalendarsResponseDto
-  | GofsLiteEmptyDataResponseDto;
+export type GofsDataResponseDto =
+  | GofsRealtimeBookingResponseDto
+  | GofsFeedResponseDto
+  | GofsServiceBrandsResponseDto
+  | GofsSystemInformationResponseDto
+  | GofsZoneResponseDto
+  | GofsOperatingRulesResponseDto
+  | GofsCalendarsResponseDto
+  | GofsEmptyDataResponseDto;

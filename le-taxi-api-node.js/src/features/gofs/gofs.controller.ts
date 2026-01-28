@@ -13,27 +13,27 @@ import {
   serviceBrandsFunc,
   systemInformationFunc,
   zonesFunc,
-} from "./gofsLite.constants";
+} from "./gofs.constants";
 import {
-  GofsLiteDataResponseDto,
-  GofsLiteFeedDetailResponseDto,
-  GofsLiteResponseDto,
-} from "./gofsLite.dto";
-import { gofsLiteMapper } from "./gofsLite.mapper";
+  GofsDataResponseDto,
+  GofsFeedDetailResponseDto,
+  GofsResponseDto,
+} from "./gofs.dto";
+import { gofsMapper } from "./gofs.mapper";
 import {
-  validateGofsLiteRealtimeBookingRequest,
+  validateGofsRealtimeBookingRequest,
   validateLang,
-} from "./gofsLite.validators";
+} from "./gofs.validators";
 
-const API_PREFIX = "/api/gofs-lite/1/";
+const API_PREFIX = "/api/gofs/1/";
 
-class GofsLiteController {
+class GofsController {
   @allow([UserRole.Admin, UserRole.Motor])
   public async getFeeds(request: Request, response: Response) {
     const feeds = request.app.router.stack
       .filter((layer) => layer?.route?.path?.includes(API_PREFIX))
       .map((layer) =>
-        layer.route.path.substring(layer.route.path.indexOf(API_PREFIX))
+        layer.route.path.substring(layer.route.path.indexOf(API_PREFIX)),
       );
     sendResponse(
       response,
@@ -41,15 +41,14 @@ class GofsLiteController {
         en: { feeds: buildFeed(feeds, "en") },
         fr: { feeds: buildFeed(feeds, "fr") },
       },
-      24 * 60 * 60
+      24 * 60 * 60,
     );
   }
 
   @allow([UserRole.Admin, UserRole.Motor])
   public async getRealtimeBooking(request: Request, response: Response) {
     validateLang(request);
-    const inquiryRequest =
-      await validateGofsLiteRealtimeBookingRequest(request);
+    const inquiryRequest = await validateGofsRealtimeBookingRequest(request);
     const inquiryResponse = await inquiryProcessor.process(inquiryRequest);
 
     if (!inquiryResponse) {
@@ -58,7 +57,7 @@ class GofsLiteController {
     }
 
     const gofsResponse =
-      gofsLiteMapper.toGofsLiteRealtimeBookingResponse(inquiryResponse);
+      gofsMapper.toGofsRealtimeBookingResponse(inquiryResponse);
     sendResponse(response, gofsResponse);
   }
 
@@ -93,10 +92,7 @@ class GofsLiteController {
   }
 }
 
-function buildFeed(
-  feeds: string[],
-  lang: string
-): GofsLiteFeedDetailResponseDto[] {
+function buildFeed(feeds: string[], lang: string): GofsFeedDetailResponseDto[] {
   return feeds.map((feed) => ({
     name: feed.substring(feed.lastIndexOf("/") + 1).replace(".json", ""),
     url: getAbsoluteUrl(feed.replace(":lang", lang)),
@@ -104,9 +100,9 @@ function buildFeed(
 }
 
 function wrapResponse(
-  response: GofsLiteDataResponseDto,
-  ttl?: number
-): GofsLiteResponseDto {
+  response: GofsDataResponseDto,
+  ttl?: number,
+): GofsResponseDto {
   return {
     last_updated: nowAsEpoch(),
     ttl: ttl ?? 5 * 60,
@@ -117,11 +113,11 @@ function wrapResponse(
 
 function sendResponse(
   response: Response,
-  gofsData?: GofsLiteDataResponseDto,
-  ttl?: number
+  gofsData?: GofsDataResponseDto,
+  ttl?: number,
 ) {
   response.status(StatusCodes.OK);
   response.json(wrapResponse(gofsData, ttl));
 }
 
-export const gofsLiteController = new GofsLiteController();
+export const gofsController = new GofsController();

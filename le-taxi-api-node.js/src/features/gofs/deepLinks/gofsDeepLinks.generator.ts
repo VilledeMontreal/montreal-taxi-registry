@@ -8,7 +8,7 @@ import {
   evaluatePhoneBooking,
   PlatformType,
   TaxiType,
-} from "./gtfsDeepLinks.templates";
+} from "./gofsDeepLinks.templates";
 
 const taxiRegistryRoutes = {
   standard: "taxi-registry-standard",
@@ -16,7 +16,7 @@ const taxiRegistryRoutes = {
   specialNeed: "taxi-registry-special-need",
 };
 
-class GtfsDeepLinksGenerator {
+class GofsDeepLinksGenerator {
   public generateDeepLinksPage(user: UserModel): string {
     return `
 <!doctype html>
@@ -24,13 +24,13 @@ class GtfsDeepLinksGenerator {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GTFS-OnDemand URL scheme Acceptance Test</title>
+  <title>GOFS URL scheme Acceptance Test</title>
 </head>
 
 <body>
-  <h1>GTFS-OnDemand URL scheme Acceptance Test</h1>
+  <h1>GOFS URL scheme Acceptance Test</h1>
   <div><h2>${user.commercial_name}<h2></div>
-  <div><strong>Important: </strong>To pass a test, the user should not have to re-enter the information provided through the GTFS-OnDemand URL scheme.</div>
+  <div><strong>Important: </strong>To pass a test, the user should not have to re-enter the information provided through the GOFS URL scheme.</div>
 
   ${generatePhoneBooking(user)}
   ${generateWebBooking(user)}
@@ -165,4 +165,4 @@ function generateIosBooking(user: UserModel): string {
 </div>`;
 }
 
-export const gtfsDeepLinksGenerator = new GtfsDeepLinksGenerator();
+export const gofsDeepLinksGenerator = new GofsDeepLinksGenerator();

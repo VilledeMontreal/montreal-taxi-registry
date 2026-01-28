@@ -5,23 +5,23 @@ import { assert } from "chai";
 import { StatusCodes } from "http-status-codes";
 import { UserRole } from "../shared/commonTests/UserRole";
 import { getImmutableUserApiKey } from "../users/user.sharedFixture";
-import { getGtfsDeepLinks } from "./gtfsDeepLinks.apiClient";
+import { getGofsDeepLinks } from "./gofsDeepLinks.apiClient";
 
-export async function invalidGtfsDeepLinksTests(): Promise<void> {
-  testGtfsDeepLinksAccessInvalid(UserRole.Admin);
-  testGtfsDeepLinksAccessInvalid(UserRole.Motor);
-  testGtfsDeepLinksAccessInvalid(UserRole.Inspector);
-  testGtfsDeepLinksAccessInvalid(UserRole.Manager);
-  testGtfsDeepLinksAccessInvalid(UserRole.Stats);
-  testGtfsDeepLinksAccessInvalid(UserRole.Prefecture);
+export async function invalidGofsDeepLinksTests(): Promise<void> {
+  testGofsDeepLinksAccessInvalid(UserRole.Admin);
+  testGofsDeepLinksAccessInvalid(UserRole.Motor);
+  testGofsDeepLinksAccessInvalid(UserRole.Inspector);
+  testGofsDeepLinksAccessInvalid(UserRole.Manager);
+  testGofsDeepLinksAccessInvalid(UserRole.Stats);
+  testGofsDeepLinksAccessInvalid(UserRole.Prefecture);
 }
 
-function testGtfsDeepLinksAccessInvalid(role: UserRole) {
-  it(`User with role ${UserRole[role]} should not be able to access the Gtfs deep link acceptance test page`, async () => {
+function testGofsDeepLinksAccessInvalid(role: UserRole) {
+  it(`User with role ${UserRole[role]} should not be able to access the Gofs deep link acceptance test page`, async () => {
     const apiKey = await getImmutableUserApiKey(role);
 
     await shouldThrow(
-      () => getGtfsDeepLinks(apiKey),
+      () => getGofsDeepLinks(apiKey),
       (err) => {
         assert.strictEqual(err.status, StatusCodes.UNAUTHORIZED);
         assert.strictEqual(

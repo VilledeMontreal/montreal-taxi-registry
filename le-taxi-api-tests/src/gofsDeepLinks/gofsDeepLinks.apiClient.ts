@@ -4,10 +4,10 @@ import { UserRole } from "../shared/commonTests/UserRole";
 import { downloadFile } from "../shared/taxiRegistryHttp/taxiRegistryHttp";
 import { getImmutableUserApiKey } from "../users/user.sharedFixture";
 
-export async function getGtfsDeepLinks(apiKey?: string) {
+export async function getGofsDeepLinks(apiKey?: string) {
   const defaultApiKey = await getImmutableUserApiKey(UserRole.Operator);
   const response = await downloadFile(
-    "/api/current-user/gtfs-url-scheme-acceptance-test",
+    "/api/current-user/gofs-url-scheme-acceptance-test",
     "",
     apiKey,
     defaultApiKey,
