@@ -107,7 +107,6 @@ function generateAndroidBooking(user: UserModel): string {
       platformType: PlatformType.Android,
       serviceType: taxiRegistryRoutes.standard,
       bookingUrl: user.standard_booking_android_deeplink_uri,
-      storeUrl: user.standard_booking_android_store_uri,
       display: !!user.standard_booking_android_deeplink_uri,
     })}
   <h3>Minivan booking</h3>
@@ -124,7 +123,6 @@ function generateAndroidBooking(user: UserModel): string {
     platformType: PlatformType.Android,
     serviceType: taxiRegistryRoutes.specialNeed,
     bookingUrl: user.special_need_booking_android_deeplink_uri,
-    storeUrl: user.special_need_booking_android_store_uri,
     display: !!user.special_need_booking_android_deeplink_uri,
     displayTemplate:
       user.standard_booking_android_deeplink_uri !==
@@ -143,7 +141,6 @@ function generateIosBooking(user: UserModel): string {
     platformType: PlatformType.Ios,
     serviceType: taxiRegistryRoutes.standard,
     bookingUrl: user.standard_booking_ios_deeplink_uri,
-    storeUrl: user.standard_booking_ios_store_uri,
     display: !!user.standard_booking_ios_deeplink_uri,
   })}
   <h3>Minivan booking</h3>
@@ -160,7 +157,6 @@ function generateIosBooking(user: UserModel): string {
     platformType: PlatformType.Ios,
     serviceType: taxiRegistryRoutes.specialNeed,
     bookingUrl: user.special_need_booking_ios_deeplink_uri,
-    storeUrl: user.special_need_booking_ios_store_uri,
     display: !!user.special_need_booking_ios_deeplink_uri,
     displayTemplate:
       user.standard_booking_ios_deeplink_uri !==

@@ -59,7 +59,6 @@ export interface IDeepLinkBookingOptions {
   platformType: PlatformType;
   serviceType: string;
   bookingUrl: string;
-  storeUrl?: string;
   display: boolean;
   displayTemplate?: boolean;
 }
@@ -73,7 +72,7 @@ export function evaluateBookingStandard(opts: IDeepLinkBookingOptions) {
   if (!opts.display) return serviceUnavailable;
   return `
 <div>
-  ${evaluateAppStore(opts)}
+  ${evaluateMissingApp(opts)}
   <br>
   ${evaluateTemplate(opts)}
 </div>
@@ -96,7 +95,7 @@ export function evaluateBookingSpecialNeed(
 
   return `
 <div>
-${evaluateAppStore(opts)}
+${evaluateMissingApp(opts)}
 <br>
 ${cityHallToEightyQueen(opts)}
 <br>
@@ -105,16 +104,22 @@ ${opts.displayTemplate ? evaluateTemplate(opts) : ""}
 `;
 }
 
-function evaluateAppStore(opts: IDeepLinkBookingOptions) {
+function evaluateMissingApp(opts: IDeepLinkBookingOptions) {
   if (
     opts.platformType !== PlatformType.Android &&
     opts.platformType !== PlatformType.Ios
   )
     return "";
-  if (!opts.storeUrl) return `<div>No store URL</div>`;
+
+  const link = buildDeepLink(
+    opts.bookingUrl,
+    opts.serviceType,
+    cityHall,
+    eightyQueen,
+  );
   return `
-<div>Can download the ${opts.platformType} to book a ${opts.taxiType} from the store:</div>
-<div><a href='${opts.storeUrl}'>${opts.storeUrl}</a></div>
+<div>Can download the ${opts.platformType} if absent from the mobile device:</div>
+<div><a href='${link}'>${link}</a></div>
 `;
 }
 
