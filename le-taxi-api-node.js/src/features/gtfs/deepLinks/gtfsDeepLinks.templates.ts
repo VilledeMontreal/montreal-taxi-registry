@@ -161,8 +161,8 @@ function cityHallToEightyQueen(opts: IDeepLinkBookingOptions) {
 
 function eightyQueenWithNoDestination(opts: IDeepLinkBookingOptions) {
   const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen);
-  const linkEmpty = `${link}&dropoff_latitude=&dropoff_longitude=&dropoff_address=`;
-  const linkNull = `${link}&dropoff_latitude=null&dropoff_longitude=null&dropoff_address=null`;
+  const linkEmpty = `${link}&drop_off_lat=&drop_off_lon=&drop_off_address=`;
+  const linkNull = `${link}&drop_off_lat=null&drop_off_lon=null&drop_off_address=null`;
 
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to no particular destination with the ${opts.platformType}:</div>
@@ -297,12 +297,12 @@ function buildDeepLink(
   pickup: ICoordinatesWithAddress,
   dropoff?: ICoordinatesWithAddress,
 ): string {
-  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${
+  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_lat=${
     pickup.lat
-  }&pickup_longitude=${pickup.lon}&pickup_address=${encodeURIComponent(pickup.address)}`;
+  }&pickup_lon=${pickup.lon}&pickup_address=${encodeURIComponent(pickup.address)}`;
   return dropoff
-    ? `${deepLink}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${
+    ? `${deepLink}&drop_off_lat=${dropoff.lat}&drop_off_lon=${
         dropoff.lon
-      }&dropoff_address=${encodeURIComponent(dropoff.address)}`
+      }&drop_off_address=${encodeURIComponent(dropoff.address)}`
     : deepLink;
 }

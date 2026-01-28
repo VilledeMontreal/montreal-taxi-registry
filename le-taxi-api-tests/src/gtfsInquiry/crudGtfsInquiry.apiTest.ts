@@ -314,14 +314,14 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Should format the deeplinks with required parameters - No dropoff`, async () => {
     const requiredDeeplinksParameters = [
-      "pickup_latitude",
-      "pickup_longitude",
+      "pickup_lat",
+      "pickup_lon",
       "pickup_address",
     ];
     const unwantedDeeplinksParameters = [
-      "dropoff_latitude",
-      "dropoff_longitude",
-      "dropoff_address",
+      "drop_off_lat",
+      "drop_off_lon",
+      "drop_off_address",
     ];
     const operators = await createTaxisWithPromotions([
       { ...generateApiTestCoordinates(), type: "sedan" },
@@ -370,12 +370,12 @@ export async function crudGtfsInquiryTests(): Promise<void> {
 
   it(`Should format the deeplinks with required parameters - With dropoff`, async () => {
     const requiredDeeplinksParameters = [
-      "pickup_latitude",
-      "pickup_longitude",
+      "pickup_lat",
+      "pickup_lon",
       "pickup_address",
-      "dropoff_latitude",
-      "dropoff_longitude",
-      "dropoff_address",
+      "drop_off_lat",
+      "drop_off_lon",
+      "drop_off_address",
     ];
     const operators = await createTaxisWithPromotions([
       { ...generateApiTestCoordinates(), type: "sedan" },
@@ -438,7 +438,7 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     );
 
     const encodedPickup = `pickup_address=${encodeURIComponent(pickupAddress)}`;
-    const encodedDropoff = `dropoff_address=${encodeURIComponent(
+    const encodedDropoff = `drop_off_address=${encodeURIComponent(
       dropoffAddress,
     )}`;
 
