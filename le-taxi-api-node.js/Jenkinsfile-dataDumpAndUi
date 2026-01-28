@@ -24,7 +24,7 @@ ctx = pipeline.createContext([
     ],
     build: [
         branchOverrides: [
-            "feature/TM-1846-upgrade": "develop",
+            "feature/TM-1850-migration-gofs": "develop",
         ],
     ],
     packaging: [
