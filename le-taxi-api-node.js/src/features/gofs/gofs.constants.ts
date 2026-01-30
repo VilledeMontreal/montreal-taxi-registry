@@ -5,37 +5,37 @@ import { FeatureCollection } from "geojson";
 import _ from "lodash";
 import { locationsGeoJson } from "../shared/locations/locations";
 import {
-  GofsLiteCalendarsResponseDto,
-  GofsLiteOperatingRulesResponseDto,
-  GofsLiteServiceBrandsResponseDto,
-  GofsLiteSupportedLangTypes,
-  GofsLiteSystemInformationResponseDto,
-  GofsLiteZoneResponseDto,
-} from "./gofsLite.dto";
+  GofsCalendarsResponseDto,
+  GofsOperatingRulesResponseDto,
+  GofsServiceBrandsResponseDto,
+  GofsSupportedLangTypes,
+  GofsSystemInformationResponseDto,
+  GofsZoneResponseDto,
+} from "./gofs.dto";
 
 export function serviceBrandsFunc(
-  lang: GofsLiteSupportedLangTypes,
-): GofsLiteServiceBrandsResponseDto {
+  lang: GofsSupportedLangTypes,
+): GofsServiceBrandsResponseDto {
   return {
     service_brands: [
       {
         brand_id: "taxi-registry-standard",
         brand_name:
-          lang === GofsLiteSupportedLangTypes.Fr
+          lang === GofsSupportedLangTypes.Fr
             ? "Taxi régulier"
             : "Standard taxi",
       },
       {
         brand_id: "taxi-registry-minivan",
         brand_name:
-          lang === GofsLiteSupportedLangTypes.Fr
+          lang === GofsSupportedLangTypes.Fr
             ? "Taxi fourgonnette"
             : "Minivan taxi",
       },
       {
         brand_id: "taxi-registry-special-need",
         brand_name:
-          lang === GofsLiteSupportedLangTypes.Fr
+          lang === GofsSupportedLangTypes.Fr
             ? "Taxi adapté"
             : "Accessible taxi",
       },
@@ -44,28 +44,26 @@ export function serviceBrandsFunc(
 }
 
 export function systemInformationFunc(
-  lang: GofsLiteSupportedLangTypes,
-): GofsLiteSystemInformationResponseDto {
+  lang: GofsSupportedLangTypes,
+): GofsSystemInformationResponseDto {
   return {
-    language: lang as GofsLiteSupportedLangTypes,
+    language: lang as GofsSupportedLangTypes,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     name:
-      lang === GofsLiteSupportedLangTypes.Fr
+      lang === GofsSupportedLangTypes.Fr
         ? "Registre des taxis de Montréal"
         : "Montreal taxi registry",
     short_name:
-      lang === GofsLiteSupportedLangTypes.Fr
+      lang === GofsSupportedLangTypes.Fr
         ? "Registre des taxis"
         : "Taxi registry",
   };
 }
 
-export function zonesFunc(
-  lang: GofsLiteSupportedLangTypes,
-): GofsLiteZoneResponseDto {
+export function zonesFunc(lang: GofsSupportedLangTypes): GofsZoneResponseDto {
   return {
     zones:
-      lang === GofsLiteSupportedLangTypes.Fr
+      lang === GofsSupportedLangTypes.Fr
         ? locationsGeoJson
         : patchLocationsInEnglish(locationsGeoJson),
   };
@@ -85,7 +83,7 @@ function patchLocationsInEnglish(
   return locationsEn;
 }
 
-export const operatingRules: GofsLiteOperatingRulesResponseDto = {
+export const operatingRules: GofsOperatingRulesResponseDto = {
   operating_rules: [
     {
       from_zone_id: "artm",
@@ -102,7 +100,7 @@ export const operatingRules: GofsLiteOperatingRulesResponseDto = {
   ],
 };
 
-export const calendars: GofsLiteCalendarsResponseDto = {
+export const calendars: GofsCalendarsResponseDto = {
   calendars: [
     {
       calendar_id: "all-days",

@@ -12,6 +12,7 @@ import {
   downtownGeometry,
 } from "../shared/locations/locations";
 import { osrmRepository } from "../shared/osrm/osrm.repository";
+import { encodeAddress } from "../shared/utils/stringUtils";
 import { userRepositoryByIdWithCaching } from "../users/user.repositoryWithCaching";
 import {
   InquiryBookingResponseData,
@@ -31,12 +32,12 @@ interface IEstimatePriceProperties {
 
 class InquiryProcessor {
   public async process(
-    inquiryRequest: InquiryRequest
+    inquiryRequest: InquiryRequest,
   ): Promise<InquiryResponse> {
     const closestTaxiPromise = latestTaxiPositionRepository.findClosestTaxis(
       inquiryRequest.from,
       inquiryRequest.inquiryTypes,
-      inquiryRequest.operators
+      inquiryRequest.operators,
     );
     const hasDestination = !!(inquiryRequest.to?.lat && inquiryRequest.to?.lon);
     const routeFromSourceToDestinationPromise = hasDestination
@@ -55,7 +56,7 @@ class InquiryProcessor {
       closestTaxis.map((closestTaxi) => ({
         lat: closestTaxi.lat,
         lon: closestTaxi.lon,
-      }))
+      })),
     );
 
     const date = nowUtcIsoString();
@@ -73,7 +74,7 @@ class InquiryProcessor {
             configs.taxiRegistryOsrmApi.estimation.requestAndDispatchInSec,
           booking,
         } as InquiryResponseData;
-      })
+      }),
     );
 
     if (hasDestination) {
@@ -101,10 +102,10 @@ class InquiryProcessor {
 
 async function prepareBooking(
   closestTaxi: LatestTaxiPositionModelExtended,
-  inquiryRequest: InquiryRequest
+  inquiryRequest: InquiryRequest,
 ): Promise<InquiryBookingResponseData> {
   const operator = await userRepositoryByIdWithCaching.getByKey(
-    closestTaxi.taxi.operatorId
+    closestTaxi.taxi.operatorId,
   );
   const isSpecialNeed =
     closestTaxi.taxi.inquiryType === InquiryTypes.SpecialNeed;
@@ -123,7 +124,7 @@ async function prepareBooking(
     : operator.standard_booking_ios_deeplink_uri;
   const queryParams = buildQueryParams(
     closestTaxi.taxi.inquiryType,
-    inquiryRequest
+    inquiryRequest,
   );
 
   return {
@@ -137,17 +138,17 @@ async function prepareBooking(
 
 function buildQueryParams(
   inquiryType: InquiryTypes,
-  inquiryRequest: InquiryRequest
+  inquiryRequest: InquiryRequest,
 ): string {
-  const queryParams = `?service_type=${inquiryType}&pickup_latitude=${
+  const queryParams = `?service_type=${inquiryType}&pickup_lat=${
     inquiryRequest.from.lat
-  }&pickup_longitude=${
+  }&pickup_lon=${
     inquiryRequest.from.lon
-  }&pickup_address=${encodeURIComponent(inquiryRequest.from.address)}`;
+  }&pickup_address=${encodeAddress(inquiryRequest.from.address)}`;
   return inquiryRequest.to?.lat && inquiryRequest.to?.lon
-    ? `${queryParams}&dropoff_latitude=${inquiryRequest.to.lat}&dropoff_longitude=${
+    ? `${queryParams}&drop_off_lat=${inquiryRequest.to.lat}&drop_off_lon=${
         inquiryRequest.to.lon
-      }&dropoff_address=${encodeURIComponent(inquiryRequest.to.address)}`
+      }&drop_off_address=${encodeAddress(inquiryRequest.to.address)}`
     : queryParams;
 }
 

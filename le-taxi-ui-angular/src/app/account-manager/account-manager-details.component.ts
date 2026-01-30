@@ -12,9 +12,11 @@ import { LoginService } from '../services/login.service';
 const GUID_REGEXP = /^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$/;
 const PHONE_REGEXP = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
 // tslint:disable-next-line:max-line-length
-const EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@`]+(\.[^<>()\[\]\\.,;:\s@`]+)*)|(`.+`))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const EMAIL_REGEXP =
+  /^(([^<>()\[\]\\.,;:\s@`]+(\.[^<>()\[\]\\.,;:\s@`]+)*)|(`.+`))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 // tslint:disable-next-line:max-line-length
-const URL_REGEXP = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+const URL_REGEXP =
+  /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
 
 @Component({
   templateUrl: 'dialog-confirm-apikey.html'
@@ -127,42 +129,42 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
                 role: this.user.role,
                 public_id: this.user.public_id,
                 website_url: this.user.website_url,
-                standard_booking_phone_number: this.user
-                  .standard_booking_phone_number,
-                standard_booking_website_url: this.user
-                  .standard_booking_website_url,
-                standard_booking_android_deeplink_uri: this.user
-                  .standard_booking_android_deeplink_uri,
-                standard_booking_android_store_uri: this.user
-                  .standard_booking_android_store_uri,
-                standard_booking_ios_deeplink_uri: this.user
-                  .standard_booking_ios_deeplink_uri,
-                standard_booking_ios_store_uri: this.user
-                  .standard_booking_ios_store_uri,
-                standard_booking_is_promoted_to_public: this.user
-                  .standard_booking_is_promoted_to_public,
-                minivan_booking_is_available_from_web_url: this.user
-                  .minivan_booking_is_available_from_web_url,
-                minivan_booking_is_available_from_android_uri: this.user
-                  .minivan_booking_is_available_from_android_uri,
-                minivan_booking_is_available_from_ios_uri: this.user
-                  .minivan_booking_is_available_from_ios_uri,
-                minivan_booking_is_promoted_to_public: this.user
-                  .minivan_booking_is_promoted_to_public,
-                special_need_booking_phone_number: this.user
-                  .special_need_booking_phone_number,
-                special_need_booking_website_url: this.user
-                  .special_need_booking_website_url,
-                special_need_booking_android_deeplink_uri: this.user
-                  .special_need_booking_android_deeplink_uri,
-                special_need_booking_android_store_uri: this.user
-                  .special_need_booking_android_store_uri,
-                special_need_booking_ios_deeplink_uri: this.user
-                  .special_need_booking_ios_deeplink_uri,
-                special_need_booking_ios_store_uri: this.user
-                  .special_need_booking_ios_store_uri,
-                special_need_booking_is_promoted_to_public: this.user
-                  .special_need_booking_is_promoted_to_public
+                standard_booking_phone_number:
+                  this.user.standard_booking_phone_number,
+                standard_booking_website_url:
+                  this.user.standard_booking_website_url,
+                standard_booking_android_deeplink_uri:
+                  this.user.standard_booking_android_deeplink_uri,
+                standard_booking_android_store_uri:
+                  this.user.standard_booking_android_store_uri,
+                standard_booking_ios_deeplink_uri:
+                  this.user.standard_booking_ios_deeplink_uri,
+                standard_booking_ios_store_uri:
+                  this.user.standard_booking_ios_store_uri,
+                standard_booking_is_promoted_to_public:
+                  this.user.standard_booking_is_promoted_to_public,
+                minivan_booking_is_available_from_web_url:
+                  this.user.minivan_booking_is_available_from_web_url,
+                minivan_booking_is_available_from_android_uri:
+                  this.user.minivan_booking_is_available_from_android_uri,
+                minivan_booking_is_available_from_ios_uri:
+                  this.user.minivan_booking_is_available_from_ios_uri,
+                minivan_booking_is_promoted_to_public:
+                  this.user.minivan_booking_is_promoted_to_public,
+                special_need_booking_phone_number:
+                  this.user.special_need_booking_phone_number,
+                special_need_booking_website_url:
+                  this.user.special_need_booking_website_url,
+                special_need_booking_android_deeplink_uri:
+                  this.user.special_need_booking_android_deeplink_uri,
+                special_need_booking_android_store_uri:
+                  this.user.special_need_booking_android_store_uri,
+                special_need_booking_ios_deeplink_uri:
+                  this.user.special_need_booking_ios_deeplink_uri,
+                special_need_booking_ios_store_uri:
+                  this.user.special_need_booking_ios_store_uri,
+                special_need_booking_is_promoted_to_public:
+                  this.user.special_need_booking_is_promoted_to_public
               });
             },
             (error) => {
@@ -242,8 +244,8 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  OpenGtfsUrlPage() {
-    this.accountService.opentGtfsAcceptanceTestsPage(this.user.id);
+  OpenGofsUrlPage() {
+    this.accountService.opentGofsAcceptanceTestsPage(this.user.id);
   }
 
   Save(id: number) {
@@ -251,30 +253,50 @@ export class AccountManagerDetailsComponent implements OnInit, OnDestroy {
     this.error = null;
     this.user.email = this.detailsForm.value.email || null;
     this.user.commercial_name = this.detailsForm.value.commercial_name || null;
-    this.user.phone_number_technical = this.detailsForm.value.phone_number_technical || null;
+    this.user.phone_number_technical =
+      this.detailsForm.value.phone_number_technical || null;
     this.user.email_customer = this.detailsForm.value.email_customer || null;
     this.user.email_technical = this.detailsForm.value.email_technical || null;
     this.user.role = this.detailsForm.value.role || null;
     this.user.public_id = this.detailsForm.value.public_id || null;
     this.user.website_url = this.detailsForm.value.website_url || null;
-    this.user.standard_booking_phone_number = this.detailsForm.value.standard_booking_phone_number || null;
-    this.user.standard_booking_website_url = this.detailsForm.value.standard_booking_website_url || null;
-    this.user.standard_booking_android_deeplink_uri = this.detailsForm.value.standard_booking_android_deeplink_uri || null;
-    this.user.standard_booking_android_store_uri = this.detailsForm.value.standard_booking_android_store_uri || null;
-    this.user.standard_booking_ios_deeplink_uri = this.detailsForm.value.standard_booking_ios_deeplink_uri || null;
-    this.user.standard_booking_ios_store_uri = this.detailsForm.value.standard_booking_ios_store_uri || null;
-    this.user.standard_booking_is_promoted_to_public = this.detailsForm.value.standard_booking_is_promoted_to_public || null;
-    this.user.minivan_booking_is_available_from_web_url = this.detailsForm.value.minivan_booking_is_available_from_web_url || null;
-    this.user.minivan_booking_is_available_from_android_uri = this.detailsForm.value.minivan_booking_is_available_from_android_uri || null;
-    this.user.minivan_booking_is_available_from_ios_uri = this.detailsForm.value.minivan_booking_is_available_from_ios_uri || null;
-    this.user.minivan_booking_is_promoted_to_public = this.detailsForm.value.minivan_booking_is_promoted_to_public || null;
-    this.user.special_need_booking_phone_number = this.detailsForm.value.special_need_booking_phone_number || null;
-    this.user.special_need_booking_website_url = this.detailsForm.value.special_need_booking_website_url || null;
-    this.user.special_need_booking_android_deeplink_uri = this.detailsForm.value.special_need_booking_android_deeplink_uri || null;
-    this.user.special_need_booking_android_store_uri = this.detailsForm.value.special_need_booking_android_store_uri || null;
-    this.user.special_need_booking_ios_deeplink_uri = this.detailsForm.value.special_need_booking_ios_deeplink_uri || null;
-    this.user.special_need_booking_ios_store_uri = this.detailsForm.value.special_need_booking_ios_store_uri || null;
-    this.user.special_need_booking_is_promoted_to_public = this.detailsForm.value.special_need_booking_is_promoted_to_public || null;
+    this.user.standard_booking_phone_number =
+      this.detailsForm.value.standard_booking_phone_number || null;
+    this.user.standard_booking_website_url =
+      this.detailsForm.value.standard_booking_website_url || null;
+    this.user.standard_booking_android_deeplink_uri =
+      this.detailsForm.value.standard_booking_android_deeplink_uri || null;
+    this.user.standard_booking_android_store_uri =
+      this.detailsForm.value.standard_booking_android_store_uri || null;
+    this.user.standard_booking_ios_deeplink_uri =
+      this.detailsForm.value.standard_booking_ios_deeplink_uri || null;
+    this.user.standard_booking_ios_store_uri =
+      this.detailsForm.value.standard_booking_ios_store_uri || null;
+    this.user.standard_booking_is_promoted_to_public =
+      this.detailsForm.value.standard_booking_is_promoted_to_public || null;
+    this.user.minivan_booking_is_available_from_web_url =
+      this.detailsForm.value.minivan_booking_is_available_from_web_url || null;
+    this.user.minivan_booking_is_available_from_android_uri =
+      this.detailsForm.value.minivan_booking_is_available_from_android_uri ||
+      null;
+    this.user.minivan_booking_is_available_from_ios_uri =
+      this.detailsForm.value.minivan_booking_is_available_from_ios_uri || null;
+    this.user.minivan_booking_is_promoted_to_public =
+      this.detailsForm.value.minivan_booking_is_promoted_to_public || null;
+    this.user.special_need_booking_phone_number =
+      this.detailsForm.value.special_need_booking_phone_number || null;
+    this.user.special_need_booking_website_url =
+      this.detailsForm.value.special_need_booking_website_url || null;
+    this.user.special_need_booking_android_deeplink_uri =
+      this.detailsForm.value.special_need_booking_android_deeplink_uri || null;
+    this.user.special_need_booking_android_store_uri =
+      this.detailsForm.value.special_need_booking_android_store_uri || null;
+    this.user.special_need_booking_ios_deeplink_uri =
+      this.detailsForm.value.special_need_booking_ios_deeplink_uri || null;
+    this.user.special_need_booking_ios_store_uri =
+      this.detailsForm.value.special_need_booking_ios_store_uri || null;
+    this.user.special_need_booking_is_promoted_to_public =
+      this.detailsForm.value.special_need_booking_is_promoted_to_public || null;
 
     if (this.user.id) {
       this.accountService.update(this.user).subscribe(

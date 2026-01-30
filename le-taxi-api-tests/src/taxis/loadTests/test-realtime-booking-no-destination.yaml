@@ -13,7 +13,7 @@ scenarios:
     flow:
       - function: "generateRealtimeBookingQueryParamsNoDestination"
       - get:
-          url: "/api/gofs-lite/1/en/realtime_booking"
+          url: "/api/gofs/1/en/realtime_booking"
           headers:
             X-API-KEY: "{{apikey}}"
           qs:

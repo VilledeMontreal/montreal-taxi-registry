@@ -4,18 +4,18 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { allow } from "../../users/securityDecorator";
 import { UserRole } from "../../users/userRole";
+import { gofsDeepLinksGenerator } from "./gofsDeepLinks.generator";
 import {
   validateUserForDeepLinks,
   validateUserId,
-} from "./gtfDeepLinks.validator";
-import { gtfsDeepLinksGenerator } from "./gtfsDeepLinks.generator";
+} from "./gofsDeepLinks.validator";
 
-class GtfsDeepLinksController {
+class GofsDeepLinksController {
   @allow([UserRole.Admin, UserRole.Manager])
   public async getDeepLinksForId(request: Request, response: Response) {
     const user = await validateUserId(request);
     validateUserForDeepLinks(user);
-    const template = gtfsDeepLinksGenerator.generateDeepLinksPage(user);
+    const template = gofsDeepLinksGenerator.generateDeepLinksPage(user);
     sendHtml(response, template);
   }
 
@@ -25,7 +25,7 @@ class GtfsDeepLinksController {
     response: Response,
   ) {
     validateUserForDeepLinks(request.userModel);
-    const template = gtfsDeepLinksGenerator.generateDeepLinksPage(
+    const template = gofsDeepLinksGenerator.generateDeepLinksPage(
       request.userModel,
     );
     sendHtml(response, template);
@@ -38,4 +38,4 @@ function sendHtml(response: Response, body: string) {
   response.send(body);
 }
 
-export const gtfsDeepLinksController = new GtfsDeepLinksController();
+export const gofsDeepLinksController = new GofsDeepLinksController();

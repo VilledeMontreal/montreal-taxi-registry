@@ -5,17 +5,17 @@ import { StatusCodes } from "http-status-codes";
 
 import { UserRole } from "../shared/commonTests/UserRole";
 import { getImmutableUserApiKey } from "../users/user.sharedFixture";
-import { getGtfsDeepLinks } from "./gtfsDeepLinks.apiClient";
+import { getGofsDeepLinks } from "./gofsDeepLinks.apiClient";
 
-export async function crudGtfsDeepLinksTests(): Promise<void> {
-  testGtfsDeepLinksAccessValid(UserRole.Operator);
+export async function crudGofsDeepLinksTests(): Promise<void> {
+  testGofsDeepLinksAccessValid(UserRole.Operator);
 }
 
-function testGtfsDeepLinksAccessValid(role: UserRole) {
-  it(`User with role ${UserRole[role]} should be able to access the Gtfs deep link acceptance test page`, async () => {
+function testGofsDeepLinksAccessValid(role: UserRole) {
+  it(`User with role ${UserRole[role]} should be able to access the Gofs deep link acceptance test page`, async () => {
     const apiKey = await getImmutableUserApiKey(role);
 
-    const response = await getGtfsDeepLinks(apiKey);
+    const response = await getGofsDeepLinks(apiKey);
     assert.strictEqual(response.status, StatusCodes.OK);
   });
 }

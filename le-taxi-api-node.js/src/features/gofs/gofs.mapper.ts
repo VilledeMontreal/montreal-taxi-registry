@@ -7,34 +7,34 @@ import {
   InquiryTypes,
 } from "../inquiry/inquiry.dto";
 import {
-  GofsLiteBrandIdTypes,
-  GofsLiteRealtimeBookingDataResponseDto,
-  GofsLiteRealtimeBookingRequestDto,
-  GofsLiteRealtimeBookingResponseDto,
-} from "./gofsLite.dto";
+  GofsBrandIdTypes,
+  GofsRealtimeBookingDataResponseDto,
+  GofsRealtimeBookingRequestDto,
+  GofsRealtimeBookingResponseDto,
+} from "./gofs.dto";
 
-class GofsLiteMapper {
+class GofsMapper {
   public toInquiryRequest(
-    gofsLiteRealtimeBookingRequest: GofsLiteRealtimeBookingRequestDto,
+    gofsRealtimeBookingRequest: GofsRealtimeBookingRequestDto,
   ): InquiryRequest {
     return {
       from: {
-        lat: gofsLiteRealtimeBookingRequest.pickup_lat,
-        lon: gofsLiteRealtimeBookingRequest.pickup_lon,
-        address: gofsLiteRealtimeBookingRequest.pickup_address,
+        lat: gofsRealtimeBookingRequest.pickup_lat,
+        lon: gofsRealtimeBookingRequest.pickup_lon,
+        address: gofsRealtimeBookingRequest.pickup_address,
       },
       to: {
-        lat: gofsLiteRealtimeBookingRequest.drop_off_lat,
-        lon: gofsLiteRealtimeBookingRequest.drop_off_lon,
-        address: gofsLiteRealtimeBookingRequest.drop_off_address,
+        lat: gofsRealtimeBookingRequest.drop_off_lat,
+        lon: gofsRealtimeBookingRequest.drop_off_lon,
+        address: gofsRealtimeBookingRequest.drop_off_address,
       },
-      inquiryTypes: toInquiryTypes(gofsLiteRealtimeBookingRequest.brand_id),
+      inquiryTypes: toInquiryTypes(gofsRealtimeBookingRequest.brand_id),
     };
   }
 
-  public toGofsLiteRealtimeBookingResponse(
+  public toGofsRealtimeBookingResponse(
     inquiryResponse: InquiryResponse,
-  ): GofsLiteRealtimeBookingResponseDto {
+  ): GofsRealtimeBookingResponseDto {
     return {
       realtime_booking:
         inquiryResponse.data?.map((data) =>
@@ -44,37 +44,37 @@ class GofsLiteMapper {
   }
 }
 
-function toInquiryTypes(gofsBrandIds: GofsLiteBrandIdTypes[]): InquiryTypes[] {
+function toInquiryTypes(gofsBrandIds: GofsBrandIdTypes[]): InquiryTypes[] {
   return gofsBrandIds.map((gofsBrandId) => toInquiryType(gofsBrandId));
 }
 
-function toInquiryType(gofsBrandId: GofsLiteBrandIdTypes): InquiryTypes {
+function toInquiryType(gofsBrandId: GofsBrandIdTypes): InquiryTypes {
   switch (gofsBrandId) {
     default:
-    case GofsLiteBrandIdTypes.Standard:
+    case GofsBrandIdTypes.Standard:
       return InquiryTypes.Standard;
-    case GofsLiteBrandIdTypes.Minivan:
+    case GofsBrandIdTypes.Minivan:
       return InquiryTypes.Minivan;
-    case GofsLiteBrandIdTypes.SpecialNeed:
+    case GofsBrandIdTypes.SpecialNeed:
       return InquiryTypes.SpecialNeed;
   }
 }
 
-export function toBrandId(inquiryTypes: InquiryTypes): GofsLiteBrandIdTypes {
+export function toBrandId(inquiryTypes: InquiryTypes): GofsBrandIdTypes {
   switch (inquiryTypes) {
     default:
     case InquiryTypes.Standard:
-      return GofsLiteBrandIdTypes.Standard;
+      return GofsBrandIdTypes.Standard;
     case InquiryTypes.Minivan:
-      return GofsLiteBrandIdTypes.Minivan;
+      return GofsBrandIdTypes.Minivan;
     case InquiryTypes.SpecialNeed:
-      return GofsLiteBrandIdTypes.SpecialNeed;
+      return GofsBrandIdTypes.SpecialNeed;
   }
 }
 
 function toRealtimeBookingResponseData(
   data: InquiryResponseData,
-): GofsLiteRealtimeBookingDataResponseDto {
+): GofsRealtimeBookingDataResponseDto {
   const hasDestination = !!data.estimatedTravelTime;
   const response = {
     brand_id: toBrandId(data.inquiryType),
@@ -100,4 +100,4 @@ function toRealtimeBookingResponseData(
   return response;
 }
 
-export const gofsLiteMapper = new GofsLiteMapper();
+export const gofsMapper = new GofsMapper();

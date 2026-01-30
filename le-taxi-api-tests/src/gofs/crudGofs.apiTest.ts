@@ -17,10 +17,10 @@ import {
   getServiceBrands,
   getSystemInformation,
   getZones,
-} from "./gofsLite.apiClient";
+} from "./gofs.apiClient";
 
 // eslint-disable max-lines-per-function
-export async function crudGofsLiteTests(): Promise<void> {
+export async function crudGofsTests(): Promise<void> {
   it(`Should be able to request GOFS feed with expected payload`, async () => {
     const response = await getFeed();
     assert.strictEqual(response.status, StatusCodes.OK);
@@ -33,7 +33,7 @@ export async function crudGofsLiteTests(): Promise<void> {
       assert.notMatch(
         feed.name,
         /\.json$/,
-        "name should not end with .json extension"
+        "name should not end with .json extension",
       );
     });
 
@@ -43,7 +43,7 @@ export async function crudGofsLiteTests(): Promise<void> {
       assert.notMatch(
         feed.name,
         /\.json$/,
-        "name should not end with .json extension"
+        "name should not end with .json extension",
       );
     });
   });
@@ -61,7 +61,7 @@ export async function crudGofsLiteTests(): Promise<void> {
     };
 
     const inquiryResponse = await getRealtimeBooking(
-      toQueryString(queryParams)
+      toQueryString(queryParams),
     );
 
     assert.strictEqual(inquiryResponse.status, StatusCodes.OK);

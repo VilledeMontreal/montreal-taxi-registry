@@ -1,6 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { ICoordinatesWithAddress } from "../../shared/coordinates/coordinates";
+import { encodeAddress } from "../../shared/utils/stringUtils";
 
 const serviceUnavailable = `<div>The operator has stated that they do not offer this service. If this is incorrect, please contact support.taxi.exchange.point@montreal.ca</div>`;
 
@@ -59,7 +60,6 @@ export interface IDeepLinkBookingOptions {
   platformType: PlatformType;
   serviceType: string;
   bookingUrl: string;
-  storeUrl?: string;
   display: boolean;
   displayTemplate?: boolean;
 }
@@ -73,7 +73,7 @@ export function evaluateBookingStandard(opts: IDeepLinkBookingOptions) {
   if (!opts.display) return serviceUnavailable;
   return `
 <div>
-  ${evaluateAppStore(opts)}
+  ${evaluateMissingApp(opts)}
   <br>
   ${evaluateTemplate(opts)}
 </div>
@@ -96,7 +96,7 @@ export function evaluateBookingSpecialNeed(
 
   return `
 <div>
-${evaluateAppStore(opts)}
+${evaluateMissingApp(opts)}
 <br>
 ${cityHallToEightyQueen(opts)}
 <br>
@@ -105,16 +105,22 @@ ${opts.displayTemplate ? evaluateTemplate(opts) : ""}
 `;
 }
 
-function evaluateAppStore(opts: IDeepLinkBookingOptions) {
+function evaluateMissingApp(opts: IDeepLinkBookingOptions) {
   if (
     opts.platformType !== PlatformType.Android &&
     opts.platformType !== PlatformType.Ios
   )
     return "";
-  if (!opts.storeUrl) return `<div>No store URL</div>`;
+
+  const link = buildDeepLink(
+    opts.bookingUrl,
+    opts.serviceType,
+    cityHall,
+    eightyQueen,
+  );
   return `
-<div>Can download the ${opts.platformType} to book a ${opts.taxiType} from the store:</div>
-<div><a href='${opts.storeUrl}'>${opts.storeUrl}</a></div>
+<div>Can download the ${opts.platformType} if absent from the mobile device:</div>
+<div><a href='${link}'>${link}</a></div>
 `;
 }
 
@@ -161,8 +167,8 @@ function cityHallToEightyQueen(opts: IDeepLinkBookingOptions) {
 
 function eightyQueenWithNoDestination(opts: IDeepLinkBookingOptions) {
   const link = buildDeepLink(opts.bookingUrl, opts.serviceType, eightyQueen);
-  const linkEmpty = `${link}&dropoff_latitude=&dropoff_longitude=&dropoff_address=`;
-  const linkNull = `${link}&dropoff_latitude=null&dropoff_longitude=null&dropoff_address=null`;
+  const linkEmpty = `${link}&drop_off_lat=&drop_off_lon=&drop_off_address=`;
+  const linkNull = `${link}&drop_off_lat=null&drop_off_lon=null&drop_off_address=null`;
 
   return `
 <div>Can book a ${opts.taxiType} from a Montreal address (80 Queen) to no particular destination with the ${opts.platformType}:</div>
@@ -297,12 +303,12 @@ function buildDeepLink(
   pickup: ICoordinatesWithAddress,
   dropoff?: ICoordinatesWithAddress,
 ): string {
-  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_latitude=${
+  const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_lat=${
     pickup.lat
-  }&pickup_longitude=${pickup.lon}&pickup_address=${encodeURIComponent(pickup.address)}`;
+  }&pickup_lon=${pickup.lon}&pickup_address=${encodeAddress(pickup.address)}`;
   return dropoff
-    ? `${deepLink}&dropoff_latitude=${dropoff.lat}&dropoff_longitude=${
+    ? `${deepLink}&drop_off_lat=${dropoff.lat}&drop_off_lon=${
         dropoff.lon
-      }&dropoff_address=${encodeURIComponent(dropoff.address)}`
+      }&drop_off_address=${encodeAddress(dropoff.address)}`
     : deepLink;
 }

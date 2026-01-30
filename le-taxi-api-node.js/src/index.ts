@@ -77,7 +77,7 @@ async function startServer() {
       if (req.body.data[param] instanceof Object) {
         for (const propertyName in req.body.data[param]) {
           const securedParam: string = xss(
-            "" + req.body.data[param][propertyName]
+            "" + req.body.data[param][propertyName],
           );
           if ("" + req.body.data[param][propertyName] !== "" + securedParam) {
             throw new UnauthorizedError("XSS body protection");
@@ -122,7 +122,7 @@ async function startServer() {
     internalServerErrorResponse,
     logErrorLogEntry,
     isDebuggingErrorsEnabled(),
-    (request) => request?.userModel?.email
+    (request) => request?.userModel?.email,
   );
 
   initializeAuthorizationViaCookies(getSigningKeyForJwtCreation());
@@ -152,7 +152,7 @@ export function addRoutes(app: express.Express, apiRoutes: IHandlerRoute[]) {
     app[httpMethodToExpressMethodName(route.method)](
       route.path,
       middlewares,
-      route.handler
+      route.handler,
     );
   }
 }
