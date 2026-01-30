@@ -466,6 +466,31 @@ export async function crudGtfsInquiryTests(): Promise<void> {
     );
   });
 
+  it(`Should empty the deeplink address field if missing`, async () => {
+    const operators = await createTaxisWithPromotions([
+      { ...generateApiTestCoordinates(), type: "sedan" },
+    ]);
+
+    const inquiryRequest = buildInquiryRequest(
+      generateApiTestCoordinates(),
+      generateApiTestCoordinates(),
+      [AssetTypes.Normal],
+      operators,
+    );
+    const inquiryResponse = await postGtfsInquiry(inquiryRequest);
+
+    assert.strictEqual(inquiryResponse.status, StatusCodes.OK);
+    assert.isFalse(
+      inquiryResponse.body.options[0].booking.webUrl.includes("undefined"),
+    );
+    assert.isFalse(
+      inquiryResponse.body.options[0].booking.androidUri.includes("undefined"),
+    );
+    assert.isFalse(
+      inquiryResponse.body.options[0].booking.iosUri.includes("undefined"),
+    );
+  });
+
   it(`Should return null fields if booking information is missing`, async () => {
     const now = new Date(Date.now()).toISOString();
     const userDto = copyUserTemplate((x) => {

@@ -1,6 +1,7 @@
 // Licensed under the AGPL-3.0 license.
 // See LICENSE file in the project root for full license information.
 import { ICoordinatesWithAddress } from "../../shared/coordinates/coordinates";
+import { encodeAddress } from "../../shared/utils/stringUtils";
 
 const serviceUnavailable = `<div>The operator has stated that they do not offer this service. If this is incorrect, please contact support.taxi.exchange.point@montreal.ca</div>`;
 
@@ -304,10 +305,10 @@ function buildDeepLink(
 ): string {
   const deepLink = `${baseUrl}?service_type=${serviceType}&pickup_lat=${
     pickup.lat
-  }&pickup_lon=${pickup.lon}&pickup_address=${encodeURIComponent(pickup.address)}`;
+  }&pickup_lon=${pickup.lon}&pickup_address=${encodeAddress(pickup.address)}`;
   return dropoff
     ? `${deepLink}&drop_off_lat=${dropoff.lat}&drop_off_lon=${
         dropoff.lon
-      }&drop_off_address=${encodeURIComponent(dropoff.address)}`
+      }&drop_off_address=${encodeAddress(dropoff.address)}`
     : deepLink;
 }

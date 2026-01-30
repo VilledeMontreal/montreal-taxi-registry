@@ -12,6 +12,7 @@ import {
   downtownGeometry,
 } from "../shared/locations/locations";
 import { osrmRepository } from "../shared/osrm/osrm.repository";
+import { encodeAddress } from "../shared/utils/stringUtils";
 import { userRepositoryByIdWithCaching } from "../users/user.repositoryWithCaching";
 import {
   InquiryBookingResponseData,
@@ -143,11 +144,11 @@ function buildQueryParams(
     inquiryRequest.from.lat
   }&pickup_lon=${
     inquiryRequest.from.lon
-  }&pickup_address=${encodeURIComponent(inquiryRequest.from.address)}`;
+  }&pickup_address=${encodeAddress(inquiryRequest.from.address)}`;
   return inquiryRequest.to?.lat && inquiryRequest.to?.lon
     ? `${queryParams}&drop_off_lat=${inquiryRequest.to.lat}&drop_off_lon=${
         inquiryRequest.to.lon
-      }&drop_off_address=${encodeURIComponent(inquiryRequest.to.address)}`
+      }&drop_off_address=${encodeAddress(inquiryRequest.to.address)}`
     : queryParams;
 }
 
