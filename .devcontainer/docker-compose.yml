@@ -1,0 +1,40 @@
+version: "3.1"
+
+services:
+  montreal-taxi-registry-dev-container:
+    image: mcr.microsoft.com/devcontainers/javascript-node
+    ports:
+      - 12345:12345
+      - 12366:12366
+    volumes:
+      # Mount the root folder that contains .git
+      - ../:/workspace:cached
+    container_name: montreal-taxi-registry-dev-container
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+    depends_on: [ montreal-taxi-registry-postgre ]
+    command: sleep infinity
+
+  montreal-taxi-registry-postgre:
+    build:
+      context: .
+      dockerfile: postgre/DockerFile
+    container_name: montreal-taxi-registry-postgre
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: vdm_txp
+      POSTGRES_USER: vdm_txp
+      POSTGRES_PASSWORD: vdm_txp
+  montreal-taxi-registry-mongo:
+    image: mongo:latest
+    container_name: montreal-taxi-registry-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: vdm_txp
+      MONGO_INITDB_ROOT_PASSWORD: vdm_txp
+    ports:
+      - "27017:27017"
+
+volumes:
+  vendor: null

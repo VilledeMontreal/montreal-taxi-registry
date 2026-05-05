@@ -5,3 +5,10 @@ api:
 caching:
   taxisMaxAgeInSec: 10
   usersMaxAgeInSec: 10
+dataSources:
+  postgres:
+    host: localhost
+    port: 5432
+    database: vdm_txp
+    user: vdm_txp
+    password: vdm_txp

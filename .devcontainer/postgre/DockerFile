@@ -1,0 +1,2 @@
+FROM postgis/postgis:15-3.5
+COPY postgre/init.sql /docker-entrypoint-initdb.d/

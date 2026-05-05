@@ -1,0 +1,25 @@
+{
+	"name": "montreal-taxi-registry",
+	"dockerComposeFile": [
+		"./docker-compose.yml"
+	],
+	"service": "montreal-taxi-registry-dev-container",
+	"workspaceFolder": "/workspace",
+	"postStartCommand": "git config --global --add safe.directory /workspace",
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"dbaeumer.vscode-eslint",
+				"streetsidesoftware.code-spell-checker",
+				"arjun.swagger-viewer",
+				"searking.preview-vscode",
+				"redhat.vscode-yaml",
+				"donjayamanne.githistory",
+				"waderyan.gitblame"
+			]
+		}
+	}
+}
