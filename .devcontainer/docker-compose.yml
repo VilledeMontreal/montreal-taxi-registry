@@ -27,14 +27,15 @@ services:
       POSTGRES_DB: vdm_txp
       POSTGRES_USER: vdm_txp
       POSTGRES_PASSWORD: vdm_txp
+
   montreal-taxi-registry-mongo:
-    image: mongo:latest
+    image: mongo:8.0.21
     container_name: montreal-taxi-registry-mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: vdm_txp
       MONGO_INITDB_ROOT_PASSWORD: vdm_txp
     ports:
-      - "27017:27017"
+      - "27018:27017"
 
 volumes:
   vendor: null

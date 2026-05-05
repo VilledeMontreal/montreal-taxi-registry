@@ -27,7 +27,12 @@ function buildMongoConnectionString(): string {
     defaultauthdb,
     options,
   } = configs.dataSources.mongo;
-  return `mongodb://${username}:${password}@${host1}:${port},${host2}:${port},${host3}:${port}/${defaultauthdb}?${options}`;
+
+  const host =
+    host1 === "montreal-taxi-registry-mongo"
+      ? `${host1}:${port}`
+      : `${host1}:${port},${host2}:${port},${host3}:${port}`;
+  return `mongodb://${username}:${password}@${host}/${defaultauthdb}?${options}`;
 }
 
 export function getMongoDb() {

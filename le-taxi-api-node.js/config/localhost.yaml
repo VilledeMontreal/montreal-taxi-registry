@@ -7,8 +7,12 @@ caching:
   usersMaxAgeInSec: 10
 dataSources:
   postgres:
-    host: localhost
-    port: 5432
-    database: vdm_txp
+    host: montreal-taxi-registry-postgre
     user: vdm_txp
     password: vdm_txp
+  mongo:
+    host1: montreal-taxi-registry-mongo
+    port: 27017
+    username: vdm_txp
+    password: vdm_txp
+    options: authSource=admin
