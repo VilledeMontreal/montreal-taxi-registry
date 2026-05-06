@@ -9,7 +9,7 @@ export default defineConfig({
     reporters: [new FlakyTestReporter() as any],
     testTimeout: 2 * 60 * 1000, // 2 min
     slowTestThreshold: 1 * 60 * 1000, // 1 min
-    retry: 1,
+    retry: 0,
     sequence: {
       concurrent: true,
     },
