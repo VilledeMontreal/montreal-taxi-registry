@@ -37,5 +37,13 @@ services:
     ports:
       - "27018:27017"
 
+  montreal-taxi-registry-osrm:
+    build:
+      context: ../le-taxi-osrm
+      dockerfile: ../le-taxi-osrm/Dockerfile
+    container_name: montreal-taxi-registry-osrm
+    ports:
+      - 5000:5000
+
 volumes:
   vendor: null
