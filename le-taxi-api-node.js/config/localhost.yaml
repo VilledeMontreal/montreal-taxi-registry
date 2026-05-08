@@ -2,22 +2,30 @@ api:
   scheme: http
   host: montreal-taxi-registry-dev-container
   domainPath: ""
+
 environment:
   isLocal: true
+
 caching:
   taxisMaxAgeInSec: 10
   usersMaxAgeInSec: 10
+
+security:
+    secret: localhostonlynotsecurebyanymeans
+
 dataSources:
   postgres:
     host: montreal-taxi-registry-postgre
     user: vdm_txp
     password: vdm_txp
+  
   mongo:
     host1: montreal-taxi-registry-mongo
     port: 27017
     username: vdm_txp
     password: vdm_txp
     options: authSource=admin
+
 taxiRegistryOsrmApi:
   base:  http://montreal-taxi-registry-osrm:5000
   domainPath: ""

@@ -1,3 +1,12 @@
 #==========================================
 # Localhost file is needed to match NODE_ENV=localhost command
 #==========================================
+apiTests:
+  env: dev
+  rootPath: http://montreal-taxi-registry-dev-container:8099
+  rootApiKey: 00000000-0000-0000-0000-000000000000 # localhost Apikey              
+  user: admin
+  password: admin
+taxiRegistryOsrmApi:
+  base:  http://montreal-taxi-registry-osrm:5000
+  domainPath: ""
