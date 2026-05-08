@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3.8"
 
 services:
   montreal-taxi-registry-dev-container:
@@ -13,13 +13,11 @@ services:
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
-    depends_on: [ montreal-taxi-registry-postgre ]
+    depends_on: [montreal-taxi-registry-postgre]
     command: sleep infinity
 
   montreal-taxi-registry-postgre:
-    build:
-      context: .
-      dockerfile: postgre/DockerFile
+    image: postgis/postgis:15-3.5
     container_name: montreal-taxi-registry-postgre
     ports:
       - 5432:5432
@@ -35,7 +33,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: vdm_txp
       MONGO_INITDB_ROOT_PASSWORD: vdm_txp
     ports:
-      - "27018:27017"
+      - "27020:27017"
 
   montreal-taxi-registry-osrm:
     build:
