@@ -170,102 +170,9 @@ The position for a taxi and other information that must be transmitted to the Ta
 
 The operators must send the positions from all their taxis to the Taxi Registry as a batch. Each batch contains the taxi positions from one operator at a given time.
 
-## Build
+## Running the Taxi Registry Locally
 
-In order to run, Node.js must be installed on the machine.
-
-Check that the version of Node.js installed on your machine matches the one mentioned in the `engine` section of the [package.json](./le-taxi-api-node.js/package.json) file.
-
-Note: The UI is running with Node.js version 10.15 only.
-
-### Api Node.js
-
-From the directory `./le-taxi-api-node.js`:
-
-To configure, copy the template `config/local.yaml.template` to `config/local.yaml` and fill the required information.
-
-To install, run `npm install`.
-
-To execute, run `npm run start-localhost`.
-
-### User interface
-
-Make sure you are using Node.js version 10.15 to run the user interface.
-
-From the directory `./le-taxi-angular-ui`:
-
-To install, run `npm install`.
-
-To execute, run `npm run serve:local`.
-
-Note: The Node.js API must be running to execute the user interface.
-
-To create the user `<admin-user>`, you can tweak the script [Postgres 1.0.7](./le-taxi-api-node.js/src/databaseMigrations/postgres/afterSemver/pg_1_0_7_set_admin_password.ts). The password must be encrypted with the secret listed in the API Node.js configuration file (see the [encrypt function](./le-taxi-api-node.js/src/libs/security.ts) for the required format). Once the UI is running, you should be able to log in with the `<admin-user>` user and the password previously generated. From there, you can navigate to the user `Utilisateurs` page. You should be able to create new users and generate new passwords and apikeys.
-
-## Testing
-
-### API Tests
-
-Technologies: Node.js, Vitest, Chai, TypeScript
-
-The behavior of the taxi registry is mainly checked using API tests. These tests are using the [@villedemontreal/concurrent-api-tests](https://github.com/VilledeMontreal/concurrent-api-tests) library and the approach described in [Concurrent API Tests](https://stle-code.medium.com/concurrent-api-tests-d84f7a29f0dc?source=friends_link&sk=843339381eaf77195f8522449c907550), in order to have reliable, maintainable and fast tests to run.
-
-From the directory `./le-taxi-api-tests`:
-
-To configure, copy the template `config/local.yaml.template` to `config/local.yaml` and fill the required information.
-
-To install, run `npm install`.
-
-To Execute, run `npm run all-tests-localhost`.
-
-Note: The Node.js API must be running to execute the API tests.
-
-### Integration Tests (legacy)
-
-Technologies: Node.js, Vitest, Chai, TypeScript
-
-Unit tests allow us to validate the behavior of a few functions that would otherwise be difficult to test using the API; such as caches of date utils functions.
-
-From the directory `./le-taxi-api-tests`:
-
-Run the creation of a shared state file then follow the instructions: `npm run generate-integration-tests-shared-state`.
-
-Once the file copied, you will be able to run the unit tests at will.
-
-Then, from the directory `./le-taxi-api-node.js`:
-
-To execute, run `npm run test-localhost`.
-
-### Load Tests
-
-Technologies: Node.js, Artillery, TypeScript
-
-The load tests allows us to validate that we can support the expected load on the two most critical functions of the Registry, that is positions ingest and taxi search.
-
-From the directory `./le-taxi-api-tests`:
-
-To install, run `npm install`.
-
-#### For the taxi positions ingest
-
-In order to run the load tests, some taxis must be generated in advance. You can do so by running `npm run load-test-position-snapshots-generate-shared-state`.
-Note that this process can take several minutes. Once done, you will be able to run the load tests at will.
-
-To run the load tests for the taxi position ingest, run:
-
-- `npm run load-test-position-snapshots-with-25-operators-200-taxis` to simulate 300 000 positions in 5 minutes.
-- `npm run load-test-position-snapshots-with-50-operators-200-taxis` to simulate 600 000 positions in 5 minutes.
-
-#### For the taxi search
-
-First run `npm run load-test-generate-shared-state` to prepare to run tests.
-
-In order to run the load tests for the taxi search, you should run the taxi position ingest first so that taxi are available during the test, then:
-
-- `npm run load-test-300-inquiry` to simulate 300 requêtes in 5 minutes.
-- `npm run load-test-1200-inquiry` to simulate 1200 requêtes in 5 minutes.
-
-Note: The Node.js API must be running to execute the load tests.
+[See instructions](./doc/running-locally.md)
 
 ## License
 
@@ -552,6 +459,10 @@ Pour exécuter les tests de charge pour la recherche de taxis, il faut dans un p
 - `npm run load-test-1200-inquiry` pour simuler 1200 requêtes en 5 minutes.
 
 Note: L'Api Node.js doit être en train d'exécuter pour lancer les tests de charge.
+
+## Exécuter le registre des taxis locallement
+
+[Voir les instructions](./doc/running-locally.md)
 
 ## Contribuer
 

@@ -11,8 +11,6 @@ In addition to the Dev Container prerequisites (see [Using a Dev Container](usin
 
 I have missed time to properly automate database setup. Please contact the taxi registry team to download the file **backups-to-init-dev-container.zip** required to setup databases locally, the extract it locally. In the rest of the document, $backups-to-init-dev-container refers to the location the zip was extracted.
 
----
-
 ## Setup Steps
 
 ### 1. Start the Dev Container
@@ -77,17 +75,95 @@ Connection string: mongodb://vdm_txp:vdm_txp@127.0.0.1:27020/?authSource=admin
 
 > The standard port 27017 is used inside the container, but 27020 is used from outside of the container to prevent port clash with other mongo installation.
 
-### 6. Run the Application
+### 6. Building and Running the Application
 
-The codebase is pre-configured for local execution. Use the following VS Code build commands in order:
+The codebase is pre-configured for local execution. Build and run the Api Node.js, then run the API Tests to make sure your the setup is completed.
 
-1. **Start API [localhost]** — Start the API server first.
-2. **Start API Tests [localhost]** — Run the API integration tests.
-3. **Start UI [localhost]** — Launch the admin UI.
+## Building and Running the Application
+
+### Api Node.js
+
+From the directory `./le-taxi-api-node.js`:
+
+To install, run `npm install`.
+
+To execute, run `npm run start-localhost`.
+
+### API Tests
+
+Technologies: Node.js, Vitest, Chai, TypeScript
+
+The behavior of the taxi registry is mainly checked using API tests. These tests are using the [@villedemontreal/concurrent-api-tests](https://github.com/VilledeMontreal/concurrent-api-tests) library and the approach described in [Concurrent API Tests](https://github.com/VilledeMontreal/concurrent-api-tests), in order to have reliable, maintainable and fast tests to run.
+
+From the directory `./le-taxi-api-tests`:
+
+To install, run `npm install`.
+
+To Execute, run `npm run all-tests-localhost`.
+
+Note: The Node.js API must be running to execute the API tests.
+
+### Load Tests
+
+Technologies: Node.js, Artillery, TypeScript
+
+The load tests allows us to validate that we can support the expected load on the two most critical functions of the Registry, that is positions ingest and taxi search.
+
+From the directory `./le-taxi-api-tests`:
+
+To install, run `npm install`.
+
+#### For the taxi positions ingest
+
+In order to run the load tests, some taxis must be generated in advance. You can do so by running `npm run load-test-position-snapshots-generate-shared-state`.
+Note that this process can take several minutes. Once done, you will be able to run the load tests at will.
+
+To run the load tests for the taxi position ingest, run:
+
+- `npm run load-test-position-snapshots-with-25-operators-200-taxis` to simulate 300 000 positions in 5 minutes.
+- `npm run load-test-position-snapshots-with-50-operators-200-taxis` to simulate 600 000 positions in 5 minutes.
+
+#### For the taxi search
+
+First run `npm run load-test-generate-shared-state` to prepare to run tests.
+
+In order to run the load tests for the taxi search, you should run the taxi position ingest first so that taxi are available during the test, then:
+
+- `npm run load-test-300-inquiry` to simulate 300 requêtes in 5 minutes.
+- `npm run load-test-1200-inquiry` to simulate 1200 requêtes in 5 minutes.
+
+Note: The Node.js API must be running to execute the load tests.
+
+### User interface
 
 > **Note:** The core of the taxi registry is the API-to-API integration between taxi operators, search engines, and the registry. The UI is an administration interface that helps registry admins manage the system — it is not the primary product.
 
----
+From the directory `./le-taxi-angular-ui`:
+
+To install, run `npm install`.
+
+To execute, run `npm run serve:local`.
+
+Note: The Node.js API must be running to execute the user interface.
+
+> Username: admin
+> Password: admin
+
+### Integration Tests (legacy)
+
+Technologies: Node.js, Vitest, Chai, TypeScript
+
+Unit tests allow us to validate the behavior of a few functions that would otherwise be difficult to test using the API; such as caches of date utils functions.
+
+From the directory `./le-taxi-api-tests`:
+
+Run the creation of a shared state file then follow the instructions: `npm run generate-integration-tests-shared-state`.
+
+Once the file copied, you will be able to run the unit tests at will.
+
+Then, from the directory `./le-taxi-api-node.js`:
+
+To execute, run `npm run test-localhost`.
 
 ## Limitations
 
