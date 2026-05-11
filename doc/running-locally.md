@@ -9,7 +9,7 @@ In addition to the Dev Container prerequisites (see [Using a Dev Container](usin
 3. [MongoDB Database Tools](https://www.mongodb.com/try/download/database-tools) — includes `mongorestore` CLI
 4. Download backups-to-init-dev-container.zip
 
-I have missed time to properly automate database setup. Please contact the taxi registry team to download the file **backups-to-init-dev-container.zip** required to set up databases locally, then extract it locally. In the rest of the document, $backups-to-init-dev-container refers to the location the zip was extracted.
+Database setup and migrations are not fully automated. Please contact the taxi registry team to download the file **backups-to-init-dev-container.zip** required to set up databases locally, then extract it locally. In the rest of the document, $backups-to-init-dev-container refers to the location the zip was extracted.
 
 ## Setup Steps
 
@@ -23,7 +23,7 @@ The Dev Container starts local instances of **PostgreSQL**, **MongoDB**, and **O
 
 ### 2. Restore the PostgreSQL Database
 
-Run the restore using `pg_restore` (example using the DBeaver-bundled binary on Windows) with this PowerShell command:
+Run the restore using `pg_restore` (example using the DBeaver-bundled binary on Windows) with this **PowerShell** command:
 
 If pg_restore is not recognized as a global command
 
@@ -37,23 +37,26 @@ cd C:\Users\<your-user>\AppData\Roaming\DBeaverData\drivers\clients\postgresql\w
 
 > password: vdm_txp
 
-> **Expected 2 warnings (safe to ignore):**
->
-> The restore should complete with: `pg_restore: warning: errors ignored on restore: 2`
->
-> - `unrecognized configuration parameter "transaction_timeout"` — The DBeaver-bundled `pg_restore` version is newer than the `postgis/postgis:15-3.5` Docker image.
-> - `schema "public" already exists` — PostGIS is pre-installed in the `public` schema on the `postgis/postgis:15-3.5` image.
+**Expected 2 warnings (safe to ignore):**
+
+The restore should complete with: `pg_restore: warning: errors ignored on restore: 2`
+
+- `unrecognized configuration parameter "transaction_timeout"` — The DBeaver-bundled `pg_restore` version is newer than the `postgis/postgis:15-3.5` Docker image.
+- `schema "public" already exists` — PostGIS is pre-installed in the `public` schema on the `postgis/postgis:15-3.5` image.
 
 ### 3. Verify the PostgreSQL Database
 
 Connect to the PostgreSQL database using DBeaver and connect to verify the database was restored correctly.
-host: localhost
-port: 5432
-database: vdm_txp
-username: vdm_txp
-password: vdm_txp
+
+- host: localhost
+- port: 5432
+- database: vdm_txp
+- username: vdm_txp
+- password: vdm_txp
 
 ### 4. Restore the MongoDB Database
+
+Run the restore using `mongorestore` with this **PowerShell** command:
 
 If mongorestore is not recognized as a global command
 
@@ -150,8 +153,8 @@ To execute, run `npm run serve`.
 
 Navigate to http://localhost:4200/
 
-> Username: admin
-> Password: admin
+> - Username: admin
+> - Password: admin
 
 The local database has been initialized with one admin account with the username and password above. Once the UI is running, you will be able to log in with the admin account. From there, you can navigate to the user `Utilisateurs` page and you will be able to create new users and generate new passwords and API keys.
 
