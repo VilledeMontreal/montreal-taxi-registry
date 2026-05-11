@@ -9,7 +9,7 @@ In addition to the Dev Container prerequisites (see [Using a Dev Container](usin
 3. [MongoDB Database Tools](https://www.mongodb.com/try/download/database-tools) — includes `mongorestore` CLI
 4. Download backups-to-init-dev-container.zip
 
-I have missed time to properly automate database setup. Please contact the taxi registry team to download the file **backups-to-init-dev-container.zip** required to setup databases locally, the extract it locally. In the rest of the document, $backups-to-init-dev-container refers to the location the zip was extracted.
+I have missed time to properly automate database setup. Please contact the taxi registry team to download the file **backups-to-init-dev-container.zip** required to set up databases locally, then extract it locally. In the rest of the document, $backups-to-init-dev-container refers to the location the zip was extracted.
 
 ## Setup Steps
 
@@ -25,7 +25,7 @@ The Dev Container starts local instances of **PostgreSQL**, **MongoDB**, and **O
 
 Run the restore using `pg_restore` (example using the DBeaver-bundled binary on Windows) with this PowerShell command:
 
-If pg_restore is not recognize as a global command
+If pg_restore is not recognized as a global command
 
 ```powershell
 cd C:\Users\<your-user>\AppData\Roaming\DBeaverData\drivers\clients\postgresql\win\17\
@@ -46,7 +46,7 @@ cd C:\Users\<your-user>\AppData\Roaming\DBeaverData\drivers\clients\postgresql\w
 
 ### 3. Verify the PostgreSQL Database
 
-Connect to the postgre database using DBeaver and connect to verify the database was restored correctly.
+Connect to the PostgreSQL database using DBeaver and connect to verify the database was restored correctly.
 host: localhost
 port: 5432
 database: vdm_txp
@@ -55,7 +55,7 @@ password: vdm_txp
 
 ### 4. Restore the MongoDB Database
 
-If mongorestore is not recognize as a global command
+If mongorestore is not recognized as a global command
 
 ```powershell
 cd C:\path-where-you-downloaded-mongorestore
@@ -107,7 +107,7 @@ Note: The Node.js API must be running to execute the API tests.
 
 Technologies: Node.js, Artillery, TypeScript
 
-The load tests allows us to validate that we can support the expected load on the two most critical functions of the Registry, that is positions ingest and taxi search.
+The load tests allow us to validate that we can support the expected load on the two most critical functions of the Registry, that is positions ingest and taxi search.
 
 From the directory `./le-taxi-api-tests`:
 
@@ -153,7 +153,7 @@ Navigate to http://localhost:4200/
 > Username: admin
 > Password: admin
 
-The local database has been initialized with one admin account with the username and password above. Once the UI is running, you will be able to log in with the admin account. From there, you can navigate to the user `Utilisateurs` page and you will be able to create new users and generate new passwords and apikeys.
+The local database has been initialized with one admin account with the username and password above. Once the UI is running, you will be able to log in with the admin account. From there, you can navigate to the user `Utilisateurs` page and you will be able to create new users and generate new passwords and API keys.
 
 It should not be necessary, but if you need to create an admin account in an empty database, you can tweak the script [Postgres 1.0.7](./le-taxi-api-node.js/src/databaseMigrations/postgres/afterSemver/pg_1_0_7_set_admin_password.ts). The password must be encrypted with the secret listed in the API Node.js configuration file (see the [encrypt function](./le-taxi-api-node.js/src/libs/security.ts) for the required format).
 
@@ -183,4 +183,4 @@ Importing the backup is a simple way to bootstrap the local environment. However
 
 The taxi registry uses a triple deployment model to ensure service-level isolation. See the multiple Jenkinsfile under [montreal-taxi-registry/le-taxi-api-node.js](https://github.com/VilledeMontreal/montreal-taxi-registry/tree/develop/le-taxi-api-node.js). This architecture was introduced after a data export from a partner caused a full registry outage. The three deployments isolate workloads so that a heavy operation in one context cannot impact the availability of the others.
 
-This complexity is not useful in localhost, thus all endpoints are served directely from the dev container without service-level isolation.
+This complexity is not useful in localhost, thus all endpoints are served directly from the dev container without service-level isolation.

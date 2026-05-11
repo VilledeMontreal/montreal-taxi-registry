@@ -12,7 +12,7 @@ The Taxi Registry was created specifically for the City of Montréal. This is no
 
 In 2018, the City of Montréal and the BTM officially launched the Taxi Registry, an ambitious technological project. This innovative platform gathers real-time data on the location and availability of the taxis in service, with the fundamental aim of better positioning taxis as part of the urban transportation supply. The extremely valuable data from the Registry can contribute to good decision-making on personal mobility and implementing sustainable transportation solutions.
 
-The Taxi Registry of the Ville de Montréal has two mains goals:
+The Taxi Registry of the Ville de Montréal has two main goals:
 
 - Provide data and metrics about the taxi industry
 - Open up new markets for the taxi industry
@@ -21,7 +21,7 @@ The taxi owners must transmit to the Registry the position and the status (e.g.,
 
 Several taxi operators are located within the territory of Ville de Montréal. The existence of a registry allowing a customer to book a taxi based upon its geographical location and not from a specific taxi operator brings new opportunities that will enhance and modernize the taxi offer in Montréal. For instance, by integrating the taxi offer with multimodal platforms (e.g., [Transit](https://transitapp.com) or [Chrono](https://www.artm.quebec/application-mobile-chrono)).
 
-At the beginning, the Taxi Registry was forked from [Le.Taxi](https://le.taxi). Le.Taxi was developped in France and [published as open source software](https://github.com/openmaraude). Starting June 2017, decision has been made to distance montreal-taxi-registry from Le.Taxi and the python API was entirely decommisioned in September 2020. Moreover, the electronic hailing feature has been dropped in favor of the deep link approach (see the [Operator's Guide](http://www.registretaximontreal.ca/documentation-technique/) section 4).
+At the beginning, the Taxi Registry was forked from [Le.Taxi](https://le.taxi). Le.Taxi was developed in France and [published as open source software](https://github.com/openmaraude). Starting June 2017, decision has been made to distance montreal-taxi-registry from Le.Taxi and the python API was entirely decommissioned in September 2020. Moreover, the electronic hailing feature has been dropped in favor of the deep link approach (see the [Operator's Guide](http://www.registretaximontreal.ca/documentation-technique/) section 4).
 
 ## System
 
@@ -53,7 +53,7 @@ The [BTM is the promoter of the Taxi Registry](http://www.registretaximontreal.c
 
 Responsibilities:
 
-- Validate the contextual data sent by the operators (vehicle informations, drivers, etc.).
+- Validate the contextual data sent by the operators (vehicle information, drivers, etc.).
 - Analyze the contextual data when needed.
 - Identify the status and location of all the taxis registered in Montréal.
 - Provide the taxi inspectors with the information they require.
@@ -82,7 +82,7 @@ Responsibilities:
 
 The server to server authentication (e.g., search engine to API Node.js) is done using an api key over HTTPS and the user to server authentication is token based over HTTPS.
 
-### PostgeSQL database
+### PostgreSQL database
 
 Responsibilities:
 
@@ -184,7 +184,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md#english-version).
 
 ## Code of Conduct
 
-Participation in this poject is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+Participation in this project is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Acknowledgements
 
@@ -215,7 +215,7 @@ Les propriétaires de taxis doivent transmettre au Registre la position et le st
 
 De nombreuses compagnies de taxis opèrent sur le territoire de la Ville de Montréal. L’existence d’un registre permettant de demander un taxi en fonction de son emplacement géographique et non en fonction d’une compagnie spécifique offre de nouvelles possibilités d’innovations qui viendront bonifier et moderniser l’offre de taxis à Montréal. Par exemple, en intégrant l’offre de taxis à des solutions de transport multimodal (ex: [Transit](https://transitapp.com), [Chrono](https://www.artm.quebec/application-mobile-chrono)).
 
-Au départ, le Registre des taxis était basé sur [Le.Taxi](https://le.taxi). Le.Taxi a été développé en France et [publié en libre](https://github.com/openmaraude). Dès juin 2017, la décision de s'éloigner de Le.taxi a été prise et l’Api Python est complètement décommissionné depuis septembre 2020. De plus, la fonctionnalité de hélage électronique à été abandonnée en faveur de l'approche par deep link (voir le [guide de l'opérateur](http://www.registretaximontreal.ca/documentation-technique/) section 4).
+Au départ, le Registre des taxis était basé sur [Le.Taxi](https://le.taxi). Le.Taxi a été développé en France et [publié en libre](https://github.com/openmaraude). Dès juin 2017, la décision de s'éloigner de Le.taxi a été prise et l’API Python est complètement décommissionné depuis septembre 2020. De plus, la fonctionnalité de hélage électronique a été abandonnée en faveur de l'approche par deep link (voir le [guide de l'opérateur](http://www.registretaximontreal.ca/documentation-technique/) section 4).
 
 ## Système
 
