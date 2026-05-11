@@ -138,16 +138,24 @@ Note: The Node.js API must be running to execute the load tests.
 
 > **Note:** The core of the taxi registry is the API-to-API integration between taxi operators, search engines, and the registry. The UI is an administration interface that helps registry admins manage the system — it is not the primary product.
 
+> **Important:** The UI can only run with Node.js version 10.15. In the terminal windows, use the arrow at the right of the plus icon, in the drop down list there will be a preconfigured terminal launcher named "UI Taxi Registry (Node 10)". This will launch a terminal with a yellow icon, from there you can launch the following commands:
+
+Note: The Node.js API must be running to execute the user interface.
+
 From the directory `./le-taxi-angular-ui`:
 
 To install, run `npm install`.
 
-To execute, run `npm run serve:local`.
+To execute, run `npm run serve`.
 
-Note: The Node.js API must be running to execute the user interface.
+Navigate to http://localhost:4200/
 
 > Username: admin
 > Password: admin
+
+The local database has been initialized with one admin account with the username and password above. Once the UI is running, you will be able to log in with the admin account. From there, you can navigate to the user `Utilisateurs` page and you will be able to create new users and generate new passwords and apikeys.
+
+It should not be necessary, but if you need to create an admin account in an empty database, you can tweak the script [Postgres 1.0.7](./le-taxi-api-node.js/src/databaseMigrations/postgres/afterSemver/pg_1_0_7_set_admin_password.ts). The password must be encrypted with the secret listed in the API Node.js configuration file (see the [encrypt function](./le-taxi-api-node.js/src/libs/security.ts) for the required format).
 
 ### Integration Tests (legacy)
 
