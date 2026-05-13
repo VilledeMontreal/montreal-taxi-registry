@@ -86,7 +86,13 @@ The codebase is pre-configured for local execution. Build and run the Api Node.j
 
 ### Api Node.js
 
+Open a javascript debug terminal (standard bash terminal won't allows for debugging).
+
 From the directory `./le-taxi-api-node.js`:
+
+To use the right node version `nvm use`
+
+> this is required because the ui required an old node version, but the remaining part of the code base is up to date.
 
 To install, run `npm install`.
 
@@ -98,7 +104,13 @@ Technologies: Node.js, Vitest, Chai, TypeScript
 
 The behavior of the taxi registry is mainly checked using API tests. These tests are using the [@villedemontreal/concurrent-api-tests](https://github.com/VilledeMontreal/concurrent-api-tests) library and the approach described in [Concurrent API Tests](https://github.com/VilledeMontreal/concurrent-api-tests), in order to have reliable, maintainable and fast tests to run.
 
+Open a javascript debug terminal (standard bash terminal won't allows for debugging).
+
 From the directory `./le-taxi-api-tests`:
+
+To use the right node version `nvm use`
+
+> this is required because the ui required an old node version, but the remaining part of the code base is up to date.
 
 To install, run `npm install`.
 
@@ -141,11 +153,15 @@ Note: The Node.js API must be running to execute the load tests.
 
 > **Note:** The core of the taxi registry is the API-to-API integration between taxi operators, search engines, and the registry. The UI is an administration interface that helps registry admins manage the system — it is not the primary product.
 
-> **Important:** The UI can only run with Node.js version 10.15. In the terminal windows, use the arrow at the right of the plus icon, in the drop down list there will be a preconfigured terminal launcher named "UI Taxi Registry (Node 10)". This will launch a terminal with a yellow icon, from there you can launch the following commands:
-
 Note: The Node.js API must be running to execute the user interface.
 
+Open a standard bash terminal (javascript debug terminal is not usefull for the ui, use brower debugging tool instead. Moreover, javascript debug terminal won't work with this old node.js version).
+
 From the directory `./le-taxi-angular-ui`:
+
+To use the right node version `nvm use`
+
+> this is required because the ui required an old node version, but the remaining part of the code base is up to date.
 
 To install, run `npm install`.
 
