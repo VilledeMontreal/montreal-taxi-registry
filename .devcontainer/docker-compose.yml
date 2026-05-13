@@ -4,8 +4,7 @@ services:
   montreal-taxi-registry-dev-container:
     image: mcr.microsoft.com/devcontainers/javascript-node
     ports:
-      - 12345:12345
-      - 12366:12366
+      - 8099:8099
     volumes:
       # Mount the root folder that contains .git
       - ../:/workspace:cached
