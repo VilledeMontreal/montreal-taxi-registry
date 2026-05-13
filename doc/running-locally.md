@@ -160,6 +160,11 @@ The local database has been initialized with one admin account with the username
 
 It should not be necessary, but if you need to create an admin account in an empty database, you can tweak the script [Postgres 1.0.7](./le-taxi-api-node.js/src/databaseMigrations/postgres/afterSemver/pg_1_0_7_set_admin_password.ts). The password must be encrypted with the secret listed in the API Node.js configuration file (see the [encrypt function](./le-taxi-api-node.js/src/libs/security.ts) for the required format).
 
+> The base map must be configured using the attribute rasterMaps in /workspace/le-taxi-ui-angular/src/environments/environment.local.ts
+> The default rasterMaps will not be reachable outside of the Montreal city network.
+> You may use another base map such as https://tile.openstreetmap.org/{z}/{x}/{y}.png, but the UI seems to have a bug preventing
+> from showing taxi position on the map when the default base map is not used.
+
 ### Integration Tests (legacy)
 
 Technologies: Node.js, Vitest, Chai, TypeScript
