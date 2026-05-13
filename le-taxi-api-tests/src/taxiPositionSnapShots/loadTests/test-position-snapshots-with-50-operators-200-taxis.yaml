@@ -1,5 +1,5 @@
 config:
-  target: "https://taximtl.accept.ville.montreal.qc.ca"
+  target: "http://montreal-taxi-registry-dev-container:8099"
   processor: "../../../dist/src/taxiPositionSnapShots/loadTests/generateSnapshotsFor50Operators.js"
   http:
     pool: 20

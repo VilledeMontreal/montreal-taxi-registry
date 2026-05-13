@@ -124,19 +124,28 @@ Technologies: Node.js, Artillery, TypeScript
 
 The load tests allow us to validate that we can support the expected load on the two most critical functions of the Registry, that is positions ingest and taxi search.
 
+Note: The Node.js API must be running to execute the load tests.
+
+Open a standard bash terminal
+
 From the directory `./le-taxi-api-tests`:
+
+To use the right node version `nvm use`
+
+> this is required because the ui required an old node version, but the remaining part of the code base is up to date.
 
 To install, run `npm install`.
 
-#### For the taxi positions ingest
+#### Initialize the .sharedState.json files (only once for new local database)
 
-In order to run the load tests, some taxis must be generated in advance. You can do so by running `npm run load-test-position-snapshots-generate-shared-state`.
+In order to run the load tests, some taxis must be generated in advance. You can do so by running `npm run generate-load-test-shared-state-localhost`.
 Note that this process can take several minutes. Once done, you will be able to run the load tests at will.
+
+#### For the taxi positions ingest
 
 To run the load tests for the taxi position ingest, run:
 
-- `npm run load-test-position-snapshots-with-25-operators-200-taxis` to simulate 300 000 positions in 5 minutes.
-- `npm run load-test-position-snapshots-with-50-operators-200-taxis` to simulate 600 000 positions in 5 minutes.
+- `npm run load-test-position-snapshots-localhost` to simulate 600 000 positions in 5 minutes.
 
 #### For the taxi search
 
@@ -144,10 +153,7 @@ First run `npm run load-test-generate-shared-state` to prepare to run tests.
 
 In order to run the load tests for the taxi search, you should run the taxi position ingest first so that taxi are available during the test, then:
 
-- `npm run load-test-300-inquiry` to simulate 300 requêtes in 5 minutes.
-- `npm run load-test-1200-inquiry` to simulate 1200 requêtes in 5 minutes.
-
-Note: The Node.js API must be running to execute the load tests.
+- `npm run load-test-realtime-booking-localhost` to simulate 24 000 requêtes in 5 minutes.
 
 ### User interface
 
@@ -175,11 +181,6 @@ Navigate to http://localhost:4200/
 The local database has been initialized with one admin account with the username and password above. Once the UI is running, you will be able to log in with the admin account. From there, you can navigate to the user `Utilisateurs` page and you will be able to create new users and generate new passwords and API keys.
 
 It should not be necessary, but if you need to create an admin account in an empty database, you can tweak the script [Postgres 1.0.7](./le-taxi-api-node.js/src/databaseMigrations/postgres/afterSemver/pg_1_0_7_set_admin_password.ts). The password must be encrypted with the secret listed in the API Node.js configuration file (see the [encrypt function](./le-taxi-api-node.js/src/libs/security.ts) for the required format).
-
-> The base map must be configured using the attribute rasterMaps in /workspace/le-taxi-ui-angular/src/environments/environment.local.ts
-> The default rasterMaps will not be reachable outside of the Montreal city network.
-> You may use another base map such as https://tile.openstreetmap.org/{z}/{x}/{y}.png, but the UI seems to have a bug preventing
-> from showing taxi position on the map when the default base map is not used.
 
 ### Integration Tests (legacy)
 

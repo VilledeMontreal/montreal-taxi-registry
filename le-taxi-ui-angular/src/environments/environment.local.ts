@@ -4,5 +4,5 @@ export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:8099/api',
   uiBaseUrl: 'http://localhost:8070',
-  rasterMaps: 'https://api.dev.interne.montreal.ca/api/it-platforms/geomatic/raster-maps/v2/service/zxy/fond-de-carte/{z}/{x}/{y}'
+  rasterMaps: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
 };
