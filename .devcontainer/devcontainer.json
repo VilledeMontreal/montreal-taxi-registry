@@ -9,7 +9,7 @@
 	"features": {
 		"ghcr.io/devcontainers/features/node:1": {
 			"version": "24", // Version par défaut (API)
-			"additionalVersions": "10" // Version installée en plus (UI)
+			"additionalVersions": "10.15" // Version installée en plus (UI)
 		}
 	},
 	"customizations": {
@@ -25,21 +25,7 @@
 				"redhat.vscode-yaml",
 				"donjayamanne.githistory",
 				"waderyan.gitblame"
-			],
-			"settings": {
-				// Pour que les devs n'aient rien à configurer
-				"terminal.integrated.profiles.linux": {
-					"UI Taxi Registry (Node 10)": {
-						"path": "/bin/bash",
-						"args": [
-							"-c",
-							"source /usr/local/share/nvm/nvm.sh && nvm use 10 && exec /bin/bash"
-						],
-						"icon": "history", 
-        				"color": "terminal.ansiYellow" 
-					}
-				}
-			}
+			]
 		}
 	}
 }
