@@ -180,6 +180,10 @@ It should not be necessary, but if you need to create an admin account in an emp
 
 ## Limitations
 
+### Multiple versions of node to support the UI
+
+Using nvm is a bit tedious, but it works. Just remember to run nvm use, or your npm commands will fail. This was the quickest setup for the dev container given the tight schedule. Feel free to optimize it.
+
 ### Database Migrations
 
 Importing the backup is a simple way to bootstrap the local environment. However, any database changes made after the backup snapshot will need to be applied manually. There is no automated migration system (e.g., [Liquibase](https://www.liquibase.com/)). All database changes are scripted in the [database migration folder](https://github.com/VilledeMontreal/montreal-taxi-registry/tree/develop/le-taxi-api-node.js/src/databaseMigrations), but these scripts are run manually.
