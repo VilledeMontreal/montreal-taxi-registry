@@ -176,6 +176,8 @@ The local database has been initialized with one admin account with the username
 
 It should not be necessary, but if you need to create an admin account in an empty database, you can tweak the script [Postgres 1.0.7](../le-taxi-api-node.js/src/databaseMigrations/postgres/afterSemver/pg_1_0_7_set_admin_password.ts). The password must be encrypted with the secret listed in the API Node.js configuration file (see the [encrypt function](../le-taxi-api-node.js/src/libs/security.ts) for the required format).
 
+> Hint: to see taxi moving on the map, launch the "taxi positions ingest" load test and use the UI to visualize the taxi positions on the map.
+
 ## Limitations
 
 ### Database Migrations
