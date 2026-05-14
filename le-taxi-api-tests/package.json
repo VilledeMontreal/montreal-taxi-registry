@@ -19,7 +19,6 @@
     "load-test-osrm": "tsc && node node_modules/artillery/bin/artillery run -o test-osrm.report.json src/osrm/loadTests/test-osrm.yaml && node node_modules/artillery/bin/artillery report -o test-osrm.report.html test-osrm.report.json",
     "generate-load-test-shared-state-localhost": "env NODE_ENV=localhost npm run launch-generate-load-test-shared-state",
     "generate-load-test-shared-state-acc": "env NODE_ENV=acceptation npm run launch-generate-load-test-shared-state",
-    "generate-integration-tests-shared-state": "env NODE_ENV=localhost npm run launch-generate-integration-tests-shared-state",
     "clean": "rimraf src/**/*.js src/**/*.js.map",
     "watch": "npm run clean && tsc --watch --pretty",
     "prettier": "prettier -c \"src/**/*+(.ts)\"",
@@ -30,7 +29,6 @@
     "lint-fix": "npm run prettier-fix && npm run eslint-fix",
     "tsc": "tsc",
     "launch-generate-load-test-shared-state": "tsc && node -r source-map-support/register dist/src/taxis/loadTests/generateMotor.sharedState.js && node -r source-map-support/register dist/src/taxiPositionSnapShots/loadTests/generateTaxis.sharedState.js",
-    "launch-generate-integration-tests-shared-state": "tsc && node -r source-map-support/register dist/src/apiIntegrationTests/generateApiIntegration.sharedState.js",
     "launch-load-tests": "node node_modules/artillery/bin/artillery run -o load-tests-results.json artillery.yaml"
   },
   "keywords": [

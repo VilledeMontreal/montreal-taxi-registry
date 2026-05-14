@@ -46,7 +46,7 @@ The restore should complete with: `pg_restore: warning: errors ignored on restor
 
 ### 3. Verify the PostgreSQL Database
 
-Connect to the PostgreSQL database using DBeaver and connect to verify the database was restored correctly.
+Connect to the local PostgreSQL database using DBeaver and connect to verify the database was restored correctly.
 
 - host: localhost
 - port: 5432
@@ -72,7 +72,7 @@ mongorestore --uri="mongodb://vdm_txp:vdm_txp@localhost:27020/?authSource=admin"
 
 ### 5. Verify the MongoDB Database
 
-Connect to the mongo database using MongoDB Compass and connect to verify the collection was restored correctly.
+Connect to the mongo local database using MongoDB Compass and connect to verify the collection was restored correctly.
 
 Connection string: mongodb://vdm_txp:vdm_txp@127.0.0.1:27020/?authSource=admin
 
@@ -100,8 +100,6 @@ To execute, run `npm run start-localhost`.
 
 ### API Tests
 
-Technologies: Node.js, Vitest, Chai, TypeScript
-
 The behavior of the taxi registry is mainly checked using API tests. These tests are using the [@villedemontreal/concurrent-api-tests](https://github.com/VilledeMontreal/concurrent-api-tests) library and the approach described in [Concurrent API Tests](https://github.com/VilledeMontreal/concurrent-api-tests), in order to have reliable, maintainable and fast tests to run.
 
 Open a javascript debug terminal (standard bash terminal won't allows for debugging).
@@ -119,8 +117,6 @@ To Execute, run `npm run all-tests-localhost`.
 Note: The Node.js API must be running to execute the API tests.
 
 ### Load Tests
-
-Technologies: Node.js, Artillery, TypeScript
 
 The load tests allow us to validate that we can support the expected load on the two most critical functions of the Registry, that is positions ingest and taxi search.
 
@@ -148,8 +144,6 @@ To run the load tests for the taxi position ingest, run:
 - `npm run load-test-position-snapshots-localhost` to simulate 600 000 positions in 5 minutes.
 
 #### For the taxi search
-
-First run `npm run load-test-generate-shared-state` to prepare to run tests.
 
 In order to run the load tests for the taxi search, you should run the taxi position ingest first so that taxi are available during the test, then:
 
@@ -180,23 +174,7 @@ Navigate to http://localhost:4200/
 
 The local database has been initialized with one admin account with the username and password above. Once the UI is running, you will be able to log in with the admin account. From there, you can navigate to the user `Utilisateurs` page and you will be able to create new users and generate new passwords and API keys.
 
-It should not be necessary, but if you need to create an admin account in an empty database, you can tweak the script [Postgres 1.0.7](./le-taxi-api-node.js/src/databaseMigrations/postgres/afterSemver/pg_1_0_7_set_admin_password.ts). The password must be encrypted with the secret listed in the API Node.js configuration file (see the [encrypt function](./le-taxi-api-node.js/src/libs/security.ts) for the required format).
-
-### Integration Tests (legacy)
-
-Technologies: Node.js, Vitest, Chai, TypeScript
-
-Unit tests allow us to validate the behavior of a few functions that would otherwise be difficult to test using the API; such as caches of date utils functions.
-
-From the directory `./le-taxi-api-tests`:
-
-Run the creation of a shared state file then follow the instructions: `npm run generate-integration-tests-shared-state`.
-
-Once the file copied, you will be able to run the unit tests at will.
-
-Then, from the directory `./le-taxi-api-node.js`:
-
-To execute, run `npm run test-localhost`.
+It should not be necessary, but if you need to create an admin account in an empty database, you can tweak the script [Postgres 1.0.7](../le-taxi-api-node.js/src/databaseMigrations/postgres/afterSemver/pg_1_0_7_set_admin_password.ts). The password must be encrypted with the secret listed in the API Node.js configuration file (see the [encrypt function](../le-taxi-api-node.js/src/libs/security.ts) for the required format).
 
 ## Limitations
 
